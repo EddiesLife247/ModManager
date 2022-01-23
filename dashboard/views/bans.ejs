@@ -1,0 +1,120 @@
+<%- include('header'); -%>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <!--Meta Tags-->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+        <link rel="stylesheet" href="/index.css">
+        <title>
+            Mod Manager
+        </title>
+    </head>
+
+    <body>
+        <!--HEADER-->
+
+        <!--MAIN BODY-->
+        <section style="margin-bottom: 10;">
+            <div class="d-flex justify-content-center head">
+                <h1 style="font-weight: 80;">
+                    <img src="<%= botClient.user.displayAvatarURL({size: 4096}) %>"
+                        style="width: 4%;margin-top: -0.5%;"> <span style="font-size: 40px;"><span
+                            style="color:#5663f7;">
+                            <%= botClient.user.username %>
+                        </span> | Ultimate Music and Moderation Experience</span>
+                </h1>
+            </div>
+        </section>
+
+        <section style="margin-top: -5%;">
+
+            <div class="container">
+                <center>
+                    <div class="row align-items-center mt-5">
+                        <div class="col-md-12">
+                            <br /><br />
+                            <h3>Mod Manager Punishment Database</h3>
+                            <p>When a user is kicked or banned from a server, this is kept in a public log to allow
+                                other servers to see the history of a user.</p>
+                            <h4>Our Ban Data</h4>
+                            <p></p>
+                            Typically Global Bans are: 60 Days<br />
+                            Kicks Stay in our database for: 30 days<br />
+                            Warnings Stay in our database for: 15 days<br /></br />
+                            If You are banned, and the ban is removed from the server the ban will be removed from our
+                            database.
+                            <br />
+                            <strong>NOTE: </strong>Mod Manager Administrators reserve the right to extend a ban for
+                            severe cases.<br /></br />
+
+
+
+
+                            <h4>Joining A Server with ModManager Active</h4>
+                            If you are banned globally and moderators have decided to enable the Global Ban
+                            Feature<br />
+                            you will not be able to join the server until your ban expires from our
+                            database.<br /><br />
+                            However If they have decided not to ban globally by default When you join your history is
+                            sent to the staff channel for inspection.
+
+                            </p>
+                        </div>
+                        <div class="row align-items-center mt-5">
+
+                            <br /><br />
+
+                            <div class="col-md-12">
+                                <a style="font-size: 25px;" href="<%- bot.domain %>/bans/<%- user.id %>"
+                                    class="mt-auto btn btn-lg btn-block btn-success" width="30px">View My
+                                    Punishments</a>
+                                <a style="font-size: 25px;" href="<%- bot.domain %>/allbans"
+                                    class="mt-auto btn btn-lg btn-block btn-success" width="30px">View All
+                                    Punishments</a>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </center>
+
+        </section>
+        <!-- FOOTER-->
+        <section>
+            <div class="card-footer" style="margin-top:15%;text-align: center;color: #5663f7;">
+                <hr
+                    style="width: 75%;background-color: #FFFFFF!important;color: #FFFFFF!important;border: 5px solid #FFFFFF!important;border-radius:25px;margin-left: 12%;">
+                <h4 style="margin-top:5%;">
+                    <img src="<%= botClient.user.displayAvatarURL({size: 4096}) %>"
+                        style="width: 4%;margin-top: -0.5%;"> <span style="font-size: 25px;">
+                        <%= botClient.user.username %> Ultimate Music and Moderation Experience <br /> <br /> <a
+                                style="font-size: 20;" href="/terms">Terms and
+                                Conditons</a>
+                            <a style="font-size: 20;" href="/privacy">Privacy Policy</a>
+                    </span>
+                </h4>
+                <h5 style="text-align: center;">
+                    <a href="https://manumission247.co.uk/" target="_blank"
+                        style="font-size: 12px; color: #888a9b!important;text-decoration: none;">&copy; Copyright Mod
+                        Manager
+                        (Manumission247) | All
+                        rights served.</a><br><br>
+                    <a href="https://github.com/Tomato6966/Musicium" target="_blank"
+                        style="font-size: 20px; color: #5663f7!important;text-decoration: none;">Music Portion Developed
+                        by
+                        <code>Tomato#6966</code> | [Github]</a>
+                </h5>
+            </div>
+        </section>
+
+        <!--JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+            crossorigin="anonymous"></script>
+    </body>
+
+    </html>

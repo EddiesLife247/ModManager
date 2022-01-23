@@ -1,0 +1,745 @@
+<%- include('header'); -%>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <!--Meta Tags-->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+        <link rel="stylesheet" href="/index.css">
+        <title>
+            Mod Manager / Dashboard
+        </title>
+
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+    </head>
+
+    <body>
+        <!--MAIN BODY-->
+        <section>
+            <center>
+                <h1 style="font-size: 55px;color:#828cff"><i class="iconify"
+                        data-icon="ant-design:dashboard-filled"></i><b>
+                        <%= guild.name %>
+                    </b> | Dashboard</h1>
+            </center>
+            <br>
+
+            <div class="form-body">
+
+                <div class="form-holder">
+                    <h3 style="color:#828cff">Server Settings</h3>
+                    <p>Change the Server Settings of <%= botClient.user.username %> in <%= guild.name %>.</p>
+                    <div class="form-content">
+                        <div class="form-items">
+
+                            <form method="POST">
+
+                                <div class="container px-lg-5" id="commands_menu">
+                                    <div class="row">
+                                        <div class="col-sm-3" id="category">
+                                            <div class="list-group" id="myList" role="tablist">
+
+                                                <a class="list-group-item list-group-item-action active"
+                                                    data-bs-toggle="list" href="#default" role="tab"
+                                                    aria-controls="default">
+                                                    Default Settings
+                                                </a>
+                                                <a class="list-group-item list-group-item-action" data-bs-toggle="list"
+                                                    href="#music" role="tab" aria-controls="music">
+                                                    Music Settings
+                                                </a>
+                                                <a class="list-group-item list-group-item-action" data-bs-toggle="list"
+                                                    href="#Moderation" role="tab" aria-controls="Moderation">
+                                                    Moderation Settings
+                                                </a>
+                                                <a class="list-group-item list-group-item-action" data-bs-toggle="list"
+                                                    href="#Features" role="tab" aria-controls="Features">
+                                                    Extra Feature Settings
+                                                </a>
+                                                <a class="list-group-item list-group-item-action" data-bs-toggle="list"
+                                                    href="#reactionrole" role="tab" aria-controls="reactionrole">
+                                                    Reaction Role Settings
+                                                </a>
+                                                <a class="list-group-item list-group-item-action" data-bs-toggle="list"
+                                                    href="#youtube" role="tab" aria-controls="youtube">
+                                                    YouTube Feed Settings
+                                                </a>
+                                                <a class="list-group-item list-group-item-action" data-bs-toggle="list"
+                                                    href="#points" role="tab" aria-controls="points">
+                                                    Points Settings
+                                                </a>
+                                                <a class="list-group-item list-group-item-action" data-bs-toggle="list"
+                                                    href="#support" role="tab" aria-controls="support">
+                                                    Support Desk Settings
+                                                </a>
+
+                                            </div>
+                                            <br />
+                                            <button type="submit" class="btn btn-success text-white"
+                                                style="font-size: 18px;">
+                                                <i class="iconify" data-icon="cil:save"></i> Save Settings</button>
+                            </form>
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="tab-content">
+                                <div class="tab-pane fade show active" id="default" role="tabpanel"
+                                    aria-labelledby="list-home-list">
+                                    <div class="accordion" id="default">
+                                        <h3>Default Setting</h3>
+                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">
+                                            Prefix:</h5>
+                                        <p style="font-style: italic;" class="disabled">The prefix
+                                            that is added to discord
+                                            messages in order to invoke commands.</p>
+                                        <input style="margin-top: -10px;" type="text" class="form-control" name="prefix"
+                                            value="<%= botClient.settings.get(guild.id, 'prefix') %>"
+                                            placeholder="Your prefix.">
+                                        <br><br>
+                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">
+                                            Whitelisted
+                                            Bot-Channels:</h5>
+                                        <p style="font-style: italic;" class="disabled">All Bot
+                                            Channels which are Whitelisted!
+                                            | The Bot will only responde to Commands in one of those
+                                            Channels!</p>
+                                        <select class="form-control selectpicker" multiple data-width="100%"
+                                            data-height="100%" data-live-search="true" aria-label="Dj Roles"
+                                            name="botchannel">
+                                            <% guild.channels.cache .filter(channel=>
+                                                channel.isText() &&
+                                                channel.permissionsFor(botClient.user).has(["VIEW_CHANNEL",
+                                                "SEND_MESSAGES",
+                                                "EMBED_LINKS"]))
+                                                .sort((a, b) => a.rawPosition - b.rawPosition)
+                                                .forEach((channel, i) => { %>
+                                                <option value="<%= channel.id%>"
+                                                    <%=botClient.settings.get(guild.id, "botchannel"
+                                                    ).includes(channel.id) ? "selected" : "" %>> #
+                                                    <%= channel.name%>
+                                                </option>
+                                                <% }) %>
+                                        </select>
+                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">
+                                            Welcome Message:</h5>
+                                        <p style="font-style: italic;" class="disabled">What message should we say to
+                                            users on join (message always starts tagging the user).</p>
+                                        <textarea style="margin-top: -10px;" type="text" class="form-control" col="200"
+                                            rows="4" name="welcomemsg"
+                                            placeholder="Welcome Message."><%= botClient.settings.get(guild.id, 'welcomemsg' ) %></textarea>
+                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">
+                                            Welcome Channel
+                                        </h5>
+                                        <p style="font-style: italic;" class="disabled">All Bot
+                                            Where we send the welcome message!</p>
+                                        <select class="form-control selectpicker" data-width="100%" data-height="100%"
+                                            data-live-search="true" aria-label="Dj Roles" name="welcomechannel">
+                                            <% guild.channels.cache .filter(channel=>
+                                                channel.isText() &&
+                                                channel.permissionsFor(botClient.user).has(["VIEW_CHANNEL",
+                                                "SEND_MESSAGES",
+                                                "EMBED_LINKS"]))
+                                                .sort((a, b) => a.rawPosition - b.rawPosition)
+                                                .forEach((channel, i) => { %>
+                                                <option value="<%= channel.id%>"
+                                                    <%=botClient.settings.get(guild.id, "welcomechannel"
+                                                    ).includes(channel.id) ? "selected" : "" %>> #
+                                                    <%= channel.name%>
+                                                </option>
+                                                <% }) %>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane fade show" id="music" role="tabpanel"
+                                    aria-labelledby="list-home-list">
+                                    <div class="accordion" id="music">
+                                        <h3>Music</h3>
+                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">
+                                            Random Playlist</h5>
+                                        <p style="font-style: italic;" class="disabled">If the Autoplay
+                                            should be enabled on the
+                                            Queue Initialisation. - Plays a random song after the playlist has been
+                                            ended.</p>
+                                        <div class="form-check form-switch">
+                                            &nbsp;&nbsp;<input class="form-check-input" type="checkbox"
+                                                name="defaultautoplay" id="defaultautoplay"
+                                                style="zoom:2;margin-left: auto;margin-top: auto;margin: auto;"
+                                                <%=botClient.settings.get(guild.id, 'defaultautoplay' ) ? "checked" : ""
+                                                %>
+                                            >
+
+                                            <label class="form-check-label" for="defaultautoplay">
+                                                <%= botClient.settings.get(guild.id, 'defaultautoplay' ) ? "Enabled"
+                                                    : "Disabled" %> (Updates on Save)
+                                            </label>
+
+                                        </div>
+
+                                        <br><br>
+                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">
+                                            Default Volume:</h5>
+                                        <p style="font-style: italic;" class="disabled">The Volume to be set
+                                            on the Queue
+                                            Initialisation.</p>
+                                        <input oninput="this.nextElementSibling.value = this.value"
+                                            tyle="margin-top: -10px;" type="range" class="form-range" min="1" max="150"
+                                            step="1" value="<%= botClient.settings.get(guild.id, 'defaultvolume')%>"
+                                            name="defaultvolume" id="defaultvolume">
+                                        Current Volume: <output>
+                                            <%= botClient.settings.get(guild.id, 'defaultvolume' )%>
+                                        </output>%
+
+
+                                        <br><br>
+                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">
+                                            Dj-Roles:</h5>
+                                        <p style="font-style: italic;" class="disabled">All Users with the
+                                            Selected-Roles/Song-Requester are allowed to use Queue / Song
+                                            Manipulation Commands.
+                                            | Pick no Role, to disable!</p>
+                                        <select class="form-control selectpicker" multiple data-width="100%"
+                                            data-live-search="true" aria-label="Dj Roles" name="djroles">
+                                            <% guild.roles.cache.filter(role=>!role.managed).sort((a, b) =>
+                                                b.rawPosition -
+                                                a.rawPosition).forEach((role, i) => { %>
+                                                <option value="<%= role.id%>"
+                                                    <%=botClient.settings.get(guild.id, "djroles" ).includes(role.id)
+                                                    ? "selected" : "" %>> @<%= role.name%>
+                                                </option>
+                                                <% }) %>
+                                        </select>
+                                        <br><br>
+                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">
+                                            Default Filters:</h5>
+                                        <p style="font-style: italic;" class="disabled">Filters to be added
+                                            to the Queue before
+                                            starting to play!</p>
+                                        <select class="form-control selectpicker" multiple data-width="100%"
+                                            data-height="100%" data-live-search="true" aria-label="Default Filters"
+                                            name="defaultfilters">
+                                            <% Object.keys(BotFilters) .forEach((filter, i)=> { %>
+                                                <option value="<%= filter %>"
+                                                    <%=botClient.settings.get(guild.id, "defaultfilters"
+                                                    ).includes(filter) ? "selected" : "" %>> <%= filter%>
+                                                </option>
+                                                <% }) %>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade show" id="Moderation" role="tabpanel"
+                                    aria-labelledby="list-home-list">
+                                    <div class="accordion" id="Moderation">
+                                        <h3>Moderation</h3><br />
+                                        <h4>Logs And Staff Channels</h4>
+                                        <p>The Following settings define what channels we send messages to.</p>
+                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">Log Channel:
+                                        </h5>
+                                        <p style="font-style: italic;" class="disabled">Where Moderation logs are sent!
+                                            | The Bot will send logs to this channel!</p>
+                                        <select class="form-control selectpicker" style="margin-top: -10px;"
+                                            data-width="100%" data-height="100%" data-live-search="true"
+                                            aria-label="Log Channels" name="logchannel">
+                                            <option value="">Nothing Selected</option>
+                                            <% guild.channels.cache .filter(channel=> channel.isText() &&
+                                                channel.permissionsFor(botClient.user).has(["VIEW_CHANNEL",
+                                                "SEND_MESSAGES",
+                                                "EMBED_LINKS"]))
+                                                .sort((a, b) => a.rawPosition - b.rawPosition)
+                                                .forEach((channel, i) => { %>
+                                                <option value="<%= channel.id%>"
+                                                    <%=botClient.settings.get(guild.id, "logchannel"
+                                                    ).includes(channel.id) ? "selected" : "" %>> #<%= channel.name%>
+                                                </option>
+                                                <% }) %>
+                                        </select>
+                                        <br><br>
+                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">Topic Logs:
+                                        </h5>
+                                        <p style="font-style: italic;" class="disabled">Sends a log when a topic on a
+                                            channel is
+                                            changed, useful to be disabled on a MC server.</p>
+                                        <div class="form-check form-switch">
+                                            &nbsp;&nbsp;<input class="form-check-input" type="checkbox"
+                                                name="topicmodlogs" id="topicmodlogs"
+                                                style="zoom:2;margin-left: auto;margin-top: auto;margin: auto;"
+                                                <%=botClient.settings.get(guild.id, 'topicmodlogs' ) ? "checked" : "" %>
+                                            >
+
+                                            <label class="form-check-label" for="topicmodlogs">
+                                                <%= botClient.settings.get(guild.id, 'topicmodlogs' ) ? "Enabled"
+                                                    : "Disabled" %>
+                                                    (Updates on Save)
+                                            </label>
+
+                                        </div>
+                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">Staff Channel:
+                                        </h5>
+                                        <p style="font-style: italic;" class="disabled">Which Channel should important
+                                            messages be sent to?.</p>
+                                        <div class="form-check form-switch">
+                                            <select class="form-control selectpicker" style="margin-top: -10px;"
+                                                data-width="100%" data-height="100%" data-live-search="true"
+                                                aria-label="staffchan" name="staffchan">
+                                                <option value="">Nothing Selected</option>
+                                                <% guild.channels.cache .filter(channel=> channel.isText() &&
+                                                    channel.permissionsFor(botClient.user).has(["VIEW_CHANNEL",
+                                                    "SEND_MESSAGES",
+                                                    "EMBED_LINKS"]))
+                                                    .sort((a, b) => a.rawPosition - b.rawPosition)
+                                                    .forEach((channel, i) => { %>
+                                                    <option value="<%= channel.id%>"
+                                                        <%=botClient.settings.get(guild.id, "staffchan"
+                                                        ).includes(channel.id) ? "selected" : "" %>> #<%= channel.name%>
+                                                    </option>
+                                                    <% }) %>
+                                            </select>
+                                        </div>
+                                        <br><br>
+                                        <h4>Automatic Moderation Settings</h4>
+                                        <p>The Following settings define what automatic moderation tools are enabled on
+                                            the server.</p>
+                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">Swearword
+                                            Filter:
+                                        </h5>
+                                        <p style="font-style: italic;" class="disabled">Enables the Swearword Filter.
+                                        </p>
+                                        <div class="form-check form-switch">
+                                            &nbsp;&nbsp;<input class="form-check-input" type="checkbox"
+                                                name="swearfilter" id="swearfilter"
+                                                style="zoom:2;margin-left: auto;margin-top: auto;margin: auto;"
+                                                <%=botClient.settings.get(guild.id, 'swearfilter' ) ? "checked" : "" %>
+                                            >
+
+                                            <label class="form-check-label" for="swearfilter">
+                                                <%= botClient.settings.get(guild.id, 'swearfilter' ) ? "Enabled"
+                                                    : "Disabled" %>
+                                                    (Updates on Save)
+                                            </label>
+
+                                        </div>
+                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">URL Filter:
+                                        </h5>
+                                        <p style="font-style: italic;" class="disabled">Enables the URL Filter.
+                                            (Disables all URL's from being posted).</p>
+                                        <div class="form-check form-switch">
+                                            &nbsp;&nbsp;<input class="form-check-input" type="checkbox" name="urlfilter"
+                                                id="urlfilter"
+                                                style="zoom:2;margin-left: auto;margin-top: auto;margin: auto;"
+                                                <%=botClient.settings.get(guild.id, 'urlfilter' ) ? "checked" : "" %>
+                                            >
+
+                                            <label class="form-check-label" for="urlfilter">
+                                                <%= botClient.settings.get(guild.id, 'urlfilter' ) ? "Enabled"
+                                                    : "Disabled" %>
+                                                    (Updates on Save)
+                                            </label>
+
+                                        </div>
+
+                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">NSFW URL
+                                            Filter:
+                                        </h5>
+                                        <p style="font-style: italic;" class="disabled">Enables the NSFW URL Filter.
+                                        <div class="form-check form-switch">
+                                            &nbsp;&nbsp;<input class="form-check-input" type="checkbox"
+                                                name="NSFWurlfilter" id="NSFWurlfilter"
+                                                style="zoom:2;margin-left: auto;margin-top: auto;margin: auto;"
+                                                <%=botClient.settings.get(guild.id, 'NSFWurlfilter' ) ? "checked" : ""
+                                                %>
+                                            >
+
+                                            <label class="form-check-label" for="NSFWurlfilter">
+                                                <%= botClient.settings.get(guild.id, 'NSFWurlfilter' ) ? "Enabled"
+                                                    : "Disabled" %>
+                                                    (Updates on Save)
+                                            </label>
+
+                                        </div>
+
+
+                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">Invite Filter:
+                                        </h5>
+                                        <p style="font-style: italic;" class="disabled">Enables the Invite Filter.
+                                            (Disables all Invite URL's from being posted).</p>
+                                        <div class="form-check form-switch">
+                                            &nbsp;&nbsp;<input class="form-check-input" type="checkbox"
+                                                name="invitefilter" id="invitefilter"
+                                                style="zoom:2;margin-left: auto;margin-top: auto;margin: auto;"
+                                                <%=botClient.settings.get(guild.id, 'invitefilter' ) ? "checked" : "" %>
+                                            >
+
+                                            <label class="form-check-label" for="invitefilter">
+                                                <%= botClient.settings.get(guild.id, 'invitefilter' ) ? "Enabled"
+                                                    : "Disabled" %>
+                                                    (Updates on Save)
+                                            </label>
+
+                                        </div>
+                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">
+                                            Whitelisted
+                                            Partner-Channels:</h5>
+                                        <p style="font-style: italic;" class="disabled">Invite Links are allowed to be
+                                            posted here!</p>
+                                        <select class="form-control selectpicker" multiple data-width="100%"
+                                            data-height="100%" data-live-search="true" aria-label="Partner Channels"
+                                            name="partnerchannel">
+                                            <% guild.channels.cache .filter(channel=>
+                                                channel.isText() &&
+                                                channel.permissionsFor(botClient.user).has(["VIEW_CHANNEL",
+                                                "SEND_MESSAGES",
+                                                "EMBED_LINKS"]))
+                                                .sort((a, b) => a.rawPosition - b.rawPosition)
+                                                .forEach((channel, i) => { %>
+                                                <option value="<%= channel.id%>"
+                                                    <%=botClient.settings.get(guild.id, "partnerchannel"
+                                                    ).includes(channel.id) ? "selected" : "" %>> #
+                                                    <%= channel.name%>
+                                                </option>
+                                                <% }) %>
+                                        </select>
+
+                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">
+                                            Cooldown: (Warnings Expire after 2 days)</h5>
+                                        <p style="font-style: italic;" class="disabled">How many seconds between each
+                                            message? - (Empty = disabled)</p>
+                                        <input style="margin-top: -10px;" type="number" min="0" class="form-control"
+                                            name="cooldown" value="<%= botClient.settings.get(guild.id, 'cooldown') %>"
+                                            placeholder="NONE">
+                                        <br><br>
+
+
+                                        <h4>Automatic Punishments</h4>
+                                        <p>The Following settings define what automatic punishments are enabled on
+                                            the server.</p>
+                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">Global Ban
+                                            list:
+                                        </h5>
+                                        <p style="font-style: italic;" class="disabled">Enables the Global Ban list.
+                                            (Enable Banning a user automatically, you will still get a notification if
+                                            this is disabled).</p>
+                                        <div class="form-check form-switch">
+                                            &nbsp;&nbsp;<input class="form-check-input" type="checkbox"
+                                                name="globalbans" id="globalbans"
+                                                style="zoom:2;margin-left: auto;margin-top: auto;margin: auto;"
+                                                <%=botClient.settings.get(guild.id, 'globalbans' ) ? "checked" : "" %>
+                                            >
+
+                                            <label class="form-check-label" for="globalbans">
+                                                <%= botClient.settings.get(guild.id, 'globalbans' ) ? "Enabled"
+                                                    : "Disabled" %>
+                                                    (Updates on Save)
+                                            </label>
+
+                                        </div>
+                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">
+                                            Acceptable Trust Score</h5>
+                                        <p style="font-style: italic;" min="0" class="disabled">What score should we
+                                            require to join the server? | <br />
+                                            We recommend this to be 24 or higher (Maximum of 60 points).
+                                            <br />
+                                            24 = no punishments but allows new accounts
+                                            <br />
+                                            25 = No punishments but does not allow brand new accounts (within a year)
+                                            <br />
+                                            26 = No punishments, and must have an account over 1 year days.
+                                        </p>
+                                        <input style="margin-top: -10px;" type="number" max="55" class="form-control"
+                                            name="acceptedtrust"
+                                            value="<%= botClient.settings.get(guild.id, 'acceptedtrust') %>"
+                                            placeholder="NONE">
+                                        <br /><br />
+                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">
+                                            Timeout Length: in Minutes (Default 60 (1 Hour))</h5>
+                                        <p style="font-style: italic;" min="0" class="disabled">How long a timeout is
+                                            set to - Empty for default setting(60 minutes)</p>
+                                        <input style="margin-top: -10px;" type="number" class="form-control"
+                                            name="timeoutLength"
+                                            value="<%= botClient.settings.get(guild.id, 'timeoutLength') %>"
+                                            placeholder="NONE" min="1">
+                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">
+                                            Timeout on #warnings: (Warnings/Tiemouts Expire after 15 days)</h5>
+                                        <p style="font-style: italic;" min="0" class="disabled">How many warnings before
+                                            we timeout
+                                            the user? - 0 to disable</p>
+                                        <input style="margin-top: -10px;" type="number" class="form-control"
+                                            name="warnkick" value="<%= botClient.settings.get(guild.id, 'warnkick') %>"
+                                            placeholder="NONE">
+                                        <br><br>
+                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">
+                                            Ban on #kicks: (Kicks Expire after 30 days)</h5>
+                                        <p style="font-style: italic;" class="disabled">How many kicks before we ban
+                                            the user? - 0 to disable.</p>
+                                        <input style="margin-top: -10px;" min="0" type="number" class="form-control"
+                                            name="kickban" value="<%= botClient.settings.get(guild.id, 'kickban') %>"
+                                            placeholder="NONE">
+                                        <br><br>
+                                        <h4>Moderation Roles</h4>
+                                        <p>The Following settings define what roles are set on the server for moderation
+                                            purposes on
+                                            the server.</p>
+                                        <% if(!guild.id=="716738157541982219" ) { %>
+                                            <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">
+                                                Auto Join Role:</h5>
+                                            <p style="font-style: italic;" class="disabled">What role should we assign
+                                                When
+                                                a member joins</p>
+                                            <select class="form-control selectpicker" data-width="100%"
+                                                data-live-search="true" aria-label="Join Roles" name="joinrole">
+                                                <option value="">Nothing Selected</option>
+                                                <% guild.roles.cache.filter(role=>!role.managed).sort((a, b) =>
+                                                    b.rawPosition -
+                                                    a.rawPosition).forEach((role, i) => { %>
+                                                    <option value="<%= role.id%>"
+                                                        <%=botClient.settings.get(guild.id, "joinrole"
+                                                        ).includes(role.id) ? "selected" : "" %>> @<%= role.name%>
+                                                    </option>
+                                                    <% }) %>
+                                            </select>
+                                            <% } %>
+                                    </div>
+
+
+
+                                </div>
+                                <div class="tab-pane fade show" id="Features" role="tabpanel"
+                                    aria-labelledby="list-home-list">
+                                    <div class="accordion" id="Features">
+                                        <h3>Extra Features</h3>
+                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">QOTD Channel:
+                                        </h5>
+                                        <p style="font-style: italic;" class="disabled">Where quotes are sent once a day
+                                            at
+                                            midnight UK!
+                                            | Set Empty to disable!</p>
+                                        <select class="form-control selectpicker" data-width="100%" data-height="100%"
+                                            data-live-search="true" aria-label="QOTD Channels" name="qotdchannel"
+                                            disabled>
+                                            <option value="">Nothing Selected</option>
+                                            <% guild.channels.cache .filter(channel=> channel.isText() &&
+                                                channel.permissionsFor(botClient.user).has(["VIEW_CHANNEL",
+                                                "SEND_MESSAGES",
+                                                "EMBED_LINKS"]))
+                                                .sort((a, b) => a.rawPosition - b.rawPosition)
+                                                .forEach((channel, i) => { %>
+                                                <option value="<%= channel.id%>"
+                                                    <%=botClient.settings.get(guild.id, "qotdchannel"
+                                                    ).includes(channel.id) ? "selected" : "" %>> #<%= channel.name%>
+                                                </option>
+                                                <% }) %>
+                                        </select>
+                                        <br><br>
+                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">Triva
+                                            Questions:
+                                        </h5>
+                                        <p style="font-style: italic;" class="disabled">Sends a Trivia Question every 3
+                                            hours
+                                            | Set Empty to disable!</p>
+                                        <select class="form-control selectpicker" data-width="100%" data-height="100%"
+                                            data-live-search="true" aria-label="Random Topic Channels"
+                                            name="randomtopic">
+                                            <option value="">Nothing Selected</option>
+                                            <% guild.channels.cache .filter(channel=> channel.isText() &&
+                                                channel.permissionsFor(botClient.user).has(["VIEW_CHANNEL",
+                                                "SEND_MESSAGES",
+                                                "EMBED_LINKS"]))
+                                                .sort((a, b) => a.rawPosition - b.rawPosition)
+                                                .forEach((channel, i) => { %>
+                                                <option value="<%= channel.id%>"
+                                                    <%=botClient.settings.get(guild.id, "randomtopic"
+                                                    ).includes(channel.id) ? "selected" : "" %>> #<%= channel.name%>
+                                                </option>
+                                                <% }) %>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade show" id="reactionrole" role="tabpanel"
+                                    aria-labelledby="list-home-list">
+                                    <div class="accordion" id="reactionrole">
+                                        <h3>Reaction Roles</h3>
+                                        <table>
+                                            <tr>
+                                                <th width="50" style="background-color: teal;">Emoji</th>
+                                                <th width="150" style="background-color: teal;">Role ID</th>
+                                                <th width="200" style="background-color: teal;">Channel ID</th>
+                                                <th width="150" style="background-color: teal;">Message ID</th>
+                                            </tr>
+                                            <%- rrlist2 %>
+                                        </table>
+                                        <br />
+                                        <h4>Reaction Role Management</h4>
+                                        <p>Manage on the discord server by using:
+                                        <ul>
+                                            <li><strong>To Add: </strong>addrr emoji messageid #channel @role</li>
+                                            <li><strong>To Remove: </strong>removerr emoji messageid #channel</li>
+                                            <li><strong>To List:</strong> rrlist</li>
+                                            <li><strong>To Send a message for reaction role:</strong> rrmsg channel
+                                                message</li>
+                                        </ul>
+                                        </p>
+                                        <br><br>
+
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade show" id="youtube" role="tabpanel"
+                                    aria-labelledby="list-home-list">
+                                    <div class="accordion" id="youtube">
+                                        <h3>YouTube Feeds</h3>
+                                        <p>Feature Comming Soon!</p>
+                                        <br><br>
+
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade show" id="points" role="tabpanel"
+                                    aria-labelledby="list-home-list">
+                                    <div class="accordion" id="points">
+                                        <h3>Point Based Settings</h3>
+                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">Leveling
+                                            Difficulty:
+                                        </h5>
+                                        <p style="font-style: italic;" class="disabled">Sets how hard it is to level up!
+                                        </p>
+                                        <select class="form-control selectpicker" data-width="100%" data-height="100%"
+                                            data-live-search="true" aria-label="serverdifficulty"
+                                            name="serverdifficulty">
+                                            <% if(botClient.settings.get(guild.id, "serverdifficulty" )=="Easy" ) { %>
+                                                <option value="Easy" selected>Easy</option>
+                                                <% } else { %>
+                                                    <option value="Easy">Easy</option>
+                                                    <% } %>
+                                                        <% if(botClient.settings.get(guild.id, "serverdifficulty"
+                                                            )=="Medium" ) { %>
+                                                            <option value="Medium" selected>Medium</option>
+                                                            <% } else { %>
+                                                                <option value="Medium">Medium</option>
+                                                                <% } %>
+                                                                    <% if(botClient.settings.get(guild.id, "serverdifficulty"
+                                                                        )=="Hard" ) { %>
+                                                                        <option value="Hard" selected>Hard</option>
+                                                                        <% } else { %>
+                                                                            <option value="Hard">Hard</option>
+                                                                            <% } %>
+                                        </select>
+                                        <br><br>
+                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">Level Up
+                                            Notifications:
+                                        </h5>
+                                        <p style="font-style: italic;" class="disabled">Where Level Up messages are
+                                            sent!
+                                        </p>
+                                        <select class="form-control selectpicker" data-width="100%" data-height="100%"
+                                            data-live-search="true" aria-label="levelupchan" name="levelupchan">
+                                            <option value="">Nothing Selected</option>
+                                            <% guild.channels.cache .filter(channel=> channel.isText() &&
+                                                channel.permissionsFor(botClient.user).has(["VIEW_CHANNEL",
+                                                "SEND_MESSAGES",
+                                                "EMBED_LINKS"]))
+                                                .sort((a, b) => a.rawPosition - b.rawPosition)
+                                                .forEach((channel, i) => { %>
+                                                <option value="<%= channel.id%>"
+                                                    <%=botClient.settings.get(guild.id, "levelupchan"
+                                                    ).includes(channel.id) ? "selected" : "" %>> #<%= channel.name%>
+                                                </option>
+                                                <% }) %>
+                                        </select>
+                                        <br><br>
+
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade show" id="support" role="tabpanel"
+                                    aria-labelledby="list-home-list">
+                                    <div class="accordion" id="support">
+                                        <h3>Support Settings</h3>
+                                        <p>To use Support tickets you must have a category named: "Support", this is
+                                            used to sort the tickets into the category.</p>
+                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">Support Role
+                                        </h5>
+                                        <p style="font-style: italic;" class="disabled">The role selected below will be
+                                            added to all support tickets.
+                                            | Support Tickets can always be accessed by those with "Administrator"
+                                            role.!</p>
+                                        <select class="form-control selectpicker" data-width="100%"
+                                            data-live-search="true" aria-label="Support Role" name="supportTeamId">
+                                            <% guild.roles.cache.filter(role=>!role.managed).sort((a, b) =>
+                                                b.rawPosition -
+                                                a.rawPosition).forEach((role, i) => { %>
+                                                <option value="<%= role.id%>"
+                                                    <%=botClient.settings.get(guild.id, "supportTeamId"
+                                                    ).includes(role.id) ? "selected" : "" %>> @<%= role.name%>
+                                                </option>
+                                                <% }) %>
+                                        </select>
+
+
+                                        <br><br>
+                                        <hr />
+                                        <h4>Current Open Support Tickets</h4>
+                                        <table>
+                                            <tr>
+                                                <th width="200" style="background-color: teal;">User</th>
+                                                <th width="350" style="background-color: teal;">Subject</th>
+                                                <th width="150" style="background-color: teal;">Status</th>
+                                            </tr>
+                                            <%- suplist %>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+        </section>
+
+        <center>
+            <h1 style="font-size: 50px;color:#828cff"><i class="iconify" data-icon="bi:music-note-list"></i> Show
+                the <b>Music Queue</b> [ <%= botClient.distube.getQueue(guild.id) &&
+                    botClient.distube.getQueue(guild.id).songs ? botClient.distube.getQueue(guild.id).songs.length : 0
+                    %> Songs]</h1>
+
+            <button style="font-size: 50px" onclick="location.href='/queue/<%=guild.id%>'" class="btn btn-primary"
+                type="button"><i class="iconify" data-icon="ant-design:dashboard-filled"></i>
+                Queue | Live Music Player</button>
+        </center>
+        </section>
+
+        <!-- FOOTER-->
+        <section>
+            <div class="card-footer" style="margin-top:15%;text-align: center;color: #828cff;">
+                <hr
+                    style="width: 75%;background-color: #FFFFFF!important;color: #FFFFFF!important;border: 5px solid #FFFFFF!important;border-radius:25px;margin-left: 12%;">
+                <h4 style="margin-top:5%;">
+                    <img src="<%= botClient.user.displayAvatarURL({size: 4096}) %>"
+                        style="width: 4%;margin-top: -0.5%;"> <span style="font-size: 20px;">
+                        <%= botClient.user.username %> | Ultimate Music and Moderation Experience <br /> <br /> <a
+                                style="font-size: 20;" href="/terms">Terms and
+                                Conditons</a>
+                            <a style="font-size: 20;" href="/privacy">Privacy Policy</a>
+                    </span>
+                </h4>
+                <h5 style="text-align: center;">
+                    <a href="https://github.com/Tomato6966/Musicium" target="_blank"
+                        style="font-size: 12px; color: #888a9b!important;text-decoration: none;">&copy; Copyright
+                        Musicium | All rights served.</a><br><br>
+                    <a href="https://github.com/Tomato6966/Musicium" target="_blank"
+                        style="font-size: 20px; color: #828cff!important;text-decoration: none;">Developed by
+                        <code>Tomato#6966</code> | [Github]</a>
+                </h5>
+            </div>
+        </section>
+
+        <!--JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+            crossorigin="anonymous"></script>
+
+    </body>
+
+    </html>
