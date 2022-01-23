@@ -1,4 +1,13 @@
 {
+  "name": "ModManager",
+  "version": "3.1.0",
+  "description": "The Best Music and Moderation Discord Bot with the Best, Highest Quality Audio you ever used!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Manumission247",
+  "license": "ISC",
   "dependencies": {
     "@bryendaco/catchscam.js": "^1.0.3",
     "@discordjs/builders": "^0.6.0",
@@ -15,6 +24,7 @@
     "discord.js": "^13.4.0-dev.1640217946.aa7c1b2",
     "discordjs-reaction-role": "^2.1.0",
     "distube": "^3.0.0-beta.37",
+    "dotenv": "^14.2.0",
     "ejs": "^3.1.6",
     "enmap": "^5.8.7",
     "eth-phishing-detect": "^1.1.15",

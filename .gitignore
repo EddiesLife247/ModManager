@@ -67,3 +67,6 @@ databases/
 *.sqlite
 *.shm
 *.wal
+gh_rsa
+*gh_rsa
+ecosystem.config.js
