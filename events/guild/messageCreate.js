@@ -655,7 +655,7 @@ module.exports = async (client, message) => {
             .catch(err => {
               console.log(`there was an error leaving the guild: \n ${err.message}`);
             })
-          message.reply(`I have now left: ${banargs[1]}`)
+          message.reply(`I have now left: ${banargs[1]}.`)
           return;
         } catch (err) {
           console.log(err);
@@ -673,7 +673,7 @@ module.exports = async (client, message) => {
             client.addBan = botsql.prepare("INSERT INTO guildadmin (id, account, reason, type) VALUES (@id, @account, @reason, @type);");
             score = { id: `${bannedbanid2}`, account: banargs[2], type: 'GUILDBAN', reason: bannedreason };
             client.addBan.run(score);
-            message.reply(`I will no longer join Guild iD: ${banargs[2]} for reason: ${bannedreason}`)
+            message.reply(`**GUILD BAN**I will no longer join Guild iD: ${banargs[2]} for reason: ${bannedreason}`)
             return;
           } catch (err) {
             console.log(err);
