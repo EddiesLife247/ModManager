@@ -655,7 +655,7 @@ module.exports = async (client, message) => {
             .catch(err => {
               console.log(`there was an error leaving the guild: \n ${err.message}`);
             })
-          message.reply(`I have now left: ${banargs[1]}`)
+          message.reply(`I have now left: ${banargs[1]} `)
           return;
         } catch (err) {
           console.log(err);
