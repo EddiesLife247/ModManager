@@ -69,6 +69,7 @@ databases/
 *.pen
 *.pem
 *.wal
+*.pub
 gh_rsa
 *gh_rsa
 ecosystem.config.js
