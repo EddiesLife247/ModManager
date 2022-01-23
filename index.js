@@ -164,7 +164,7 @@ cron.schedule('0 0 * * *', () => {
     } else {
       bansql.prepare(`UPDATE 'bans' SET length = '${lengthleft}' WHERE ID = '${data.id}'`).run()
       console.log(`${data.user} now has ${lengthleft} days left.`)
-      client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`Entry on ${data.user} now has ${lengthleft} day(s) left of their ${data.approved} entry.`);
+      client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`Entry on ${data.user} now has ${lengthleft} day(s) left of their ${data} entry.`);
     }
   }
   // 60 DAY BAN CHECK
