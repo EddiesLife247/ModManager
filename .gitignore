@@ -66,6 +66,8 @@ config.json
 databases/
 *.sqlite
 *.shm
+*.pen
+*.pem
 *.wal
 gh_rsa
 *gh_rsa
