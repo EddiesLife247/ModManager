@@ -5,7 +5,6 @@ module.exports = {
     usage: "dog",
     aliases: [],
     description: "Gets A random image of the internet", //the command description for Slash Command Overview
-    cooldown: 15,
     requiredroles: [], //Only allow specific Users with a Role to execute a Command [OPTIONAL]
     alloweduserids: [], //Only allow specific Users to execute a Command [OPTIONAL]
     run: async (client, message, args) => {
