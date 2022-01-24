@@ -8,7 +8,7 @@ const settings = require(`../../botconfig/settings.json`);
 const { onCoolDown, replacemsg } = require(`../../handlers/functions`);
 const Discord = require(`discord.js`);
 module.exports = async (client, oldEmoji, newEmoji) => {
-    const guild = emoji.guild;
+    const guild = oldEmoji.guild;
     if (guild.me.permissions.has("VIEW_AUDIT_LOG")) {
         client.settings.ensure(oldEmoji.guild.id, {
             prefix: config.prefix,

@@ -33,7 +33,7 @@ module.exports = async (client, guild) => {
     .setColor([255, 0, 0]);
   client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send({ embeds: [ErrorEmbed] });
   client.getBanned = bansql.prepare("SELECT * FROM bans WHERE guild = ?");
-  let globalBanned;
+  const globalBanned;
   globalBanned = client.getBanned.get(guild.id);
   if (globalBanned) {
     for (const data of globalBanned) {

@@ -142,7 +142,7 @@ function replacedefaultmessages(text, o = {}) {
 function msgCooldown(message, cooldown) {
   const client = message.client;
   const cooldown2 = client.settings.get(message.guild.id, `cooldown`);
-  if (cooldown2 > 0) {
+  if (cooldown2 > 2) {
     //console.log(cooldown);
     if (!client.msgcooldowns.has(message.member.id)) {
       //console.log("Test"); //if its not in the cooldown, set it too there
@@ -151,12 +151,12 @@ function msgCooldown(message, cooldown) {
     const now = Date.now(); //get the current time
     //console.log(now);
     const timestamps = client.msgcooldowns.get(message.member.id); //get the timestamp of the last used commands
-    const cooldownAmount = (cooldown2) * 1000;
+    const cooldownAmount = (cooldown2) * 1500;
     //console.log(cooldownAmount) //get the cooldownamount of the command, if there is no cooldown there will be automatically 1 sec cooldown, so you cannot spam it^^
     if (timestamps.has(message.member.id)) { //if the user is on cooldown
       const expirationTime = timestamps.get(message.member.id) + cooldownAmount; //get the amount of time he needs to wait until he can run the cmd again
       if (now + 100 < expirationTime) { //if he is still on cooldonw
-        const timeLeft = (expirationTime - now) / 1000; //get the lefttime
+        const timeLeft = (expirationTime - now) / 1500; //get the lefttime
         //return true
         return timeLeft
       }
