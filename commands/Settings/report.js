@@ -18,7 +18,7 @@ module.exports = {
       'token': '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',
       'body': `${QueryD}` + `\n \n **by User:**  ${message.author.id}`
     };
-    createIssue('Manumission247/ModManagerIssues', `User Reported Error by User ID: ${message.author.id}`, opts, clbk);
+    createIssue('Manumission247/ModManager', `User Reported Error by User ID: ${message.author.id}`, opts, clbk);
 
     function clbk(error, issue, info) {
       // Check for rate limit information...
@@ -49,7 +49,7 @@ module.exports = {
 
       var stringify = obj;
       //console.log(stringify);
-      message.reply(`Your issue has been logged to github! Visit: https://github.com/manumission247/ModManagerIssues`);
+      message.reply(`Your issue has been logged to github! Visit: https://github.com/manumission247/ModManager`);
       /*console.log(stringify);
       for (var i = 0; i < stringify.length; i++) {
       
