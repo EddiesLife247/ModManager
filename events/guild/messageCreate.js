@@ -815,10 +815,20 @@ module.exports = async (client, message) => {
   if (!command) command = client.commands.get(client.aliases.get(cmd));
   if (command) {
     if (client.settings.get(message.guild.id, `botchannel`).length > 0) {
-      if (!message.member.permissions.has("ADMINISTRATOR")) {
-        message.reply("No access and not a bot channel");
-        return;
+    let botchannels = client.settings.get(message.guild.id, `botchannel`);
+    if (!botchannels || !Array.isArray(botchannels)) botchannels = [];
+    if (botchannels.length > 0) {
+      if (!botchannels.includes(message.channel.id) && !message.member.permissions.has("ADMINISTRATOR")) {
+        return message.reply({
+          embeds: [new Discord.MessageEmbed()
+            .setColor(ee.wrongcolor)
+            .setFooter(ee.footertext, ee.footericon)
+            .setTitle(`${client.allEmojis.x} **You are not allowed to use this Command in here!**`)
+            .setDescription(`Please do it in one of those:\n> ${botchannels.map(c=>`<#${c}>`).join(", ")}`)
+          ]
+        })
       }
+    }
     }
     //Check if user is on cooldown with the cmd, with Tomato#6966's Function from /handlers/functions.js
     if (onCoolDown(message, command)) {
