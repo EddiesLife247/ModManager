@@ -816,6 +816,7 @@ module.exports = async (client, message) => {
   if (command) {
     if (client.settings.get(message.guild.id, `botchannel`).length > 0) {
       if (!message.member.permissions.has("ADMINISTRATOR")) {
+        message.reply("No access and not a bot channel");
         return;
       }
     }
