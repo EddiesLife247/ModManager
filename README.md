@@ -7,5 +7,6 @@
 * Official Website/Dashboard: http://modmanager.manumission247.co.uk:38455/
 * Invite The Bot: https://discord.com/api/oauth2/authorize?client_id=714939771935522838&permissions=8&scope=applications.commands%20bot
 <br>
+# Command LIST: https://github.com/Manumission247/ModManager/wiki/Commands
 <br>
 REPORT ANY ISSUES ON DISCORD VIA ?report <problem> to be logged here.
