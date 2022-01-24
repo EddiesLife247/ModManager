@@ -3,7 +3,7 @@
 /.vscode
 /sounds/**
 !/sounds/putmusichere.mp3
-
+botconfig/config.json
 # Logs
 logs
 *.log
