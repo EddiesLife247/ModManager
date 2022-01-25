@@ -14,6 +14,7 @@ module.exports = {
     alloweduserids: [], //Only allow specific Users to execute a Command [OPTIONAL]
     run: async (client, message, args) => {
         console.log(message.content);
+        return message.reply("This command is still being developed!")
         try {
             if (!message.mentions.channels.first()) return message.reply("Error: You did not mention a channel.");
             if (!message.mentions.roles.first()) return message.reply("Error: You did not mention a role!");
