@@ -21,8 +21,8 @@ const Discord = require(`discord.js`);
  * @param {*} client THE DISCORD BOT CLIENT 
  */
 module.exports = client => {
-  //Start teh website
-  console.log("Loading DashBoard settings".brigthGreen)
+  //Start the website
+  console.log("Loading DashBoard settings")
   const settings = require("./settings.json");
   // We instantiate express app and the session store.
   const app = express();

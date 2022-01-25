@@ -14,7 +14,7 @@ const dirSetup = [{
 	"Folder": "Points", "CmdName": "points",
 	"CmdDescription": "Points System"
 }, {
-	"Folder": "Fun", "CmdName": "games",
+	"Folder": "Fun", "CmdName": "Fun",
 	"CmdDescription": "Games and Fun Commands"
 }, {
 	"Folder": "Queue", "CmdName": "queue",
@@ -25,9 +25,6 @@ const dirSetup = [{
 }, {
 	"Folder": "Filter", "CmdName": "filter",
 	"CmdDescription": "Add Filters to your Music"
-}, {
-	"Folder": "context", "CmdName": "context",
-	"CmdDescription": "Context Menu"
 }, {
 	"Folder": "Support", "CmdName": "support",
 	"CmdDescription": "Suppot Desk Management"

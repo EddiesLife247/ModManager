@@ -10,7 +10,7 @@ const settings = require(`../../botconfig/settings.json`);
 const { onCoolDown, replacemsg } = require("../../handlers/functions");
 const Discord = require("discord.js");
 const SQLite = require("better-sqlite3");
-module.exports = (client, interaction) => {
+module.exports = async (client, interaction) => {
 
   const CategoryName = interaction.commandName;
   client.settings.ensure(interaction.guildId, {
@@ -97,12 +97,12 @@ module.exports = (client, interaction) => {
           }))]
       });
     }
-    //Context Menu Handling
-    if(interaction.isContextMenu()){
-      await interaction.deferReply({ ephemeral: false});
-      const command = client.slashCommands.get(interaction.commanndName);
-      if(command) command.run(client,interaction);
-    }
+        //Context Menu Handling
+        if(interaction.isContextMenu()){
+          await interaction.deferReply({ ephemeral: false});
+          const command = client.slashCommands.get(interaction.commanndName);
+          if(command) command.run(client,interaction);
+        }
     //execute the Command
     command.run(client, interaction)
   }
