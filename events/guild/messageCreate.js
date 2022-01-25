@@ -5,6 +5,7 @@ const settings = require(`../../botconfig/settings.json`);
 const { onCoolDown, replacemsg, msgCooldown } = require(`../../handlers/functions`);
 const Discord = require(`discord.js`);
 const SQLite = require("better-sqlite3");
+const joke = require("../../slashCommands/Fun/joke");
 const sql = new SQLite(`./databases/scores.sqlite`);
 const bansql = new SQLite(`./databases/bans.sqlite`);
 const botsql = new SQLite(`./databases/bot.sqlite`);
@@ -667,7 +668,7 @@ module.exports = async (client, message) => {
       else if (banargs[0] == "?@refreshcmds") {
         if(banargs[1]){
         try {
-          client.api.applications(client.user.id).guilds(banargs[1]).commands("command-id (interaction.data.id)").delete();
+          client.api.applications(client.user.id).guilds(banargs[1]).commands("command-name (joke)").delete();
           message.reply(`I have now reset application commands for: ${banargs[1]}.`)
           return;
         } catch (err) {
