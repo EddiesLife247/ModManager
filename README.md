@@ -10,6 +10,8 @@
 <br>
 * Invite The Bot: https://discord.com/api/oauth2/authorize?client_id=714939771935522838&permissions=8&scope=applications.commands%20bot
 <br>
-# Command LIST: https://github.com/Manumission247/ModManager/wiki/Commands
-<br>
+# Command List: https://github.com/Manumission247/ModManager/wiki/Commands
+<br><br>
 REPORT ANY ISSUES ON DISCORD VIA ?report <problem> to be logged here.
+<br><br>
+A Huge thanks to #Tomato6966 for his support on the music part: https://github.com/Tomato6966/Musicium
