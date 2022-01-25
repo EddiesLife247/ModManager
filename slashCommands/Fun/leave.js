@@ -1,9 +1,3 @@
-const config = require("../../botconfig/config.json");
-const ee = require("../../botconfig/embed.json");
-const settings = require("../../botconfig/settings.json");
-const {
-  check_if_dj
-} = require("../../handlers/functions")
 module.exports = {
   name: "leave", //the command name for the Slash Command
   description: "Leave the server", //the command description for Slash Command Overview

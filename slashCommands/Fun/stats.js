@@ -2,13 +2,6 @@ const { version } = require("discord.js");
 const { codeBlock } = require("@discordjs/builders");
 const { DurationFormatter } = require("@sapphire/time-utilities");
 const durationFormatter = new DurationFormatter();
-
-const config = require("../../botconfig/config.json");
-const ee = require("../../botconfig/embed.json");
-const settings = require("../../botconfig/settings.json");
-const {
-  check_if_dj
-} = require("../../handlers/functions")
 module.exports = {
   name: "stats", //the command name for the Slash Command
   description: "Gets Bot Stats", //the command description for Slash Command Overview

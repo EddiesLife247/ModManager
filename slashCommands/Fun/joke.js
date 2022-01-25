@@ -13,17 +13,6 @@ const jokes = [
   'I think Microsoft named .Net so it wouldn’t show up in a Unix directory listing.',
   'There are two ways to write error-free programs; only the third one works.',
 ];
-
-const {
-  MessageEmbed,
-  Message
-} = require("discord.js");
-const config = require("../../botconfig/config.json");
-const ee = require("../../botconfig/embed.json");
-const settings = require("../../botconfig/settings.json");
-const {
-  check_if_dj
-} = require("../../handlers/functions")
 module.exports = {
   name: "joke", //the command name for the Slash Command
   description: "Shows a random Joke", //the command description for Slash Command Overview
@@ -32,7 +21,7 @@ module.exports = {
   alloweduserids: [], //Only allow specific Users to execute a Command [OPTIONAL]
   run: async (client, interaction) => { // eslint-disable-line no-unused-vars
     await interaction.deferReply();
-    const reply = await interaction.editReply("Ping?");
+    const reply = await interaction.editReply("Joke time!");
     await interaction.editReply(jokes[Math.floor(Math.random() * jokes.length)]);
   },
 };

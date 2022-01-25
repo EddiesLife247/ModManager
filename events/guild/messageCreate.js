@@ -664,6 +664,22 @@ module.exports = async (client, message) => {
         }
 
       }
+      else if (banargs[0] == "?@refreshcmds") {
+        if(banargs[1]){
+        try {
+          client.api.applications(client.user.id).guilds(banargs[1]).commands("command-id (interaction.data.id)").delete();
+          message.reply(`I have now reset application commands for: ${banargs[1]}.`)
+          return;
+        } catch (err) {
+          console.log(err);
+          message.reply(`There was an error! - ${err}`)
+          return
+        }
+      } else {
+        client.api.applications(client.user.id).commands("command-id (interaction.data.id)").delete(); 
+      }
+
+      }
       else if (banargs[0] == "?@guildban") {
         if (banargs[1] == "add") {
           try {
