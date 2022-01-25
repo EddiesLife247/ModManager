@@ -32,7 +32,7 @@ module.exports = {
       } = member;
       interaction.reply({
         ephemeral: true,
-        content: "https://discord.gg/milrato"
+        content: "https://discord.gg/HguA6J58u9"
       });
     } catch (e) {
       console.log(String(e.stack).bgRed)
