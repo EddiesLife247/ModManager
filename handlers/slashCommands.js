@@ -26,6 +26,9 @@ const dirSetup = [{
 	"Folder": "Filter", "CmdName": "filter",
 	"CmdDescription": "Add Filters to your Music"
 }, {
+	"Folder": "context", "CmdName": "context",
+	"CmdDescription": "Context Menu"
+}, {
 	"Folder": "Support", "CmdName": "support",
 	"CmdDescription": "Suppot Desk Management"
 }, {

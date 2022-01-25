@@ -97,6 +97,12 @@ module.exports = (client, interaction) => {
           }))]
       });
     }
+    //Context Menu Handling
+    if(interaction.isContextMenu()){
+      await interaction.deferReply({ ephemeral: false});
+      const command = client.slashCommands.get(interaction.commanndName);
+      if(command) command.run(client,interaction);
+    }
     //execute the Command
     command.run(client, interaction)
   }
