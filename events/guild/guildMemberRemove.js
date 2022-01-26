@@ -88,7 +88,7 @@ module.exports = async (client, member) => {
         .setTimestamp();
       if (member.guild.channels.cache.find(c => c.id == client.settings.get(member.guild.id, "logchannel"))) {
         member.guild.channels.cache.find(c => c.id == client.settings.get(member.guild.id, "logchannel")).send({ embeds: [embed] });
-        client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`\n \n ${member.guild.name} triggered event: GuildMemberAdd Successfully`);
+        client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`\n \n ${member.guild.name} triggered event: GuildMemberRemove Successfully`);
         //client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`\n \n ${message.guild.name} triggered event: GuildMemberRemove Successfully`);
         //console.log(`Found log channel and sent message: ${settings.modLogChannel} in ${member.guild.id}`);
       } else {
