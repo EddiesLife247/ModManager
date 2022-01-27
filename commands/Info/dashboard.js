@@ -29,7 +29,7 @@ module.exports = {
       });
     } catch (err) {
       const { logMessage } = require(`../../handlers/newfunctions`);
-      logMessage(client, `error`, message.guild, `Error with DASHBOARD command: ${err}`);
+      logMessage(client, `error`, message.guild, `Error with DASHBOARD command: ${err.message} | \`\`\` ${err.stack} \`\`\``);
    
   }
   }

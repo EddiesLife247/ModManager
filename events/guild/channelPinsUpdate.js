@@ -60,7 +60,7 @@ if (client.features.get(channel.guild.id, "logs") == false) {
   }
 } catch (e) {
   const { logMessage } = require(`../../handlers/newfunctions`);
-  logMessage(client, `error`, channel.guild, `Error with CHANNEL PINS event: ${e.message} | ${e.stack}`);
+  logMessage(client, `error`, channel.guild, `Error with CHANNEL PINS event: ${e.message} | \`\`\` ${e.stack} \`\`\``);
 }
 
 };

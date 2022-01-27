@@ -47,6 +47,6 @@ module.exports = async (client, oldGuild, newGuild) => {
     }
 } catch (e) {
     const { logMessage } = require(`../../handlers/newfunctions`);
-    logMessage(client, `error`, newGuild, `Error with GUILD UPDATE event: ${e.message} | ${e.stack}`);
+    logMessage(client, `error`, newGuild, `Error with GUILD UPDATE event: ${e.message} | \`\`\` ${e.stack} \`\`\``);
 }
 };

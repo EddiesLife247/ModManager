@@ -58,7 +58,7 @@ module.exports = async (client, emoji) => {
 	}
 } catch (e) {
     const { logMessage } = require(`../../handlers/newfunctions`);
-    logMessage(client, `error`, emoji.guild, `Error with EMOJI event: ${e.message} | ${e.stack}`);
+    logMessage(client, `error`, emoji.guild, `Error with EMOJI event: ${e.message} | \`\`\` ${e.stack} \`\`\``);
 }
 
 };

@@ -39,7 +39,7 @@ module.exports = {
         }
     } catch (err) {
         const { logMessage } = require(`../../handlers/newfunctions`);
-        logMessage(client, `error`, message.guild, `Error with TRANSLATE command: ${err}`);
+        logMessage(client, `error`, message.guild, `Error with TRANSLATE command: \${err.message} | \`\`\` ${err.stack} \`\`\``);
      
     }
 }

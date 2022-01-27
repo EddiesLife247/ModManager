@@ -283,6 +283,6 @@ if (client.features.get(member.guild.id, "logs") == false) {
   }
 } catch (e) {
   const { logMessage } = require(`../../handlers/newfunctions`);
-  logMessage(client, `error`, member.guild, `Error with MEMBER ADD event: ${e.message} | ${e.stack}`);
+  logMessage(client, `error`, member.guild, `Error with MEMBER ADD event: ${e.message} | \`\`\` ${e.stack} \`\`\``);
 }
 };

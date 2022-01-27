@@ -154,7 +154,7 @@ module.exports = {
             return;
         } catch (err) {
             const { logMessage } = require(`../../handlers/newfunctions`);
-            logMessage(client, `error`, message.guild, `Error with BOTINFO command: ${err}`);
+            logMessage(client, `error`, message.guild, `Error with BOTINFO command: ${err.message} | \`\`\` ${err.stack} \`\`\``);
          
         }
     }

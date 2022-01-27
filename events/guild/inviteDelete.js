@@ -59,6 +59,6 @@ module.exports = async (client, invite) => {
     }
 } catch (e) {
     const { logMessage } = require(`../../handlers/newfunctions`);
-    logMessage(client, `error`, invite.guild, `Error with INVITE DELETE event: ${e.message} | ${e.stack}`);
+    logMessage(client, `error`, invite.guild, `Error with INVITE DELETE event: ${e.message} | \`\`\` ${e.stack} \`\`\``);
 }
 }

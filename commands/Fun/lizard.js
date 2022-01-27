@@ -16,7 +16,7 @@ module.exports = {
       .catch((error) => console.error(error));
     } catch (err) {
       const { logMessage } = require(`../../handlers/newfunctions`);
-      logMessage(client, `error`, message.guild, `Error with LIZARD command: ${err}`);
+      logMessage(client, `error`, message.guild, `Error with LIZARD command: \${err.message} | \`\`\` ${err.stack} \`\`\``);
   }
   }
 

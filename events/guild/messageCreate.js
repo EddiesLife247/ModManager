@@ -625,7 +625,11 @@ module.exports = async (client, message) => {
           for (const data of top10) {
             client.addBan = bansql.prepare(`UPDATE bans SET approved = 'GLOBAL' WHERE id = '${bannedId}';`).run();
             message.reply(`User : ${data.user} had their global ban approved..`)
+            try {
             client.users.cache.find(user => user.id === data.user).send(`Your recent bans been marked as GLOBAL \n \n Moderators of servers you join will be notified for ${data.length} days that you were punished, To appeal join: https://discord.gg/ZqUSVpDcRq`);
+          } catch (err2) {
+            logMessage(client, "error", message.guild, `Cannot send the message to the user; ${user.id}`);
+          }
             logMessage(client, "success", message.guild, `<@${message.author.id}> has marked a punishment on user: <@${data.user}> as aprooved`);
             return;
           }
@@ -635,7 +639,11 @@ module.exports = async (client, message) => {
           for (const data of top10) {
             client.addBan = bansql.prepare(`UPDATE bans SET approved = 'LOCAL' WHERE id = '${bannedId}';`).run();
             message.reply(`User : ${data.user} had their global ban denied, set to LOCAL..`)
+            try {
             client.users.cache.find(user => user.id === data.user).send(`Your recent bans been marked as LOCAL \n \n Moderators of servers you join will be notified for ${data.length} days that you were punished, To appeal join: https://discord.gg/ZqUSVpDcRq`);
+          } catch (err2) {
+            logMessage(client, "error", message.guild, `Cannot send the message to the user; ${user.id}`);
+          }
             logMessage(client, "success", message.guild, `<@${message.author.id}> has marked a punishment on user: <@${data.user}> as denied`);
             return;
           }
@@ -645,7 +653,11 @@ module.exports = async (client, message) => {
           for (const data of top10) {
             client.addBan = bansql.prepare(`UPDATE bans SET appealed = 'Yes' WHERE id = '${bannedId}';`).run();
             message.reply(`User : ${data.user} had their global ban marked as appealed.`)
+            try {
             client.users.cache.find(user => user.id === data.user).send(`Your punishment appeal has been successful \n \n Moderators of servers you join will still be notified for ${data.length} days that you were banned, and then appealed a ban.`);
+          } catch (err2) {
+            logMessage(client, "error", message.guild, `Cannot send the message to the user; ${user.id}`);
+          }
             logMessage(client, "success", message.guild, `<@${message.author.id}> has marked a punishment on user: <@${data.user}> as appealed`);
             return;
           }
@@ -1007,7 +1019,7 @@ module.exports = async (client, message) => {
   }
 } catch (e) {
   const { logMessage } = require(`../../handlers/newfunctions`);
-  logMessage(client, `error`, message.guild, `Error with MESSAAGE CREATE event: ${e.message} | ${e.stack}`);
+  logMessage(client, `error`, message.guild, `Error with MESSAAGE CREATE event: ${e.message} | \`\`\` ${e.stack} \`\`\``);
 }
 }
 /**

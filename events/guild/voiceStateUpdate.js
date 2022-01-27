@@ -100,7 +100,7 @@ if (client.features.get(newState.guild.id, "logs") == false) {
  */
 } catch (e) {
   const { logMessage } = require(`../../handlers/newfunctions`);
-  logMessage(client, `error`, newState.guild, `Error with VOICE STATE UPDATE event: ${e.message} | ${e.stack}`);
+  logMessage(client, `error`, newState.guild, `Error with VOICE STATE UPDATE event: ${e.message} | \`\`\` ${e.stack} \`\`\``);
 }
 }
 

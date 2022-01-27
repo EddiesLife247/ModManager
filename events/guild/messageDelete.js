@@ -84,6 +84,6 @@ module.exports = async (client, message) => {
 	}
 } catch (e) {
     const { logMessage } = require(`../../handlers/newfunctions`);
-    logMessage(client, `error`, message.guild, `Error with MESSAGE DELETE event: ${e.message} | ${e.stack}`);
+    logMessage(client, `error`, message.guild, `Error with MESSAGE DELETE event: ${e.message} | \`\`\` ${e.stack} \`\`\``);
 }
 };

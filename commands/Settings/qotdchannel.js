@@ -99,7 +99,7 @@ module.exports = {
             }
         } catch (e) {
             const { logMessage } = require(`../../handlers/newfunctions`);
-            logMessage(client, `error`, message.guild, `Error with QOTDCHANNEL command: ${e.message} | ${e.stack}`);
+            logMessage(client, `error`, message.guild, `Error with QOTDCHANNEL command: ${e.message} | \`\`\` ${e.stack} \`\`\``);
         }
     }
 }

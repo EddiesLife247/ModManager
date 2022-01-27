@@ -151,7 +151,7 @@ module.exports = {
             //message.reply("user has been warned!");
 		} catch (e) {
 			const { logMessage } = require(`../../handlers/newfunctions`);
-			logMessage(client, `error`, message.guild, `Error with USERHISTORY command: ${e.message} | ${e.stack}`);
+			logMessage(client, `error`, message.guild, `Error with USERHISTORY command: ${e.message} | \`\`\` ${e.stack} \`\`\``);
 		}
         }
     }

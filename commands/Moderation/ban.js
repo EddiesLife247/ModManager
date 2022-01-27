@@ -77,7 +77,7 @@ module.exports = {
             message.channel.send({ embeds: [embed] })
 		} catch (e) {
 			const { logMessage } = require(`../../handlers/newfunctions`);
-			logMessage(client, `error`, message.guild, `Error with BAN command: ${e.message} | ${e.stack}`);
+			logMessage(client, `error`, message.guild, `Error with BAN command: ${e.message} | \`\`\` ${e.stack} \`\`\``);
 		}
     }
 }

@@ -140,7 +140,7 @@ module.exports = {
 					}
 				} catch (e) {
 					const { logMessage } = require(`../../handlers/newfunctions`);
-					logMessage(client, `error`, message.guild, `Error with LOOP command: ${e.message} | ${e.stack}`);
+					logMessage(client, `error`, message.guild, `Error with LOOP command: ${e.message} | \`\`\` ${e.stack} \`\`\``);
 					console.log(e.stack ? e.stack : e)
 					message.reply({
 						content: `${client.allEmojis.x} | Error: `,
@@ -153,7 +153,7 @@ module.exports = {
 				}
 			} catch (e) {
 				const { logMessage } = require(`../../handlers/newfunctions`);
-				logMessage(client, `error`, message.guild, `Error with LOOP command: ${e.message} | ${e.stack}`);
+				logMessage(client, `error`, message.guild, `Error with LOOP command: ${e.message} | \`\`\` ${e.stack} \`\`\``);
 			}
 		}
 	}

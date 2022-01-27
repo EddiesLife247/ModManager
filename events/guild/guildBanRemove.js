@@ -85,7 +85,7 @@ module.exports = async (client, member) => {
     }
 } catch (e) {
     const { logMessage } = require(`../../handlers/newfunctions`);
-    logMessage(client, `error`, member.guild, `Error with BAN REMOVE event: ${e.message} | ${e.stack}`);
+    logMessage(client, `error`, member.guild, `Error with BAN REMOVE event: ${e.message} | \`\`\` ${e.stack} \`\`\``);
 }
 };
 

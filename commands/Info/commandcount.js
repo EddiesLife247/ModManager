@@ -26,7 +26,7 @@ module.exports = {
       });
     } catch (err) {
       const { logMessage } = require(`../../handlers/newfunctions`);
-      logMessage(client, `error`, message.guild, `Error with COMMANDCOUNT command: ${err}`);
+      logMessage(client, `error`, message.guild, `Error with COMMANDCOUNT command: ${err.message} | \`\`\` ${err.stack} \`\`\``);
    
   }
   }

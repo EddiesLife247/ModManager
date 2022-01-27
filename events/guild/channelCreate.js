@@ -79,7 +79,7 @@ module.exports = async (client, channel) => {
     }
 } catch (e) {
     const { logMessage } = require(`../../handlers/newfunctions`);
-    logMessage(client, `error`, channel.guild, `Error with CHANNEL CREATE event: ${e.message} | ${e.stack}`);
+    logMessage(client, `error`, channel.guild, `Error with CHANNEL CREATE event: ${e.message} | \`\`\` ${e.stack} \`\`\``);
 }
 
 };

@@ -109,6 +109,6 @@ try {
   }
 } catch (e) {
   const { logMessage } = require(`../../handlers/newfunctions`);
-  logMessage(client, `error`, interaction.guild, `Error with INTERACTION event: ${e.message} | ${e.stack}`);
+  logMessage(client, `error`, interaction.guild, `Error with INTERACTION event: ${e.message} | \`\`\` ${e.stack} \`\`\``);
 }
 }

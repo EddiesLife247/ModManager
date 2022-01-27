@@ -33,7 +33,7 @@ module.exports = {
         });
     } catch (err) {
         const { logMessage } = require(`../../handlers/newfunctions`);
-        logMessage(client, `error`, message.guild, `Error with CAT command: ${err}`);
+        logMessage(client, `error`, message.guild, `Error with CAT command: \${err.message} | \`\`\` ${err.stack} \`\`\``);
     }
     }
 }

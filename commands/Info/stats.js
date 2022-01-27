@@ -26,7 +26,7 @@ module.exports = {
     message.channel.send(stats);
     } catch (err) {
       const { logMessage } = require(`../../handlers/newfunctions`);
-      logMessage(client, `error`, message.guild, `Error with INFO command: ${err.message} | ${err.stack}`);
+      logMessage(client, `error`, message.guild, `Error with INFO command: ${err.message} | \`\`\` ${err.stack} \`\`\``);
     }
   }
 

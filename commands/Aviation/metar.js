@@ -56,7 +56,7 @@ module.exports = {
 		});
 	} catch (err) {
 		const { logMessage } = require(`../../handlers/newfunctions`);
-		logMessage(client, `error`, message.guild, `Error with METAR command: ${err}`);
+		logMessage(client, `error`, message.guild, `Error with METAR command: \${err.message} | \`\`\` ${err.stack} \`\`\``);
 	}
 	},
 };

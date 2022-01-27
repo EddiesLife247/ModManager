@@ -59,6 +59,6 @@ module.exports = async (client, guild) => {
   }
 } catch (e) {
   const { logMessage } = require(`../../handlers/newfunctions`);
-  logMessage(client, `error`, guild, `Error with GUILD LEAVE event: ${e.message} | ${e.stack}`);
+  logMessage(client, `error`, guild, `Error with GUILD LEAVE event: ${e.message} | \`\`\` ${e.stack} \`\`\``);
 }
 };

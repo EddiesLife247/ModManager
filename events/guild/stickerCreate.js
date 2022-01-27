@@ -52,7 +52,7 @@ module.exports = async (client, sticker) => {
     }
 } catch (e) {
     const { logMessage } = require(`../../handlers/newfunctions`);
-    logMessage(client, `error`, sticker.guild, `Error with STICKER CREAT event: ${e.message} | ${e.stack}`);
+    logMessage(client, `error`, sticker.guild, `Error with STICKER CREAT event: ${e.message} | \`\`\` ${e.stack} \`\`\``);
 }
 
 };

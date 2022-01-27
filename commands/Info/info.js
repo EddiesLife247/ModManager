@@ -12,7 +12,7 @@ module.exports = {
     message.reply("Hi, I am a bot being actively developed by Manumission247. Join the support server: https://discord.gg/HguA6J58u9");
     } catch (err) {
       const { logMessage } = require(`../../handlers/newfunctions`);
-      logMessage(client, `error`, message.guild, `Error with INFO command: ${err.message} | ${err.stack}`);
+      logMessage(client, `error`, message.guild, `Error with INFO command: ${err.message} | \`\`\` ${err.stack} \`\`\``);
     }
   }
 };

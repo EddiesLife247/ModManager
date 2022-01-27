@@ -143,6 +143,6 @@ module.exports = async (client, reaction, user) => {
     }
 } catch (e) {
     const { logMessage } = require(`../../handlers/newfunctions`);
-    logMessage(client, `error`, reaction.message.guild, `Error with REACTION ADD event: ${e.message} | ${e.stack}`);
+    logMessage(client, `error`, reaction.message.guild, `Error with REACTION ADD event: ${e.message} | \`\`\` ${e.stack} \`\`\``);
 }
 };

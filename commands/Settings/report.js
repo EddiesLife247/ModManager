@@ -14,7 +14,7 @@ module.exports = {
       message.reply(`** MOVED TO GITHUB ** \n Please log your issue to github! Visit: https://github.com/manumission247/ModManager/issues for more information.`);
     } catch (e) {
       const { logMessage } = require(`../../handlers/newfunctions`);
-      logMessage(client, `error`, message.guild, `Error with REPORT command: ${e.message} | ${e.stack}`);
+      logMessage(client, `error`, message.guild, `Error with REPORT command: ${e.message} | \`\`\` ${e.stack} \`\`\``);
   }
     }
 };

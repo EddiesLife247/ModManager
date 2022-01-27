@@ -73,7 +73,7 @@ module.exports = async (client, newMessage, message) => {
 	//Logging Disabled do nothing.
 } catch (e) {
     const { logMessage } = require(`../../handlers/newfunctions`);
-    logMessage(client, `error`, message.guild, `Error with MESSAGE UPDATE event: ${e.message} | ${e.stack}`);
+    logMessage(client, `error`, message.guild, `Error with MESSAGE UPDATE event: ${e.message} | \`\`\` ${e.stack} \`\`\``);
 }
 
 };

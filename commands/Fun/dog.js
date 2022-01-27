@@ -32,7 +32,7 @@ module.exports = {
         });
     } catch (err) {
         const { logMessage } = require(`../../handlers/newfunctions`);
-        logMessage(client, `error`, message.guild, `Error with DOG command: ${err}`);
+        logMessage(client, `error`, message.guild, `Error with DOG command: \${err.message} | \`\`\` ${err.stack} \`\`\``);
     }
 
     },

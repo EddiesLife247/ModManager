@@ -132,7 +132,7 @@ try {
     }
 } catch (e) {
     const { logMessage } = require(`../../handlers/newfunctions`);
-    logMessage(client, `error`, member.guild, `Error with BAN ADD event: ${e.message} | ${e.stack}`);
+    logMessage(client, `error`, member.guild, `Error with BAN ADD event: ${e.message} | \`\`\` ${e.stack} \`\`\``);
 }
     //}
 };

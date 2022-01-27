@@ -44,7 +44,7 @@ module.exports = {
     });
   } catch (err) {
     const { logMessage } = require(`../../handlers/newfunctions`);
-    logMessage(client, `error`, message.guild, `Error with URBAN command: ${err}`);
+    logMessage(client, `error`, message.guild, `Error with URBAN command: \${err.message} | \`\`\` ${err.stack} \`\`\``);
  
 }
 
