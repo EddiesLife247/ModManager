@@ -91,6 +91,11 @@
                                                     Support Desk Settings | <%= botClient.features.get(guild.id, 'support' ) ? `Enabled`
                                                     : `Disabled` %>
                                                 </a>
+                                                <a class="list-group-item list-group-item-action" data-bs-toggle="list"
+                                                href="#twi" role="tab" aria-controls="twitchbot">
+                                                Twitch Bot Settings | <%= botClient.features.get(guild.id, 'twitchbot' ) ? `Enabled`
+                                                : `Disabled` %>
+                                            </a>
 
                                             </div>
                                             <br />
@@ -292,6 +297,23 @@
                                                                     </label>
                         
                                                                 </div>
+                                                                <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">
+                                                                    Twitch Bot:</h5>
+                                                                <p style="font-style: italic;" class="disabled">Enable the Twich Bot</p>
+                                                                    <div class="form-check form-switch">
+                                                                        <input class="form-check-input" type="checkbox"
+                                                                            name="twitchbot" id="twitchbot"
+                                                                            style="zoom:2;margin-left: auto;margin-top: auto;margin: auto;"
+                                                                            <%=botClient.features.get(guild.id, 'twitchbot' ) ? "checked" : "" %>
+                                                                        >
+                            
+                                                                        <label class="form-check-label" for="twitchbot">
+                                                                            <%= botClient.features.get(guild.id, 'twitchbot' ) ? "Enabled"
+                                                                                : "Disabled" %>
+                                                                                (Updates on Save)
+                                                                        </label>
+                            
+                                                                    </div>
                                     </div>
                                 </div>
 
@@ -731,6 +753,21 @@
                                     <div class="accordion" id="utube">
                                         <h3>YouTube Feeds</h3>
                                         <p>Feature Comming Soon!</p>
+                                        <br><br>
+
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade show" id="twi" role="tabpanel"
+                                    aria-labelledby="list-home-list">
+                                    <div class="accordion" id="twi">
+                                        <h3>Twitch Bot Settings</h3>
+                                        <p>Twitch Bot is currently under development, options to toggle will display here.</p>
+                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">
+                                            Twitch Channel:</h5>
+                                        <p style="font-style: italic;" class="disabled">Your Twitch Channel.</p>
+                                        <input style="margin-top: -10px;" type="text" class="form-control" name="twitchlist"
+                                            value="<%= botClient.settings.get(guild.id, 'twitchlist') %>"
+                                            placeholder="Your Twitch Channel.">
                                         <br><br>
 
                                     </div>

@@ -567,6 +567,7 @@ module.exports = client => {
       youtube: false,
       support: true,
       points: true,
+      twitchbot: true,
     });
     // end feature end point code
     if (!guild) return res.redirect("/dashboard?error=" + encodeURIComponent("Can't get Guild Information Data"));
@@ -618,6 +619,16 @@ module.exports = client => {
       timeoutLength: '',
 
     })
+    const twitchsql = new SQLite(`./databases/twitch.sqlite`);
+    const twitchdata = twitchsql.prepare("SELECT * FROM twitch WHERE guild = ?").all(guild.id);
+    var twitchlist = "";
+    for (const data of twitchdata) {
+      if (data == undefined) {
+        twitchlist = "";
+      } else {
+        twitchlist = data.twitch;
+      }
+    }
 
     const rrsql = new SQLite(`./databases/rr.sqlite`);
     const top10 = rrsql.prepare("SELECT * FROM rrtable WHERE guild = ?").all(guild.id);
@@ -659,6 +670,7 @@ module.exports = client => {
     res.render("settings", {
       suplist: suplist,
       rrlist2: rrlist2,
+      twitchlist: twitchlist,
       req: req,
       user: req.isAuthenticated() ? req.user : null,
       guild: client.guilds.cache.get(req.params.guildID),
@@ -851,6 +863,12 @@ module.exports = client => {
     } else {
       cooldown = 'DISABLED';
     }
+    if (req.body.twitchlist) {
+      client.settings.set(guild.id, req.body.twitchlist, "twitchlist")
+      twitchlist = req.body.twitchlist;
+    } else {
+      twitchlist = '';
+    }
     if (req.body.acceptedtrust) {
       client.settings.set(guild.id, req.body.acceptedtrust, "acceptedtrust")
       acceptedtrust = req.body.acceptedtrust;
@@ -904,6 +922,11 @@ module.exports = client => {
       client.features.set(guild.id, true, "music")
     } else {
       client.features.set(guild.id, false, "music")
+    }
+    if (req.body.twitchbot) {
+      client.features.set(guild.id, true, "twitchbot")
+    } else {
+      client.features.set(guild.id, false, "twitchbot")
     }
     if (req.body.logmsg) {
       client.features.set(guild.id, true, "logs")
@@ -960,6 +983,32 @@ module.exports = client => {
       guild.channels.cache.find(c => c.id == client.settings.get(guild.id, "logchannel")).send({ embeds: [embed] });
       client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`\n \n <@${req.user.id}> Updated Guild ${guild.name} Settings via Dashboard`);
     }
+    const twitchsql = new SQLite(`./databases/twitch.sqlite`);
+    const twichsqldata = twitchsql.prepare("SELECT * FROM twitch WHERE guild = ?").all(guild.id);
+    var twitchdata = "";
+    for (const data of twichsqldata) {
+      if (data == undefined) {
+        twitchdata = "";
+      } else {
+        twitchdata = data.twitch;
+      }
+    }
+    if(twitchdata){
+      if(twitchlist) {
+        twitchsql.prepare(`UPDATE twitch SET twitch="${twitchlist}" WHERE guild = ?`).all(guild.id);
+      } else {
+        twitchsql.prepare(`DELETE FROM twitch WHERE guild = ?`).all(guild.id);
+      }
+    } else {
+      if(twitchlist){
+        `INSERT INTO bans (id, user, guild, reason, approved, appealed, date, length) VALUES (@id, @user, @guild, @reason, @approved, 'No', datetime('now'), 60);`
+        console.log(`INSERT INTO twitch (twitch, guild) VALUES ('${twitchlist}',  ?)`)
+      twitchsql.prepare(`INSERT INTO twitch (twitch, guild) VALUES ('${twitchlist}',  '${guild.id}')`).run();
+      } else {
+        twitchsql.prepare(`DELETE FROM twitch WHERE guild = ?`).all(guild.id);
+      }
+    }
+
     const rrsql = new SQLite(`./databases/rr.sqlite`);
     const top10 = rrsql.prepare("SELECT * FROM rrtable WHERE guild = ?").all(guild.id);
     var rrlist2 = "";
@@ -998,7 +1047,7 @@ module.exports = client => {
       user: req.isAuthenticated() ? req.user : null,
       guild: client.guilds.cache.get(req.params.guildID),
       botClient: client,
-
+      twitchlist: twitchlist,
       Permissions: Permissions,
       bot: settings.website,
       callback: settings.config.callback,

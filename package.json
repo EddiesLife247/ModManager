@@ -44,6 +44,7 @@
     "request": "^2.65.0",
     "rss-parser": "^3.12.0",
     "session": "^0.1.0",
+    "tmi.js": "^1.8.5",
     "url": "^0.11.0",
     "youtube-notification": "^1.1.0"
   }

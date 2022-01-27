@@ -109,6 +109,7 @@ const { logMessage, refreshPunishDB } = require(`./handlers/newfunctions`);
 client.setMaxListeners(100); require('events').defaultMaxListeners = 100;
 client.settings = new Enmap({ name: "settings", dataDir: "./databases/settings" });
 client.features = new Enmap({ name: "features", dataDir: "./databases/features" });
+client.twitchfeatures = new Enmap({ name: "twitchfeatures", dataDir: "./databases/twitchfeatures" });
 client.infos = new Enmap({ name: "infos", dataDir: "./databases/infos" });
 // CRON JOB SETTINGS
 
@@ -270,4 +271,5 @@ client.login(config.token)
  */
 client.on("ready", () => {
   require("./dashboard/index.js")(client);
+  require("./TwitchBot/index.js")(client);
 })
