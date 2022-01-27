@@ -7,6 +7,7 @@ const { logMessage, refreshPunishDB } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 const SQLite = require("better-sqlite3");
 const joke = require("../../slashCommands/Fun/joke");
+const ban = require("../../commands/Moderation/ban");
 const sql = new SQLite(`./databases/scores.sqlite`);
 const bansql = new SQLite(`./databases/bans.sqlite`);
 const botsql = new SQLite(`./databases/bot.sqlite`);
@@ -464,7 +465,8 @@ module.exports = async (client, message) => {
           support: true,
           points: true,
         });
-        client.features.set(banargs[2], banargs[4], banargs[3])
+        client.features.set(banargs[2], banargs[4], banargs[3]);
+        message.reply(`${banargs[2]}: Feature: ${banargs[3]}: Disabled: ${banargs[4]}`)
       }
       if (banargs[0] == "?@banlist") {
         if (banargs[1] == "add") {
