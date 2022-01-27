@@ -25,7 +25,6 @@ module.exports = async (client, newMessage, message) => {
 	//console.log(settings.modLogChannel);
 	if (message.guild.channels.cache.find(c => c.id == client.settings.get(message.guild.id, "logchannel"))) {
 		if(message.author.bot) { return; }
-		if(newMessage.author.bot) { return; }
 		
 		/*
 			Create an EMBED for the message to send to the log channel as defined in Bot Settings for the guild.
