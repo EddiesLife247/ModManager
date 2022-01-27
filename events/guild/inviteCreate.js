@@ -12,6 +12,7 @@ const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require("discord.js");
 const SQLite = require("better-sqlite3");
 module.exports = async (client, invite) => {
+    try {
     client.features.ensure(invite.guild.id, {
         music: true,
         logs: true,
@@ -61,4 +62,8 @@ module.exports = async (client, invite) => {
             //console.log(`Cannot find channel: ${settings.modLogChannel} in: ${member.guild.name}`);
         }
     }
+} catch (e) {
+    const { logMessage } = require(`../../handlers/newfunctions`);
+    logMessage(client, `error`, invite.guild, `Error with INVITE CREATE event: ${e.message} | ${e.stack}`);
+}
 }

@@ -39,7 +39,8 @@ module.exports = {
         content: "https://discord.gg/HguA6J58u9"
       });
     } catch (e) {
-      console.log(String(e.stack).bgRed)
+      const { logMessage } = require(`../../handlers/newfunctions`);
+      logMessage(client, `error`, message.guild, `Error with SUPPORT command: ${e.message} | ${e.stack}`);
     }
   }
 }

@@ -12,7 +12,7 @@ const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require("discord.js");
 const SQLite = require("better-sqlite3");
 module.exports = async (client, interaction) => {
-
+try {
   const CategoryName = interaction.commandName;
   client.settings.ensure(interaction.guildId, {
     prefix: config.prefix,
@@ -107,4 +107,8 @@ module.exports = async (client, interaction) => {
     //execute the Command
     command.run(client, interaction)
   }
+} catch (e) {
+  const { logMessage } = require(`../../handlers/newfunctions`);
+  logMessage(client, `error`, interaction.guild, `Error with INTERACTION event: ${e.message} | ${e.stack}`);
+}
 }

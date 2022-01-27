@@ -133,7 +133,8 @@ module.exports = {
 					})
 				}
 			} catch (e) {
-				console.log(String(e.stack).bgRed)
+				const { logMessage } = require(`../../handlers/newfunctions`);
+				logMessage(client, `error`, message.guild, `Error with PLAYSKIP command: ${e.message} | ${e.stack}`);
 			}
 		}
 	}

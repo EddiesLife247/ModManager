@@ -9,6 +9,7 @@ const { onCoolDown, replacemsg } = require(`../../handlers/functions`);
 const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 module.exports = async (client, oldGuild, newGuild) => {
+    try {
     client.features.ensure(newGuild.id, {
         music: true,
         logs: true,
@@ -44,4 +45,8 @@ module.exports = async (client, oldGuild, newGuild) => {
         logMessage(client, "error", newGuild, `(name was: ${oldGuild.name}) Updated the server with error: ${err}`);
         //do nothing
     }
+} catch (e) {
+    const { logMessage } = require(`../../handlers/newfunctions`);
+    logMessage(client, `error`, newGuild, `Error with GUILD UPDATE event: ${e.message} | ${e.stack}`);
+}
 };

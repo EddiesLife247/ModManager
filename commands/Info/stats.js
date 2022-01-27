@@ -12,7 +12,8 @@ module.exports = {
   guildOnly: false,
   aliases: [],
   permLevel: "User",
-  async execute(Client, message, args) {
+  async execute(client, message, args) {
+    try {
     const duration = durationFormatter.format(client.uptime);
     const stats = codeBlock("asciidoc", `= STATISTICS =
   • Mem Usage  :: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB
@@ -23,6 +24,10 @@ module.exports = {
   • Discord.js :: v${version}
   • Node       :: ${process.version}`);
     message.channel.send(stats);
+    } catch (err) {
+      const { logMessage } = require(`../../handlers/newfunctions`);
+      logMessage(client, `error`, message.guild, `Error with INFO command: ${err.message} | ${err.stack}`);
+    }
   }
 
 };

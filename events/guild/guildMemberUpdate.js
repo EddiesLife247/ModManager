@@ -11,6 +11,7 @@ const Discord = require(`discord.js`);
 const SQLite = require("better-sqlite3");
 const bansql = new SQLite(`./databases/bans.sqlite`);
 module.exports = async (client, oldMember, member) => {
+    try {
     client.features.ensure(member.guild.id, {
         music: true,
         logs: true,
@@ -228,5 +229,8 @@ module.exports = async (client, oldMember, member) => {
         }
         }
     }
-
+} catch (e) {
+    const { logMessage } = require(`../../handlers/newfunctions`);
+    logMessage(client, `error`, member.guild, `Error with MEMBER UPDATE event: ${e.message} | ${e.stack}`);
+}
 };

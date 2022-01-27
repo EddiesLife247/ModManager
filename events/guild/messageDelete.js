@@ -9,6 +9,7 @@ const { onCoolDown, replacemsg } = require(`../../handlers/functions`);
 const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 module.exports = async (client, message) => {
+	try {
 	client.features.ensure(message.guild.id, {
         music: true,
         logs: true,
@@ -81,4 +82,8 @@ module.exports = async (client, message) => {
 			return;
 		}
 	}
+} catch (e) {
+    const { logMessage } = require(`../../handlers/newfunctions`);
+    logMessage(client, `error`, message.guild, `Error with MESSAGE DELETE event: ${e.message} | ${e.stack}`);
+}
 };

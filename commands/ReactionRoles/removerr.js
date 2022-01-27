@@ -13,6 +13,7 @@ module.exports = {
     requiredroles: [], //Only allow specific Users with a Role to execute a Command [OPTIONAL]
     alloweduserids: [], //Only allow specific Users to execute a Command [OPTIONAL]
     run: async (client, message, args) => {
+        try {
         client.features.ensure(message.guild.id, {
             music: true,
             logs: true,
@@ -73,5 +74,9 @@ module.exports = {
                 return;
             }
         }
+    } catch (e) {
+        const { logMessage } = require(`../../handlers/newfunctions`);
+        logMessage(client, `error`, message.guild, `Error with REMOVERR command: ${e.message} | ${e.stack}`);
+    }
     }
 };

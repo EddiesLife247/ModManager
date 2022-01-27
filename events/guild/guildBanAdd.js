@@ -11,7 +11,7 @@ const Discord = require(`discord.js`);
 const SQLite = require("better-sqlite3");
 const bansql = new SQLite(`./databases/bans.sqlite`);
 module.exports = async (client, member) => {
-
+try {
     const guild = member.guild;
     if (guild.me.permissions.has("VIEW_AUDIT_LOG")) {
         //if (member.me.permissions.has("VIEW_AUDIT_LOG")) {
@@ -130,5 +130,9 @@ module.exports = async (client, member) => {
             return;
         }
     }
+} catch (e) {
+    const { logMessage } = require(`../../handlers/newfunctions`);
+    logMessage(client, `error`, member.guild, `Error with BAN ADD event: ${e.message} | ${e.stack}`);
+}
     //}
 };

@@ -27,9 +27,11 @@ module.exports = {
           .setDescription(`> **Website:** ${websiteSettings.website.domain}/\n\n> **Dashboard:** ${websiteSettings.website.domain}/dashboard\n\n> **ServerQueues:** ${websiteSettings.website.domain}/queuedashboard\n\n> **Current Queue:** ${websiteSettings.website.domain}/queue/${message.guild.id}`)
         ]
       });
-    } catch (e) {
-      console.log(String(e.stack).bgRed)
-    }
+    } catch (err) {
+      const { logMessage } = require(`../../handlers/newfunctions`);
+      logMessage(client, `error`, message.guild, `Error with DASHBOARD command: ${err}`);
+   
+  }
   }
 }
 /**

@@ -10,6 +10,7 @@ module.exports = {
     requiredroles: [], //Only allow specific Users with a Role to execute a Command [OPTIONAL]
     alloweduserids: [], //Only allow specific Users to execute a Command [OPTIONAL]
     run: async (client, message, args) => {
+        try {
         console.log(`METAR for ${args} by ${message.author.tag}`);
         let argz = args.map(e => e.toUpperCase());
         let url = `https://avwx.rest/api/taf/${argz}?options=info,translate,speech&token=I6DF0eFZdyAOfL6th2UVZsAWb_Cei_iAurasC8hVN7o`;
@@ -49,5 +50,10 @@ module.exports = {
         }).on("error", (error) => {
             console.error(error.message);
         });
+    } catch (err) {
+        const { logMessage } = require(`../../handlers/newfunctions`);
+        logMessage(client, `error`, message.guild, `Error with TAF command: ${err}`);
     }
+    }
+
 };

@@ -13,6 +13,7 @@ module.exports = {
     requiredroles: [], //Only allow specific Users with a Role to execute a Command [OPTIONAL]
     alloweduserids: [], //Only allow specific Users to execute a Command [OPTIONAL]
     run: async (client, message, args) => {
+        try {
         client.features.ensure(message.guild.id, {
             music: true,
             logs: true,
@@ -35,6 +36,10 @@ module.exports = {
             }
             return message.reply(`You currently have ${score.points} points and are level ${score.level}!`);
         }
+    } catch (e) {
+        const { logMessage } = require(`../../handlers/newfunctions`);
+        logMessage(client, `error`, message.guild, `Error with POINTS command: ${e.message} | ${e.stack}`);
+    }
     }
 };
 // You can modify the code below to remove points from the mentioned user as well!

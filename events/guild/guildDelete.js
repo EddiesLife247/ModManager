@@ -14,6 +14,7 @@ const rrsql = new SQLite(`./databases/rr.sqlite`);
 const scresql = new SQLite(`./databases/scores.sqlite`);
 const bansql = new SQLite(`./databases/bans.sqlite`);
 module.exports = async (client, guild) => {
+  try {
   supsql.prepare(`DELETE FROM 'tickets' WHERE guild = '${guild.id}'`).run()
   rrsql.prepare(`DELETE FROM 'rrtable' WHERE guild = '${guild.id}'`).run()
   scresql.prepare(`DELETE FROM 'scores' WHERE guild = '${guild.id}'`).run()
@@ -56,4 +57,8 @@ module.exports = async (client, guild) => {
   if (client.settings.has(guild.id)) {
     client.settings.delete(guild.id);
   }
+} catch (e) {
+  const { logMessage } = require(`../../handlers/newfunctions`);
+  logMessage(client, `error`, guild, `Error with GUILD LEAVE event: ${e.message} | ${e.stack}`);
+}
 };

@@ -33,7 +33,8 @@ module.exports = {
                 message.reply(`<@${member}> has had the role <@${role}> added`)
 
             } catch (e) {
-                return message.channel.send(`**${e.message}**`)
+                const { logMessage } = require(`../../handlers/newfunctions`);
+                logMessage(client, `error`, message.guild, `Error with DELROLE command: ${e.message} | ${e.stack}`);
             }
         }
     }

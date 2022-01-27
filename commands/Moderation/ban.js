@@ -75,9 +75,10 @@ module.exports = {
             var sChannel = message.guild.channels.cache.get(channel)
             if (!sChannel) return;
             message.channel.send({ embeds: [embed] })
-        } catch (e) {
-            return message.channel.send(`**${e.message}**`)
-        }
+		} catch (e) {
+			const { logMessage } = require(`../../handlers/newfunctions`);
+			logMessage(client, `error`, message.guild, `Error with BAN command: ${e.message} | ${e.stack}`);
+		}
     }
 }
 }

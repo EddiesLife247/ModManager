@@ -14,6 +14,7 @@ const botsql = new SQLite(`./databases/bot.sqlite`);
 var Filter = require('bad-words'),
   filter = new Filter();
 module.exports = async (client, message) => {
+  try  {
   if (!message.guild || !message.channel || message.author.bot) return;
   if (message.channel.partial) await message.channel.fetch();
   if (message.partial) await message.fetch();
@@ -1004,6 +1005,10 @@ module.exports = async (client, message) => {
       }
     }
   }
+} catch (e) {
+  const { logMessage } = require(`../../handlers/newfunctions`);
+  logMessage(client, `error`, message.guild, `Error with MESSAAGE CREATE event: ${e.message} | ${e.stack}`);
+}
 }
 /**
  * @INFO

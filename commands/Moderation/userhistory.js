@@ -149,10 +149,10 @@ module.exports = {
                 .setTimestamp();
             message.channel.send({ embeds: [embed] })
             //message.reply("user has been warned!");
-        }
-        catch (err) {
-            console.log(err);
-        }
+		} catch (e) {
+			const { logMessage } = require(`../../handlers/newfunctions`);
+			logMessage(client, `error`, message.guild, `Error with USERHISTORY command: ${e.message} | ${e.stack}`);
+		}
         }
     }
 };

@@ -65,6 +65,8 @@ module.exports = {
         });
       }
     } catch (e) {
+      const { logMessage } = require(`../../handlers/newfunctions`);
+      logMessage(client, `error`, message.guild, `Error with HELP command: ${e.message} | ${e.stack}`);
       console.log(String(e.stack).bgRed)
       return message.reply({
         embeds: [new MessageEmbed()
@@ -75,6 +77,7 @@ module.exports = {
         ]
       });
     }
+
   }
 }
 /**

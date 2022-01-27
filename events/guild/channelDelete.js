@@ -9,6 +9,7 @@ const { onCoolDown, replacemsg } = require(`../../handlers/functions`);
 const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 module.exports = async (client, channel) => {
+    try {
     client.features.ensure(channel.guild.id, {
         music: true,
         logs: true,
@@ -79,4 +80,8 @@ module.exports = async (client, channel) => {
         //console.log(`pin updated in a guild that has logs disabled!`);
         return;
     }
+} catch (e) {
+    const { logMessage } = require(`../../handlers/newfunctions`);
+    logMessage(client, `error`, channel.guild, `Error with CHANNEL CREATE event: ${e.message} | ${e.stack}`);
+}
 };

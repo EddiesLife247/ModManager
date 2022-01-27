@@ -13,6 +13,7 @@ module.exports = {
     requiredroles: [], //Only allow specific Users with a Role to execute a Command [OPTIONAL]
     alloweduserids: [], //Only allow specific Users to execute a Command [OPTIONAL]
     run: async (client, message, args) => {
+        try {
         client.features.ensure(message.guild.id, {
             music: true,
             logs: true,
@@ -60,5 +61,9 @@ module.exports = {
 
             return message.channel.send(`${user.tag} has received ${pointsToAdd} points and now stands at ${userScore.points} points.`);
         }
+    } catch (e) {
+        const { logMessage } = require(`../../handlers/newfunctions`);
+        logMessage(client, `error`, message.guild, `Error with GIVEPOINTS command: ${e.message} | ${e.stack}`);
+    }
     }
 };

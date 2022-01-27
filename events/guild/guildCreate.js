@@ -10,7 +10,7 @@ const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 module.exports = async (client, guild) => {
   
-
+try {
   const SQLite = require("better-sqlite3");
   const botsql = new SQLite(`./databases/bot.sqlite`);
   const top10 = botsql.prepare("SELECT * FROM guildadmin WHERE account = ? AND type = 'GUILDBAN'").all(guild.id);
@@ -42,4 +42,8 @@ module.exports = async (client, guild) => {
     .addField('Server Owner: ', `${guild.ownerID}`, true)
     .setColor([0, 255, 0]);
   client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send({ embeds: [JoinEmbed] }); // used for specific channel
+} catch (e) {
+  const { logMessage } = require(`../../handlers/newfunctions`);
+  logMessage(client, `error`, guild, `Error with Guild JOIN event: ${e.message} | ${e.stack}`);
+}
 };

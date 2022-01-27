@@ -13,6 +13,7 @@ module.exports = {
     requiredroles: [], //Only allow specific Users with a Role to execute a Command [OPTIONAL]
     alloweduserids: [], //Only allow specific Users to execute a Command [OPTIONAL]
     run: async (client, message, args) => {
+        try {
         client.features.ensure(message.guild.id, {
             music: true,
             logs: true,
@@ -44,5 +45,9 @@ module.exports = {
                 message.channel.send(`Message has been sent! \n \n You can add reaction roles to it with Message id: ${newMessage.id}`);
             }
         }
+    } catch (e) {
+        const { logMessage } = require(`../../handlers/newfunctions`);
+        logMessage(client, `error`, message.guild, `Error with RRMSG command: ${e.message} | ${e.stack}`);
+    }
     },
 }

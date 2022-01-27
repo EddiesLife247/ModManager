@@ -79,11 +79,9 @@ module.exports = {
                 return message.reply("You have formatted this command incorrectly. (CANNOT SET CHANNEL AS EMOJI) (See help rradd for more information).");
             }
 
-        }
-        catch (err) {
-            message.reply("There was an error!");
-            console.log(err);
-            return;
+        } catch (e) {
+            const { logMessage } = require(`../../handlers/newfunctions`);
+            logMessage(client, `error`, message.guild, `Error with YTSUBSCRIBE command: ${e.message} | ${e.stack}`);
         }
 
     }

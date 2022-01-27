@@ -8,7 +8,7 @@ const rrsql = new SQLite(`./databases/rr.sqlite`);
 const Discord = require("discord.js");
 module.exports = async (client, reaction, user) => {
     //console.log(user);
-    
+    try {
     client.features.ensure(reaction.guildId, {
         music: true,
         logs: true,
@@ -56,7 +56,7 @@ module.exports = async (client, reaction, user) => {
         // DO SOMETHING WITH REACTION!
         //console.log(reaction);
         await reaction.message.guild.members.cache.get(user.id).roles.add(rr.role)
-        logMessage(client, "success", message.guild, `Message Reaction Add`);
+        logMessage(client, "success", reaction.message.guild, `Message Reaction Add`);
     }
     let emojicheck = `<:${reaction.emoji.name}:${reaction.emoji.id}>`
     // CHECK IF reaction role is added by non standard emoji
@@ -67,7 +67,7 @@ module.exports = async (client, reaction, user) => {
         //console.log(reaction);
 
         await reaction.message.guild.members.cache.get(user.id).roles.add(rr2.role)
-        logMessage(client, "success", message.guild, `Message Reaction Add`);
+        logMessage(client, "success", reaction.message.guild, `Message Reaction Add`);
     }
 
     // SUPPORT DESK MODULE
@@ -139,7 +139,10 @@ module.exports = async (client, reaction, user) => {
             });
 
         }
-        client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`\n \n ${reaction.message.guild.name} triggered event: messageReactionAdd Successfully`);
+        logMessage(client, `success`, reaction.message.guild, `Reaction Add Event`);
     }
-
+} catch (e) {
+    const { logMessage } = require(`../../handlers/newfunctions`);
+    logMessage(client, `error`, reaction.message.guild, `Error with REACTION ADD event: ${e.message} | ${e.stack}`);
+}
 };

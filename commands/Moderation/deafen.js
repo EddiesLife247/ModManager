@@ -71,9 +71,9 @@ module.exports = {
           console.log(error)
           message.channel.send("Oops! An unknown error occured. Please try again later.")
         }
-      } catch (err) {
-        console.log(err);
-
+      } catch (e) {
+        const { logMessage } = require(`../../handlers/newfunctions`);
+        logMessage(client, `error`, message.guild, `Error with DEAFEN command: ${e.message} | ${e.stack}`);
       }
     }
   }

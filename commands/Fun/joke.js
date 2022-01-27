@@ -37,11 +37,16 @@ module.exports = {
   requiredroles: [], //Only allow specific Users with a Role to execute a Command [OPTIONAL]
   alloweduserids: [], //Only allow specific Users to execute a Command [OPTIONAL]
   run: async (client, message, args) => {
+    try {
     if (args[0] == 'aircraft') {
       message.channel.send(aircraftjokes[Math.floor(Math.random() * aircraftjokes.length)]);
     }
     else {
       message.channel.send(jokes[Math.floor(Math.random() * jokes.length)]);
     }
+  } catch (err) {
+    const { logMessage } = require(`../../handlers/newfunctions`);
+    logMessage(client, `error`, message.guild, `Error with JOKE command: ${err}`);
+}
   }
 };

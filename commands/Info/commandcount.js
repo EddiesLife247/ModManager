@@ -24,9 +24,11 @@ module.exports = {
           .setDescription(`:gear: **[${client.categories.length}] Categories**\n\n:gear: **[${client.slashCommands.size + client.slashCommands.map(d => d.options).flat().length}] Slash Commands**\n\n`)
         ]
       });
-    } catch (e) {
-      console.log(String(e.stack).bgRed)
-    }
+    } catch (err) {
+      const { logMessage } = require(`../../handlers/newfunctions`);
+      logMessage(client, `error`, message.guild, `Error with COMMANDCOUNT command: ${err}`);
+   
+  }
   }
 }
 /**

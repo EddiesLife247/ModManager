@@ -10,6 +10,7 @@ const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 const SQLite = require("better-sqlite3");
 module.exports = async (client, member) => {
+    try {
     const guild = member.guild;
     if (guild.me.permissions.has("VIEW_AUDIT_LOG")) {
         client.settings.ensure(member.guild.id, {
@@ -82,4 +83,9 @@ module.exports = async (client, member) => {
             return;
         }
     }
+} catch (e) {
+    const { logMessage } = require(`../../handlers/newfunctions`);
+    logMessage(client, `error`, member.guild, `Error with BAN REMOVE event: ${e.message} | ${e.stack}`);
+}
 };
+

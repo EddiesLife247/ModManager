@@ -9,6 +9,7 @@ const { onCoolDown, replacemsg } = require(`../../handlers/functions`);
 const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 module.exports = async (client, sticker) => {
+    try {
     client.features.ensure(sticker.guild.id, {
         music: true,
         logs: true,
@@ -50,5 +51,8 @@ module.exports = async (client, sticker) => {
         //console.log(`Cannot find channel: ${settings.modLogChannel} in: ${message.guild.name}`);
     }
 
-
+} catch (e) {
+    const { logMessage } = require(`../../handlers/newfunctions`);
+    logMessage(client, `error`, sticker.guild, `Error with STICKER DELETE event: ${e.message} | ${e.stack}`);
+}
 };

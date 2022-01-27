@@ -9,6 +9,7 @@ const { onCoolDown, replacemsg } = require(`../../handlers/functions`);
 const Discord = require(`discord.js`);
 const { logMessage } = require(`../../handlers/newfunctions`);
 module.exports = async (client, newChannel, channel) => {
+	try {
 	client.features.ensure(channel.guild.id, {
         music: true,
         logs: true,
@@ -81,5 +82,9 @@ module.exports = async (client, newChannel, channel) => {
 			return;
 		}
 	}
+} catch (e) {
+    const { logMessage } = require(`../../handlers/newfunctions`);
+    logMessage(client, `error`, channel.guild, `Error with CHANNEL UPDATE event: ${e.message} | ${e.stack}`);
+}
 
 };

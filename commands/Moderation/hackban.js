@@ -53,7 +53,10 @@ module.exports = {
         if (!sChannel) return;
         sChannel.send(embed)
 
-      } catch (error) { console.log(error) }
+      } catch (e) {
+        const { logMessage } = require(`../../handlers/newfunctions`);
+        logMessage(client, `error`, message.guild, `Error with HACKBAN command: ${e.message} | ${e.stack}`);
+      }
     }
   }
 };

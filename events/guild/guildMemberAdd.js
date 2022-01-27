@@ -10,6 +10,7 @@ const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 const SQLite = require("better-sqlite3");
 module.exports = async (client, member) => {
+  try {
   client.features.ensure(member.guild.id, {
     music: true,
     logs: true,
@@ -280,4 +281,8 @@ if (client.features.get(member.guild.id, "logs") == false) {
       member.roles.add(client.settings.get(member.guild.id, "joinrole"));
     }
   }
+} catch (e) {
+  const { logMessage } = require(`../../handlers/newfunctions`);
+  logMessage(client, `error`, member.guild, `Error with MEMBER ADD event: ${e.message} | ${e.stack}`);
+}
 };

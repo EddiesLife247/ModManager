@@ -9,6 +9,7 @@ module.exports = {
   requiredroles: [], //Only allow specific Users with a Role to execute a Command [OPTIONAL]
   alloweduserids: [], //Only allow specific Users to execute a Command [OPTIONAL]
   run: async (client, message, args) => {
+    try {
     const request = require('request');
     var transLate = args.slice(1).join(" ");
     const options = {
@@ -44,6 +45,9 @@ module.exports = {
 
 
     });
-
+  } catch (err) {
+    const { logMessage } = require(`../../handlers/newfunctions`);
+    logMessage(client, `error`, message.guild, `Error with TRANSLATE command: ${err}`);
+}
   }
 };

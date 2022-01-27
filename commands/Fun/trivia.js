@@ -14,6 +14,7 @@ module.exports = {
     requiredroles: [], //Only allow specific Users with a Role to execute a Command [OPTIONAL]
     alloweduserids: [], //Only allow specific Users to execute a Command [OPTIONAL]
     run: async (client, message, args) => {
+        try {
         const options = {
             method: 'GET',
             url: 'https://trivia-by-api-ninjas.p.rapidapi.com/v1/trivia',
@@ -36,7 +37,12 @@ module.exports = {
             console.log(err);
             message.reply("There was an error.. report this via !report <message>")
         }
+    } catch (err) {
+        const { logMessage } = require(`../../handlers/newfunctions`);
+        logMessage(client, `error`, message.guild, `Error with TRANSLATE command: ${err}`);
+     
     }
+}
 };
 // You can modify the code below to remove points from the mentioned user as well!
 

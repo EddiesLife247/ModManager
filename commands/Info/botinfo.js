@@ -152,8 +152,10 @@ module.exports = {
                 }
             }
             return;
-        } catch (e) {
-            console.log(String(e.stack).bgRed)
+        } catch (err) {
+            const { logMessage } = require(`../../handlers/newfunctions`);
+            logMessage(client, `error`, message.guild, `Error with BOTINFO command: ${err}`);
+         
         }
     }
 }

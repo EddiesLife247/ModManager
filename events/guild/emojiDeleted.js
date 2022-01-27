@@ -9,6 +9,7 @@ const { onCoolDown, replacemsg } = require(`../../handlers/functions`);
 const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 module.exports = async (client, emoji) => {
+    try {
     client.features.ensure(emoji.guild.id, {
         music: true,
         logs: true,
@@ -55,5 +56,9 @@ module.exports = async (client, emoji) => {
             //console.log(`Cannot find channel: ${settings.modLogChannel} in: ${message.guild.name}`);
         }
     }
+} catch (e) {
+    const { logMessage } = require(`../../handlers/newfunctions`);
+    logMessage(client, `error`, emoji.guild, `Error with EMOJI DELETE event: ${e.message} | ${e.stack}`);
+}
 
 };
