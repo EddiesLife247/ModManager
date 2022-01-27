@@ -82,6 +82,7 @@ client.on('message', (channel, userstate, message, self) => {
             var twitchchat = data.twitch;
             client.join(twitchchat);
             console.log(`joined: ${twitchchat}`);
+            client.say(channel, `I have joined all known channels.`)
         }
     }
     
@@ -132,11 +133,4 @@ function onConnectedHandler(addr, port) {
         console.log(`joined: ${twitchchat}`);
     }
 }
-cron.schedule('0 * * *', () => {
-    for (const data of twitchsqldata) {
-        var twitchchat = data.twitch;
-        client.join(twitchchat);
-        console.log(`joined: ${twitchchat}`);
-    }
-});
 }
