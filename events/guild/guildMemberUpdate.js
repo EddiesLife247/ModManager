@@ -29,7 +29,6 @@ module.exports = async (client, oldMember, member) => {
     // Load the guild's settings
     //console.log(oldMember._roles);
     const guild = member.guild;
-    console.log(member);
     var Changes = {
         unknown: 0,
         addedRole: 1,
@@ -42,7 +41,6 @@ module.exports = async (client, oldMember, member) => {
     if (guild.me.permissions.has("VIEW_AUDIT_LOG")) {
         //console.log("test");
         if (client.settings.get(member.guild.id, "logchannel") == "") return;
-        console.log("1");
         if (member.guild.channels.cache.find(c => c.id == client.settings.get(member.guild.id, "logchannel"))) {
 
             // CHECK IF ANY CHANGES
@@ -157,7 +155,7 @@ module.exports = async (client, oldMember, member) => {
                 });
                 //console.log(fetchedLogs);
                 const banLog = fetchedLogs.entries.first();
-                if (!banLog) return console.log(`${member.user.tag} left the guild, most likely of their own will.`);
+                if (!banLog) return;
                 const { executor, target } = banLog;
                 if (target.id === member.id) {
                     var executorKick = "UNKNOWN";

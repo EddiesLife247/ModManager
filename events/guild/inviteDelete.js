@@ -24,7 +24,6 @@ module.exports = async (client, invite) => {
             logxhannel: [],
         })
         if (client.settings.get(invite.guild.id, "logchannel")) {
-            console.log(invite);
             const embed = new Discord.MessageEmbed()
                 .setAuthor(`Modlogs`, invite.guild.iconURL())
                 .setColor("#00ff00")

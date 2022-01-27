@@ -14,6 +14,7 @@ module.exports = async (client, thread) => {
             await thread.join();
         } catch (e) {
             console.log(e)
+            logMessage(client, "error", thread.guild, `Error at line 17: ${e} (threadCreate)`);
         }
     }
 

@@ -170,7 +170,6 @@ module.exports = async (client, member) => {
         member.roles.add(role.id);
         logMessage(client, "success", member.guild, `${member.user.tag} Attempted to join, but was removed due to Being Global Banned`);
       } else {
-        console.log(client.settings.get(member.guild.id, "globalbans"));
         if (client.settings.get(member.guild.id, "globalbans") == true) {
           // DO THIS
           if (!client.settings.get(guild.id, "staffchan").length === 0) {
@@ -248,7 +247,6 @@ module.exports = async (client, member) => {
     }
 
     if (!client.settings.get(member.guild.id, "staffchan") == null) {
-      console.log(client.settings.get(member.guild.id, "staffchan"))
       const staffchan = member.guild.channels.cache.find(c => c.id == client.settings.get(member.guild.id, "staffchan")).send({ embeds: [embed] });
     }
     else {

@@ -27,7 +27,6 @@ module.exports = async (client, newChannel, channel) => {
 			if (newChannel.topic != channel.topic) {
 				var topiclog = client.settings.get(channel.guild.id, "topicmodlogs");
 				if (topiclog == false) {
-					console.log("FALSE!");
 					var topicembed = false;
 					return;
 					// DO NOTHING ITS DISABLED

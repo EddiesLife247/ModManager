@@ -53,7 +53,6 @@ module.exports = async (client, message) => {
     if (client.settings.get(message.guild.id, "cooldown")) {
       //console.log("cooldown set!");
       const cooldown = client.settings.get(message.guild.id, "cooldown");
-      console.log(cooldown);
       if (msgCooldown(message, cooldown)) {
         //WARNING GOES HERE
         let banneduserId = message.author.id;
@@ -188,6 +187,7 @@ module.exports = async (client, message) => {
                 } catch (err) {
                   message.channel.send(`Please do not swear on this server! <@${message.author.id}> WARNING: ${KickCount.length + 1} /  ${client.settings.get(message.guild.id, "warnkick")}`);
                   console.log(err);
+                  logMessage(client, "error", message.guild, `Error at line 190: ${err} (messageCreate)`);
                   message.delete();
                   return;
                 }
@@ -250,6 +250,7 @@ module.exports = async (client, message) => {
             } catch (err) {
               message.channel.send(`Please do not send invites on this server! <@${message.author.id}> WARNING: ${KickCount.length + 1} /  ${client.settings.get(message.guild.id, "warnkick")}`);
               console.log(err);
+              logMessage(client, "error", message.guild, `Error at line 252: ${error} (messageCreate)`);
               message.delete();
             }
           }
@@ -262,6 +263,7 @@ module.exports = async (client, message) => {
           return;
         }
       } catch (e) {
+        logMessage(client, "error", message.guild, `Error at line 265: ${e} (messageCreate)`);
         console.log(e);
       }
     }
@@ -323,6 +325,7 @@ module.exports = async (client, message) => {
             } catch (err) {
               message.channel.send(`Please do not send links on this server! <@${message.author.id}> WARNING: ${KickCount.length + 1} /  ${client.settings.get(message.guild.id, "warnkick")}`);
               console.log(err);
+              logMessage(client, "error", message.guild, `Error at line 328: ${err} (messageCreate)`);
               message.delete();
               return;
             }
@@ -377,6 +380,7 @@ module.exports = async (client, message) => {
             } catch (err) {
               message.channel.send(`Please do not send NSFW links on this server! outside of NSFW channels <@${message.author.id}> WARNING: ${KickCount.length + 1} /  ${client.settings.get(message.guild.id, "warnkick")}`);
               console.log(err);
+              logMessage(client, "error", message.guild, `Error at line 383: ${err} (messageCreate)`);
               message.delete();
               return;
             }
@@ -662,6 +666,7 @@ module.exports = async (client, message) => {
           return;
         } catch (err) {
           console.log(err);
+          logMessage(client, "error", message.guild, `Error at line 669: ${err} (messageCreate)`);
           message.reply(`There was an error! - ${err}`)
           return
         }
@@ -675,6 +680,7 @@ module.exports = async (client, message) => {
           return;
         } catch (err) {
           console.log(err);
+          logMessage(client, "error", message.guild, `Error at line 682: ${err} (messageCreate)`);
           message.reply(`There was an error! - ${err}`)
           return
         }
@@ -778,7 +784,7 @@ module.exports = async (client, message) => {
           return
         } catch (err) {
           console.log(err);
-          logMessage(client, "error", message.guild, `${message.author.tag} Invite Error: ${err}`);
+          logMessage(client, "error", message.guild, `${message.author.tag} Error: 787 Invite Error: ${err}`);
           message.reply(`There was an error! - ${err}`)
           return
         }

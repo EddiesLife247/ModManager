@@ -53,7 +53,6 @@ module.exports = async (client, member) => {
             score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: kickReason, approved: 'KICK' };
             //user kicked log to kick logs
             const KickCount = bansql.prepare(`SELECT * FROM bans WHERE approved = 'KICK' AND user = ${member.id}  AND guild = ${member.guild.id}`).all();
-            console.log(KickCount);
             if (client.settings.get(member.guild.id, "kickban") == "0" || client.settings.get(member.guild.id, "kickban") == null) {
               client.addBan.run(score);
               logMessage(client, "success", member.guild, `${member.user.tag} was kicked, added to punsihment db`);
