@@ -46,7 +46,7 @@ module.exports = {
           .setColor(ee.color)
           .setThumbnail(ee.footericon)
           .setTitle("HELP MENU -><- Commands")
-          .setDescription(`**[Invite me with __Slash Commands__ Permissions](https://discord.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=8&scope=bot%20applications.commands), cause all of my Commands are available as Slash Commands too!**\n\n> [**Discord Support Server | Manu's Corner**](https://discord.gg/HguA6J58u9) \n \n Check out the [**Dashboard**](${websiteSettings.website.domain}/dashboard/${message.guild.id}) or the [**Live Music Queue**](${websiteSettings.website.domain}/queue/${message.guild.id})`)
+          .setDescription(`**[Invite me with __Slash Commands__ Permissions](https://discord.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=8&scope=bot%20applications.commands), cause all of my Commands are available as Slash Commands too!**\n\n> [**Discord Support Server | Manu's Corner**](https://discord.gg/HguA6J58u9) \n [**GitHub Full Command List**](https://github.com/Manumission247/ModManager/wiki/Commands) \n \n Check out the [**Dashboard**](${websiteSettings.website.domain}/dashboard/${message.guild.id}) or the [**Live Music Queue**](${websiteSettings.website.domain}/queue/${message.guild.id})`)
           .setFooter(`To see Command Description & Information, type: ${prefix}help [CMD NAME]`, ee.footericon);
         const commands = (category) => {
           return client.commands.filter((cmd) => cmd.category === category).map((cmd) => `\`${cmd.name}\``);
