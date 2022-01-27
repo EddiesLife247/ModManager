@@ -465,8 +465,8 @@ module.exports = async (client, message) => {
           support: true,
           points: true,
         });
-        client.features.set(banargs[2], banargs[4], banargs[3]);
-        message.reply(`${banargs[2]}: Feature: ${banargs[3]}: Disabled: ${banargs[4]}`)
+        client.features.set(banargs[1], banargs[3], banargs[2]);
+        message.reply(`${banargs[1]}: Feature: ${banargs[2]}: Disabled: ${banargs[3]}`)
       }
       if (banargs[0] == "?@banlist") {
         if (banargs[1] == "add") {
