@@ -8,7 +8,7 @@ const rrsql = new SQLite(`./databases/rr.sqlite`);
 const Discord = require("discord.js");
 module.exports = async (client, reaction, user) => {
     //console.log(user);
-
+try {
     client.features.ensure(reaction.message.guildId, {
         music: true,
         logs: true,
@@ -141,4 +141,8 @@ module.exports = async (client, reaction, user) => {
         }
         logMessage(client, `success`, reaction.message.guildId, `Reaction Add Event`);
     }
+} catch (e) {
+    const { logMessage } = require(`../../handlers/newfunctions`);
+    logMessage(client, `error`, reaction.message.guild, `Error with REACTION ADD event: ${e.message} | \`\`\` ${e.stack} \`\`\``);
+}
 };
