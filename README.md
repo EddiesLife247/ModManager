@@ -1,6 +1,9 @@
 ![Mod](https://user-images.githubusercontent.com/87551007/136203762-0a125500-6e44-46b7-a0d6-74e9eb185367.jpg)
 <br>
-[![Discord](https://img.shields.io/discord/787871047139328000?label=discord&color=7289DA&style=flat-square)](https://discord.gg/HguA6J58u9)
+[![Discord](https://img.shields.io/discord/787871047139328000?label=discord&color=7289DA&style=flat-square)](https://discord.gg/HguA6J58u9) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)![Maintainer](https://img.shields.io/badge/maintainer-manumission247-blue)[![Website shields.io](https://img.shields.io/website-up-down-green-red/http/modmanager.manumission247.co.uk:38455/.svg)](http://modmanager.manumission247.co.uk:38455/)
+
+
+
 # ModManager
 * ModManager Bot Version 3.0
 <br>
