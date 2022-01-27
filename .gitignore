@@ -4,6 +4,7 @@
 /sounds/**
 !/sounds/putmusichere.mp3
 botconfig/config.json
+dashboard/settings.json
 # Logs
 logs
 *.log

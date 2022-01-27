@@ -5,7 +5,7 @@
   },
   "config": {
     "http": {
-      "port": 38456
+      "port": 38455
     },
     "https": {
       "paths": {
@@ -14,7 +14,7 @@
         "chain": "/etc/letsencrypt/live/manumission247.co.uk/chain.pem"
       },
       "enabled": true,
-      "port": 38455
+      "port": 38456
     },
     "callback": "http://modmanager.manumission247.co.uk:38455/callback",
     "clientID": "714939771935522838",
