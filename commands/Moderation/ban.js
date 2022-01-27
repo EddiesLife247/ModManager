@@ -12,6 +12,19 @@ module.exports = {
     requiredroles: [], //Only allow specific Users with a Role to execute a Command [OPTIONAL]
     alloweduserids: [], //Only allow specific Users to execute a Command [OPTIONAL]
     run: async (client, message, args) => {
+        client.features.ensure(guild.id, {
+            music: true,
+            logs: true,
+            reactionroles: true,
+            moderation: true,
+            fun: true,
+            youtube: false,
+            support: true,
+            points: true,
+          });
+        if(client.features.get(message.guild.id, "moderation") == false) {
+            return;
+          }
         try {
             /*if (!message.member.permissions.has([Permissions.FLAGS.KICK_MEMBERS, Permissions.FLAGS.BAN_MEMBERS]) && !ownerID .includes(message.author.id)) return message.channel.send("**You Dont Have The Permissions To Ban Users! - [BAN_MEMBERS]**");
             if (!message.guild.me.hasPermission("BAN_MEMBERS")) return message.channel.send("**I Dont Have The Permissions To Ban Users! - [BAN_MEMBERS]**");

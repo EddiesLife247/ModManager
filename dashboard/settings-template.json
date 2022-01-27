@@ -19,5 +19,6 @@
     "callback": "",
     "clientID": "",
     "secret": ""
-  }
+  },
+  "session": ""
 }

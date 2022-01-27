@@ -108,6 +108,7 @@ client.allEmojis = require("./botconfig/emojis.json");
 const { logMessage, refreshPunishDB } = require(`./handlers/newfunctions`);
 client.setMaxListeners(100); require('events').defaultMaxListeners = 100;
 client.settings = new Enmap({ name: "settings", dataDir: "./databases/settings" });
+client.features = new Enmap({ name: "features", dataDir: "./databases/features" });
 client.infos = new Enmap({ name: "infos", dataDir: "./databases/infos" });
 // CRON JOB SETTINGS
 

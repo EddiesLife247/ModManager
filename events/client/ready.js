@@ -24,6 +24,19 @@ module.exports = client => {
     rrsql.pragma("synchronous = 1");
     rrsql.pragma("journal_mode = wal");
   }
+  /* Adding Feature options and ability for the future to make items subscription enabled */
+  const featuresql = new SQLite(`./databases/features.sqlite`);
+  const featuretable = featuresql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'features';").get();
+  if (!featuretable['count(*)']) {
+    // If the table isn't there, create it and setup the database correctly.
+    featuresql.prepare("CREATE TABLE features (id TEXT PRIMARY KEY, feature TEXT, guild TEXT, premium TEXT, status TEXT);").run();
+    // Ensure that the "id" row is always unique and indexed.
+    featuresql.prepare("CREATE UNIQUE INDEX idx_features_id ON features (id);").run();
+    featuresql.pragma("synchronous = 1");
+    featuresql.pragma("journal_mode = wal");
+  }
+  // END NEW FEATURE
+  
   const supsql = new SQLite(`./databases/support.sqlite`);
   const suptable = supsql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'tickets';").get();
   if (!suptable['count(*)']) {

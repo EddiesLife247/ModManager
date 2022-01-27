@@ -54,32 +54,42 @@
                                                     Default Settings
                                                 </a>
                                                 <a class="list-group-item list-group-item-action" data-bs-toggle="list"
-                                                    href="#music" role="tab" aria-controls="music">
-                                                    Music Settings
+                                                href="#features" role="tab" aria-controls="features">
+                                                Features
+                                            </a>
+                                            <a class="list-group-item list-group-item-action" data-bs-toggle="list"
+                                            href="#Features" role="tab" aria-controls="Features">
+                                            Extra Feature Settings
+                                        </a>
+                                                <a class="list-group-item list-group-item-action" data-bs-toggle="list"
+                                                    href="#mus" role="tab" aria-controls="music">
+                                                    Music Settings | <%= botClient.features.get(guild.id, 'music' ) ? `Enabled`
+                                                    : `Disabled` %>
                                                 </a>
                                                 <a class="list-group-item list-group-item-action" data-bs-toggle="list"
-                                                    href="#Moderation" role="tab" aria-controls="Moderation">
-                                                    Moderation Settings
-                                                </a>
-                                                <a class="list-group-item list-group-item-action" data-bs-toggle="list"
-                                                    href="#Features" role="tab" aria-controls="Features">
-                                                    Extra Feature Settings
+                                                    href="#mod" role="tab" aria-controls="Moderation">
+                                                    Moderation Settings | <%= botClient.features.get(guild.id, 'moderation' ) ? `Enabled`
+                                                    : `Disabled` %>
                                                 </a>
                                                 <a class="list-group-item list-group-item-action" data-bs-toggle="list"
                                                     href="#reactionrole" role="tab" aria-controls="reactionrole">
-                                                    Reaction Role Settings
+                                                    Reaction Role Settings | <%= botClient.features.get(guild.id, 'reactionroles' ) ? `Enabled`
+                                                    : `Disabled` %>
                                                 </a>
                                                 <a class="list-group-item list-group-item-action" data-bs-toggle="list"
-                                                    href="#youtube" role="tab" aria-controls="youtube">
-                                                    YouTube Feed Settings
+                                                    href="#utube" role="tab" aria-controls="utube">
+                                                    YouTube Feed Settings | <%= botClient.features.get(guild.id, 'youtube' ) ? `Enabled`
+                                                    : `Disabled` %>
                                                 </a>
                                                 <a class="list-group-item list-group-item-action" data-bs-toggle="list"
-                                                    href="#points" role="tab" aria-controls="points">
-                                                    Points Settings
+                                                    href="#xp" role="tab" aria-controls="xp">
+                                                    Points Settings | <%= botClient.features.get(guild.id, 'points' ) ? `Enabled`
+                                                    : `Disabled` %>
                                                 </a>
                                                 <a class="list-group-item list-group-item-action" data-bs-toggle="list"
-                                                    href="#support" role="tab" aria-controls="support">
-                                                    Support Desk Settings
+                                                    href="#help" role="tab" aria-controls="help">
+                                                    Support Desk Settings | <%= botClient.features.get(guild.id, 'support' ) ? `Enabled`
+                                                    : `Disabled` %>
                                                 </a>
 
                                             </div>
@@ -158,10 +168,119 @@
                                         </select>
                                     </div>
                                 </div>
-
-                                <div class="tab-pane fade show" id="music" role="tabpanel"
+                                <div class="tab-pane fade show" id="features" role="tabpanel"
                                     aria-labelledby="list-home-list">
-                                    <div class="accordion" id="music">
+                                    <div class="accordion" id="features">
+                                        <h3>Toggle Features</h3>
+                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">
+                                            Music:</h5>
+                                        <p style="font-style: italic;" class="disabled">Enable the Music Bot commands and Features</p>
+                                            <div class="form-check form-switch">
+                                                &nbsp;&nbsp;<input class="form-check-input" type="checkbox"
+                                                    name="music" id="music"
+                                                    style="zoom:2;margin-left: auto;margin-top: auto;margin: auto;"
+                                                    <%=botClient.features.get(guild.id, 'music' ) ? "checked" : "" %>
+                                                >
+    
+                                                <label class="form-check-label" for="music">
+                                                    <%= botClient.features.get(guild.id, 'music' ) ? "Enabled"
+                                                        : "Disabled" %>
+                                                        (Updates on Save)
+                                                </label>
+    
+                                            </div>
+
+                                            <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">
+                                                Moderation:</h5>
+                                            <p style="font-style: italic;" class="disabled">Enable the Moderation Features, if this is disabled punishments will be recorded but no action will be taken from the bot for any moderation activits.</p>
+                                                <div class="form-check form-switch">
+                                                    &nbsp;&nbsp;<input class="form-check-input" type="checkbox"
+                                                        name="moderation" id="moderation"
+                                                        style="zoom:2;margin-left: auto;margin-top: auto;margin: auto;"
+                                                        <%=botClient.features.get(guild.id, 'moderation' ) ? "checked" : "" %>
+                                                    >
+        
+                                                    <label class="form-check-label" for="moderation">
+                                                        <%= botClient.features.get(guild.id, 'moderation' ) ? "Enabled"
+                                                            : "Disabled" %>
+                                                            (Updates on Save)
+                                                    </label>
+        
+                                                </div>
+                                                <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">
+                                                    Reaction Roles:</h5>
+                                                <p style="font-style: italic;" class="disabled">Enable Reaction Roles on the server</p>
+                                                    <div class="form-check form-switch">
+                                                        <input class="form-check-input" type="checkbox"
+                                                            name="reactionroles" id="reactionroles"
+                                                            style="zoom:2;margin-left: auto;margin-top: auto;margin: auto;"
+                                                            <%=botClient.features.get(guild.id, 'reactionroles' ) ? "checked" : "" %>
+                                                        >
+            
+                                                        <label class="form-check-label" for="reactionroles">
+                                                            <%= botClient.features.get(guild.id, 'reactionroles' ) ? "Enabled"
+                                                                : "Disabled" %>
+                                                                (Updates on Save)
+                                                        </label>
+            
+                                                    </div>
+                                                    <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">
+                                                        YouTube Notifications:</h5>
+                                                    <p style="font-style: italic;" class="disabled">Enables the YouTube Notifications</p>
+                                                        <div class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox" disabled="true"
+                                                                name="youtube" id="youtube"
+                                                                style="zoom:2;margin-left: auto;margin-top: auto;margin: auto;"
+                                                                <%=botClient.features.get(guild.id, 'youtube' ) ? "checked" : "" %>
+                                                            >
+                
+                                                            <label class="form-check-label" for="youtube">
+                                                                <%= botClient.features.get(guild.id, 'youtube' ) ? "Enabled"
+                                                                    : "Disabled" %>
+                                                                    (Updates on Save)
+                                                            </label>
+                
+                                                        </div>
+                                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">
+                                                            XP Points:</h5>
+                                                        <p style="font-style: italic;" class="disabled">Enable the XP Point System</p>
+                                                            <div class="form-check form-switch">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    name="points" id="points"
+                                                                    style="zoom:2;margin-left: auto;margin-top: auto;margin: auto;"
+                                                                    <%=botClient.features.get(guild.id, 'points' ) ? "checked" : "" %>
+                                                                >
+                    
+                                                                <label class="form-check-label" for="points">
+                                                                    <%= botClient.features.get(guild.id, 'points' ) ? "Enabled"
+                                                                        : "Disabled" %>
+                                                                        (Updates on Save)
+                                                                </label>
+                    
+                                                            </div>
+                                                            <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">
+                                                                Support Desk:</h5>
+                                                            <p style="font-style: italic;" class="disabled">Enable the Support Desk</p>
+                                                                <div class="form-check form-switch">
+                                                                    <input class="form-check-input" type="checkbox"
+                                                                        name="support" id="support"
+                                                                        style="zoom:2;margin-left: auto;margin-top: auto;margin: auto;"
+                                                                        <%=botClient.features.get(guild.id, 'support' ) ? "checked" : "" %>
+                                                                    >
+                        
+                                                                    <label class="form-check-label" for="support">
+                                                                        <%= botClient.features.get(guild.id, 'support' ) ? "Enabled"
+                                                                            : "Disabled" %>
+                                                                            (Updates on Save)
+                                                                    </label>
+                        
+                                                                </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane fade show" id="mus" role="tabpanel"
+                                    aria-labelledby="list-home-list">
+                                    <div class="accordion" id="mus">
                                         <h3>Music</h3>
                                         <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">
                                             Random Playlist</h5>
@@ -181,6 +300,7 @@
                                                 <%= botClient.settings.get(guild.id, 'defaultautoplay' ) ? "Enabled"
                                                     : "Disabled" %> (Updates on Save)
                                             </label>
+                                            
 
                                         </div>
 
@@ -235,9 +355,9 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade show" id="Moderation" role="tabpanel"
+                                <div class="tab-pane fade show" id="mod" role="tabpanel"
                                     aria-labelledby="list-home-list">
-                                    <div class="accordion" id="Moderation">
+                                    <div class="accordion" id="mod">
                                         <h3>Moderation</h3><br />
                                         <h4>Logs And Staff Channels</h4>
                                         <p>The Following settings define what channels we send messages to.</p>
@@ -589,18 +709,18 @@
 
                                     </div>
                                 </div>
-                                <div class="tab-pane fade show" id="youtube" role="tabpanel"
+                                <div class="tab-pane fade show" id="utube" role="tabpanel"
                                     aria-labelledby="list-home-list">
-                                    <div class="accordion" id="youtube">
+                                    <div class="accordion" id="utube">
                                         <h3>YouTube Feeds</h3>
                                         <p>Feature Comming Soon!</p>
                                         <br><br>
 
                                     </div>
                                 </div>
-                                <div class="tab-pane fade show" id="points" role="tabpanel"
+                                <div class="tab-pane fade show" id="xp" role="tabpanel"
                                     aria-labelledby="list-home-list">
-                                    <div class="accordion" id="points">
+                                    <div class="accordion" id="xp">
                                         <h3>Point Based Settings</h3>
                                         <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">Leveling
                                             Difficulty:
@@ -654,9 +774,9 @@
 
                                     </div>
                                 </div>
-                                <div class="tab-pane fade show" id="support" role="tabpanel"
+                                <div class="tab-pane fade show" id="help" role="tabpanel"
                                     aria-labelledby="list-home-list">
-                                    <div class="accordion" id="support">
+                                    <div class="accordion" id="help">
                                         <h3>Support Settings</h3>
                                         <p>To use Support tickets you must have a category named: "Support", this is
                                             used to sort the tickets into the category.</p>

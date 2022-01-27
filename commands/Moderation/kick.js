@@ -9,6 +9,19 @@ module.exports = {
   requiredroles: [], //Only allow specific Users with a Role to execute a Command [OPTIONAL]
   alloweduserids: [], //Only allow specific Users to execute a Command [OPTIONAL]
   run: async (client, message, args) => {
+    client.features.ensure(guild.id, {
+      music: true,
+      logs: true,
+      reactionroles: true,
+      moderation: true,
+      fun: true,
+      youtube: false,
+      support: true,
+      points: true,
+    });
+  if(client.features.get(message.guild.id, "moderation") == false) {
+      return;
+    }
     const modRole = message.guild.roles.cache.find(role => role.name === "Mods");
     if (!modRole)
       return console.log("The Mods role does not exist");

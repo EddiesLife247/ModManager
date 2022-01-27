@@ -20,7 +20,21 @@ module.exports = {
 	requiredroles: [], //Only allow specific Users with a Role to execute a Command [OPTIONAL]
 	alloweduserids: [], //Only allow specific Users to execute a Command [OPTIONAL]
 	run: async (client, message, args) => {
+		client.features.ensure(guild.id, {
+			music: true,
+			logs: true,
+			reactionroles: true,
+			moderation: true,
+			fun: true,
+			youtube: false,
+			support: true,
+			points: true,
+		  });
+		if(client.features.get(message.guild.id, "music") == false) {
+			return;
+		  }
 		try {
+
 			//things u can directly access in an interaction!
 			const {
 				member,

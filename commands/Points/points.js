@@ -13,6 +13,19 @@ module.exports = {
     requiredroles: [], //Only allow specific Users with a Role to execute a Command [OPTIONAL]
     alloweduserids: [], //Only allow specific Users to execute a Command [OPTIONAL]
     run: async (client, message, args) => {
+        client.features.ensure(guild.id, {
+            music: true,
+            logs: true,
+            reactionroles: true,
+            moderation: true,
+            fun: true,
+            youtube: false,
+            support: true,
+            points: true,
+          });
+        if(client.features.get(message.guild.id, "points") == false) {
+            return;
+          }
         client.getScore = sql.prepare("SELECT * FROM scores WHERE user = ? AND guild = ?");
         client.setScore = sql.prepare("INSERT OR REPLACE INTO scores (id, user, guild, points, level) VALUES (@id, @user, @guild, @points, @level);");
         let score;

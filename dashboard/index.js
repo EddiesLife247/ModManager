@@ -51,7 +51,7 @@ module.exports = client => {
    */
   app.use(session({
     store: new MemoryStore({ checkPeriod: 86400000 }),
-    secret: `#@%#&^$^$%@$^$&%#$%@#$%$^%&$%^#$%@#$%#E%#%@$FEErfgr3g#%GT%536c53cc6%5%tv%4y4hrgrggrgrgf4n`,
+    secret: settings.session,
     resave: false,
     saveUninitialized: false,
   }));
@@ -557,6 +557,18 @@ module.exports = client => {
   app.get("/dashboard/:guildID", checkAuth, async (req, res) => {
     // We validate the request, check if guild exists, member is in guild and if member has minimum permissions, if not, we redirect it back.
     const guild = client.guilds.cache.get(req.params.guildID);
+    // feature end point code
+    client.features.ensure(guild.id, {
+      music: true,
+      logs: true,
+      reactionroles: true,
+      moderation: true,
+      fun: true,
+      youtube: false,
+      support: true,
+      points: true,
+    });
+    // end feature end point code
     if (!guild) return res.redirect("/dashboard?error=" + encodeURIComponent("Can't get Guild Information Data"));
     let member = guild.members.cache.get(req.user.id);
     if (!member) {
@@ -884,9 +896,40 @@ module.exports = client => {
     } else {
       welcomemsg = 'NO MESSAGE';
     }
+    console.log(req.body.moderation);
     if (req.body.logchannel) client.settings.set(guild.id, req.body.logchannel, "logchannel")
     if (req.body.randomtopic) client.settings.set(guild.id, req.body.randomtopic, "randomtopic")
     if (req.body.qotdchannel) client.settings.set(guild.id, req.body.qotdchannel, "qotdchannel")
+    if (req.body.music) {
+      client.features.set(guild.id, true, "music")
+    } else {
+      client.features.set(guild.id, false, "music")
+    }
+    if (req.body.moderation) {
+      client.features.set(guild.id, true, "moderation")
+    } else {
+      client.features.set(guild.id, false, "moderation")
+    }
+    if (req.body.reactionroles) {
+      client.features.set(guild.id, true, "reactionroles")
+    } else {
+      client.features.set(guild.id, false, "reactionroles")
+    }
+    if (req.body.youtube) {
+      client.features.set(guild.id, true, "youtube")
+    } else {
+      client.features.set(guild.id, false, "youtube")
+    }
+    if (req.body.points) {
+      client.features.set(guild.id, true, "points")
+    } else {
+      client.features.set(guild.id, false, "points")
+    }
+    if (req.body.support) {
+      client.features.set(guild.id, true, "support")
+    } else {
+      client.features.set(guild.id, false, "support")
+    }
     if (req.body.levelupchan) {
       client.settings.set(guild.id, req.body.levelupchan, "levelupchan")
       levelupchan = req.body.levelupchan;

@@ -394,6 +394,19 @@ module.exports = async (client, message) => {
   client.setScore = sql.prepare("INSERT OR REPLACE INTO scores (id, user, guild, points, level) VALUES (@id, @user, @guild, @points, @level);");
 
   // POINTS CODE
+  client.features.ensure(guild.id, {
+    music: true,
+    logs: true,
+    reactionroles: true,
+    moderation: true,
+    fun: true,
+    youtube: false,
+    support: true,
+    points: true,
+  });
+if(client.features.get(message.guild.id, "points") == false) {
+    
+  } else {
   let score = client.getScore.get(message.author.id, message.guild.id);
   if (!score) {
     score = {
@@ -432,7 +445,7 @@ module.exports = async (client, message) => {
     }
   }
   client.setScore.run(score);
-
+  }
   // ADMINISTRATOR COMMANDS
 
   if (message.guild.id == "787871047139328000") {
