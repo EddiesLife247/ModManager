@@ -9,7 +9,7 @@ const Discord = require("discord.js");
 module.exports = async (client, reaction, user) => {
     //console.log(user);
     
-    client.features.ensure(reaction.guild.id, {
+    client.features.ensure(reaction.guildId, {
         music: true,
         logs: true,
         reactionroles: true,
@@ -19,7 +19,7 @@ module.exports = async (client, reaction, user) => {
         support: true,
         points: true,
     });
-    if (client.features.get(reaction.guild.id, "reactionroles") == false) {
+    if (client.features.get(reaction.guildId, "reactionroles") == false) {
         return;
     }
     if (user.bot) {
