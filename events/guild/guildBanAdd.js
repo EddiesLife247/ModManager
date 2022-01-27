@@ -6,6 +6,7 @@ const config = require(`../../botconfig/config.json`);
 const ee = require(`../../botconfig/embed.json`);
 const settings = require(`../../botconfig/settings.json`);
 const { onCoolDown, replacemsg } = require(`../../handlers/functions`);
+const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 const SQLite = require("better-sqlite3");
 const bansql = new SQLite(`./databases/bans.sqlite`);
@@ -75,21 +76,21 @@ module.exports = async (client, member) => {
                     let banApproved = "GLOBAL"
                     score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: banReason, approved: banApproved };
                     client.addBan.run(score);
-                    client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send(`New Global ban from \n \n ${member.guild.name} - Nitro Reason`);
+                    logMessage(client, "success", member.guild, "Global Ban Added - Scams/Nitro");
                 } else {
                     let banid = Math.floor(Math.random() * 9999999999) + 25;
                     let banReason = banLog.reason
                     let banApproved = "PENDING"
                     score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: banReason, approved: banApproved };
                     client.addBan.run(score);
-                    client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send(`New Global PENDING ban from \n \n ${member.guild.name}`);
+                    logMessage(client, "success", member.guild, `New Global PENDING ban from \n \n ${member.guild.name}`);
                 }
             }
             if (member.guild.channels.cache.find(c => c.id == client.settings.get(member.guild.id, "logchannel"))) {
-                member.guild.channels.cache.find(c => c.id == client.settings.get(member.guild.id, "logchannel")).send('Ban added to database.');
+                member.guild.channels.cache.find(c => c.id == client.settings.get(member.guild.id, "logchannel")).send('Ban added to punishment database and will be reviewed by bot staff shortly');
             }
             //console.log(`Found log channel and sent message: ${settings.modLogChannel} in ${member.guild.id}`);
-            client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`\n \n ${member.guild.name} triggered GuildBanAdd: Successfully`);
+            logMessage(client, "success", member.guild, `New Local ban from \n \n ${member.guild.name}`);
 
         }
         else {
@@ -98,7 +99,7 @@ module.exports = async (client, member) => {
             let banApproved = "LOCAL"
             score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: banReason, approved: banApproved };
             client.addBan.run(score);
-            client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send(`New LOCAL BAN from \n \n ${member.guild.name} - No Audit Log Permissions`);
+            logMessage(client, "successfully with issues", member.guild, `New Local ban - NO AUDIT PERMISSIONS from \n \n ${member.guild.name}`);
 
             //console.log(`member joined guild that has logs disabled!`);
             return;

@@ -6,6 +6,7 @@ const config = require(`../../botconfig/config.json`);
 const ee = require(`../../botconfig/embed.json`);
 const settings = require(`../../botconfig/settings.json`);
 const { onCoolDown, replacemsg } = require(`../../handlers/functions`);
+const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 module.exports = async (client, channel) => {
     const guild = channel.guild;
@@ -54,12 +55,14 @@ module.exports = async (client, channel) => {
                 .setTimestamp();
             if (channel.guild.channels.cache.find(c => c.id == client.settings.get(channel.guild.id, "logchannel"))) {
                 channel.guild.channels.cache.find(c => c.id == client.settings.get(channel.guild.id, "logchannel")).send({ embeds: [embed] });
-                client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`\n \n ${channel.guild.name} triggered channelDelete: Successfully`);
+                logMessage(client, "success", channel.guild, "Channel Deleted Log Message");
             }
             //console.log(`pin updated in a guild that has logs enabled!`);
         }
     }
     else {
+        logMessage(client, "Logs Disabled", channel.guild, "Channel Deleted Log Message");
+
         //console.log(`pin updated in a guild that has logs disabled!`);
         return;
     }

@@ -6,6 +6,7 @@ const config = require(`../../botconfig/config.json`);
 const ee = require(`../../botconfig/embed.json`);
 const settings = require(`../../botconfig/settings.json`);
 const { onCoolDown, replacemsg } = require(`../../handlers/functions`);
+const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 module.exports = async (client, guild) => {
 
@@ -17,7 +18,7 @@ module.exports = async (client, guild) => {
       const channel = guild.channels.cache.filter(m => m.type === 'GUILD_TEXT').first();
       channel.send(`Sorry, ModManager is not permitted to join this server for: \`\`\`${data.reason} \`\`\` Contact support if you think this is an error: https://discord.gg/ZqUSVpDcRq`)
       client.guilds.cache.get(guild.id).leave()
-      client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`I was added to ${guild.id} But have been denied from this server by bot staff`);
+      logMessage(client, "success", guild, `Joined and Left due to Guild Ban for reason: ${data.reason}`);
     }
   }
 

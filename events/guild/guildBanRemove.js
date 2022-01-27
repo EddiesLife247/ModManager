@@ -6,6 +6,7 @@ const config = require(`../../botconfig/config.json`);
 const ee = require(`../../botconfig/embed.json`);
 const settings = require(`../../botconfig/settings.json`);
 const { onCoolDown, replacemsg } = require(`../../handlers/functions`);
+const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 const SQLite = require("better-sqlite3");
 module.exports = async (client, member) => {
@@ -26,8 +27,7 @@ module.exports = async (client, member) => {
         globalBanned = client.getBanned.get(member.user.id, member.guild.id);
         if (globalBanned) {
             bansql.prepare(`DELETE FROM 'bans' WHERE user = '${member.user.id}' AND guild = '${member.guild.id}'`).run()
-            client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send(`Ban for ${globalBanned.user} on ${member.guild.name} has been removed by a guild moderator.`);
-            client.users.cache.get(member.user.id).send(`Ban on ${member.guild.name} has been removed by a moderator.`);
+            logMessage(client, "success", member.guild, "Global Ban Removed and Deleted from Punishment DB by Guild");
         }
         // Load the guild's settings
         //console.log("UnBan Detected!");
@@ -61,10 +61,11 @@ module.exports = async (client, member) => {
 
             member.guild.channels.cache.find(c => c.id == client.settings.get(member.guild.id, "logchannel")).send({ embeds: [embed] });
             //console.log(`Found log channel and sent message: ${settings.modLogChannel} in ${member.guild.id}`);
-            client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`\n \n ${member.guild.name} triggered event: GuildBanRemove Successfully`);
+            logMessage(client, "success", member.guild, "Local Ban Removed and Deleted from Punishment DB by Guild");
 
         }
         else {
+            logMessage(client, "failed", member.guild, "Global Ban Removal");
             //console.log(`member joined guild that has logs disabled!`);
             return;
         }

@@ -6,6 +6,7 @@ const config = require(`../../botconfig/config.json`);
 const ee = require(`../../botconfig/embed.json`);
 const settings = require(`../../botconfig/settings.json`);
 const { onCoolDown, replacemsg } = require(`../../handlers/functions`);
+const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 module.exports = async (client, oldState, newState) => {
   //console.log(channel.guild.channels.cache.find(c => c.name == settings.modLogChannel));
@@ -24,6 +25,7 @@ module.exports = async (client, oldState, newState) => {
       .setTimestamp();
     if (oldState.guild.channels.cache.find(c => c.id == client.settings.get(oldState.guild.id, "logchannel"))) {
       oldState.guild.channels.cache.find(c => c.id == client.settings.get(oldState.guild.id, "logchannel")).send({ embeds: [embed] });
+      logMessage(client, "success", oldState.guild, `Voice Connection Left`);
     }
   } else {
     if (oldState.channelId == undefined) {
@@ -39,6 +41,7 @@ module.exports = async (client, oldState, newState) => {
         .setTimestamp();
       if (oldState.guild.channels.cache.find(c => c.id == client.settings.get(oldState.guild.id, "logchannel"))) {
         oldState.guild.channels.cache.find(c => c.id == client.settings.get(oldState.guild.id, "logchannel")).send({ embeds: [embed] });
+        logMessage(client, "success", oldState.guild, `Voice Connection Joined`);
       }
     }
   }

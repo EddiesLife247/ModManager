@@ -6,6 +6,7 @@ const config = require(`../../botconfig/config.json`);
 const ee = require(`../../botconfig/embed.json`);
 const settings = require(`../../botconfig/settings.json`);
 const { onCoolDown, replacemsg } = require(`../../handlers/functions`);
+const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 const SQLite = require("better-sqlite3");
 const bansql = new SQLite(`./databases/bans.sqlite`);
@@ -29,9 +30,19 @@ module.exports = async (client, oldMember, member) => {
     //console.log(oldMember._roles);
     const guild = member.guild;
     console.log(member);
+    var Changes = {
+        unknown: 0,
+        addedRole: 1,
+        removedRole: 2,
+        username: 3,
+        nickname: 4,
+        avatar: 5
+    }
+    var change = Changes.unknown
     if (guild.me.permissions.has("VIEW_AUDIT_LOG")) {
         //console.log("test");
         if (client.settings.get(member.guild.id, "logchannel") == "") return;
+        console.log("1");
         if (member.guild.channels.cache.find(c => c.id == client.settings.get(member.guild.id, "logchannel"))) {
 
             // CHECK IF ANY CHANGES
@@ -84,7 +95,7 @@ module.exports = async (client, oldMember, member) => {
                         .addField("**Executor**", `${executorKick}`, true)
                         .addField("**Reason**", `${banLog.reason}`)
                         .setTimestamp();
-                    member.guild.channels.cache.find(c => c.id == client.settings.get(member.guild.id, "logchannel")).send({ embeds: [embed] });
+                        logMessage(client, "success", member.guild, "Member Timeout Removed Log Message");
                 }
                 return;
             }
@@ -121,46 +132,89 @@ module.exports = async (client, oldMember, member) => {
                     let banApproved = "TIMEOUT"
                     score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: banReason, approved: banApproved };
                     client.addBan.run(score);
-                    client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`\n \n ${member.guild.name} triggered event: Timeout Successfully`);
+                    logMessage(client, "success", member.guild, "Member Timeout Log Message");
                 }
                 return;
 
             }
-            if (oldMember._roles == member._roles) {
-                var roleChange = `No Role Changes`;
-            } else {
-                var oldRoles = ' - ';
-                oldMember._roles.forEach(roledata => {
-                    var role = member.guild.roles.cache.find(r => r.id == roledata);
-                    oldRoles += `>${role.name} \n`;
-
+            var removedRole = ''
+            oldMember.roles.cache.forEach((value) => {
+                if (!member.roles.cache.find((role) => role.id === value.id)) {
+                 removedRole = value.name;
+                }
+               });
+        
+            var addedRole = ''
+            member.roles.cache.forEach((value) => {
+                if (!oldMember.roles.cache.find((role) => role.id === value.id)) {
+                 addedRole = value.name;
+                }
+               });
+            if (member.guild.channels.cache.find(c => c.id == client.settings.get(member.guild.id, "logchannel"))) {
+                const fetchedLogs = await member.guild.fetchAuditLogs({
+                    limit: 1,
+                    type: 'MEMBER_UPDATE',
                 });
-                var newRoles = ' - ';
-                member._roles.forEach(roledata => {
-                    var role = member.guild.roles.cache.find(r => r.id == roledata);
-                    newRoles += `>${role.name} \n`;
-                });
-            }
-
-            const embed = new Discord.MessageEmbed()
-                .setAuthor(`Modlogs`, member.guild.iconURL())
+                //console.log(fetchedLogs);
+                const banLog = fetchedLogs.entries.first();
+                if (!banLog) return console.log(`${member.user.tag} left the guild, most likely of their own will.`);
+                const { executor, target } = banLog;
+                if (target.id === member.id) {
+                    var executorKick = "UNKNOWN";
+                }
+                else {
+                    var executorKick = executor.tag;
+                }
+            if(removedRole == addedRole) {
+                var roles = "No Roles Changed"
+                const embed = new Discord.MessageEmbed()
                 .setColor("#ff0000")
-                .setFooter(member.guild.name, member.guild.iconURL())
                 .setTitle("**Moderation** - Member Updated")
-                .addField("**Member**", `>*${member.user.tag}*`, true)
-                .addField("**Avatar Changes:**", `>*${avatarChange}*`, true)
-                .addField("**Username Changes:**", `>*${usernameChange}*`, true)
-                .addField("**Discrimintor Changes:**", `>*${discriminatorChange}*`, true)
-                .addField("**Nickname Changes:**", `>*${nicknameChange}*`, true)
-            if (roleChange == "") {
-                embed.addField("**Old Roles:**", `>*${oldRoles}*`, true)
-                    .addField("**New Roles:**", `>*${newRoles}*`, true)
+                .addField("**Member**", `*${member.user.tag}*`, true)
+                .addField("**Avatar Changes:**", `*${avatarChange}*`, true)
+                .addField("**Username Changes:**", `*${usernameChange}*`, true)
+                .addField("**Discrimintor Changes:**", `*${discriminatorChange}*`, true)
+                .addField("**Nickname Changes:**", `*${nicknameChange}*`, true)
+                .addField("**Role Changes**", `${roles}`, true)
+                .addField("**Executor**", `${executorKick}`, true)
+                .setTimestamp();
+                member.guild.channels.cache.find(c => c.id == client.settings.get(member.guild.id, "logchannel")).send({ embeds: [embed] });
+                logMessage(client, "success", member.guild, "Member Updated Log Message");
+            } else {
+                if(addedRole) {
+                    const embed = new Discord.MessageEmbed()
+                    .setColor("#ff0000")
+                    .setTitle("**Moderation** - Member Updated")
+                    .addField("**Member**", `*${member.user.tag}*`, true)
+                    .addField("**Avatar Changes:**", `*${avatarChange}*`, true)
+                    .addField("**Username Changes:**", `*${usernameChange}*`, true)
+                    .addField("**Discrimintor Changes:**", `*${discriminatorChange}*`, true)
+                    .addField("**Nickname Changes:**", `*${nicknameChange}*`, true)
+                    .addField("**Added Roles**", `${addedRole}`, true)
+                    .addField("**Executor**", `${executorKick}`, true)
+                    .setTimestamp();
+                    member.guild.channels.cache.find(c => c.id == client.settings.get(member.guild.id, "logchannel")).send({ embeds: [embed] });
+                    logMessage(client, "success", member.guild, "Member Updated (add role) Log Message");
+                }
+                if(removedRole) {
+                    const embed = new Discord.MessageEmbed()
+                    .setColor("#ff0000")
+                    .setTitle("**Moderation** - Member Updated")
+                    .addField("**Member**", `>*${member.user.tag}*`, true)
+                    .addField("**Avatar Changes:**", `>*${avatarChange}*`, true)
+                    .addField("**Username Changes:**", `>*${usernameChange}*`, true)
+                    .addField("**Discrimintor Changes:**", `>*${discriminatorChange}*`, true)
+                    .addField("**Nickname Changes:**", `>*${nicknameChange}*`, true)
+                    .addField("**Removed Roles**", `>${removedRole}`, true)
+                    .addField("**Executor**", `${executorKick}`, true)
+                    .setTimestamp();
+                    member.guild.channels.cache.find(c => c.id == client.settings.get(member.guild.id, "logchannel")).send({ embeds: [embed] });
+                    logMessage(client, "success", member.guild, "Member Updated (remove role) Log Message");
+                }
+
+
             }
-            embed.setTimestamp();
-            member.guild.channels.cache.find(c => c.id == client.settings.get(member.guild.id, "logchannel")).send({ embeds: [embed] });
-            client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`\n \n ${member.guild.name} triggered event: GuildMemberUpdate Successfully`);
-            //client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`\n \n ${member.guild.name} triggered event: GuildMemberUpdate Successfully`);
-            //console.log(`Found log channel and sent message: ${settings.modLogChannel} in ${member.guild.id}`);
+        }
         }
     }
 

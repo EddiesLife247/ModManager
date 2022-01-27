@@ -6,6 +6,7 @@ const config = require(`../../botconfig/config.json`);
 const ee = require(`../../botconfig/embed.json`);
 const settings = require(`../../botconfig/settings.json`);
 const { onCoolDown, replacemsg } = require(`../../handlers/functions`);
+const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 module.exports = async (client, thread) => {
     if (thread.joinable) {
@@ -33,7 +34,7 @@ module.exports = async (client, thread) => {
             .setTimestamp();
 
         thread.guild.channels.cache.find(c => c.id == client.settings.get(thread.guild.id, "logchannel")).send({ embeds: [embed] });
-        client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`\n \n ${thread.guild.name} triggered event: ThreadCreate Successfully`);
+        logMessage(client, "success", thread.guild, "Thread Created");
         //client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`\n \n ${message.guild.name} triggered event: MessageDelete Successfully`);
         //console.log(`Found log channel and sent message: ${settings.modLogChannel} in ${message.guild.id}`);
     } else {

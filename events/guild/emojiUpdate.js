@@ -6,6 +6,7 @@ const config = require(`../../botconfig/config.json`);
 const ee = require(`../../botconfig/embed.json`);
 const settings = require(`../../botconfig/settings.json`);
 const { onCoolDown, replacemsg } = require(`../../handlers/functions`);
+const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 module.exports = async (client, oldEmoji, newEmoji) => {
     const guild = oldEmoji.guild;
@@ -34,10 +35,11 @@ module.exports = async (client, oldEmoji, newEmoji) => {
                 .setTimestamp();
 
             newEmoji.guild.channels.cache.find(c => c.id == client.settings.get(newEmoji.guild.id, "logchannel")).send({ embeds: [embed] });
-            client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`\n \n ${newEmoji.guild.name} triggered event: EmojiUpdated Successfully`);
+            logMessage(client, "success", emoji.guild, "Emoji Update Log Message");
             //client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`\n \n ${message.guild.name} triggered event: MessageDelete Successfully`);
             //console.log(`Found log channel and sent message: ${settings.modLogChannel} in ${message.guild.id}`);
         } else {
+            logMessage(client, "Logs Disabled", emoji.guild, "Emoji Update Log Message");
             //console.log(`Cannot find channel: ${settings.modLogChannel} in: ${message.guild.name}`);
         }
     }

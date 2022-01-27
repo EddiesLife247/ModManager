@@ -6,6 +6,7 @@ const config = require(`../../botconfig/config.json`);
 const ee = require(`../../botconfig/embed.json`);
 const settings = require(`../../botconfig/settings.json`);
 const { onCoolDown, replacemsg } = require(`../../handlers/functions`);
+const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 const SQLite = require("better-sqlite3");
 const bansql = new SQLite(`./databases/bans.sqlite`);
@@ -55,6 +56,7 @@ module.exports = async (client, member) => {
             console.log(KickCount);
             if (client.settings.get(member.guild.id, "kickban") == "0" || client.settings.get(member.guild.id, "kickban") == null) {
               client.addBan.run(score);
+              logMessage(client, "success", member.guild, `${member.user.tag} was kicked, added to punsihment db`);
             }
             else if (KickCount.length > client.settings.get(member.guild.id, "kickban")) {
               //member = await member.guild.members.cache.get(member.id);
@@ -65,6 +67,7 @@ module.exports = async (client, member) => {
               client.addBan = bansql.prepare("INSERT INTO bans (id, user, guild, reason, approved, appealed, date, length) VALUES (@id, @user, @guild, @reason, @approved, 'No', datetime('now'), 60);");
               score = { id: `${member.id}-${banid}`, user: member.id, guild: member.guild.id, reason: banReason, approved: banApproved };
               client.addBan.run(score);
+              logMessage(client, "success", member.guild, `${member.user.tag} was kicked and banned, added to punsihment db`);
               return;
 
             } else {
@@ -88,7 +91,7 @@ module.exports = async (client, member) => {
         .setTimestamp();
       if (member.guild.channels.cache.find(c => c.id == client.settings.get(member.guild.id, "logchannel"))) {
         member.guild.channels.cache.find(c => c.id == client.settings.get(member.guild.id, "logchannel")).send({ embeds: [embed] });
-        client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`\n \n ${member.guild.name} triggered event: GuildMemberRemove Successfully`);
+        logMessage(client, "success", member.guild, `${member.user.tag} left the server. (Log message)`);
         //client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`\n \n ${message.guild.name} triggered event: GuildMemberRemove Successfully`);
         //console.log(`Found log channel and sent message: ${settings.modLogChannel} in ${member.guild.id}`);
       } else {

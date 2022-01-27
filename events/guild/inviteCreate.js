@@ -8,6 +8,7 @@ const config = require(`../../botconfig/config.json`);
 const ee = require(`../../botconfig/embed.json`);
 const settings = require(`../../botconfig/settings.json`);
 const { onCoolDown, replacemsg } = require("../../handlers/functions");
+const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require("discord.js");
 const SQLite = require("better-sqlite3");
 module.exports = async (client, invite) => {
@@ -42,7 +43,7 @@ module.exports = async (client, invite) => {
             if (invite.guild.channels.cache.find(c => c.id == client.settings.get(invite.guild.id, "logchannel"))) {
                 invite.guild.channels.cache.find(c => c.id == client.settings.get(invite.guild.id, "logchannel")).send({ embeds: [embed] });
             }
-            client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`\n \n ${invite.guild.name} triggered event: InviteCreate Successfully`);
+            logMessage(client, "success", invite.guild, `New Invite Code Created`);
             //console.log(`Found log channel and sent message: ${settings.modLogChannel} in ${member.guild.id}`);
         } else {
             //console.log(`Cannot find channel: ${settings.modLogChannel} in: ${member.guild.name}`);

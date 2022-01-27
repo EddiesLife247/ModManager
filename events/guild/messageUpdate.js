@@ -6,6 +6,7 @@ const config = require(`../../botconfig/config.json`);
 const ee = require(`../../botconfig/embed.json`);
 const settings = require(`../../botconfig/settings.json`);
 const { onCoolDown, replacemsg } = require(`../../handlers/functions`);
+const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 module.exports = async (client, newMessage, message) => {
 	//console.log(message);
@@ -36,9 +37,8 @@ module.exports = async (client, newMessage, message) => {
 			var pinned = true
 		}
 		const embed = new Discord.MessageEmbed()
-			.setAuthor(`Modlogs`, newMessage.guild.iconURL())
 			.setColor("#ff0000")
-			.setFooter(newMessage.guild.name, newMessage.guild.iconURL())
+			.setFooter({text: `${newMessage.guild.name}`})
 			.setTitle("**Moderation** - Message Edited")
 			.addField('Author', `<@${message.author.id}>`, true)
 			.addField('Channel', newMessage.channel.name, true)
@@ -51,8 +51,11 @@ module.exports = async (client, newMessage, message) => {
 
 
 		message.guild.channels.cache.find(c => c.id == client.settings.get(message.guild.id, "logchannel")).send({ embeds: [embed] });
+		logMessage(client, "success", message.guild, "message update");
+		/*
 		client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`\n \n ${message.guild.name} triggered event: messageUpdate Successfully`);
 		//client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`\n \n ${message.guild.name} triggered event: MessageUpdate Successfully`);
+		*/
 	}
 	//Logging Disabled do nothing.
 

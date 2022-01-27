@@ -6,6 +6,7 @@ const config = require(`../../botconfig/config.json`);
 const ee = require(`../../botconfig/embed.json`);
 const settings = require(`../../botconfig/settings.json`);
 const { onCoolDown, replacemsg } = require(`../../handlers/functions`);
+const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 module.exports = async (client, oldGuild, newGuild) => {
     try {
@@ -24,9 +25,10 @@ module.exports = async (client, oldGuild, newGuild) => {
                 .addField("**Premium Tier Now**", `${newGuild.premiumTier}`, true)
                 .setTimestamp();
             newGuild.channels.cache.find(c => c.id == client.settings.get(newGuild.id, "logchannel")).send({ embeds: [embed] });
-            client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`\n \n  ${newGuild.name} triggered guildUpdate: (name was: ${oldGuild.name}) Successfully`);
+            logMessage(client, "success", newGuild, `Updated Server! (name was: ${oldGuild.name})`);
         }
     } catch (err) {
+        logMessage(client, "error", newGuild, `Updated Server error! (name was: ${oldGuild.name}) Error was: ${err}`);
         //do nothing
     }
 };

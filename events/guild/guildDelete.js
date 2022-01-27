@@ -6,6 +6,7 @@ const config = require(`../../botconfig/config.json`);
 const ee = require(`../../botconfig/embed.json`);
 const settings = require(`../../botconfig/settings.json`);
 const { onCoolDown, replacemsg } = require(`../../handlers/functions`);
+const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 const SQLite = require("better-sqlite3");
 const supsql = new SQLite(`./databases/support.sqlite`);
@@ -45,7 +46,7 @@ module.exports = async (client, guild) => {
 
     }
     bansql.prepare(`DELETE FROM 'bans' WHERE guild = '${guild.id}'`).run()
-    client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`Punishments on ${guild.name} has been removed as the bot has been removed.`);
+    logMessage(client, "success", guild, `Left a discord server, Bans Deleted.`);
   }
   //logger.log(`[GUILD LEAVE] ${guild.id} removed the bot.`);
 

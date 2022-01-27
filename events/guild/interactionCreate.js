@@ -8,6 +8,7 @@ const config = require(`../../botconfig/config.json`);
 const ee = require(`../../botconfig/embed.json`);
 const settings = require(`../../botconfig/settings.json`);
 const { onCoolDown, replacemsg } = require("../../handlers/functions");
+const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require("discord.js");
 const SQLite = require("better-sqlite3");
 module.exports = async (client, interaction) => {

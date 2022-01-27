@@ -6,6 +6,7 @@ const config = require(`../../botconfig/config.json`);
 const ee = require(`../../botconfig/embed.json`);
 const settings = require(`../../botconfig/settings.json`);
 const { onCoolDown, replacemsg } = require(`../../handlers/functions`);
+const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 const SQLite = require("better-sqlite3");
 module.exports = async (client, member) => {
@@ -151,7 +152,7 @@ module.exports = async (client, member) => {
       if (acceptedtrust >= trustlevel) {
         await member.send(`Sorry you do not meet the acceptable trust level requirements for this server! The reasons you did not meet this requirement were: ${reason}`);
         member.kick(`[AUTO] User does not meet accepted trust level for this server.`);
-        client.guilds.cache.get("787871047139328000").channels.cache.find(c => c.id == "901905815810760764").send(`${member.user.tag} has joined a server with a trustlevel lower than the accepted trust level and has been kicked`);
+        logMessage(client, "success", member.guild, `${member.user.tag} Attempted to join, but was removed due to LOW trust Level: ${trustLevel} with accepted Trust level: ${acceptedtrust}`);
 
       }
     } else {
@@ -167,8 +168,7 @@ module.exports = async (client, member) => {
         //if so set their role to the "GLOBAL BANNED" role.
         var role = member.guild.roles.cache.find(role => role.id === "901933035342159932");
         member.roles.add(role.id);
-        client.guilds.cache.get("787871047139328000").channels.cache.find(c => c.id == "901905815810760764").send(`${member.user.tag} has joined and has been global banned. They can now only see <#901932935517704203>`);
-
+        logMessage(client, "success", member.guild, `${member.user.tag} Attempted to join, but was removed due to Being Global Banned`);
       } else {
         console.log(client.settings.get(member.guild.id, "globalbans"));
         if (client.settings.get(member.guild.id, "globalbans") == true) {
@@ -241,7 +241,7 @@ module.exports = async (client, member) => {
     //console.log(`member joined guild that has logs enabled!`);
     if (member.guild.channels.cache.find(c => c.id == client.settings.get(member.guild.id, "logchannel"))) {
       member.guild.channels.cache.find(c => c.id == client.settings.get(member.guild.id, "logchannel")).send({ embeds: [embed] });
-      client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`\n \n ${member.guild.name} triggered event: GuildMemberAdd Successfully`);
+      logMessage(client, "success", member.guild, `${member.user.tag} Joined a discord server.`);
       //console.log(`Found log channel and sent message: ${settings.modLogChannel} in ${member.guild.id}`);
     } else {
       //console.log(`Cannot find channel: ${settings.modLogChannel} in: ${member.guild.name}`);

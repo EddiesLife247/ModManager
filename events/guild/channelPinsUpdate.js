@@ -7,6 +7,7 @@ const ee = require(`../../botconfig/embed.json`);
 const settings = require(`../../botconfig/settings.json`);
 const { onCoolDown, replacemsg } = require(`../../handlers/functions`);
 const Discord = require(`discord.js`);
+const { logMessage } = require(`../../handlers/newfunctions`);
 module.exports = async (client, channel) => {
   const guild = channel.guild;
   if (guild.me.permissions.has("VIEW_AUDIT_LOG")) {
@@ -33,11 +34,12 @@ module.exports = async (client, channel) => {
         .setTimestamp();
       if (channel.guild.channels.cache.find(c => c.id == client.settings.get(channel.guild.id, "logchannel"))) {
         channel.guild.channels.cache.find(c => c.id == client.settings.get(channel.guild.id, "logchannel")).send({ embeds: [embed] });
-        client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`\n \n ${channel.guild.name} triggered channelPinUpdate: Successfully`);
+        logMessage(client, "success", channel.guild, "Channel Pins Log Message");
       }
       //console.log(`pin updated in a guild that has logs enabled!`);
     }
     else {
+      logMessage(client, "Logs Disabled", channel.guild, "Channel Pins Log Message");
       //console.log(`pin updated in a guild that has logs disabled!`);
       return;
     }

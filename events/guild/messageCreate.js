@@ -3,6 +3,7 @@ const config = require(`../../botconfig/config.json`);
 const ee = require(`../../botconfig/embed.json`);
 const settings = require(`../../botconfig/settings.json`);
 const { onCoolDown, replacemsg, msgCooldown } = require(`../../handlers/functions`);
+const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 const SQLite = require("better-sqlite3");
 const joke = require("../../slashCommands/Fun/joke");
@@ -586,7 +587,7 @@ module.exports = async (client, message) => {
             client.addBan = bansql.prepare(`UPDATE bans SET approved = 'GLOBAL' WHERE id = '${bannedId}';`).run();
             message.reply(`User : ${data.user} had their global ban approved..`)
             client.users.cache.find(user => user.id === data.user).send(`Your recent bans been marked as GLOBAL \n \n Moderators of servers you join will be notified for ${data.length} days that you were punished, To appeal join: https://discord.gg/ZqUSVpDcRq`);
-            client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`<@${message.author.id}> has marked a punishment on user: <@${data.user}> as aprooved`);
+            logMessage(client, "success", message.guild, `<@${message.author.id}> has marked a punishment on user: <@${data.user}> as aprooved`);
             return;
           }
         } else if (banargs[1] == "deny") {
@@ -596,7 +597,7 @@ module.exports = async (client, message) => {
             client.addBan = bansql.prepare(`UPDATE bans SET approved = 'LOCAL' WHERE id = '${bannedId}';`).run();
             message.reply(`User : ${data.user} had their global ban denied, set to LOCAL..`)
             client.users.cache.find(user => user.id === data.user).send(`Your recent bans been marked as LOCAL \n \n Moderators of servers you join will be notified for ${data.length} days that you were punished, To appeal join: https://discord.gg/ZqUSVpDcRq`);
-            client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`<@${message.author.id}> has marked a punishment on user: <@${data.user}> as denied`);
+            logMessage(client, "success", message.guild, `<@${message.author.id}> has marked a punishment on user: <@${data.user}> as denied`);
             return;
           }
         } else if (banargs[1] == "remove") {
@@ -606,7 +607,7 @@ module.exports = async (client, message) => {
             client.addBan = bansql.prepare(`UPDATE bans SET appealed = 'Yes' WHERE id = '${bannedId}';`).run();
             message.reply(`User : ${data.user} had their global ban marked as appealed.`)
             client.users.cache.find(user => user.id === data.user).send(`Your punishment appeal has been successful \n \n Moderators of servers you join will still be notified for ${data.length} days that you were banned, and then appealed a ban.`);
-            client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`<@${message.author.id}> has marked a punishment on user: <@${data.user}> as successfully appealed`);
+            logMessage(client, "success", message.guild, `<@${message.author.id}> has marked a punishment on user: <@${data.user}> as appealed`);
             return;
           }
         } else if (banargs[1] == "resetuser") {
@@ -616,7 +617,7 @@ module.exports = async (client, message) => {
             bansql.prepare(`DELETE FROM 'bans' WHERE user = '${bannedId}'`).run()
           }
           message.reply(`**WARNING** User : ${bannedId} has had **ALL** there punishment DELETED.`);
-          client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`<@${message.author.id}> has deleted all punishment on user: <@${bannedId}>`);
+          logMessage(client, "success", message.guild, `<@${message.author.id}> has deleted all punishment on user: <@${bannedId}>`);
           return;
         } else if (banargs[1] == "delete") {
           const bannedId = banargs[2];
@@ -624,7 +625,7 @@ module.exports = async (client, message) => {
           for (const data of top10) {
             bansql.prepare(`DELETE FROM 'bans' WHERE ID = '${data.id}'`).run()
             message.reply(`**WARNING** User : ${data.user} has had there punishment DELETED.`);
-            client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`<@${message.author.id}> has deleted a punishment on user: <@${data.user}>`);
+            logMessage(client, "success", message.guild, `<@${message.author.id}> has deleted a punishment on user: <@${bannedId}>`);
             return;
           }
         } else if (banargs[1] == "refresh") {
@@ -637,16 +638,17 @@ module.exports = async (client, message) => {
             if (lengthleft == 0) {
               bansql.prepare(`DELETE FROM 'bans' WHERE ID = '${data.id}'`).run()
               console.log(`${data.user} deleted.`)
-              client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`Ban on ${data.user} has expired in our database.`);
+              logMessage(client, "success", message.guild, `Ban on ${data.user} has expired in our database.`);
             } else {
               bansql.prepare(`UPDATE 'bans' SET length = '${lengthleft}' WHERE ID = '${data.id}'`).run()
               console.log(`${data.user} now has ${lengthleft} days left.`)
-              client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`Entry on ${data.user} now has ${lengthleft} day(s) left of their ${data.approved} entry.`);
+              logMessage(client, "success", message.guild, `Entry on ${data.user} now has ${lengthleft} day(s) left of their ${data.approved} entry.`);
             }
           }
           return;
         } else {
-          message.reply("SYNTAX FOR BANLIST MANAGEMENT: \n ?@banlist add <user> <guild> <type> <length> <reason> \n ?@banlist edit <user> <type/length/reason> \n ?@banlist user <userid> (Lists a users punishments) \n ?@banlist guild <guildid> (Lists all guild's punishments) \n ?@banlist local (lists all Local Bans) \n ?@banlist appealed (Lists all Appealed Bans \n ?@banlist global (Lists all global ) \n  ?@banlist pending (Lists all pending bans) \n ?@banlist approve <banid> (Sets a pending ban to global) \n ?@banlist deny <banid> (Sets a pending ban to local) \n ?@banlist remove <banid> (Sets a ban as appealed> \n ?@banlist delete <banid> (Delets the ban from the DB)")
+          message.reply("SYNTAX FOR BANLIST MANAGEMENT: \n ?@banlist add <user> <guild> <type> <length> <reason> \n ?@banlist edit <user> <type/length/reason> \n ?@banlist user <userid> (Lists a users punishments) \n ?@banlist guild <guildid> (Lists all guild's punishments) \n ?@banlist local (lists all Local Bans) \n ?@banlist appealed (Lists all Appealed Bans \n ?@banlist global (Lists all global ) \n  ?@banlist pending (Lists all pending bans) \n ?@banlist approve <banid> (Sets a pending ban to global) \n ?@banlist deny <banid> (Sets a pending ban to local) \n ?@banlist remove <banid> (Sets a ban as appealed> \n ?@banlist delete <banid> (Delets the ban from the DB)");
+          logMessage(client, "success", message.guild, `${message.author.tag}  Admin Command Attempted but Failed`);
           return;
         }
       }
@@ -691,6 +693,7 @@ module.exports = async (client, message) => {
             score = { id: `${bannedbanid2}`, account: banargs[2], type: 'GUILDBAN', reason: bannedreason };
             client.addBan.run(score);
             message.reply(`**GUILD BAN**I will no longer join Guild iD: ${banargs[2]} for reason: ${bannedreason}`)
+            logMessage(client, "success", message.guild, `${message.author.tag}  **GUILD BAN**I will no longer join Guild iD: ${banargs[2]} for reason: ${bannedreason}`);
             return;
           } catch (err) {
             console.log(err);
@@ -701,6 +704,7 @@ module.exports = async (client, message) => {
         else if (banargs[1] == "remove") {
           client.addBan = botsql.prepare(`DELETE FROM guildadmin WHERE account = '${banargs[2]}'`).run();
           message.reply(`I will now accept invites to join Guild: ${banargs[2]}`)
+          logMessage(client, "success", message.guild, `${message.author.tag}  **GUILD BAN**I will now join Guild iD: ${banargs[2]}`);
           return;
 
         }
@@ -715,6 +719,7 @@ module.exports = async (client, message) => {
             embed.addField("**Reason**", `${data.reason}`, true)
           }
           message.channel.send({ embeds: [embed] });
+          logMessage(client, "success", message.guild, `${message.author.tag}  **GUILD BAN** Listed Guild Bans`);
           return;
         }
       }
@@ -727,7 +732,8 @@ module.exports = async (client, message) => {
             client.addBan = botsql.prepare("INSERT INTO guildadmin (id, account, reason, type) VALUES (@id, @account, @reason, @type);");
             score = { id: `${bannedbanid2}`, account: banargs[2], type: 'DASHBLOCK', reason: bannedreason };
             client.addBan.run(score);
-            message.reply(`I will no longer allow: ${banargs[2]} to login to the dashboard for reason: ${bannedreason}`)
+            message.reply(`I will no longer allow: ${banargs[2]} to login to the dashboard for reason: ${bannedreason}`);
+            logMessage(client, "success", message.guild, `${message.author.tag}  I will no longer allow: ${banargs[2]} to login to the dashboard for reason: ${bannedreason}`);
             return;
           } catch (err) {
             console.log(err);
@@ -737,10 +743,11 @@ module.exports = async (client, message) => {
         } else if (banargs[1] == "unblock") {
           client.addBan = botsql.prepare(`DELETE FROM guildadmin WHERE account = '${banargs[2]}'`).run();
           message.reply(`I will now re-allow: ${banargs[2]} to login to the dashboard`)
+          logMessage(client, "success", message.guild, `${message.author.tag}  I will now allow: ${banargs[2]} to login to the dashboard`);
           return;
         }
         else if (banargs[1] == "list") {
-          const top10 = botsql.prepare(`SELECT * FROM guildadmin WHERE type = 'GUILDBAN'`).all();
+          const top10 = botsql.prepare(`SELECT * FROM guildadmin WHERE type = 'DASHBLOCK'`).all();
           const embed = new Discord.MessageEmbed()
             .setTitle('**DASHBOARD BLOCK LIST**')
             .setColor("#ff33ff")
@@ -750,6 +757,7 @@ module.exports = async (client, message) => {
             embed.addField("**Reason**", `${data.reason}`, true)
           }
           message.channel.send({ embeds: [embed] });
+          logMessage(client, "success", message.guild, `${message.author.tag}  Listed all blocked users from the dashboard`);
           return;
         }
 
@@ -763,12 +771,14 @@ module.exports = async (client, message) => {
           await channel.createInvite({})
             .then(async (invite) => {
               message.reply(`${invite.url}`); // push invite link and guild name to array
+              logMessage(client, "success", message.guild, `${message.author.tag} Forced an invite to ${banargs[1]}`);
             })
-            .catch((error) => console.log(error));
+            .catch((error) => message.reply(`There was an error! - ${error}`));
 
           return
         } catch (err) {
           console.log(err);
+          logMessage(client, "error", message.guild, `${message.author.tag} Invite Error: ${err}`);
           message.reply(`There was an error! - ${err}`)
           return
         }
@@ -782,6 +792,7 @@ module.exports = async (client, message) => {
           embed.addField(`${guild.name}`, `${guild.id}`, true)
         })
         message.channel.send({ embeds: [embed] });
+        logMessage(client, "error", message.guild, `${message.author.tag} Listed all discord servers`);
         return;
       }
       else if (banargs[0] == "?@reset") {
@@ -797,6 +808,7 @@ module.exports = async (client, message) => {
           for (const data of top10) {
             try {
               client.users.cache.get(data.user).send(`Ban on Guild ID ${banargs[1]} has been removed as the bot has been removed or been deleted or reset.`);
+              logMessage(client, "success", message.guild, `${message.author.tag} Reset users punishments on ${banargs[1]}`);
             }
             catch (err) {
               // do nothing
@@ -807,6 +819,7 @@ module.exports = async (client, message) => {
         }
         client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`** WARNING ** All Data on Guild ID ${banargs[1]} has been deleted as the Server got reset by ${message.author.id}.`);
         message.reply(`${banargs[1]} DATA HAS BEEN RESET`);
+        logMessage(client, "success", message.guild, `${message.author.tag} Reset users punishments on GUILD ${banargs[1]}`);
         return;
       }
     }
@@ -944,8 +957,9 @@ module.exports = async (client, message) => {
       }
       //run the command with the parameters:  client, message, args, Cmduser, text, prefix,
       command.run(client, message, args, args.join(` `).split(`++`).filter(Boolean), message.member, args.join(` `), prefix);
-      client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`\n \n ${message.guild.name} triggered command: ${command.name}`);
+      logMessage(client, "success", message.guild, `${message.guild.name} triggered command: ${command.name}`);
     } catch (error) {
+      logMessage(client, "error", message.guild, `${message.guild.name} had an error for a command on: ${error}`);
       if (settings.somethingwentwrong_cmd) {
         return message.reply({
           embeds: [new Discord.MessageEmbed()

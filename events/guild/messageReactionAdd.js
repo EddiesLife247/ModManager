@@ -2,6 +2,7 @@ const config = require(`../../botconfig/config.json`);
 const ee = require(`../../botconfig/embed.json`);
 const settings = require(`../../botconfig/settings.json`);
 const { onCoolDown, replacemsg } = require("../../handlers/functions");
+const { logMessage } = require(`../../handlers/newfunctions`);
 const SQLite = require("better-sqlite3");
 const rrsql = new SQLite(`./databases/rr.sqlite`);
 const Discord = require("discord.js");
@@ -41,7 +42,7 @@ module.exports = async (client, reaction, user) => {
         // DO SOMETHING WITH REACTION!
         //console.log(reaction);
         await reaction.message.guild.members.cache.get(user.id).roles.add(rr.role)
-        client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`\n \n ${reaction.message.guild.name} triggered event: messageReactionAdd Successfully`);
+        logMessage(client, "success", message.guild, `Message Reaction Add`);
     }
     let emojicheck = `<:${reaction.emoji.name}:${reaction.emoji.id}>`
     // CHECK IF reaction role is added by non standard emoji
@@ -52,7 +53,7 @@ module.exports = async (client, reaction, user) => {
         //console.log(reaction);
 
         await reaction.message.guild.members.cache.get(user.id).roles.add(rr2.role)
-        client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`\n \n ${reaction.message.guild.name} triggered event: messageReactionAdd Successfully`);
+        logMessage(client, "success", message.guild, `Message Reaction Add`);
     }
 
     // SUPPORT DESK MODULE
