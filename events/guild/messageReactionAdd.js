@@ -49,7 +49,6 @@ module.exports = async (client, reaction, user) => {
     client.removeRr = rrsql.prepare("DELETE FROM rrtable WHERE emoji = ? AND guild = ? AND channel = ?");
     //console.log(reaction.message.id);
     //return;
-    try {
     let rr;
     rr = client.getRr.get(reaction.emoji.name, reaction.message.guildId, reaction.message.channelId, reaction.message.id);
     if (rr) {
@@ -142,8 +141,4 @@ module.exports = async (client, reaction, user) => {
         }
         logMessage(client, `success`, reaction.message.guild, `Reaction Add Event`);
     }
-} catch (e) {
-    const { logMessage } = require(`../../handlers/newfunctions`);
-    logMessage(client, `error`, reaction.message.guild, `Error with REACTION ADD event: ${e.message} | \`\`\` ${e.stack} \`\`\``);
-}
 };
