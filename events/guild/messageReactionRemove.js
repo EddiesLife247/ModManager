@@ -7,7 +7,6 @@ const SQLite = require("better-sqlite3");
 const rrsql = new SQLite(`./databases/rr.sqlite`);
 const Discord = require("discord.js");
 module.exports = async (client, reaction, user) => {
-    try {
     client.features.ensure(reaction.guildId, {
         music: true,
         logs: true,
@@ -52,8 +51,4 @@ module.exports = async (client, reaction, user) => {
 
 
     }
-} catch (e) {
-    const { logMessage } = require(`../../handlers/newfunctions`);
-    logMessage(client, `error`, reaction.message.guild, `Error with REACTION REMOVE event: ${e.message} | \`\`\` ${e.stack} \`\`\``);
-}
 };
