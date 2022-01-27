@@ -1,0 +1,23 @@
+{
+  "website": {
+    "support": "",
+    "domain": ""
+  },
+  "config": {
+    "http": {
+      "port": 80
+    },
+    "https": {
+      "paths": {
+        "privkey": "",
+        "fullchain": "",
+        "chain": ""
+      },
+      "enabled": true,
+      "port": 443
+    },
+    "callback": "",
+    "clientID": "",
+    "secret": ""
+  }
+}
