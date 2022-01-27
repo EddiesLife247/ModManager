@@ -17,6 +17,26 @@ module.exports = {
     requiredroles: [], //Only allow specific Users with a Role to execute a Command [OPTIONAL]
     alloweduserids: [], //Only allow specific Users to execute a Command [OPTIONAL]
     run: async (client, interaction) => {
+        client.features.ensure(interaction.guild.id, {
+			music: true,
+			logs: true,
+			reactionroles: true,
+			moderation: true,
+			fun: true,
+			youtube: false,
+			support: true,
+			points: true,
+		});
+		if (client.features.get(interaction.guild.id, "points") == false) {
+			return interaction.reply({
+				embeds: [new MessageEmbed()
+					.setColor(ee.wrongcolor)
+					.setFooter(ee.footertext, ee.footericon)
+					.setTitle(`Feature disabled on this server!`)
+				],
+				ephemeral: true
+			});
+		}
         try {
             //things u can directly access in an interaction!
             const {

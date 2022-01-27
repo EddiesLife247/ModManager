@@ -30,6 +30,26 @@ module.exports = {
         }, //to use in the code: interacton.getRole("what_role")
     ],
     run: async (client, interaction) => {
+        client.features.ensure(interaction.guild.id, {
+			music: true,
+			logs: true,
+			reactionroles: true,
+			moderation: true,
+			fun: true,
+			youtube: false,
+			support: true,
+			points: true,
+		});
+		if (client.features.get(interaction.guild.id, "support") == false) {
+			return interaction.reply({
+				embeds: [new MessageEmbed()
+					.setColor(ee.wrongcolor)
+					.setFooter(ee.footertext, ee.footericon)
+					.setTitle(`Feature disabled on this server!`)
+				],
+				ephemeral: true
+			});
+		}
         let ticketId = Math.floor(Math.random() * 100) + 1;
         let subject = options.getChannel("subject_of_ticket");
         let supportTeamId = client.settings.get(interaction.guild.id, `supportTeam`);

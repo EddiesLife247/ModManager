@@ -53,6 +53,26 @@ module.exports = {
         //{"StringChoices": { name: "what_ping", description: "What Ping do you want to get?", required: true, choices: [["Bot", "botping"], ["Discord Api", "api"]] }}, //here the second array input MUST BE A STRING // TO USE IN THE CODE: interacton.getString("what_ping")
     ],
     run: async (client, interaction) => {
+        client.features.ensure(interaction.guild.id, {
+			music: true,
+			logs: true,
+			reactionroles: true,
+			moderation: true,
+			fun: true,
+			youtube: false,
+			support: true,
+			points: true,
+		});
+		if (client.features.get(interaction.guild.id, "reactionroles") == false) {
+			return interaction.reply({
+				embeds: [new MessageEmbed()
+					.setColor(ee.wrongcolor)
+					.setFooter(ee.footertext, ee.footericon)
+					.setTitle(`Feature disabled on this server!`)
+				],
+				ephemeral: true
+			});
+		}
         try {
             const rrchan = interaction.options.getChannel("channelid");
             const rrrole = interaction.options.getRole("roleid");
@@ -86,7 +106,7 @@ module.exports = {
                             let channel = interaction.mentions.channels.first();
                             //console.log(channel);
                             channel.messages.fetch(messageid).then(msg => msg.react(emojiID));
-                            message.reply(`Added: ${emojiID}, reaction to <@&${rrrole}> on <#${rrchan}> for Message: ${messageid}`);
+                            interaction.reply(`Added: ${emojiID}, reaction to <@&${rrrole}> on <#${rrchan}> for Message: ${messageid}`);
                         }
                         catch (err2) {
                             interaction.reply("There was an error! while reacting to the message!");

@@ -32,6 +32,26 @@ module.exports = {
 
 	],
 	run: async (client, interaction) => {
+		client.features.ensure(interaction.guild.id, {
+			music: true,
+			logs: true,
+			reactionroles: true,
+			moderation: true,
+			fun: true,
+			youtube: false,
+			support: true,
+			points: true,
+		});
+		if (client.features.get(interaction.guild.id, "music") == false) {
+			return interaction.reply({
+				embeds: [new MessageEmbed()
+					.setColor(ee.wrongcolor)
+					.setFooter(ee.footertext, ee.footericon)
+					.setTitle(`Feature disabled on this server!`)
+				],
+				ephemeral: true
+			});
+		}
 		try {
 			//console.log(interaction, StringOption)
 
