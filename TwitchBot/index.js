@@ -64,7 +64,6 @@ client.on("slowmode", (channel, enabled, length) => {
     client.say(channel, `Channel SLOW MODE: ${enabled}`);
 });
 client.on('message', (channel, userstate, message, self) => {
-    console.log("I saw a message");
     // Ignore echoed messages.
     if (self) return;
     if (message.toLowerCase() === 'hello') {
@@ -80,12 +79,8 @@ client.on('message', (channel, userstate, message, self) => {
     else if (message.toLowerCase() == '!join') {
         for (const data of twitchsqldata) {
             var twitchchat = data.twitch;
-            client.join(twitchchat).then((data) => {
-                client.log(`Joined: ${channel}`)
-                client.say(channel, `I am now moderating this channel`);
-            }).catch((err) => {
-                client.log.warn(`Join Error ${err}`);
-            });
+            client.join(twitchchat);
+            console.log(`joined: ${twitchchat}`);
         }
     }
     
