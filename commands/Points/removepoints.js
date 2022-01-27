@@ -14,7 +14,7 @@ module.exports = {
     requiredroles: [], //Only allow specific Users with a Role to execute a Command [OPTIONAL]
     alloweduserids: [], //Only allow specific Users to execute a Command [OPTIONAL]
     run: async (client, message, args) => {
-        client.features.ensure(guild.id, {
+        client.features.ensure(message.guild.id, {
             music: true,
             logs: true,
             reactionroles: true,

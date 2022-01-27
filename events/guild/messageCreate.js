@@ -394,7 +394,7 @@ module.exports = async (client, message) => {
   client.setScore = sql.prepare("INSERT OR REPLACE INTO scores (id, user, guild, points, level) VALUES (@id, @user, @guild, @points, @level);");
 
   // POINTS CODE
-  client.features.ensure(guild.id, {
+  client.features.ensure(message.guild.id, {
     music: true,
     logs: true,
     reactionroles: true,
