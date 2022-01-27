@@ -38,6 +38,7 @@ module.exports = discordClient => {
         },
         channels: [
             "modmanagerbot",
+            "manumission247",
         ]
 };
 
@@ -75,6 +76,18 @@ client.on('message', (channel, userstate, message, self) => {
     } else if (message.toLowerCase() == '!discord') {
         client.say(channel, `We are working on this at the moment!`);
     }
+
+    else if (message.toLowerCase() == '!join') {
+        for (const data of twitchsqldata) {
+            var twitchchat = data.twitch;
+            client.join(twitchchat).then((data) => {
+                client.say(channel, `I am now moderating this channel`);
+            }).catch((err) => {
+                client.log.warn(`Join Error ${err}`);
+            });
+        }
+    }
+    
     checkTwitchChat(userstate, message, channel)
 });
 
