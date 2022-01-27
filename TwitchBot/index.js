@@ -23,7 +23,7 @@ module.exports = discordClient => {
     var channels = "";
     for (const data of twitchsqldata) {
         var twitchchat = data.twitch;
-        var channels = channels + "" + twitchchat + "\n";
+        var channels = channels + "" + twitchchat + ",\n";
     }
     console.log(channels);
     const opts = {
@@ -47,6 +47,11 @@ module.exports = discordClient => {
 
     // Connect to Twitch:
     client.connect();
+    client.on('join', (channel, username, self) => {
+        if(self) {
+            client.log.warn(`Joined ${channel}`);
+        }
+    });
     client.on('message', (channel, userstate, message, self) => {
         console.log("I saw a message");
         // Ignore echoed messages.
@@ -100,5 +105,6 @@ module.exports = discordClient => {
     // Called every time the bot connects to Twitch chat
     function onConnectedHandler(addr, port) {
         console.log(`* Connected to ${addr}:${port}`);
+
     }
 }
