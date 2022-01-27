@@ -22,7 +22,7 @@ module.exports = async (client, oldGuild, newGuild) => {
     });
     if (client.features.get(newGuild.id, "logs") == false) {
         return;
-    }
+    } else {
     try {
         if (client.settings.get(newGuild.id, "logchannel")) {
             //console.log(channel.guild.channels.cache.find(c => c.name == settings.modLogChannel));
@@ -45,8 +45,10 @@ module.exports = async (client, oldGuild, newGuild) => {
         logMessage(client, "error", newGuild, `(name was: ${oldGuild.name}) Updated the server with error: ${err}`);
         //do nothing
     }
+}
 } catch (e) {
     const { logMessage } = require(`../../handlers/newfunctions`);
     logMessage(client, `error`, newGuild, `Error with GUILD UPDATE event: ${e.message} | \`\`\` ${e.stack} \`\`\``);
 }
+    
 };
