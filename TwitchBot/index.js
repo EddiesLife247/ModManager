@@ -23,7 +23,7 @@ module.exports = discordClient => {
     var channels = "";
     for (const data of twitchsqldata) {
         var twitchchat = data.twitch;
-        var channels = channels + twitchchat + ",";
+        var channels = channels + "'" + twitchchat + "',";
     }
     console.log(channels);
     const opts = {
