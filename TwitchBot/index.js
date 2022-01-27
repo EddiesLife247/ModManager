@@ -48,6 +48,7 @@ module.exports = discordClient => {
     // Connect to Twitch:
     client.connect();
     client.on('message', (channel, userstate, message, self) => {
+        console.log("I saw a message");
         // Ignore echoed messages.
         if (self) return;
         if (message.toLowerCase() === 'hello') {
