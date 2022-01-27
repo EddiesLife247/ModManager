@@ -25,7 +25,7 @@ module.exports = {
 		  });
 		if(client.features.get(message.guild.id, "youtube") == false) {
 			return;
-		  }
+		  } else {
         console.log(message.content);
         return message.reply("This command is still being developed!")
         try {
@@ -87,4 +87,5 @@ module.exports = {
         }
 
     }
+}
 };

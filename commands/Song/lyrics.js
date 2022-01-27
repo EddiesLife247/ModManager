@@ -3,7 +3,7 @@ const {
 	Message
 } = require("discord.js");
 const {
-    KSoftClient
+	KSoftClient
 } = require('@ksoft/api');
 const config = require(`../../botconfig/config.json`);
 const ksoft = new KSoftClient(config.ksoftapi);
@@ -32,93 +32,94 @@ module.exports = {
 			youtube: false,
 			support: true,
 			points: true,
-		  });
-		if(client.features.get(message.guild.id, "music") == false) {
+		});
+		if (client.features.get(message.guild.id, "music") == false) {
 			return;
-		  }
-		try {
-			//things u can directly access in an interaction!
-			const {
-				member,
-				channelId,
-				guildId,
-				applicationId,
-				commandName,
-				deferred,
-				replied,
-				ephemeral,
-				options,
-				id,
-				createdTimestamp
-			} = message;
-			const {
-				guild
-			} = member;
-			const {
-				channel
-			} = member.voice;
-			if (!channel) return message.reply({
-				embeds: [
-					new MessageEmbed().setColor(ee.wrongcolor).setTitle(`${client.allEmojis.x} **Please join ${guild.me.voice.channel ? "__my__" : "a"} VoiceChannel First!**`)
-				],
-
-			})
-			if (channel.guild.me.voice.channel && channel.guild.me.voice.channel.id != channel.id) {
-				return message.reply({
-					embeds: [new MessageEmbed()
-						.setColor(ee.wrongcolor)
-						.setFooter(ee.footertext, ee.footericon)
-						.setTitle(`${client.allEmojis.x} Join __my__ Voice Channel!`)
-						.setDescription(`<#${guild.me.voice.channel.id}>`)
-					],
-				});
-			}
+		} else {
 			try {
-				let newQueue = client.distube.getQueue(guildId);
-				if (!newQueue || !newQueue.songs || newQueue.songs.length == 0) return message.reply({
+				//things u can directly access in an interaction!
+				const {
+					member,
+					channelId,
+					guildId,
+					applicationId,
+					commandName,
+					deferred,
+					replied,
+					ephemeral,
+					options,
+					id,
+					createdTimestamp
+				} = message;
+				const {
+					guild
+				} = member;
+				const {
+					channel
+				} = member.voice;
+				if (!channel) return message.reply({
 					embeds: [
-						new MessageEmbed().setColor(ee.wrongcolor).setTitle(`${client.allEmojis.x} **I am nothing Playing right now!**`)
+						new MessageEmbed().setColor(ee.wrongcolor).setTitle(`${client.allEmojis.x} **Please join ${guild.me.voice.channel ? "__my__" : "a"} VoiceChannel First!**`)
 					],
 
 				})
-				return message.reply({
-					embeds: [new MessageEmbed()
-						.setColor(ee.wrongcolor)
-						.setFooter(ee.footertext, ee.footericon)
-						.setTitle(`${client.allEmojis.x} Lyrics are disabled!`)
-						.setDescription(`**Due to legal Reasons, Lyrics are disabled and won't work for an unknown amount of time!** :cry:`)
-					],
-				});
-				let embeds = [];
-				await ksoft.lyrics.get(newQueue.songs[0].name).then(
-					async track => {
-						if (!track.lyrics) return message.reply({
-							content: `${client.allEmojis.x} **No Lyrics Found!** :cry:`,
-						});
-						lyrics = track.lyrics;
-						embeds = lyricsEmbed(lyrics, newQueue.songs[0]);
-					}).catch(e => {
-					console.log(e)
+				if (channel.guild.me.voice.channel && channel.guild.me.voice.channel.id != channel.id) {
 					return message.reply({
-						content: `${client.allEmojis.x} **No Lyrics Found!** :cry:\n${String(e).substr(0, 1800)}`,
+						embeds: [new MessageEmbed()
+							.setColor(ee.wrongcolor)
+							.setFooter(ee.footertext, ee.footericon)
+							.setTitle(`${client.allEmojis.x} Join __my__ Voice Channel!`)
+							.setDescription(`<#${guild.me.voice.channel.id}>`)
+						],
 					});
-				})
-				message.reply({
-					embeds: embeds,
-				})
-			} catch (e) {
-				console.log(e.stack ? e.stack : e)
-				message.reply({
-					content: `${client.allEmojis.x} | Error: `,
-					embeds: [
-						new MessageEmbed().setColor(ee.wrongcolor)
-						.setDescription(`\`\`\`${e}\`\`\``)
-					],
+				}
+				try {
+					let newQueue = client.distube.getQueue(guildId);
+					if (!newQueue || !newQueue.songs || newQueue.songs.length == 0) return message.reply({
+						embeds: [
+							new MessageEmbed().setColor(ee.wrongcolor).setTitle(`${client.allEmojis.x} **I am nothing Playing right now!**`)
+						],
 
-				})
+					})
+					return message.reply({
+						embeds: [new MessageEmbed()
+							.setColor(ee.wrongcolor)
+							.setFooter(ee.footertext, ee.footericon)
+							.setTitle(`${client.allEmojis.x} Lyrics are disabled!`)
+							.setDescription(`**Due to legal Reasons, Lyrics are disabled and won't work for an unknown amount of time!** :cry:`)
+						],
+					});
+					let embeds = [];
+					await ksoft.lyrics.get(newQueue.songs[0].name).then(
+						async track => {
+							if (!track.lyrics) return message.reply({
+								content: `${client.allEmojis.x} **No Lyrics Found!** :cry:`,
+							});
+							lyrics = track.lyrics;
+							embeds = lyricsEmbed(lyrics, newQueue.songs[0]);
+						}).catch(e => {
+							console.log(e)
+							return message.reply({
+								content: `${client.allEmojis.x} **No Lyrics Found!** :cry:\n${String(e).substr(0, 1800)}`,
+							});
+						})
+					message.reply({
+						embeds: embeds,
+					})
+				} catch (e) {
+					console.log(e.stack ? e.stack : e)
+					message.reply({
+						content: `${client.allEmojis.x} | Error: `,
+						embeds: [
+							new MessageEmbed().setColor(ee.wrongcolor)
+								.setDescription(`\`\`\`${e}\`\`\``)
+						],
+
+					})
+				}
+			} catch (e) {
+				console.log(String(e.stack).bgRed)
 			}
-		} catch (e) {
-			console.log(String(e.stack).bgRed)
 		}
 	}
 }

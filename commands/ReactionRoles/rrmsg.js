@@ -14,35 +14,35 @@ module.exports = {
     alloweduserids: [], //Only allow specific Users to execute a Command [OPTIONAL]
     run: async (client, message, args) => {
         client.features.ensure(guild.id, {
-			music: true,
-			logs: true,
-			reactionroles: true,
-			moderation: true,
-			fun: true,
-			youtube: false,
-			support: true,
-			points: true,
-		  });
-		if(client.features.get(message.guild.id, "reactionroles") == false) {
-			return;
-		  }
-        const { guild, mentions } = message
-        const { channels } = mentions
-        const targetChannel = channels.first() || message.channel
-        if (channels.first()) {
-            args.shift();
-        }
-        if (!guild.me.permissions.has('MANAGE_MESSAGES')) {
-            message.reply("Mod Manager currently cannot manage roles");
-            return
-        }
-        const text = args.join(' ');
-        const newMessage = await targetChannel.send(text);
+            music: true,
+            logs: true,
+            reactionroles: true,
+            moderation: true,
+            fun: true,
+            youtube: false,
+            support: true,
+            points: true,
+        });
+        if (client.features.get(message.guild.id, "reactionroles") == false) {
+            return;
+        } else {
+            const { guild, mentions } = message
+            const { channels } = mentions
+            const targetChannel = channels.first() || message.channel
+            if (channels.first()) {
+                args.shift();
+            }
+            if (!guild.me.permissions.has('MANAGE_MESSAGES')) {
+                message.reply("Mod Manager currently cannot manage roles");
+                return
+            }
+            const text = args.join(' ');
+            const newMessage = await targetChannel.send(text);
 
-        if (guild.me.permissions.has('MANAGE_MESSAGES')) {
-            message.delete();
-            message.channel.send(`Message has been sent! \n \n You can add reaction roles to it with Message id: ${newMessage.id}`);
+            if (guild.me.permissions.has('MANAGE_MESSAGES')) {
+                message.delete();
+                message.channel.send(`Message has been sent! \n \n You can add reaction roles to it with Message id: ${newMessage.id}`);
+            }
         }
-
     },
 }

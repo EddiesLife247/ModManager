@@ -24,7 +24,7 @@ module.exports = {
           });
         if(client.features.get(message.guild.id, "moderation") == false) {
             return;
-          }
+          } else {
         try {
             let member = message.mentions.users.first();
             let role = message.guild.roles.cache.get("RoleID");
@@ -35,5 +35,6 @@ module.exports = {
         } catch (e) {
             return message.channel.send(`**${e.message}**`)
         }
+    }
     }
 };

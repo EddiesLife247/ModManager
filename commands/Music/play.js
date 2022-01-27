@@ -26,100 +26,101 @@ module.exports = {
 			youtube: false,
 			support: true,
 			points: true,
-		  });
-		if(client.features.get(message.guild.id, "music") == false) {
+		});
+		if (client.features.get(message.guild.id, "music") == false) {
 			return;
-		  }
-		try {
-			//console.log(interaction, StringOption)
-
-			//things u can directly access in an interaction!
-			const {
-				member,
-				channelId,
-				guildId,
-				applicationId,
-				commandName,
-				deferred,
-				replied,
-				ephemeral,
-				options,
-				id,
-				createdTimestamp
-			} = message;
-			const {
-				guild
-			} = member;
-			const {
-				channel
-			} = member.voice;
-			if (!channel) return message.reply({
-				embeds: [
-					new MessageEmbed().setColor(ee.wrongcolor).setTitle(`${client.allEmojis.x} **Please join ${guild.me.voice.channel ? "__my__" : "a"} VoiceChannel First!**`)
-				],
-
-			})
-			if (channel.userLimit != 0 && channel.full)
-				return message.reply({
-					embeds: [new MessageEmbed()
-						.setColor(ee.wrongcolor)
-						.setFooter(ee.footertext, ee.footericon)
-						.setTitle(`<:declined:780403017160982538> Your Voice Channel is full, I can't join!`)
-					],
-				});
-			if (channel.guild.me.voice.channel && channel.guild.me.voice.channel.id != channel.id) {
-				return message.reply({
-					embeds: [new MessageEmbed()
-						.setColor(ee.wrongcolor)
-						.setFooter(ee.footertext, ee.footericon)
-						.setTitle(`<:declined:780403017160982538> I am already connected somewhere else`)
-					],
-				});
-			}
-			if (!args[0]) {
-				return message.reply({
-					embeds: [new MessageEmbed()
-						.setColor(ee.wrongcolor)
-						.setFooter(ee.footertext, ee.footericon)
-						.setTitle(`${client.allEmojis.x} **Please add a Search Query!**`)
-						.setDescription(`**Usage:**\n> \`${client.settings.get(message.guild.id, "prefix")}play <Search/Link>\``)
-					],
-				});
-			}
-			//let IntOption = options.getInteger("OPTIONNAME"); //same as in IntChoices //RETURNS NUMBER
-			const Text = args.join(" ") //same as in StringChoices //RETURNS STRING 
-			//update it without a response!
-			let newmsg = await message.reply({
-				content: `🔍 Searching... \`\`\`${Text}\`\`\``,
-			}).catch(e => {
-				console.log(e)
-			})
+		} else {
 			try {
-				let queue = client.distube.getQueue(guildId)
-				let options = {
-					member: member,
+				//console.log(interaction, StringOption)
+
+				//things u can directly access in an interaction!
+				const {
+					member,
+					channelId,
+					guildId,
+					applicationId,
+					commandName,
+					deferred,
+					replied,
+					ephemeral,
+					options,
+					id,
+					createdTimestamp
+				} = message;
+				const {
+					guild
+				} = member;
+				const {
+					channel
+				} = member.voice;
+				if (!channel) return message.reply({
+					embeds: [
+						new MessageEmbed().setColor(ee.wrongcolor).setTitle(`${client.allEmojis.x} **Please join ${guild.me.voice.channel ? "__my__" : "a"} VoiceChannel First!**`)
+					],
+
+				})
+				if (channel.userLimit != 0 && channel.full)
+					return message.reply({
+						embeds: [new MessageEmbed()
+							.setColor(ee.wrongcolor)
+							.setFooter(ee.footertext, ee.footericon)
+							.setTitle(`<:declined:780403017160982538> Your Voice Channel is full, I can't join!`)
+						],
+					});
+				if (channel.guild.me.voice.channel && channel.guild.me.voice.channel.id != channel.id) {
+					return message.reply({
+						embeds: [new MessageEmbed()
+							.setColor(ee.wrongcolor)
+							.setFooter(ee.footertext, ee.footericon)
+							.setTitle(`<:declined:780403017160982538> I am already connected somewhere else`)
+						],
+					});
 				}
-				if (!queue) options.textChannel = guild.channels.cache.get(channelId)
-				await client.distube.playVoiceChannel(channel, Text, options)
-				//Edit the reply
-				newmsg.edit({
-					content: `${queue?.songs?.length > 0 ? "👍 Added" : "🎶 Now Playing"}: \`\`\`css\n${Text}\n\`\`\``,
+				if (!args[0]) {
+					return message.reply({
+						embeds: [new MessageEmbed()
+							.setColor(ee.wrongcolor)
+							.setFooter(ee.footertext, ee.footericon)
+							.setTitle(`${client.allEmojis.x} **Please add a Search Query!**`)
+							.setDescription(`**Usage:**\n> \`${client.settings.get(message.guild.id, "prefix")}play <Search/Link>\``)
+						],
+					});
+				}
+				//let IntOption = options.getInteger("OPTIONNAME"); //same as in IntChoices //RETURNS NUMBER
+				const Text = args.join(" ") //same as in StringChoices //RETURNS STRING 
+				//update it without a response!
+				let newmsg = await message.reply({
+					content: `🔍 Searching... \`\`\`${Text}\`\`\``,
 				}).catch(e => {
 					console.log(e)
 				})
-			} catch (e) {
-				console.log(e.stack ? e.stack : e)
-				message.reply({
-					content: `${client.allEmojis.x} | Error: `,
-					embeds: [
-						new MessageEmbed().setColor(ee.wrongcolor)
-						.setDescription(`\`\`\`${e}\`\`\``)
-					],
+				try {
+					let queue = client.distube.getQueue(guildId)
+					let options = {
+						member: member,
+					}
+					if (!queue) options.textChannel = guild.channels.cache.get(channelId)
+					await client.distube.playVoiceChannel(channel, Text, options)
+					//Edit the reply
+					newmsg.edit({
+						content: `${queue?.songs?.length > 0 ? "👍 Added" : "🎶 Now Playing"}: \`\`\`css\n${Text}\n\`\`\``,
+					}).catch(e => {
+						console.log(e)
+					})
+				} catch (e) {
+					console.log(e.stack ? e.stack : e)
+					message.reply({
+						content: `${client.allEmojis.x} | Error: `,
+						embeds: [
+							new MessageEmbed().setColor(ee.wrongcolor)
+								.setDescription(`\`\`\`${e}\`\`\``)
+						],
 
-				})
+					})
+				}
+			} catch (e) {
+				console.log(String(e.stack).bgRed)
 			}
-		} catch (e) {
-			console.log(String(e.stack).bgRed)
 		}
 	}
 }

@@ -26,7 +26,7 @@ module.exports = {
 		  });
 		if(client.features.get(message.guild.id, "support") == false) {
 			return;
-		  }
+		  } else {
         //console.log(message.content);
         try {
             if (args[0] == null) {
@@ -102,4 +102,5 @@ module.exports = {
             return;
         }
     }
+}
 };

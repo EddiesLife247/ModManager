@@ -32,7 +32,7 @@ module.exports = {
 		  });
 		if(client.features.get(message.guild.id, "music") == false) {
 			return;
-		  }
+		  } else {
 		try {
 			//things u can directly access in an interaction!
 			const {
@@ -109,6 +109,7 @@ module.exports = {
 		} catch (e) {
 			console.log(String(e.stack).bgRed)
 		}
+	}
 	}
 }
 /**

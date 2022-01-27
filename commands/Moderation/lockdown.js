@@ -19,33 +19,34 @@ module.exports = {
             youtube: false,
             support: true,
             points: true,
-          });
-        if(client.features.get(message.guild.id, "moderation") == false) {
+        });
+        if (client.features.get(message.guild.id, "moderation") == false) {
             return;
-          }
-        if (args[0] == "on") {
-            message.channel.permissionOverwrites.create(message.channel.guild.roles.everyone, { SEND_MESSAGES: false });
-            message.reply("Channel Locked!");
-        } else if (args[0] == "off") {
-            message.channel.permissionOverwrites.create(message.channel.guild.roles.everyone, { SEND_MESSAGES: true });
-            message.reply("Channel UnLocked!");
-        } else if (args[0] == "all") {
-            if (args[1] == "on") {
-                message.reply("LOCKING DOWN ALL CHANNELS!");
-                //Get all channels in guild.
-                await message.channel.guild.channels.cache.forEach(function (i) {
-                    //console.log(i);
-                    i.permissionOverwrites.create(message.channel.guild.roles.everyone, { SEND_MESSAGES: false });
-                });
-                message.reply("LOCKED SERVER!");
-            } else if (args[1] == "off") {
-                message.reply("Removing Lockdown on all Channels!");
-                //Get all channels in guild.
-                await message.channel.guild.channels.cache.forEach(function (i) {
-                    //console.log(i);
-                    i.permissionOverwrites.create(message.channel.guild.roles.everyone, { SEND_MESSAGES: true });
-                });
-                message.reply("UNLOCKED SERVER!");
+        } else {
+            if (args[0] == "on") {
+                message.channel.permissionOverwrites.create(message.channel.guild.roles.everyone, { SEND_MESSAGES: false });
+                message.reply("Channel Locked!");
+            } else if (args[0] == "off") {
+                message.channel.permissionOverwrites.create(message.channel.guild.roles.everyone, { SEND_MESSAGES: true });
+                message.reply("Channel UnLocked!");
+            } else if (args[0] == "all") {
+                if (args[1] == "on") {
+                    message.reply("LOCKING DOWN ALL CHANNELS!");
+                    //Get all channels in guild.
+                    await message.channel.guild.channels.cache.forEach(function (i) {
+                        //console.log(i);
+                        i.permissionOverwrites.create(message.channel.guild.roles.everyone, { SEND_MESSAGES: false });
+                    });
+                    message.reply("LOCKED SERVER!");
+                } else if (args[1] == "off") {
+                    message.reply("Removing Lockdown on all Channels!");
+                    //Get all channels in guild.
+                    await message.channel.guild.channels.cache.forEach(function (i) {
+                        //console.log(i);
+                        i.permissionOverwrites.create(message.channel.guild.roles.everyone, { SEND_MESSAGES: true });
+                    });
+                    message.reply("UNLOCKED SERVER!");
+                }
             }
         }
     }

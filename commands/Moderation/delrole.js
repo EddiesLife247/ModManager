@@ -21,19 +21,20 @@ module.exports = {
             youtube: false,
             support: true,
             points: true,
-          });
-        if(client.features.get(message.guild.id, "moderation") == false) {
+        });
+        if (client.features.get(message.guild.id, "moderation") == false) {
             return;
-          }
-        try {
-            let member = message.mentions.users.first();
-            let role = message.guild.roles.cache.get("RoleID");
+        } else {
+            try {
+                let member = message.mentions.users.first();
+                let role = message.guild.roles.cache.get("RoleID");
 
-            await member.roles.remove(role)
-            message.reply(`<@${member}> has had the role <@${role}> added`)
+                await member.roles.remove(role)
+                message.reply(`<@${member}> has had the role <@${role}> added`)
 
-        } catch (e) {
-            return message.channel.send(`**${e.message}**`)
+            } catch (e) {
+                return message.channel.send(`**${e.message}**`)
+            }
         }
     }
 };

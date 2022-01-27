@@ -24,7 +24,7 @@ module.exports = {
           });
         if(client.features.get(message.guild.id, "moderation") == false) {
             return;
-          }
+          } else {
         try {
             /*if (!message.member.permissions.has([Permissions.FLAGS.KICK_MEMBERS, Permissions.FLAGS.BAN_MEMBERS]) && !ownerID .includes(message.author.id)) return message.channel.send("**You Dont Have The Permissions To Ban Users! - [BAN_MEMBERS]**");
             if (!message.guild.me.hasPermission("BAN_MEMBERS")) return message.channel.send("**I Dont Have The Permissions To Ban Users! - [BAN_MEMBERS]**");
@@ -79,4 +79,5 @@ module.exports = {
             return message.channel.send(`**${e.message}**`)
         }
     }
+}
 }

@@ -30,28 +30,29 @@ module.exports = {
             youtube: false,
             support: true,
             points: true,
-          });
-        if(client.features.get(message.guild.id, "points") == false) {
+        });
+        if (client.features.get(message.guild.id, "points") == false) {
             return;
-          }
-        client.getScore = sql.prepare("SELECT * FROM scores WHERE user = ? AND guild = ?");
-        client.setScore = sql.prepare("INSERT OR REPLACE INTO scores (id, user, guild, points, level) VALUES (@id, @user, @guild, @points, @level);");
-        const top10 = sql.prepare("SELECT * FROM scores WHERE guild = ? ORDER BY points DESC LIMIT 10;").all(message.guild.id);
-        let score;
-        score = client.getScore.get(message.author.id, message.guild.id);
-        if (!score) {
-            score = { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, points: 0, level: 1 }
-        }
-        // Now shake it and show it! (as a nice embed, too!)
-        const embed = new Discord.MessageEmbed()
-            .setTitle("Leader board")
-            .setAuthor(client.user.username, client.user.avatarURL())
-            .setDescription("Our top 10 points leaders!")
-            .setColor(0x00AE86);
+        } else {
+            client.getScore = sql.prepare("SELECT * FROM scores WHERE user = ? AND guild = ?");
+            client.setScore = sql.prepare("INSERT OR REPLACE INTO scores (id, user, guild, points, level) VALUES (@id, @user, @guild, @points, @level);");
+            const top10 = sql.prepare("SELECT * FROM scores WHERE guild = ? ORDER BY points DESC LIMIT 10;").all(message.guild.id);
+            let score;
+            score = client.getScore.get(message.author.id, message.guild.id);
+            if (!score) {
+                score = { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, points: 0, level: 1 }
+            }
+            // Now shake it and show it! (as a nice embed, too!)
+            const embed = new Discord.MessageEmbed()
+                .setTitle("Leader board")
+                .setAuthor(client.user.username, client.user.avatarURL())
+                .setDescription("Our top 10 points leaders!")
+                .setColor(0x00AE86);
 
-        for (const data of top10) {
-            embed.addFields({ name: client.users.cache.get(data.user).tag, value: `${data.points} points (level ${data.level})` });
+            for (const data of top10) {
+                embed.addFields({ name: client.users.cache.get(data.user).tag, value: `${data.points} points (level ${data.level})` });
+            }
+            message.channel.send({ embeds: [embed] });
         }
-        message.channel.send({ embeds: [embed] });
     }
 };

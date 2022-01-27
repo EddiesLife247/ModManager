@@ -22,18 +22,19 @@ module.exports = {
             youtube: false,
             support: true,
             points: true,
-          });
-        if(client.features.get(message.guild.id, "points") == false) {
+        });
+        if (client.features.get(message.guild.id, "points") == false) {
             return;
-          }
-        client.getScore = sql.prepare("SELECT * FROM scores WHERE user = ? AND guild = ?");
-        client.setScore = sql.prepare("INSERT OR REPLACE INTO scores (id, user, guild, points, level) VALUES (@id, @user, @guild, @points, @level);");
-        let score;
-        score = client.getScore.get(message.author.id, message.guild.id);
-        if (!score) {
-            score = { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, points: 0, level: 1 }
+        } else {
+            client.getScore = sql.prepare("SELECT * FROM scores WHERE user = ? AND guild = ?");
+            client.setScore = sql.prepare("INSERT OR REPLACE INTO scores (id, user, guild, points, level) VALUES (@id, @user, @guild, @points, @level);");
+            let score;
+            score = client.getScore.get(message.author.id, message.guild.id);
+            if (!score) {
+                score = { id: `${message.guild.id}-${message.author.id}`, user: message.author.id, guild: message.guild.id, points: 0, level: 1 }
+            }
+            return message.reply(`You currently have ${score.points} points and are level ${score.level}!`);
         }
-        return message.reply(`You currently have ${score.points} points and are level ${score.level}!`);
     }
 };
 // You can modify the code below to remove points from the mentioned user as well!

@@ -22,27 +22,28 @@ module.exports = {
       support: true,
       points: true,
     });
-  if(client.features.get(message.guild.id, "moderation") == false) {
+    if (client.features.get(message.guild.id, "moderation") == false) {
       return;
+    } else {
+
+      let member = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(r => r.user.username.toLowerCase() === args[0].toLocaleLowerCase());
+
+      if (!member) return message.channel.send("Unable to find the mentioned user in this guild.")
+
+      let reason = args.slice(1).join(" ");
+      if (!reason) reason = "No Reason Provided"
+
+
+      try {
+        member.voice.setDeaf(false, reason);
+        message.channel.send("Success ✅ : Member Undeafened")
+      }
+
+      catch (error) {
+        console.log(error)
+        message.channel.send("Oops! An unknow error occured. Please try again later.")
+      }
+
     }
-
-    let member = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.guild.members.cache.find(r => r.user.username.toLowerCase() === args[0].toLocaleLowerCase());
-
-    if (!member) return message.channel.send("Unable to find the mentioned user in this guild.")
-
-    let reason = args.slice(1).join(" ");
-    if (!reason) reason = "No Reason Provided"
-
-
-    try {
-      member.voice.setDeaf(false, reason);
-      message.channel.send("Success ✅ : Member Undeafened")
-    }
-
-    catch (error) {
-      console.log(error)
-      message.channel.send("Oops! An unknow error occured. Please try again later.")
-    }
-
   }
-};
+  };
