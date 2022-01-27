@@ -14,6 +14,7 @@ module.exports = discordClient => {
     const BotFilters = require("../botconfig/filters.json");
     const BotEmojis = require("../botconfig/emojis.json");
     const BotEmbed = require("../botconfig/embed.json");
+    const cron = require('node-cron');
     var Filter = require('bad-words'),
         filter = new Filter();
     // Define configuration options
@@ -124,6 +125,18 @@ function rollDice() {
 // Called every time the bot connects to Twitch chat
 function onConnectedHandler(addr, port) {
     console.log(`* Connected to ${addr}:${port}`);
-
+    // Now conntected Join known channels
+    for (const data of twitchsqldata) {
+        var twitchchat = data.twitch;
+        client.join(twitchchat);
+        console.log(`joined: ${twitchchat}`);
+    }
 }
+cron.schedule('0 * * *', () => {
+    for (const data of twitchsqldata) {
+        var twitchchat = data.twitch;
+        client.join(twitchchat);
+        console.log(`joined: ${twitchchat}`);
+    }
+});
 }
