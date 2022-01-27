@@ -8,7 +8,7 @@ const rrsql = new SQLite(`./databases/rr.sqlite`);
 const Discord = require("discord.js");
 module.exports = async (client, reaction, user) => {
     //console.log(user);
-    client.features.ensure(message.guild.id, {
+    client.features.ensure(reaction.guild.id, {
         music: true,
         logs: true,
         reactionroles: true,
@@ -18,7 +18,7 @@ module.exports = async (client, reaction, user) => {
         support: true,
         points: true,
     });
-    if (client.features.get(message.guild.id, "reactionroles") == false) {
+    if (client.features.get(reaction.guild.id, "reactionroles") == false) {
         return;
     }
     if (user.bot) {

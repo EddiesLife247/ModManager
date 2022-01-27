@@ -7,7 +7,7 @@ const SQLite = require("better-sqlite3");
 const rrsql = new SQLite(`./databases/rr.sqlite`);
 const Discord = require("discord.js");
 module.exports = async (client, reaction, user) => {
-    client.features.ensure(message.guild.id, {
+    client.features.ensure(reaction.guild.id, {
         music: true,
         logs: true,
         reactionroles: true,
@@ -17,7 +17,7 @@ module.exports = async (client, reaction, user) => {
         support: true,
         points: true,
     });
-    if (client.features.get(message.guild.id, "reactionroles") == false) {
+    if (client.features.get(reaction.guild.id, "reactionroles") == false) {
         return;
     }
     //console.log(`${user.tag} reacted ${reaction.emoji.name} on message ${reaction.message.id}.`);
