@@ -21,7 +21,7 @@ module.exports = async (client, oldMember, member) => {
         support: true,
         points: true,
     });
-    if (client.features.get(emoji.guild.id, "logs") == false) {
+    if (client.features.get(member.guild.id, "logs") == false) {
         return;
     }
     client.settings.ensure(member.guild.id, {
