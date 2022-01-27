@@ -110,7 +110,7 @@ function checkTwitchChat(username, message, channel) {
         //tell user
         client.say(channel, `@${username.username}, sorry, that message is not permitted here!`)
         //Delete Message
-        client.deletemessage(channel, message.identity).then((data) => {
+        client.deletemessage(channel, userstate.id).then((data) => {
             // data returns
         }).catch((err) => {
             console.log(err);
