@@ -90,7 +90,7 @@ client.on('message', (channel, userstate, message, self) => {
 });
 
 
-function checkTwitchChat(username, message, channel) {
+function checkTwitchChat(userstate, message, channel) {
     message = message.toLowerCase();
     let shouldSendMessage = false
     // check message
@@ -108,7 +108,7 @@ function checkTwitchChat(username, message, channel) {
     }
     if (shouldSendMessage) {
         //tell user
-        client.say(channel, `@${username.username}, sorry, that message is not permitted here!`)
+        client.say(channel, `@${userstate.username}, sorry, that message is not permitted here!`)
         //Delete Message
         client.deletemessage(channel, userstate.id).then((data) => {
             // data returns
