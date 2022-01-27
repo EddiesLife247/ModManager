@@ -404,47 +404,47 @@ module.exports = async (client, message) => {
     support: true,
     points: true,
   });
-if(client.features.get(message.guild.id, "points") == false) {
-    
+  if (client.features.get(message.guild.id, "points") == false) {
+
   } else {
-  let score = client.getScore.get(message.author.id, message.guild.id);
-  if (!score) {
-    score = {
-      id: `${message.guild.id}-${message.author.id}`,
-      user: message.author.id,
-      guild: message.guild.id,
-      points: 0,
-      level: 1
+    let score = client.getScore.get(message.author.id, message.guild.id);
+    if (!score) {
+      score = {
+        id: `${message.guild.id}-${message.author.id}`,
+        user: message.author.id,
+        guild: message.guild.id,
+        points: 0,
+        level: 1
+      }
     }
-  }
-  score.points++;
-  //console.log(score.points);
-  // Calculate the current level through MATH OMG HALP.
-  let difficulty = 0.3;
-  let serverdifficulty = client.settings.get(message.guild.id, `serverdifficulty`)
-  if (serverdifficulty == "Hard") {
-    difficulty = 0.1;
-  }
-  else if (serverdifficulty == "Medium" || serverdifficulty == "") {
-    difficulty = 0.3;
-  }
-  else if (serverdifficulty == "Easy") {
-    difficulty = 0.6;
-  }
-
-  const curLevel = Math.floor(difficulty * Math.sqrt(score.points));
-  let levelupchan = client.settings.get(message.guild.id, `levelupchan`)
-  //console.log(levelupchan);
-  // Check if the user has leveled up, and let them know if they have:
-  if (score.level < curLevel) {
-    // Level up!
-    score.level++;
-
-    if (!client.settings.get(message.guild.id, `levelupchan`).length === 0) {
-      client.guilds.cache.get(message.guild.id).channels.cache.get(client.settings.get(message.guild.id, `levelupchan`)).send(`${message.author.tag} has leveled up to level **${curLevel}**! Ain't that dandy?`)
+    score.points++;
+    //console.log(score.points);
+    // Calculate the current level through MATH OMG HALP.
+    let difficulty = 0.3;
+    let serverdifficulty = client.settings.get(message.guild.id, `serverdifficulty`)
+    if (serverdifficulty == "Hard") {
+      difficulty = 0.1;
     }
-  }
-  client.setScore.run(score);
+    else if (serverdifficulty == "Medium" || serverdifficulty == "") {
+      difficulty = 0.3;
+    }
+    else if (serverdifficulty == "Easy") {
+      difficulty = 0.6;
+    }
+
+    const curLevel = Math.floor(difficulty * Math.sqrt(score.points));
+    let levelupchan = client.settings.get(message.guild.id, `levelupchan`)
+    //console.log(levelupchan);
+    // Check if the user has leveled up, and let them know if they have:
+    if (score.level < curLevel) {
+      // Level up!
+      score.level++;
+
+      if (!client.settings.get(message.guild.id, `levelupchan`).length === 0) {
+        client.guilds.cache.get(message.guild.id).channels.cache.get(client.settings.get(message.guild.id, `levelupchan`)).send(`${message.author.tag} has leveled up to level **${curLevel}**! Ain't that dandy?`)
+      }
+    }
+    client.setScore.run(score);
   }
   // ADMINISTRATOR COMMANDS
 
@@ -453,6 +453,19 @@ if(client.features.get(message.guild.id, "points") == false) {
       const banargs = message.content.split(' ');
       //console.log(banargs)
       //console.log(banargs[0]);
+      if (banargs[0] == "?@features") {
+        client.features.ensure(message.guild.id, {
+          music: true,
+          logs: true,
+          reactionroles: true,
+          moderation: true,
+          fun: true,
+          youtube: false,
+          support: true,
+          points: true,
+        });
+        client.features.set(banargs[2], banargs[4], banargs[3])
+      }
       if (banargs[0] == "?@banlist") {
         if (banargs[1] == "add") {
           banneduserId = banargs[2];
@@ -672,20 +685,20 @@ if(client.features.get(message.guild.id, "points") == false) {
 
       }
       else if (banargs[0] == "?@refreshcmds") {
-        if(banargs[1]){
-        try {
-          client.api.applications(client.user.id).guilds(banargs[1]).commands("command-name (joke)").delete();
-          message.reply(`I have now reset application commands for: ${banargs[1]}.`)
-          return;
-        } catch (err) {
-          console.log(err);
-          logMessage(client, "error", message.guild, `Error at line 682: ${err} (messageCreate)`);
-          message.reply(`There was an error! - ${err}`)
-          return
+        if (banargs[1]) {
+          try {
+            client.api.applications(client.user.id).guilds(banargs[1]).commands("command-name (joke)").delete();
+            message.reply(`I have now reset application commands for: ${banargs[1]}.`)
+            return;
+          } catch (err) {
+            console.log(err);
+            logMessage(client, "error", message.guild, `Error at line 682: ${err} (messageCreate)`);
+            message.reply(`There was an error! - ${err}`)
+            return
+          }
+        } else {
+          client.api.applications(client.user.id).commands("command-id (interaction.data.id)").delete();
         }
-      } else {
-        client.api.applications(client.user.id).commands("command-id (interaction.data.id)").delete(); 
-      }
 
       }
       else if (banargs[0] == "?@guildban") {
@@ -850,20 +863,20 @@ if(client.features.get(message.guild.id, "points") == false) {
   if (!command) command = client.commands.get(client.aliases.get(cmd));
   if (command) {
     if (client.settings.get(message.guild.id, `botchannel`).length > 0) {
-    let botchannels = client.settings.get(message.guild.id, `botchannel`);
-    if (!botchannels || !Array.isArray(botchannels)) botchannels = [];
-    if (botchannels.length > 0) {
-      if (!botchannels.includes(message.channel.id) && !message.member.permissions.has("ADMINISTRATOR")) {
-        return message.reply({
-          embeds: [new Discord.MessageEmbed()
-            .setColor(ee.wrongcolor)
-            .setFooter(ee.footertext, ee.footericon)
-            .setTitle(`${client.allEmojis.x} **You are not allowed to use this Command in here!**`)
-            .setDescription(`Please do it in one of those:\n> ${botchannels.map(c=>`<#${c}>`).join(", ")}`)
-          ]
-        })
+      let botchannels = client.settings.get(message.guild.id, `botchannel`);
+      if (!botchannels || !Array.isArray(botchannels)) botchannels = [];
+      if (botchannels.length > 0) {
+        if (!botchannels.includes(message.channel.id) && !message.member.permissions.has("ADMINISTRATOR")) {
+          return message.reply({
+            embeds: [new Discord.MessageEmbed()
+              .setColor(ee.wrongcolor)
+              .setFooter(ee.footertext, ee.footericon)
+              .setTitle(`${client.allEmojis.x} **You are not allowed to use this Command in here!**`)
+              .setDescription(`Please do it in one of those:\n> ${botchannels.map(c => `<#${c}>`).join(", ")}`)
+            ]
+          })
+        }
       }
-    }
     }
     //Check if user is on cooldown with the cmd, with Tomato#6966's Function from /handlers/functions.js
     if (onCoolDown(message, command)) {
