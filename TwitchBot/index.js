@@ -17,17 +17,6 @@ module.exports = discordClient => {
     var Filter = require('bad-words'),
         filter = new Filter();
     // Define configuration options
-    const twitchsql = new SQLite(`./databases/twitch.sqlite`);
-    const twitchsqldata = twitchsql.prepare("SELECT * FROM twitch").all();
-
-    for (const data of twitchsqldata) {
-        var twitchchat = data.twitch;
-        client.join(twitchchat).then((data) => {
-            client.say(channel, `I am now moderating this channel`);
-        }).catch((err) => {
-            client.log.warn(`Join Error ${err}`);
-        });
-    }
     const opts = {
         connection: {
             reconnect: true
@@ -44,6 +33,17 @@ module.exports = discordClient => {
 
 // Create a client with our options
 const client = new tmi.client(opts);
+const twitchsql = new SQLite(`./databases/twitch.sqlite`);
+const twitchsqldata = twitchsql.prepare("SELECT * FROM twitch").all();
+
+for (const data of twitchsqldata) {
+    var twitchchat = data.twitch;
+    client.join(twitchchat).then((data) => {
+        client.say(channel, `I am now moderating this channel`);
+    }).catch((err) => {
+        client.log.warn(`Join Error ${err}`);
+    });
+}
 
 // Register our event handlers (defined below)
 client.on('connected', onConnectedHandler);
