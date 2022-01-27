@@ -82,8 +82,7 @@ client.on('message', (channel, userstate, message, self) => {
             var twitchchat = data.twitch;
             client.join(twitchchat).then((data) => {
                 client.log(`Joined: ${channel}`)
-                client.say(data, `I am now moderating this channel`);
-                client.log(`Joined: ${data}`)
+                client.say(channel, `I am now moderating this channel`);
             }).catch((err) => {
                 client.log.warn(`Join Error ${err}`);
             });
