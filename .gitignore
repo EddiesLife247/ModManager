@@ -5,6 +5,7 @@
 !/sounds/putmusichere.mp3
 botconfig/config.json
 dashboard/settings.json
+settings.json
 # Logs
 logs
 *.log
