@@ -105,7 +105,7 @@ client.slashCommands = new Discord.Collection();
 client.aliases = new Discord.Collection();
 client.categories = require("fs").readdirSync(`./commands`);
 client.allEmojis = require("./botconfig/emojis.json");
-
+const { logMessage, refreshPunishDB } = require(`./handlers/newfunctions`);
 client.setMaxListeners(100); require('events').defaultMaxListeners = 100;
 client.settings = new Enmap({ name: "settings", dataDir: "./databases/settings" });
 client.infos = new Enmap({ name: "infos", dataDir: "./databases/infos" });
@@ -150,23 +150,7 @@ cron.schedule('0 */3 * * *', () => {
   });
 });
 cron.schedule('0 0 * * *', () => {
-  client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`Punishment Database - Updating List.`);
-  const bansql = new SQLite(`./databases/bans.sqlite`);
-  const top10 = bansql.prepare("SELECT * FROM 'bans'").all();
-  for (const data of top10) {
-    // Check each ban against the current data.
-    var lengthleft = data.length - 1;
-    console.log(`Checking if ${data.user} needs to be removed from Punishment Database DUE TO FORCE UPDATE`);
-    if (lengthleft == 0) {
-      bansql.prepare(`DELETE FROM 'bans' WHERE ID = '${data.id}'`).run()
-      console.log(`${data.user} deleted.`)
-      client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`Ban on ${data.user} has expired in our database.`);
-    } else {
-      bansql.prepare(`UPDATE 'bans' SET length = '${lengthleft}' WHERE ID = '${data.id}'`).run()
-      console.log(`${data.user} now has ${lengthleft} days left.`)
-      client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`Entry on ${data.user} now has ${lengthleft} day(s) left of their ${data} entry.`);
-    }
-  }
+  refreshPunishDB(client);
   // 60 DAY BAN CHECK
   /*
   //DISABLED DUCE TO API RESTRICTIONS

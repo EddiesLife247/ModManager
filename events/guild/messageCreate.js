@@ -3,7 +3,7 @@ const config = require(`../../botconfig/config.json`);
 const ee = require(`../../botconfig/embed.json`);
 const settings = require(`../../botconfig/settings.json`);
 const { onCoolDown, replacemsg, msgCooldown } = require(`../../handlers/functions`);
-const { logMessage } = require(`../../handlers/newfunctions`);
+const { logMessage, refreshPunishDB } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 const SQLite = require("better-sqlite3");
 const joke = require("../../slashCommands/Fun/joke");
@@ -634,21 +634,7 @@ module.exports = async (client, message) => {
           }
         } else if (banargs[1] == "refresh") {
           message.reply("FORCING AN UPDATE ON BANLIST DATA!")
-          const top10 = bansql.prepare("SELECT * FROM 'bans'").all();
-          for (const data of top10) {
-            // Check each ban against the current data.
-            var lengthleft = data.length - 1;
-            console.log(`Checking if ${data.user} needs to be removed from Punishment Database DUE TO FORCE UPDATE`);
-            if (lengthleft == 0) {
-              bansql.prepare(`DELETE FROM 'bans' WHERE ID = '${data.id}'`).run()
-              console.log(`${data.user} deleted.`)
-              logMessage(client, "success", message.guild, `Ban on ${data.user} has expired in our database.`);
-            } else {
-              bansql.prepare(`UPDATE 'bans' SET length = '${lengthleft}' WHERE ID = '${data.id}'`).run()
-              console.log(`${data.user} now has ${lengthleft} days left.`)
-              logMessage(client, "success", message.guild, `Entry on ${data.user} now has ${lengthleft} day(s) left of their ${data.approved} entry.`);
-            }
-          }
+          refreshPunishDB(client);
           return;
         } else {
           message.reply("SYNTAX FOR BANLIST MANAGEMENT: \n ?@banlist add <user> <guild> <type> <length> <reason> \n ?@banlist edit <user> <type/length/reason> \n ?@banlist user <userid> (Lists a users punishments) \n ?@banlist guild <guildid> (Lists all guild's punishments) \n ?@banlist local (lists all Local Bans) \n ?@banlist appealed (Lists all Appealed Bans \n ?@banlist global (Lists all global ) \n  ?@banlist pending (Lists all pending bans) \n ?@banlist approve <banid> (Sets a pending ban to global) \n ?@banlist deny <banid> (Sets a pending ban to local) \n ?@banlist remove <banid> (Sets a ban as appealed> \n ?@banlist delete <banid> (Delets the ban from the DB)");
