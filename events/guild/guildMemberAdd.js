@@ -10,6 +10,19 @@ const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 const SQLite = require("better-sqlite3");
 module.exports = async (client, member) => {
+  client.features.ensure(member.guild.id, {
+    music: true,
+    logs: true,
+    reactionroles: true,
+    moderation: true,
+    fun: true,
+    youtube: false,
+    support: true,
+    points: true,
+});
+if (client.features.get(emoji.guild.id, "logs") == false) {
+    return;
+}
   client.settings.ensure(member.guild.id, {
     prefix: config.prefix,
     defaultvolume: 50,

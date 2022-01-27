@@ -9,6 +9,7 @@ const { onCoolDown, replacemsg } = require(`../../handlers/functions`);
 const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 module.exports = async (client, guild) => {
+  
 
   const SQLite = require("better-sqlite3");
   const botsql = new SQLite(`./databases/bot.sqlite`);

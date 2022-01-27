@@ -208,6 +208,23 @@
         
                                                 </div>
                                                 <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">
+                                                    Log Messages:</h5>
+                                                <p style="font-style: italic;" class="disabled">Enable the System Logs.</p>
+                                                    <div class="form-check form-switch">
+                                                        &nbsp;&nbsp;<input class="form-check-input" type="checkbox"
+                                                            name="logmsg" id="logmsg"
+                                                            style="zoom:2;margin-left: auto;margin-top: auto;margin: auto;"
+                                                            <%=botClient.features.get(guild.id, 'logs' ) ? "checked" : "" %>
+                                                        >
+            
+                                                        <label class="form-check-label" for="logmsg">
+                                                            <%= botClient.features.get(guild.id, 'logs' ) ? "Enabled"
+                                                                : "Disabled" %>
+                                                                (Updates on Save)
+                                                        </label>
+            
+                                                    </div>
+                                                <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">
                                                     Reaction Roles:</h5>
                                                 <p style="font-style: italic;" class="disabled">Enable Reaction Roles on the server</p>
                                                     <div class="form-check form-switch">
@@ -774,7 +791,7 @@
 
                                     </div>
                                 </div>
-                                <div class="tab-pane fade show" id="help" role="tabpanel"
+                                <div class="tab-pane fade show" id="support" role="tabpanel"
                                     aria-labelledby="list-home-list">
                                     <div class="accordion" id="help">
                                         <h3>Support Settings</h3>

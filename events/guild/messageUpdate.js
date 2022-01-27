@@ -10,6 +10,19 @@ const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 module.exports = async (client, newMessage, message) => {
 	//console.log(message);
+	client.features.ensure(message.guild.id, {
+        music: true,
+        logs: true,
+        reactionroles: true,
+        moderation: true,
+        fun: true,
+        youtube: false,
+        support: true,
+        points: true,
+    });
+    if (client.features.get(message.guild.id, "logs") == false) {
+        return;
+    }
 	if (message.bot) { return }
 	client.settings.ensure(message.guild.id, {
 		prefix: config.prefix,

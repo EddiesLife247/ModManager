@@ -9,6 +9,19 @@ const { onCoolDown, replacemsg } = require(`../../handlers/functions`);
 const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 module.exports = async (client, thread) => {
+    client.features.ensure(thread.guild.id, {
+        music: true,
+        logs: true,
+        reactionroles: true,
+        moderation: true,
+        fun: true,
+        youtube: false,
+        support: true,
+        points: true,
+    });
+    if (client.features.get(thread.guild.id, "logs") == false) {
+        return;
+    }
     if (client.settings.get(thread.guild.id, "logchannel")) {
         const embed = new Discord.MessageEmbed()
             .setAuthor(`Modlogs`, thread.guild.iconURL())

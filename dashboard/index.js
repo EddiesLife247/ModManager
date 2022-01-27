@@ -896,7 +896,7 @@ module.exports = client => {
     } else {
       welcomemsg = 'NO MESSAGE';
     }
-    console.log(req.body.moderation);
+    //console.log(req.body.moderation);
     if (req.body.logchannel) client.settings.set(guild.id, req.body.logchannel, "logchannel")
     if (req.body.randomtopic) client.settings.set(guild.id, req.body.randomtopic, "randomtopic")
     if (req.body.qotdchannel) client.settings.set(guild.id, req.body.qotdchannel, "qotdchannel")
@@ -904,6 +904,11 @@ module.exports = client => {
       client.features.set(guild.id, true, "music")
     } else {
       client.features.set(guild.id, false, "music")
+    }
+    if (req.body.logmsg) {
+      client.features.set(guild.id, true, "logs")
+    } else {
+      client.features.set(guild.id, false, "logs")
     }
     if (req.body.moderation) {
       client.features.set(guild.id, true, "moderation")

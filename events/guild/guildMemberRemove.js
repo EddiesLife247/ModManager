@@ -88,6 +88,17 @@ module.exports = async (client, member) => {
         .addField("**Executor**", `${execute}`, true)
         .addField("**Reason**", `${kickReason}`)
         .setTimestamp();
+        client.features.ensure(member.guild.id, {
+          music: true,
+          logs: true,
+          reactionroles: true,
+          moderation: true,
+          fun: true,
+          youtube: false,
+          support: true,
+          points: true,
+      });
+      if (client.features.get(member.guild.id, "logs") == true) {
       if (member.guild.channels.cache.find(c => c.id == client.settings.get(member.guild.id, "logchannel"))) {
         member.guild.channels.cache.find(c => c.id == client.settings.get(member.guild.id, "logchannel")).send({ embeds: [embed] });
         logMessage(client, "success", member.guild, `${member.user.tag} left the server. (Log message)`);
@@ -96,6 +107,9 @@ module.exports = async (client, member) => {
       } else {
         //console.log(`Cannot find channel: ${settings.modLogChannel} in: ${member.guild.name}`);
       }
+    } else {
+      logMessage(client, "success", member.guild, `${member.user.tag} left the server. (Log message)`);
+    }
     }
   }
   //}

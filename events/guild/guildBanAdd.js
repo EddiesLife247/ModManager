@@ -11,6 +11,7 @@ const Discord = require(`discord.js`);
 const SQLite = require("better-sqlite3");
 const bansql = new SQLite(`./databases/bans.sqlite`);
 module.exports = async (client, member) => {
+
     const guild = member.guild;
     if (guild.me.permissions.has("VIEW_AUDIT_LOG")) {
         //if (member.me.permissions.has("VIEW_AUDIT_LOG")) {
@@ -44,6 +45,17 @@ module.exports = async (client, member) => {
             else {
                 var executorKick = executor.tag;
             }
+            client.features.ensure(member.guild.id, {
+                music: true,
+                logs: true,
+                reactionroles: true,
+                moderation: true,
+                fun: true,
+                youtube: false,
+                support: true,
+                points: true,
+            });
+            if (client.features.get(member.guild.id, "logs") == true) {
             if (member.guild.channels.cache.find(c => c.id == client.settings.get(member.guild.id, "logchannel"))) {
                 const embed = new Discord.MessageEmbed()
                     .setAuthor(`Modlogs`, member.guild.iconURL())
@@ -56,6 +68,7 @@ module.exports = async (client, member) => {
                     .setTimestamp();
                 member.guild.channels.cache.find(c => c.id == client.settings.get(member.guild.id, "logchannel")).send({ embeds: [embed] });
             }
+        }
             let banReason = ''
             let banApproved = ''
             if (executor.id == client.user.id) {
@@ -86,9 +99,21 @@ module.exports = async (client, member) => {
                     logMessage(client, "success", member.guild, `New Global PENDING ban from \n \n ${member.guild.name}`);
                 }
             }
+            client.features.ensure(member.guild.id, {
+                music: true,
+                logs: true,
+                reactionroles: true,
+                moderation: true,
+                fun: true,
+                youtube: false,
+                support: true,
+                points: true,
+            });
+            if (client.features.get(member.guild.id, "logs") == true) {
             if (member.guild.channels.cache.find(c => c.id == client.settings.get(member.guild.id, "logchannel"))) {
                 member.guild.channels.cache.find(c => c.id == client.settings.get(member.guild.id, "logchannel")).send('Ban added to punishment database and will be reviewed by bot staff shortly');
             }
+        }
             //console.log(`Found log channel and sent message: ${settings.modLogChannel} in ${member.guild.id}`);
             logMessage(client, "success", member.guild, `New Local ban from \n \n ${member.guild.name}`);
 

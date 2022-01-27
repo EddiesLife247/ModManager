@@ -9,6 +9,19 @@ const { onCoolDown, replacemsg } = require(`../../handlers/functions`);
 const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 module.exports = async (client, emoji) => {
+	client.features.ensure(emoji.guild.id, {
+        music: true,
+        logs: true,
+        reactionroles: true,
+        moderation: true,
+        fun: true,
+        youtube: false,
+        support: true,
+        points: true,
+    });
+    if (client.features.get(emoji.guild.id, "logs") == false) {
+        return;
+    }
 	const guild = emoji.guild;
 	if (guild.me.permissions.has("VIEW_AUDIT_LOG")) {
 		client.settings.ensure(emoji.guild.id, {

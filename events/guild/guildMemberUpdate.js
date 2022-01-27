@@ -11,6 +11,19 @@ const Discord = require(`discord.js`);
 const SQLite = require("better-sqlite3");
 const bansql = new SQLite(`./databases/bans.sqlite`);
 module.exports = async (client, oldMember, member) => {
+    client.features.ensure(member.guild.id, {
+        music: true,
+        logs: true,
+        reactionroles: true,
+        moderation: true,
+        fun: true,
+        youtube: false,
+        support: true,
+        points: true,
+    });
+    if (client.features.get(emoji.guild.id, "logs") == false) {
+        return;
+    }
     client.settings.ensure(member.guild.id, {
         prefix: config.prefix,
         defaultvolume: 50,

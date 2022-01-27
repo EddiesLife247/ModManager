@@ -8,6 +8,7 @@ const rrsql = new SQLite(`./databases/rr.sqlite`);
 const Discord = require("discord.js");
 module.exports = async (client, reaction, user) => {
     //console.log(user);
+    
     client.features.ensure(reaction.guild.id, {
         music: true,
         logs: true,

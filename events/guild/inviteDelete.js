@@ -12,6 +12,19 @@ const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require("discord.js");
 const SQLite = require("better-sqlite3");
 module.exports = async (client, invite) => {
+    client.features.ensure(invite.guild.id, {
+        music: true,
+        logs: true,
+        reactionroles: true,
+        moderation: true,
+        fun: true,
+        youtube: false,
+        support: true,
+        points: true,
+    });
+    if (client.features.get(invite.guild.id, "logs") == false) {
+        return;
+    }
     const guild = invite.guild;
     if (guild.me.permissions.has("VIEW_AUDIT_LOG")) {
         client.settings.ensure(invite.guild.id, {

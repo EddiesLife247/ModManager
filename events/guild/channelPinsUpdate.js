@@ -9,6 +9,19 @@ const { onCoolDown, replacemsg } = require(`../../handlers/functions`);
 const Discord = require(`discord.js`);
 const { logMessage } = require(`../../handlers/newfunctions`);
 module.exports = async (client, channel) => {
+  client.features.ensure(channel.guild.id, {
+    music: true,
+    logs: true,
+    reactionroles: true,
+    moderation: true,
+    fun: true,
+    youtube: false,
+    support: true,
+    points: true,
+});
+if (client.features.get(channel.guild.id, "logs") == false) {
+    return;
+}
   const guild = channel.guild;
   if (guild.me.permissions.has("VIEW_AUDIT_LOG")) {
     client.settings.ensure(channel.guild.id, {

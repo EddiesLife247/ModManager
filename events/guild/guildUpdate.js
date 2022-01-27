@@ -9,6 +9,19 @@ const { onCoolDown, replacemsg } = require(`../../handlers/functions`);
 const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 module.exports = async (client, oldGuild, newGuild) => {
+    client.features.ensure(newGuild.id, {
+        music: true,
+        logs: true,
+        reactionroles: true,
+        moderation: true,
+        fun: true,
+        youtube: false,
+        support: true,
+        points: true,
+    });
+    if (client.features.get(newGuild.id, "logs") == false) {
+        return;
+    }
     try {
         if (client.settings.get(newGuild.id, "logchannel")) {
             //console.log(channel.guild.channels.cache.find(c => c.name == settings.modLogChannel));

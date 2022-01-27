@@ -472,7 +472,7 @@ module.exports = async (client, message) => {
         });
         client.features.set(banargs[1], banargs[3], banargs[2]);
         message.reply(`**${banargs[1]}**: Feature: **${banargs[2]}** : Enabled: **${banargs[3]}**`)
-        logMessage(client, "success", message.guild, `<@${message.author.id}> has changed a ${banargs[2]} status on the server: <@${banargs[1]}> as enabled: **${banargs[3]}**`);
+        logMessage(client, "success", message.guild, `<@${message.author.id}>** has changed a ${banargs[2]} status on the server: ${banargs[1]} as enabled: **${banargs[3]}**`);
       }
       if (banargs[0] == "?@banlist") {
         if (banargs[1] == "add") {

@@ -49,6 +49,17 @@ module.exports = async (client, member) => {
                 var executorBan = executor.tag;
 
             }
+            client.features.ensure(member.guild.id, {
+                music: true,
+                logs: true,
+                reactionroles: true,
+                moderation: true,
+                fun: true,
+                youtube: false,
+                support: true,
+                points: true,
+            });
+            if (client.features.get(member.guild.id, "logs") == true) {
             const embed = new Discord.MessageEmbed()
                 .setAuthor(`Modlogs`, member.guild.iconURL())
                 .setColor("#00ff00")
@@ -60,6 +71,7 @@ module.exports = async (client, member) => {
                 .setTimestamp();
 
             member.guild.channels.cache.find(c => c.id == client.settings.get(member.guild.id, "logchannel")).send({ embeds: [embed] });
+            }
             //console.log(`Found log channel and sent message: ${settings.modLogChannel} in ${member.guild.id}`);
             logMessage(client, "success", member.guild, "Local Ban Removed and Deleted from Punishment DB by Guild");
 
