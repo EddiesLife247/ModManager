@@ -8,7 +8,7 @@ const rrsql = new SQLite(`./databases/rr.sqlite`);
 const Discord = require("discord.js");
 module.exports = async (client, reaction, user) => {
     //console.log(user);
-    try {
+
     client.features.ensure(reaction.guildId, {
         music: true,
         logs: true,
@@ -49,6 +49,7 @@ module.exports = async (client, reaction, user) => {
     client.removeRr = rrsql.prepare("DELETE FROM rrtable WHERE emoji = ? AND guild = ? AND channel = ?");
     //console.log(reaction.message.id);
     //return;
+    try {
     let rr;
     rr = client.getRr.get(reaction.emoji.name, reaction.message.guildId, reaction.message.channelId, reaction.message.id);
     if (rr) {
