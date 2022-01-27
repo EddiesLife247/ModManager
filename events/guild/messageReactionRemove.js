@@ -7,7 +7,7 @@ const SQLite = require("better-sqlite3");
 const rrsql = new SQLite(`./databases/rr.sqlite`);
 const Discord = require("discord.js");
 module.exports = async (client, reaction, user) => {
-    client.features.ensure(reaction.guildId, {
+    client.features.ensure(reaction.message.guildId, {
         music: true,
         logs: true,
         reactionroles: true,
@@ -17,7 +17,7 @@ module.exports = async (client, reaction, user) => {
         support: true,
         points: true,
     });
-    if (client.features.get(reaction.guildId, "reactionroles") == false) {
+    if (client.features.get(reaction.message.guildId, "reactionroles") == false) {
         return;
     }
     //console.log(`${user.tag} reacted ${reaction.emoji.name} on message ${reaction.message.id}.`);
@@ -33,7 +33,7 @@ module.exports = async (client, reaction, user) => {
         // DO SOMETHING WITH REACTION!
         //console.log(reaction);
         await reaction.message.guild.members.cache.get(user.id).roles.remove(rr.role)
-        logMessage(client, "success", message.guild, `Message Reaction Remove`);
+        logMessage(client, "success", reaction.message.guildId, `Message Reaction Remove`);
         //do nothing.
 
 
@@ -47,7 +47,7 @@ module.exports = async (client, reaction, user) => {
         //console.log(reaction);
 
         await reaction.message.guild.members.cache.get(user.id).roles.remove(rr2.role)
-        logMessage(client, "success", message.guild, `Message Reaction Remove`);
+        logMessage(client, "success", reaction.message.guildId, `Message Reaction Remove`);
 
 
     }

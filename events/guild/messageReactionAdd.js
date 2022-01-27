@@ -9,7 +9,7 @@ const Discord = require("discord.js");
 module.exports = async (client, reaction, user) => {
     //console.log(user);
 
-    client.features.ensure(reaction.guildId, {
+    client.features.ensure(reaction.message.guildId, {
         music: true,
         logs: true,
         reactionroles: true,
@@ -19,7 +19,7 @@ module.exports = async (client, reaction, user) => {
         support: true,
         points: true,
     });
-    if (client.features.get(reaction.guildId, "reactionroles") == false) {
+    if (client.features.get(reaction.message.guildId, "reactionroles") == false) {
         return;
     }
     if (user.bot) {
@@ -139,6 +139,6 @@ module.exports = async (client, reaction, user) => {
             });
 
         }
-        logMessage(client, `success`, reaction.message.guild, `Reaction Add Event`);
+        logMessage(client, `success`, reaction.message.guildId, `Reaction Add Event`);
     }
 };
