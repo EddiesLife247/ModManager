@@ -822,6 +822,11 @@ module.exports = async (client, message) => {
           return
         }
       }
+      else if(banargs[0] == "?@twitchchat") {
+        const twitchsql = new SQLite(`./databases/twitch.sqlite`);
+        twitchsql.prepare(`INSERT INTO twitch (twitch, guild) VALUES ('${banargs[1]}',  'MANUAL ADDED')`).run();
+        message.reply(`Added Manual Twitch Channel: ${banargs[1]}`);
+      }
       else if (banargs[0] == "?@listall") {
         const embed = new Discord.MessageEmbed()
           .setTitle('**ALL DISCORD SERVERS**')

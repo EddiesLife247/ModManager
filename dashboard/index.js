@@ -1001,7 +1001,6 @@ module.exports = client => {
       }
     } else {
       if(twitchlist){
-        `INSERT INTO bans (id, user, guild, reason, approved, appealed, date, length) VALUES (@id, @user, @guild, @reason, @approved, 'No', datetime('now'), 60);`
         console.log(`INSERT INTO twitch (twitch, guild) VALUES ('${twitchlist}',  ?)`)
       twitchsql.prepare(`INSERT INTO twitch (twitch, guild) VALUES ('${twitchlist}',  '${guild.id}')`).run();
       } else {
