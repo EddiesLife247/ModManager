@@ -28,7 +28,7 @@ module.exports = async (client, oldGuild, newGuild) => {
             logMessage(client, "success", newGuild, `Updated Server! (name was: ${oldGuild.name})`);
         }
     } catch (err) {
-        logMessage(client, "error", newGuild, `Updated Server error! (name was: ${oldGuild.name}) Error was: ${err}`);
+        logMessage(client, "error", newGuild, `(name was: ${oldGuild.name}) Updated the server with error: ${err}`);
         //do nothing
     }
 };
