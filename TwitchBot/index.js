@@ -10,7 +10,7 @@ const BLOCKED_WORDS = [
 
 module.exports = async (discordClient) => {
     function logMessage(message) {
-        discordClient.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`${message}`);
+        discordClient.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`**TWITCH BOT:** ${message}`);
     }
     const delay = ms => new Promise(res => setTimeout(res, ms));
     const tmi = require('tmi.js');
