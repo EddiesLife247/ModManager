@@ -569,7 +569,7 @@ module.exports = client => {
       points: true,
       twitchbot: true,
       twitchFilter: true,
-      twitchlurk: "",
+      twitchlurk: '',
     });
     // end feature end point code
     if (!guild) return res.redirect("/dashboard?error=" + encodeURIComponent("Can't get Guild Information Data"));
@@ -870,7 +870,7 @@ module.exports = client => {
       cooldown = 'DISABLED';
     }
     if (req.body.twitchlurk) {
-      client.settings.set(guild.id, req.body.twitchlurk, "twitchlurk")
+      client.features.set(guild.id, req.body.twitchlurk, "twitchlurk")
       twitchlurk = req.body.twitchlurk;
     } else {
       twitchlurk = '';
