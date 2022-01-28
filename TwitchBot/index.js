@@ -75,11 +75,14 @@ client.on('message', (channel, userstate, message, self) => {
         const num = rollDice();
         client.say(channel, `You rolled a ${num}`);
     } else if (message.toLowerCase() == '!discord') {
-        const twitchsqldata = twitchsql.prepare(`SELECT * FROM twitch WHERE twitch = ${channel} `).all();
+        console.log(channel)
+        const twitchsqldata = twitchsql.prepare(`SELECT * FROM twitch WHERE twitch = '${channel}' `).run();
 for (const data of twitchsqldata) {
     var discord = data.discord;
+    console.log(discord)
         const guild = discordClient.guilds.get(discord);
         let memberCount = guild.memberCount;
+        console.log(memberCount)
         client.say(channel, `We are working on this at the moment! But there are ${memberCount} users on the discord.`);
 }
     }
