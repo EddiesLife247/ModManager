@@ -9,5 +9,5 @@ exports.run = (client, channel, userstate, message, self, args) => {
         str = file.slice(0, -3);
         cmds = cmds + '?' + str + ', ';
     });
-    client.say(channel, `Commands available are: ?discord, ${cmds}`)
+    client.say(channel, `Commands available are: ?discord, !lurk, !unlurk, 'hello', ${cmds}`)
 }

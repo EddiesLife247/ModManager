@@ -802,6 +802,13 @@
                                                     (Updates on Save)
                                             </label>
                                         </div>
+                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">
+                                            Twitch Lurk Message:</h5>
+                                        <p style="font-style: italic;" class="disabled">What message should we say to
+                                            users on !lurk after: "user is now lurking," (message always starts tagging the user).</p>
+                                        <textarea style="margin-top: -10px;" type="text" class="form-control" col="200"
+                                            rows="4" name="twitchlurk"
+                                            placeholder="Lurk Message"><%= botClient.settings.get(guild.id, 'twitchlurk' ) %></textarea>
                                     </div>
                                 </div>
                                 <div class="tab-pane fade show" id="xp" role="tabpanel"

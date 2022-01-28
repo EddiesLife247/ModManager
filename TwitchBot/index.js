@@ -70,6 +70,7 @@ module.exports = async (discordClient) => {
                         points: true,
                         TwitchFilter: true,
                         twitchbot: true,
+                        twitchlurk: "",
                     });
                     if (discordClient.features.get(discord, "twitchbot") == true) {
                         // Ignore echoed messages.
@@ -79,7 +80,14 @@ module.exports = async (discordClient) => {
                             logMessage(`Channel : ${channel} : hello comamnd`);
                             // "@alca, heya!"
                             client.say(channel, `@${userstate.username}, heya!`);
-                        } else if (message.toLowerCase() == '?join') {
+                        } else if (message.toLowerCase() == '!lurk') {
+
+                            client.say(channel, `${userstate.username} is now lurking!, ${twitchlurk}`)
+                        } else if (message.toLowerCase() == '!unlurk') {
+
+                            client.say(channel, `${userstate.username} has now returned!`)
+                        }
+                        else if (message.toLowerCase() == '?join') {
                             for (const data of twitchsqldata) {
                                 var twitchchat = data.twitch;
                                 client.join(twitchchat);
@@ -487,8 +495,8 @@ module.exports = async (discordClient) => {
 module.exports.joinChannel = joinChannel;
 function joinChannel(channel) {
     try {
-    twitchClient.join(channel);
-    console.log(`Joined; ${channel}`);
+        twitchClient.join(channel);
+        console.log(`Joined; ${channel}`);
     } catch (e) {
         console.log(e);
     }
