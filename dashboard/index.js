@@ -568,6 +568,7 @@ module.exports = client => {
       support: true,
       points: true,
       twitchbot: true,
+      twitchFilter: true,
     });
     // end feature end point code
     if (!guild) return res.redirect("/dashboard?error=" + encodeURIComponent("Can't get Guild Information Data"));
@@ -629,6 +630,7 @@ module.exports = client => {
       } else {
         twitchlist = data.twitch;
         twitchinvite = data.invite;
+        console.log(twitchinvite);
       }
     }
 
@@ -946,6 +948,11 @@ module.exports = client => {
       client.features.set(guild.id, true, "moderation")
     } else {
       client.features.set(guild.id, false, "moderation")
+    }
+    if (req.body.twitchFilter) {
+      client.features.set(guild.id, true, "twitchFilter")
+    } else {
+      client.features.set(guild.id, false, "twitchFilter")
     }
     if (req.body.reactionroles) {
       client.features.set(guild.id, true, "reactionroles")
