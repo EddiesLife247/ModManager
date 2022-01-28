@@ -1,6 +1,7 @@
 //===================================
 module.exports = async (discordClient) => {
     function logMessage(message) {
+        console.log(`**TWITCH BOT:** ${message}`);
         discordClient.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`**TWITCH BOT:** ${message}`);
     }
     try {
@@ -47,48 +48,88 @@ module.exports = async (discordClient) => {
         }
 
         client.on('message', (channel, userstate, message, self) => {
+            var chan = channel.substring(1);
+            const twitchchannel = twitchsql.prepare("SELECT * FROM twitch WHERE twitch = ?").all(chan);
+            var twitchdata = "";
+            for (const data of twitchchannel) {
+                if (data == undefined) {
+                    twitchdata = "";
+                } else {
+                    discord = data.guild;
+                    const guild = discordClient.guilds.cache.get(discord);
+                    discordClient.features.ensure(discord, {
+                        music: true,
+                        logs: true,
+                        reactionroles: true,
+                        moderation: true,
+                        fun: true,
+                        youtube: false,
+                        support: true,
+                        points: true,
+                        TwitchFilter: true,
+                        twitchbot: true,
+                    });
+                    if (discordClient.features.get(discord, "twitchbot") == true) {
+                        // Ignore echoed messages.
+                        //if (self) return;
 
-            // Ignore echoed messages.
-            if (self) return;
-            if (message.toLowerCase() === 'hello') {
-                logMessage(`Channel : ${channel} : hello comamnd`);
-                // "@alca, heya!"
-                client.say(channel, `@${userstate.username}, heya!`);
-            } else if (message.toLowerCase() == '?join') {
-                for (const data of twitchsqldata) {
-                    var twitchchat = data.twitch;
-                    client.join(twitchchat);
-                    console.log(`joined: ${twitchchat}`);
-                }
-                client.say(channel, `I have joined all known channels.`)
-                logMessage(`Channel : ${channel} : join comamnd`);
-            } else if (message.toLowerCase() == '?discord') {
+                        if (message.toLowerCase() === 'hello') {
+                            logMessage(`Channel : ${channel} : hello comamnd`);
+                            // "@alca, heya!"
+                            client.say(channel, `@${userstate.username}, heya!`);
+                        } else if (message.toLowerCase() == '?join') {
+                            for (const data of twitchsqldata) {
+                                var twitchchat = data.twitch;
+                                client.join(twitchchat);
+                                console.log(`joined: ${twitchchat}`);
+                            }
+                            client.say(channel, `I have joined all known channels.`)
+                            logMessage(`Channel : ${channel} : join comamnd`);
+                        } else if (message.toLowerCase() == '?discord') {
+                            let memberCount = guild.memberCount;
+                            if (data.invite) {
+                                invite = `https://discord.gg/${data.invite}`;
+                            } else {
+                                invite = `Our discord is INVITE only, sorry :(.`;
+                                memberCount = 'unknwon';
+                            }
 
-                var chan = channel.substring(1);
-                console.log(chan)
-                console.log(`SELECT guild FROM twitch WHERE twitch = '${chan}'`);
-                const twitchchannel = twitchsql.prepare("SELECT * FROM twitch WHERE twitch = ?").all(chan);
-                var twitchdata = "";
-                for (const data of twitchchannel) {
-                    if (data == undefined) {
-                        twitchdata = "";
-                    } else {
-                        discord = data.guild;
-                        const guild = discordClient.guilds.cache.get(discord);
-                        let memberCount = guild.memberCount;
-                        console.log(memberCount)
-                        if (data.invite) {
-                            invite = `https://discord.gg/${data.invite}`;
-                        } else {
-                            invite = `Our discord is INVITE only, sorry :(.`;
-                            memberCount = 'unknwon';
+                            client.say(channel, `Come join the discord at: ${invite} We have ${memberCount} users on our discord.`);
+                            logMessage(`Channel : ${channel} : discord comamnd`);
                         }
-
-                        client.say(channel, `Come join the discord at: ${invite} We have ${memberCount} users on our discord.`);
-                        logMessage(`Channel : ${channel} : discord comamnd`);
+                        if (discordClient.features.get(discord, "TwitchFilter") == false) {
+                            console.log(message);
+                            return console.log('Moderation Disabled');
+                        } else {
+                            console.log(message);
+                            checkTwitchChat(userstate, message, channel)
+                        }
+                        if (message.startsWith("?")) {
+                            const args = message.slice(prefix.length).trim().split(/ +/g);
+                            const cmd = args.shift().toLowerCase();
+                            console.log(cmd);
+                            try {
+                                let commandFile = require(`./commands/${cmd}.js`);
+                                if (commandFile) {
+                                    commandFile.run(client, channel, userstate, message, self, args, discordClient)
+                                    logMessage(`Channel : ${channel} : ${cmd} comamnd. - ${message}`);
+                                }
+                            } catch (err) {
+                                return console.log(err);
+                            }
+                        }
                     }
                 }
             }
+        });
+
+        // Register our event handlers (defined below)
+        client.on('connected', onConnectedHandler);
+
+        // Connect to Twitch:
+        client.connect();
+        client.on("slowmode", (channel, enabled, length) => {
+            var chan = channel.substring(1);
             const twitchchannel = twitchsql.prepare("SELECT * FROM twitch WHERE twitch = ?").all(chan);
             var twitchdata = "";
             for (const data of twitchchannel) {
@@ -106,94 +147,281 @@ module.exports = async (discordClient) => {
                         support: true,
                         points: true,
                         TwitchFilter: true,
+                        twitchbot: true,
                     });
-                    if (discordClient.features.get(discord, "moderation") == false) {
-                        return;
+                }
+                if (discordClient.features.get(discord, "twitchbot") == true) {
+                    // Do your stuff.
+                    var status = ""
+                    if (enabled == true) {
+                        status = `ON you must wait ${length} between each message`;
                     } else {
-                        checkTwitchChat(userstate, message, channel)
+                        status = "OFF";
                     }
+                    client.say(channel, `Channel SLOW MODE has been turned: ${status}`);
+                    logMessage(`Channel : ${channel} : SLOW MODE has been turned: ${status}`);
+                } else {
+                    return console.log(`Twitch Bot Disabled for ${channel}`);
                 }
             }
-            if(message.startsWith("?")){
-            const args = message.slice(prefix.length).trim().split(/ +/g);
-            const cmd = args.shift().toLowerCase();
-            console.log(cmd);
-            try {
-                let commandFile = require(`./commands/${cmd}.js`);
-                if (commandFile) {
-                    commandFile.run(client, channel, userstate, message, self, args, discordClient)
-                    logMessage(`Channel : ${channel} : ${cmd} comamnd. - ${message}`);
-                }
-            } catch (err) {
-                return console.log(err);
-            }
-        }
-        });
-
-        // Register our event handlers (defined below)
-        client.on('connected', onConnectedHandler);
-
-        // Connect to Twitch:
-        client.connect();
-        client.on("slowmode", (channel, enabled, length) => {
-            // Do your stuff.
-            var status = ""
-            if (enabled == true) {
-                status = `ON you must wait ${length} between each message`;
-            } else {
-                status = "OFF";
-            }
-            client.say(channel, `Channel SLOW MODE has been turned: ${status}`);
-            logMessage(`Channel : ${channel} : SLOW MODE has been turned: ${status}`);
         });
         client.on("reconnect", () => {
             logMessage(`Reconnecting to Twitch!`);
         });
         client.on("resub", (channel, username, months, message, userstate, methods) => {
-            // Do your stuff.
-            let cumulativeMonths = ~~userstate["msg-param-cumulative-months"];
-            client.say(channel, `${username} has re-subscribed for ${months} months via ${methods}. They have been subbed for ${cumulativeMonths} months!`);
-            logMessage(`Channel : ${channel} : ${username} has re-subscribed for ${months} months via ${methods}. They have been subbed for ${cumulativeMonths} months!`);
+            var chan = channel.substring(1);
+            const twitchchannel = twitchsql.prepare("SELECT * FROM twitch WHERE twitch = ?").all(chan);
+            var twitchdata = "";
+            for (const data of twitchchannel) {
+                if (data == undefined) {
+                    twitchdata = "";
+                } else {
+                    discord = data.guild;
+                    discordClient.features.ensure(discord, {
+                        music: true,
+                        logs: true,
+                        reactionroles: true,
+                        moderation: true,
+                        fun: true,
+                        youtube: false,
+                        support: true,
+                        points: true,
+                        TwitchFilter: true,
+                        twitchbot: true,
+                    });
+                }
+                if (discordClient.features.get(discord, "twitchbot") == true) {
+                    // Do your stuff.
+                    let cumulativeMonths = ~~userstate["msg-param-cumulative-months"];
+                    client.say(channel, `${username} has re-subscribed for ${months} months via ${methods}. They have been subbed for ${cumulativeMonths} months!`);
+                    logMessage(`Channel : ${channel} : ${username} has re-subscribed for ${months} months via ${methods}. They have been subbed for ${cumulativeMonths} months!`);
+                } else {
+                    return console.log(`Twitch Bot Disabled for ${channel}`);
+                }
+            }
         });
         client.on("cheer", (channel, userstate, message) => {
-            client.say(channel, `${userstate.username} Thank you for the cheer!`);
-            logMessage(`Channel : ${channel} : ${userstate.username} has cheered`);
+            var chan = channel.substring(1);
+            const twitchchannel = twitchsql.prepare("SELECT * FROM twitch WHERE twitch = ?").all(chan);
+            var twitchdata = "";
+            for (const data of twitchchannel) {
+                if (data == undefined) {
+                    twitchdata = "";
+                } else {
+                    discord = data.guild;
+                    discordClient.features.ensure(discord, {
+                        music: true,
+                        logs: true,
+                        reactionroles: true,
+                        moderation: true,
+                        fun: true,
+                        youtube: false,
+                        support: true,
+                        points: true,
+                        TwitchFilter: true,
+                        twitchbot: true,
+                    });
+                }
+                if (discordClient.features.get(discord, "twitchbot") == true) {
+                    client.say(channel, `${userstate.username} Thank you for the cheer!`);
+                    logMessage(`Channel : ${channel} : ${userstate.username} has cheered`);
+                } else {
+                    return console.log(`Twitch Bot Disabled for ${channel}`);
+                }
+            }
         });
         client.on("anongiftpaidupgrade", (channel, username, userstate) => {
-            client.say(channel, `${username} has continued the sub from an anonymous gifter! Thank you so much!`);
-            logMessage(`Channel : ${channel} : ${username} has continued the sub from an anonymous gifter! Thank you so much!`);
+            var chan = channel.substring(1);
+            const twitchchannel = twitchsql.prepare("SELECT * FROM twitch WHERE twitch = ?").all(chan);
+            var twitchdata = "";
+            for (const data of twitchchannel) {
+                if (data == undefined) {
+                    twitchdata = "";
+                } else {
+                    discord = data.guild;
+                    discordClient.features.ensure(discord, {
+                        music: true,
+                        logs: true,
+                        reactionroles: true,
+                        moderation: true,
+                        fun: true,
+                        youtube: false,
+                        support: true,
+                        points: true,
+                        TwitchFilter: true,
+                        twitchbot: true,
+                    });
+                }
+                if (discordClient.features.get(discord, "twitchbot") == true) {
+                    client.say(channel, `${username} has continued the sub from an anonymous gifter! Thank you so much!`);
+                    logMessage(`Channel : ${channel} : ${username} has continued the sub from an anonymous gifter! Thank you so much!`);
+                } else {
+                    return console.log(`Twitch Bot Disabled for ${channel}`);
+                }
+            }
         });
         client.on("ban", (channel, username, reason, userstate) => {
+
             // Do your stuff.
-            client.say(channel, 'We are adding this to our punishment database!');
+            var chan = channel.substring(1);
+            const twitchchannel = twitchsql.prepare("SELECT * FROM twitch WHERE twitch = ?").all(chan);
+            var twitchdata = "";
+            for (const data of twitchchannel) {
+                if (data == undefined) {
+                    twitchdata = "";
+                } else {
+                    discord = data.guild;
+                    discordClient.features.ensure(discord, {
+                        music: true,
+                        logs: true,
+                        reactionroles: true,
+                        moderation: true,
+                        fun: true,
+                        youtube: false,
+                        support: true,
+                        points: true,
+                        TwitchFilter: true,
+                        twitchbot: true,
+                    });
+                }
+                if (discordClient.features.get(discord, "twitchbot") == true) {
+                    client.say(channel, 'We are adding this to our punishment database!');
+                } else {
+                    return console.log(`Twitch Bot Disabled for ${channel}`);
+                }
+            }
         });
         client.on("clearchat", (channel) => {
-            client.say(channel, `The channel chat has been cleared`);
+            var chan = channel.substring(1);
+            const twitchchannel = twitchsql.prepare("SELECT * FROM twitch WHERE twitch = ?").all(chan);
+            var twitchdata = "";
+            for (const data of twitchchannel) {
+                if (data == undefined) {
+                    twitchdata = "";
+                } else {
+                    discord = data.guild;
+                    discordClient.features.ensure(discord, {
+                        music: true,
+                        logs: true,
+                        reactionroles: true,
+                        moderation: true,
+                        fun: true,
+                        youtube: false,
+                        support: true,
+                        points: true,
+                        TwitchFilter: true,
+                        twitchbot: true,
+                    });
+                }
+                if (discordClient.features.get(discord, "twitchbot") == true) {
+                    client.say(channel, `The channel chat has been cleared`);
+                } else {
+                    return console.log(`Twitch Bot Disabled for ${channel}`);
+                }
+            }
         });
         client.on("followersonly", (channel, enabled, length) => {
-            var status = ""
-            if (enabled == true) {
-                status = `ON you must be following for ${length} before talking in this chat room.`;
-            } else {
-                status = "OFF";
+            var chan = channel.substring(1);
+            const twitchchannel = twitchsql.prepare("SELECT * FROM twitch WHERE twitch = ?").all(chan);
+            var twitchdata = "";
+            for (const data of twitchchannel) {
+                if (data == undefined) {
+                    twitchdata = "";
+                } else {
+                    discord = data.guild;
+                    discordClient.features.ensure(discord, {
+                        music: true,
+                        logs: true,
+                        reactionroles: true,
+                        moderation: true,
+                        fun: true,
+                        youtube: false,
+                        support: true,
+                        points: true,
+                        TwitchFilter: true,
+                        twitchbot: true,
+                    });
+                }
+                if (discordClient.features.get(discord, "twitchbot") == true) {
+                    var status = ""
+                    if (enabled == true) {
+                        status = `ON you must be following for ${length} before talking in this chat room.`;
+                    } else {
+                        status = "OFF";
+                    }
+                    client.say(channel, `The channel chat follow only mode has been turned: ${status}`);
+                    logMessage(`Channel : ${channel} : FOLLOW MODE has been turned: ${status}`);
+                } else {
+                    return console.log(`Twitch Bot Disabled for ${channel}`);
+                }
             }
-            client.say(channel, `The channel chat follow only mode has been turned: ${status}`);
-            logMessage(`Channel : ${channel} : FOLLOW MODE has been turned: ${status}`);
         });
         client.on("subscribers", (channel, enabled) => {
-            // Do your stuff.
-            var status = ""
-            if (enabled == true) {
-                status = `ON you must be a subscriber to talk in the chat.`;
-            } else {
-                status = "OFF, everyone can chat, please abide by the channel rules";
+            var chan = channel.substring(1);
+            const twitchchannel = twitchsql.prepare("SELECT * FROM twitch WHERE twitch = ?").all(chan);
+            var twitchdata = "";
+            for (const data of twitchchannel) {
+                if (data == undefined) {
+                    twitchdata = "";
+                } else {
+                    discord = data.guild;
+                    discordClient.features.ensure(discord, {
+                        music: true,
+                        logs: true,
+                        reactionroles: true,
+                        moderation: true,
+                        fun: true,
+                        youtube: false,
+                        support: true,
+                        points: true,
+                        TwitchFilter: true,
+                        twitchbot: true,
+                    });
+                }
+                if (discordClient.features.get(discord, "twitchbot") == true) {
+                    // Do your stuff.
+                    var status = ""
+                    if (enabled == true) {
+                        status = `ON you must be a subscriber to talk in the chat.`;
+                    } else {
+                        status = "OFF, everyone can chat, please abide by the channel rules";
+                    }
+                    client.say(channel, `Channel SUB MODE has been turned: ${status}`);
+                    logMessage(`Channel : ${channel} : SUB MODE has been turned: ${status}`);
+                } else {
+                    return console.log(`Twitch Bot Disabled for ${channel}`);
+                }
             }
-            client.say(channel, `Channel SUB MODE has been turned: ${status}`);
-            logMessage(`Channel : ${channel} : SUB MODE has been turned: ${status}`);
         });
         client.on("raided", (channel, username, viewers) => {
-            client.say(channel, `Thank you ${username} for the raid with ${viewers}! HYPE!!!`);
-            logMessage(`Channel : ${channel} :${username} RAIDED`);
+            var chan = channel.substring(1);
+            const twitchchannel = twitchsql.prepare("SELECT * FROM twitch WHERE twitch = ?").all(chan);
+            var twitchdata = "";
+            for (const data of twitchchannel) {
+                if (data == undefined) {
+                    twitchdata = "";
+                } else {
+                    discord = data.guild;
+                    discordClient.features.ensure(discord, {
+                        music: true,
+                        logs: true,
+                        reactionroles: true,
+                        moderation: true,
+                        fun: true,
+                        youtube: false,
+                        support: true,
+                        points: true,
+                        TwitchFilter: true,
+                        twitchbot: true,
+                    });
+                }
+                if (discordClient.features.get(discord, "twitchbot") == true) {
+                    client.say(channel, `Thank you ${username} for the raid with ${viewers}! HYPE!!!`);
+                    logMessage(`Channel : ${channel} :${username} RAIDED`);
+                } else {
+                    return console.log(`Twitch Bot Disabled for ${channel}`);
+                }
+            }
         });
 
         // Function called when the "dice" command is issued
