@@ -46,6 +46,10 @@ module.exports = async (discordClient) => {
                 client.log.warn(`Join Error ${err}`);
             });
         }
+        /** MANUAL JOINS */
+        client.join('demonwalker909');
+        client.join('darkwytchcraft');
+        client.join('elementaladept');
 
         client.on('message', (channel, userstate, message, self) => {
             var chan = channel.substring(1);
