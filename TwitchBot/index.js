@@ -493,7 +493,7 @@ module.exports = async (discordClient) => {
 module.exports.joinChannel = joinChannel;
 function joinChannel(channel) {
     try {
-        twitchClient.join(channel);
+        client.join(channel);
         console.log(`Joined; ${channel}`);
     } catch (e) {
         console.log(e);
