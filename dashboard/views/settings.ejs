@@ -769,6 +769,13 @@
                                             value="<%= botClient.settings.get(guild.id, 'twitchlist') %>"
                                             placeholder="Your Twitch Channel.">
                                         <br><br>
+                                        <h5 style="margin-bottom: 0.5rem; margin-top: 10px;color:#828cff">
+                                            Discord Invite Code: </h5>
+                                        <p style="font-style: italic;" class="disabled">Your Discord Invite Code (Only set this if you wish the bot to show invite code/and amount of users.).</p>
+                                        <input style="margin-top: -10px;" type="text" class="form-control" name="twitchinvite"
+                                            value="<%= botClient.settings.get(guild.id, 'twitchinvite') %>"
+                                            placeholder="Your discord invite code.">
+                                        <br><br>
 
                                     </div>
                                 </div>

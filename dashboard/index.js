@@ -625,8 +625,10 @@ module.exports = client => {
     for (const data of twitchdata) {
       if (data == undefined) {
         twitchlist = "";
+        twitchinvite = "";
       } else {
         twitchlist = data.twitch;
+        twitchinvite = data.invite;
       }
     }
 
@@ -671,6 +673,7 @@ module.exports = client => {
       suplist: suplist,
       rrlist2: rrlist2,
       twitchlist: twitchlist,
+      twitchinvite: twitchinvite,
       req: req,
       user: req.isAuthenticated() ? req.user : null,
       guild: client.guilds.cache.get(req.params.guildID),
@@ -869,6 +872,12 @@ module.exports = client => {
     } else {
       twitchlist = '';
     }
+    if (req.body.twitchinvite) {
+      client.settings.set(guild.id, req.body.twitchinvite, "twitchinvite")
+      twitchinvite = req.body.twitchinvite;
+    } else {
+      twitchinvite = '';
+    }
     if (req.body.acceptedtrust) {
       client.settings.set(guild.id, req.body.acceptedtrust, "acceptedtrust")
       acceptedtrust = req.body.acceptedtrust;
@@ -986,26 +995,31 @@ module.exports = client => {
     const twitchsql = new SQLite(`./databases/twitch.sqlite`);
     const twichsqldata = twitchsql.prepare("SELECT * FROM twitch WHERE guild = ?").all(guild.id);
     var twitchdata = "";
+    var twitchinvite = "";
     for (const data of twichsqldata) {
       if (data == undefined) {
         twitchdata = "";
+        twitchinvite = "";
       } else {
         twitchdata = data.twitch;
+        twitchinvite = data.invite;
       }
     }
     if (twitchdata) {
       if (twitchlist) {
-        twitchsql.prepare(`UPDATE twitch SET 'twitch' = '${twitchlist}' WHERE guild = '${guild.id}'`).run();
+        twitchsql.prepare(`UPDATE twitch SET 'twitch' = '${twitchlist}', 'invite' = '${twitchinvite}' WHERE guild = '${guild.id}'`).run();
       } else {
         twitchsql.prepare(`DELETE FROM twitch WHERE guild = '${guild.id}'`).run();
       }
     } else {
       if (twitchlist) {
-        twitchsql.prepare(`INSERT INTO twitch ('twitch', 'guild') VALUES ('${twitchlist}',  '${guild.id}')`).run();
+        twitchsql.prepare(`INSERT INTO twitch ('twitch', 'guild', 'invite') VALUES ('${twitchlist}',  '${guild.id}', '${twitchinvite}')`).run();
       } else {
         twitchsql.prepare(`DELETE FROM twitch WHERE guild = '${guild.id}'`).run();
       }
     }
+    
+
 
     const rrsql = new SQLite(`./databases/rr.sqlite`);
     const top10 = rrsql.prepare("SELECT * FROM rrtable WHERE guild = ?").all(guild.id);
@@ -1046,6 +1060,7 @@ module.exports = client => {
       guild: client.guilds.cache.get(req.params.guildID),
       botClient: client,
       twitchlist: twitchlist,
+      twitchinvite: twitchinvite,
       Permissions: Permissions,
       bot: settings.website,
       callback: settings.config.callback,
