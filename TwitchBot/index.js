@@ -40,7 +40,19 @@ module.exports = async (discordClient) => {
 
     // Create a client with our options
     const client = new tmi.client(opts);
+    
     const twitchsql = new SQLite(`./databases/twitch.sqlite`);
+
+    // Connect to known channels
+    const twitchsqldata = twitchsql.prepare("SELECT * FROM twitch").all();
+    for (const data of twitchsqldata) {
+        var twitchchat = data.twitch;
+        client.join(twitchchat).then((data) => {
+            console.log(`joined: ${twitchchat}`);
+        }).catch((err) => {
+            client.log.warn(`Join Error ${err}`);
+        });
+    }
 
     // Register our event handlers (defined below)
     client.on('connected', onConnectedHandler);
