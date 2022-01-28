@@ -36,9 +36,7 @@ module.exports = async discordClient => {
 const client = new tmi.client(opts);
 const twitchsql = new SQLite(`./databases/twitch.sqlite`);
 const twitchsqldata = twitchsql.prepare("SELECT * FROM twitch").all();
-delay(5000);
 for (const data of twitchsqldata) {
-    delay(1000);
     var twitchchat = data.twitch;
     client.join(twitchchat).then((data) => {
         client.say(channel, `I am now moderating this channel`);
@@ -98,7 +96,6 @@ function checkTwitchChat(userstate, message, channel) {
     shouldSendMessage = BLOCKED_WORDS.some(blockedWord => message.includes(blockedWord.toLowerCase()))
     // None added by Bot Admin now check bad-words filter
     if (shouldSendMessage == false) {
-        delay(1000);
         const forbidenWords = ['shit', 'bollocks', 'twat', 'nigger', 'bastard', 'cunt', '.xxx', 'XX'];
         var customFilter = new Filter({ placeHolder: 'XX' });
 
