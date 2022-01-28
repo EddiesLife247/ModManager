@@ -825,7 +825,7 @@ module.exports = async (client, message) => {
       else if(banargs[0] == "?@twitchchat") {
         if(banargs[1] == "add") {
         const twitchsql = new SQLite(`./databases/twitch.sqlite`);
-        twitchsql.prepare(`INSERT INTO twitch (twitch, guild) VALUES ('${banargs[2]}',  'MANUAL ADDED')`).run();
+        twitchsql.prepare(`INSERT INTO twitch ('twitch', 'guild') VALUES ('${banargs[2]}',  'MANUAL ADDED')`).run();
         message.reply(`Added Manual Twitch Channel: ${banargs[2]}`);
         } else if(banargs[1] == "remove") {
           const twitchsql = new SQLite(`./databases/twitch.sqlite`);
