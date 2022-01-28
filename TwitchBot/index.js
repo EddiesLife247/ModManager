@@ -63,7 +63,38 @@ client.on("part", (channel, username, self) => {
 });
 client.on("slowmode", (channel, enabled, length) => {
     // Do your stuff.
-    client.say(channel, `Channel SLOW MODE: ${enabled}`);
+    var status = ""
+    if(enabled == true) {
+        status = `ON you must wait ${length} between each message`;
+    } else {
+        status = "OFF";
+    }
+    client.say(channel, `Channel SLOW MODE has been turned: ${status}`);
+});
+client.on("clearchat", (channel) => {
+    client.say(channel, `The channel chat has been cleared`);
+});
+client.on("followersonly", (channel, enabled, length) => {
+    var status = ""
+    if(enabled == true) {
+        status = `ON you must be following for ${length} before talking in this chat room.`;
+    } else {
+        status = "OFF";
+    }
+    client.say(channel, `The channel chat follow only mode has been turned: ${status}`);
+});
+client.on("subscribers", (channel, enabled) => {
+    // Do your stuff.
+    var status = ""
+    if(enabled == true) {
+        status = `ON you must be a subscriber to talk in the chat.`;
+    } else {
+        status = "OFF, everyone can chat, please abide by the channel rules";
+    }
+    client.say(channel, `Channel SLOW MODE has been turned: ${status}`);
+});
+client.on("raided", (channel, username, viewers) => {
+    client.say(channel, `Thank you ${username} for the raid with ${viewers}! HYPE!!!`);
 });
 client.on('message', (channel, userstate, message, self) => {
     // Ignore echoed messages.
@@ -78,17 +109,27 @@ client.on('message', (channel, userstate, message, self) => {
         
         var chan = channel.substring(1);
         console.log(chan)
-        const twitchchannel = twitchsql.prepare(`SELECT guild FROM twitch WHERE twitch = '${chan}' `).run();
-        console.log(twitchchannel);
-/*for (const data of twitchchannel) {
-    var discord = data.discord;
-    console.log(discord)
-        const guild = discordClient.guilds.get(discord);
-        let memberCount = guild.memberCount;
-        console.log(memberCount)
-        client.say(channel, `We are working on this at the moment! But there are ${memberCount} users on the discord.`);
-}
-*/
+        console.log(`SELECT guild FROM twitch WHERE twitch = '${chan}'`);
+        const twitchchannel = twitchsql.prepare("SELECT * FROM twitch WHERE twitch = ?").all(chan);
+        var twitchdata = "";
+        for (const data of twitchchannel) {
+          if (data == undefined) {
+            twitchdata = "";
+          } else {
+            discord = data.guild;
+            const guild = discordClient.guilds.cache.get(discord);
+            let memberCount = guild.memberCount;
+            console.log(memberCount)
+            if(data.invite){
+            invite = `https://discord.gg/${data.invite}`;
+            } else {
+                invite = `Our discord is INVITE only, sorry :(.`;
+                memberCount = 'unknwon';
+            }
+
+            client.say(channel, `Come join the discord at: ${invite} We have ${memberCount} users on our discord.`);
+          }
+        }
     }
 
     else if (message.toLowerCase() == '!join') {

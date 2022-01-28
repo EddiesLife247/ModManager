@@ -81,7 +81,7 @@ module.exports = client => {
   const twitchtable = twitchsql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'twitch';").get();
   if (!twitchtable['count(*)']) {
     // If the table isn't there, create it and setup the database correctly.
-    twitchsql.prepare("CREATE TABLE twitch (id TEXT PRIMARY KEY, guild TEXT, twitch TEXT);").run();
+    twitchsql.prepare("CREATE TABLE twitch (id TEXT PRIMARY KEY, guild TEXT, twitch TEXT, invite TEXT, vip TEXT);").run();
     // Ensure that the "id" row is always unique and indexed.
     twitchsql.prepare("CREATE UNIQUE INDEX idx_twitch_id ON twitch (id);").run();
     twitchsql.pragma("synchronous = 1");
