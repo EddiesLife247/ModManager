@@ -7,7 +7,11 @@ const BLOCKED_WORDS = [
 
 
 // ===============================================
+
 module.exports = async (discordClient) => {
+    function logMessage(message) {
+        discordClient.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`${message}`);
+    }
     const delay = ms => new Promise(res => setTimeout(res, ms));
     const tmi = require('tmi.js');
     const settings = require('./settings.json');
@@ -61,14 +65,16 @@ module.exports = async (discordClient) => {
             status = "OFF";
         }
         client.say(channel, `Channel SLOW MODE has been turned: ${status}`);
+        logMessage(`Channel : ${channel} : SLOW MODE has been turned: ${status}`);
     });
     client.on("reconnect", () => {
-        discordClient.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`\n \n Reconnecting to Twitch!`);
+        logMessage(`Reconnecting to Twitch!`);
     });
     client.on("resub", (channel, username, months, message, userstate, methods) => {
         // Do your stuff.
         let cumulativeMonths = ~~userstate["msg-param-cumulative-months"];
         client.say(channel, `${username} has re-subscribed for ${months} months via ${methods}. They have been subbed for ${cumulativeMonths} months!`);
+        logMessage(`Channel : ${channel} : ${username} has re-subscribed for ${months} months via ${methods}. They have been subbed for ${cumulativeMonths} months!`);
     });
     client.on("clearchat", (channel) => {
         client.say(channel, `The channel chat has been cleared`);
@@ -81,6 +87,7 @@ module.exports = async (discordClient) => {
             status = "OFF";
         }
         client.say(channel, `The channel chat follow only mode has been turned: ${status}`);
+        logMessage(`Channel : ${channel} : FOLLOW MODE has been turned: ${status}`);
     });
     client.on("subscribers", (channel, enabled) => {
         // Do your stuff.
@@ -91,19 +98,23 @@ module.exports = async (discordClient) => {
             status = "OFF, everyone can chat, please abide by the channel rules";
         }
         client.say(channel, `Channel SLOW MODE has been turned: ${status}`);
+        logMessage(`Channel : ${channel} : SLOW MODE has been turned: ${status}`);
     });
     client.on("raided", (channel, username, viewers) => {
         client.say(channel, `Thank you ${username} for the raid with ${viewers}! HYPE!!!`);
+        logMessage(`Channel : ${channel} :${username} RAIDED`);
     });
     client.on('message', (channel, userstate, message, self) => {
         // Ignore echoed messages.
         if (self) return;
         if (message.toLowerCase() === 'hello') {
+            logMessage(`Channel : ${channel} : hello comamnd`);
             // "@alca, heya!"
             client.say(channel, `@${userstate.username}, heya!`);
         } else if (message.toLowerCase() == '!dice') {
             const num = rollDice();
             client.say(channel, `You rolled a ${num}`);
+            logMessage(`Channel : ${channel} : dice comamnd`);
         } else if (message.toLowerCase() == '!discord') {
 
             var chan = channel.substring(1);
@@ -127,6 +138,7 @@ module.exports = async (discordClient) => {
                     }
 
                     client.say(channel, `Come join the discord at: ${invite} We have ${memberCount} users on our discord.`);
+                    logMessage(`Channel : ${channel} : discord comamnd`);
                 }
             }
         }
@@ -138,6 +150,7 @@ module.exports = async (discordClient) => {
                 console.log(`joined: ${twitchchat}`);
             }
             client.say(channel, `I have joined all known channels.`)
+            logMessage(`Channel : ${channel} : join comamnd`);
         }
 
         checkTwitchChat(userstate, message, channel)
@@ -164,6 +177,7 @@ module.exports = async (discordClient) => {
         if (shouldSendMessage) {
             //tell user
             client.say(channel, `@${userstate.username}, sorry, that message is not permitted here!`)
+            logMessage(`Channel : ${channel} : message blocked`);
             //Delete Message
             client.deletemessage(channel, userstate.id).then((data) => {
                 // data returns
@@ -181,13 +195,12 @@ module.exports = async (discordClient) => {
     // Called every time the bot connects to Twitch chat
     function onConnectedHandler(addr, port) {
         console.log(`* Connected to ${addr}:${port}`);
-        discordClient.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`\n \n Connected to Twitch!`);
+        logMessage(`Connected to Twitch!`);
         // Now conntected Join known channels
         const twitchsqldata = twitchsql.prepare("SELECT * FROM twitch").all();
         for (const data of twitchsqldata) {
             var twitchchat = data.twitch;
             client.join(twitchchat).then((data) => {
-                client.say(channel, `I am now moderating this channel`);
                 console.log(`joined: ${twitchchat}`);
             }).catch((err) => {
                 client.log.warn(`Join Error ${err}`);
