@@ -22,7 +22,7 @@ module.exports = {
       let prefix = client.settings.get(message.guild.id, "prefix")
       if (args[0] && args[0].length > 0) {
         const embed = new MessageEmbed();
-        const cmd = client.commands.get(args[0].toString().toLowerCase()) || client.commands.get(client.aliases.get(args.tostring().toLowerCase()));
+        const cmd = client.commands.get(args[0].toString().toLowerCase()) || client.commands.get(client.aliases.get(args.toString().toLowerCase()));
         if (!cmd) {
           return message.reply({
             embeds: [embed.setColor(ee.wrongcolor).setDescription(`No Information found for command **${args.toLowerCase()}**`)]
