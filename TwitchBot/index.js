@@ -480,12 +480,16 @@ module.exports = async (discordClient) => {
         }
     } catch (err) {
         console.log(err)
-        logMessage(`Channel : ${err} : Error Occured`);
+        logMessage(`**ERROR : \`\`\`${err}\`\`\``);
     }
 }
 // ===============================================
 module.exports.joinChannel = joinChannel;
 function joinChannel(channel) {
+    try {
     twitchClient.join(channel);
     console.log(`Joined; ${channel}`);
+    } catch (e) {
+        console.log(e);
+    }
 };
