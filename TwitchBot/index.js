@@ -40,7 +40,6 @@ const twitchsql = new SQLite(`./databases/twitch.sqlite`);
 const twitchsqldata = twitchsql.prepare("SELECT * FROM twitch").all();
 for (const data of twitchsqldata) {
     var twitchchat = data.twitch;
-    await delay(1000);
     client.join(twitchchat).then((data) => {
         client.say(channel, `I am now moderating this channel`);
     }).catch((err) => {
@@ -93,7 +92,6 @@ client.on('message', (channel, userstate, message, self) => {
 
 
 function checkTwitchChat(userstate, message, channel) {
-    await delay(1000);
     message = message.toLowerCase();
     let shouldSendMessage = false
     // check message
@@ -131,7 +129,6 @@ function rollDice() {
 function onConnectedHandler(addr, port) {
 
     console.log(`* Connected to ${addr}:${port}`);
-    await delay(5000);
     // Now conntected Join known channels
     for (const data of twitchsqldata) {
         var twitchchat = data.twitch;
