@@ -25,7 +25,7 @@ module.exports = {
         const cmd = client.commands.get(args[0].toString().toLowerCase()) || client.commands.get(client.aliases.get(args.toString().toLowerCase()));
         if (!cmd) {
           return message.reply({
-            embeds: [embed.setColor(ee.wrongcolor).setDescription(`No Information found for command **${args.toLowerCase()}**`)]
+            embeds: [embed.setColor(ee.wrongcolor).setDescription(`No Information found for command **${args.toString().toLowerCase()}**`)]
           });
         }
         if (cmd.name) embed.addField("**Command name**", `\`${cmd.name}\``);
@@ -55,7 +55,7 @@ module.exports = {
           for (let i = 0; i < client.categories.length; i += 1) {
             const current = client.categories[i];
             const items = commands(current);
-            embed.addField(`**${current.toUpperCase()} [${items.length}]**`, `> ${items.join(", ")}`);
+            embed.addField(`**${current.toString().toUpperCase()} [${items.length}]**`, `> ${items.join(", ")}`);
           }
         } catch (e) {
           console.log(String(e.stack).red);
