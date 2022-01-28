@@ -1,5 +1,6 @@
 //===================================
 module.exports = async (discordClient) => {
+    try {
     function logMessage(message) {
         discordClient.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`**TWITCH BOT:** ${message}`);
     }
@@ -217,6 +218,10 @@ module.exports = async (discordClient) => {
             })
         }
     }
+} catch(err) {
+    console.log(err)
+    logMessage(`Channel : ${err} : Error Occured`);
+}
 }
 // ===============================================
 module.exports.joinChannel = joinChannel;
