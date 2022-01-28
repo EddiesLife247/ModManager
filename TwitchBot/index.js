@@ -117,7 +117,7 @@ function checkTwitchChat(userstate, message, channel) {
         }).catch((err) => {
             console.log(err);
         })
-    }
+    } 
 }
 // Function called when the "dice" command is issued
 function rollDice() {
