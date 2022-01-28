@@ -78,7 +78,7 @@ client.on('message', (channel, userstate, message, self) => {
         
         var chan = channel.substring(1);
         console.log(chan)
-        const twitchchannel = twitchsql.prepare(`SELECT discord FROM twitch WHERE twitch = '${chan}' `).run();
+        const twitchchannel = twitchsql.prepare(`SELECT guild FROM twitch WHERE twitch = '${chan}' `).run();
         console.log(twitchchannel);
 /*for (const data of twitchchannel) {
     var discord = data.discord;
