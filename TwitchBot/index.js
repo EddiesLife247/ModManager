@@ -5,6 +5,7 @@ const BLOCKED_WORDS = [
     'google',
 ]
 
+const delay = ms => new Promise(res => setTimeout(res, ms));
 // ===============================================
 module.exports = async discordClient => {
     const tmi = require('tmi.js');
@@ -38,6 +39,7 @@ const twitchsql = new SQLite(`./databases/twitch.sqlite`);
 const twitchsqldata = twitchsql.prepare("SELECT * FROM twitch").all();
 for (const data of twitchsqldata) {
     var twitchchat = data.twitch;
+    await delay(1000);
     client.join(twitchchat).then((data) => {
         client.say(channel, `I am now moderating this channel`);
     }).catch((err) => {
@@ -90,12 +92,14 @@ client.on('message', (channel, userstate, message, self) => {
 
 
 function checkTwitchChat(userstate, message, channel) {
+    await delay(1000);
     message = message.toLowerCase();
     let shouldSendMessage = false
     // check message
     shouldSendMessage = BLOCKED_WORDS.some(blockedWord => message.includes(blockedWord.toLowerCase()))
     // None added by Bot Admin now check bad-words filter
     if (shouldSendMessage == false) {
+        
         const forbidenWords = ['shit', 'bollocks', 'twat', 'nigger', 'bastard', 'cunt', '.xxx', 'XX'];
         var customFilter = new Filter({ placeHolder: 'XX' });
 
@@ -124,7 +128,9 @@ function rollDice() {
 
 // Called every time the bot connects to Twitch chat
 function onConnectedHandler(addr, port) {
+
     console.log(`* Connected to ${addr}:${port}`);
+    await delay(5000);
     // Now conntected Join known channels
     for (const data of twitchsqldata) {
         var twitchchat = data.twitch;
