@@ -52,8 +52,7 @@ module.exports = {
         });
     } catch (err) {
         const { logMessage } = require(`../../handlers/newfunctions`);
-        logMessage(client, `error`, message.guild, `Error with TAF command: \${err.message} | \`\`\` ${err.stack} \`\`\``);
+        logMessage(client, `error`, message.guild, `Error with TAF command: ${message} | ${err.message} | \`\`\` ${err.stack} \`\`\``);
     }
     }
-
 };

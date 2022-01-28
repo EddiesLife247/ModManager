@@ -15,7 +15,7 @@ module.exports.refreshPunishDB = refreshPunishDB;
 
 function logMessage(client, result, guild, action) {
     // Log to the Main Log Channel
-    console.log("log");
+    console.log(`\n \n **${guild.name}** triggered event: **${action}** with result: **${result}**`);
     client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`\n \n **${guild.name}** triggered event: **${action}** with result: **${result}**`);
 }
 function refreshPunishDB(client){

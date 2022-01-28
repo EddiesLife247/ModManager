@@ -106,6 +106,7 @@ client.aliases = new Discord.Collection();
 client.categories = require("fs").readdirSync(`./commands`);
 client.allEmojis = require("./botconfig/emojis.json");
 const { logMessage, refreshPunishDB } = require(`./handlers/newfunctions`);
+const { joinChannel } = require(`./TwitchBot/index`);
 client.setMaxListeners(100); require('events').defaultMaxListeners = 100;
 client.settings = new Enmap({ name: "settings", dataDir: "./databases/settings" });
 client.features = new Enmap({ name: "features", dataDir: "./databases/features" });
@@ -153,47 +154,12 @@ cron.schedule('0 */3 * * *', () => {
 });
 cron.schedule('0 0 * * *', () => {
   refreshPunishDB(client);
-  // 60 DAY BAN CHECK
-  /*
-  //DISABLED DUCE TO API RESTRICTIONS
-  client.guilds.cache.each(guild => {
-    try {
-      if (!client.settings.get(guild.id, "qotdchannel").length === 0) {
-        const qotd = guild.channels.cache.find(c => c.id == client.settings.get(guild.id, "qotdchannel"));
-        const request = require('request');
+  const twitchsqldata = twitchsql.prepare("SELECT * FROM twitch").all();
+  for (const data of twitchsqldata) {
+    var twitchchat = data.twitch;
+    joinChannel(twitchchat);
 
-        const options = {
-          method: 'GET',
-          url: 'https://quotes15.p.rapidapi.com/quotes/random/',
-          qs: { language_code: 'en' },
-          headers: {
-            'x-rapidapi-host': 'quotes15.p.rapidapi.com',
-            'x-rapidapi-key': 'e0980a2f6emshbf207eddf0a785ep128763jsn5fc56351a0d0',
-            useQueryString: true
-          }
-        };
-        try {
-          request(options, function (error, response, body) {
-            if (error) throw new Error(error);
-            let json = JSON.parse(body);
-            console.log(body);
-            qotd.send(`**QUOTE OF THE DAY**  \`\`\` ${json['content']}\`\`\``);
-          });
-        }
-        catch (err2) {
-          //console.log(err2);
-        }
-
-
-      } else {
-        console.log('The server ' + guild.name + ' has no QOTD channels.');
-      }
-    } catch (err) {
-      //console.log('Could not send message to ' + guild.name + '.');
-      //console.log(err);
-    }
-});
-  */
+  }
   console.log('RANDOM QOTD SCRIPT SENT OUT');
 });
 
@@ -249,21 +215,6 @@ console.log(rrlist);
 console.log("End of Subscriptions");
 // SUBSCRIBE TO EACH CHANNEL
 client.login(config.token)
-
-
-/**
- * @INFO
- * Bot Coded by Tomato#6966 | https://discord.gg/milrato
- * @INFO
- * Work for Milrato Development | https://milrato.eu
- * @INFO
- * Please mention Him / Milrato Development, when using this Code!
- * @INFO
- */
-
-
-
-
 
 
 /**

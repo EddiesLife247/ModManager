@@ -993,15 +993,15 @@ module.exports = client => {
         twitchdata = data.twitch;
       }
     }
-    if(twitchdata){
-      if(twitchlist) {
+    if (twitchdata) {
+      if (twitchlist) {
         twitchsql.prepare(`UPDATE twitch SET 'twitch' = '${twitchlist}' WHERE guild = '${guild.id}'`).run();
       } else {
         twitchsql.prepare(`DELETE FROM twitch WHERE guild = '${guild.id}'`).run();
       }
     } else {
-      if(twitchlist){
-      twitchsql.prepare(`INSERT INTO twitch ('twitch', 'guild') VALUES ('${twitchlist}',  '${guild.id}')`).run();
+      if (twitchlist) {
+        twitchsql.prepare(`INSERT INTO twitch ('twitch', 'guild') VALUES ('${twitchlist}',  '${guild.id}')`).run();
       } else {
         twitchsql.prepare(`DELETE FROM twitch WHERE guild = '${guild.id}'`).run();
       }
