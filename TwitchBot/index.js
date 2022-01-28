@@ -78,8 +78,9 @@ client.on('message', (channel, userstate, message, self) => {
         
         var chan = channel.substring(1);
         console.log(chan)
-        const twitchchannel = twitchsql.prepare(`SELECT * FROM twitch WHERE twitch = '${chan}' `).run();
-for (const data of twitchchannel) {
+        const twitchchannel = twitchsql.prepare(`SELECT discord FROM twitch WHERE twitch = '${chan}' `).run();
+        console.log(twitchchannel);
+/*for (const data of twitchchannel) {
     var discord = data.discord;
     console.log(discord)
         const guild = discordClient.guilds.get(discord);
@@ -87,6 +88,7 @@ for (const data of twitchchannel) {
         console.log(memberCount)
         client.say(channel, `We are working on this at the moment! But there are ${memberCount} users on the discord.`);
 }
+*/
     }
 
     else if (message.toLowerCase() == '!join') {
