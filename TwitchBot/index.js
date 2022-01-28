@@ -81,10 +81,8 @@ module.exports = async (discordClient) => {
                             // "@alca, heya!"
                             client.say(channel, `@${userstate.username}, heya!`);
                         } else if (message.toLowerCase() == '!lurk') {
-
-                            client.say(channel, `${userstate.username} is now lurking!, ${twitchlurk}`)
+                            client.say(channel, `${userstate.username} is now lurking!, ${discordClient.features.get(discord, "twitchlurk")}`)
                         } else if (message.toLowerCase() == '!unlurk') {
-
                             client.say(channel, `${userstate.username} has now returned!`)
                         }
                         else if (message.toLowerCase() == '?join') {
