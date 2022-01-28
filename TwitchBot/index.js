@@ -126,6 +126,10 @@ module.exports = async (discordClient) => {
         // Register our event handlers (defined below)
         client.on('connected', onConnectedHandler);
 
+        client.on('disconnected', (reason) => {
+            logMessage(`Disconnected from twitch: ${reason}`);
+        });
+
         // Connect to Twitch:
         client.connect();
         client.on("slowmode", (channel, enabled, length) => {
