@@ -54,6 +54,8 @@ module.exports = async (discordClient) => {
             for (const data of twitchchannel) {
                 if (data == undefined) {
                     twitchdata = "";
+                    TwitchFilter = true;
+                    twitchbot = true;
                 } else {
                     discord = data.guild;
                     const guild = discordClient.guilds.cache.get(discord);
