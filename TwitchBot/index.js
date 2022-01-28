@@ -5,9 +5,10 @@ const BLOCKED_WORDS = [
     'google',
 ]
 
-const delay = ms => new Promise(res => setTimeout(res, ms));
+
 // ===============================================
-module.exports = async discordClient => {
+module.exports = async (discordClient) => {
+    const delay = ms => new Promise(res => setTimeout(res, ms));
     const tmi = require('tmi.js');
     const settings = require('./settings.json');
     const BotConfig = require("../botconfig/config.json");
