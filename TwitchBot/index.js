@@ -162,8 +162,8 @@ module.exports = async (discordClient) => {
         } else {
             status = "OFF, everyone can chat, please abide by the channel rules";
         }
-        client.say(channel, `Channel SLOW MODE has been turned: ${status}`);
-        logMessage(`Channel : ${channel} : SLOW MODE has been turned: ${status}`);
+        client.say(channel, `Channel SUB MODE has been turned: ${status}`);
+        logMessage(`Channel : ${channel} : SUB MODE has been turned: ${status}`);
     });
     client.on("raided", (channel, username, viewers) => {
         client.say(channel, `Thank you ${username} for the raid with ${viewers}! HYPE!!!`);
