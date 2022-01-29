@@ -70,12 +70,14 @@ module.exports = async (discordClient) => {
                             client.say(channel, `${userstate.username} is now lurking!, ${discordClient.features.get(discord, "twitchlurk")}`)
                         } else if (message.toLowerCase() == '!unlurk') {
                             client.say(channel, `${userstate.username} has now returned!`)
+                            return;
                         }
                         else if (message.toLowerCase() == '?join') {
                             for (const data of twitchsqldata) {
                                 var twitchchat = data.twitch;
                                 client.join(twitchchat);
                                 logMessage(`joined: ${twitchchat}`);
+                                return;
                             }
                             client.say(channel, `I have joined all known channels.`)
                             logMessage(`Channel : ${channel} : join comamnd`);
@@ -90,36 +92,38 @@ module.exports = async (discordClient) => {
 
                             client.say(channel, `Come join the discord at: ${invite} We have ${memberCount} users on our discord.`);
                             logMessage(`Channel : ${channel} : discord comamnd`);
-                        }
-                        if (discordClient.features.get(discord, "TwitchFilter") == false) {
+                            return;
                         } else {
-                            checkTwitchChat(userstate, message, channel)
-                        }
-                        const args = message.slice(prefix.length).trim().split(/ +/g);
-                        const cmd = args.shift().toLowerCase();
-                        if (message.startsWith("?")) {
-                            logMessage(`Command Prefix used:?: ${cmd}`);
-                            try {
-                                let commandFile = require(`./commands/${cmd}.js`);
-                                if (commandFile) {
-                                    commandFile.run(client, channel, userstate, message, self, args, discordClient)
-                                    logMessage(`Channel : ${channel} : ${cmd} comamnd. - ${message}`);
-                                }
-                            } catch (err) {
-                                return logMessage(`An error occured: ${err} with command: ${cmd} - ${message}`);
-                            }
-                        }
-                        const twitchcmdssql = new SQLite(`./databases/twitchcmds.sqlite`);
-                        var chan = channel.substring(1);
-                        const twitchcmds = twitchcmdssql.prepare("SELECT * FROM twitchcmds WHERE twitch = ?").all(chan);
-                        var twitchdata = "";
-                        for (const data of twitchcmds) {
-                            if (data == undefined) {
-                                // do nothing no voice
+                            if (discordClient.features.get(discord, "TwitchFilter") == false) {
                             } else {
-                                if(cmd == data.cmd) {
-                                    channel.say(data.value);
-                                    logMessage(`${channel} run custom command: ${data.cmd} with message sent: ${data.value}`);
+                                checkTwitchChat(userstate, message, channel)
+                            }
+                            const args = message.slice(prefix.length).trim().split(/ +/g);
+                            const cmd = args.shift().toLowerCase();
+                            if (message.startsWith("?")) {
+                                logMessage(`Command Prefix used:?: ${cmd}`);
+                                try {
+                                    let commandFile = require(`./commands/${cmd}.js`);
+                                    if (commandFile) {
+                                        commandFile.run(client, channel, userstate, message, self, args, discordClient)
+                                        logMessage(`Channel : ${channel} : ${cmd} comamnd. - ${message}`);
+                                    }
+                                } catch (err) {
+                                    return logMessage(`An error occured: ${err} with command: ${cmd} - ${message}`);
+                                }
+                            }
+                            const twitchcmdssql = new SQLite(`./databases/twitchcmds.sqlite`);
+                            var chan = channel.substring(1);
+                            const twitchcmds = twitchcmdssql.prepare("SELECT * FROM twitchcmds WHERE twitch = ?").all(chan);
+                            var twitchdata = "";
+                            for (const data of twitchcmds) {
+                                if (data == undefined) {
+                                    // do nothing no voice
+                                } else {
+                                    if (cmd == data.cmd) {
+                                        channel.say(data.value);
+                                        logMessage(`${channel} run custom command: ${data.cmd} with message sent: ${data.value}`);
+                                    }
                                 }
                             }
                         }
