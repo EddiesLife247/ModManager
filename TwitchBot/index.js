@@ -95,9 +95,9 @@ module.exports = async (discordClient) => {
                         } else {
                             checkTwitchChat(userstate, message, channel)
                         }
+                        const args = message.slice(prefix.length).trim().split(/ +/g);
+                        const cmd = args.shift().toLowerCase();
                         if (message.startsWith("?")) {
-                            const args = message.slice(prefix.length).trim().split(/ +/g);
-                            const cmd = args.shift().toLowerCase();
                             logMessage(`Command Prefix used:?: ${cmd}`);
                             try {
                                 let commandFile = require(`./commands/${cmd}.js`);
@@ -109,6 +109,21 @@ module.exports = async (discordClient) => {
                                 return logMessage(`An error occured: ${err} with command: ${cmd} - ${message}`);
                             }
                         }
+                        const twitchcmdssql = new SQLite(`./databases/twitchcmds.sqlite`);
+                        var chan = channel.substring(1);
+                        const twitchcmds = twitchcmdssql.prepare("SELECT * FROM twitchcmds WHERE twitch = ?").all(chan);
+                        var twitchdata = "";
+                        for (const data of twitchcmds) {
+                            if (data == undefined) {
+                                // do nothing no voice
+                            } else {
+                                if(cmd == data.cmd) {
+                                    channel.say(data.value);
+                                    logMessage(`${channel} run custom command: ${data.cmd} with message sent: ${data.value}`);
+                                }
+                            }
+                        }
+
                     }
                 }
             }

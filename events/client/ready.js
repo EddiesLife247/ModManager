@@ -87,6 +87,16 @@ module.exports = client => {
     twitchsql.pragma("synchronous = 1");
     twitchsql.pragma("journal_mode = wal");
   }
+  const twitchcmdssql = new SQLite(`./databases/twitchcmds.sqlite`);
+  const twitchcmdstable = twitchcmdssql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'twitchcmds';").get();
+  if (!twitchcmdstable['count(*)']) {
+    // If the table isn't there, create it and setup the database correctly.
+    twitchcmdssql.prepare("CREATE TABLE twitchcmds (id TEXT PRIMARY KEY, guild TEXT, twitch TEXT, cmd TEXT, value TEXT);").run();
+    // Ensure that the "id" row is always unique and indexed.
+    twitchcmdssql.prepare("CREATE UNIQUE INDEX idx_twitchcmds_id ON twitchcmds (id);").run();
+    twitchcmdssql.pragma("synchronous = 1");
+    twitchcmdssql.pragma("journal_mode = wal");
+  }
   const invsql = new SQLite(`./databases/invites.sqlite`);
   const invtable = invsql.prepare("SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'invites';").get();
   if (!invtable['count(*)']) {
