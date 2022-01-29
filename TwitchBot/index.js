@@ -446,16 +446,14 @@ module.exports = async (discordClient) => {
 
         // Called every time the bot connects to Twitch chat
         function onConnectedHandler(addr, port) {
+            try {
             console.log(`* Connected to ${addr}:${port}`);
             logMessage(`Connected to Twitch!`);
             // Now conntected Join known channels
             const twitchsqldata = twitchsql.prepare("SELECT * FROM twitch").all();
             for (const data of twitchsqldata) {
-                client.join(data.twitch).then((data) => {
-                    logMessage(`Joined: ${data.twitch}`);
-                }).catch((err) => {
-                    logMessage(`Join Error to ${data.twitch} - ${err}`);
-                });
+                client.join(data.twitch);
+                logMessage(`Joined: ${data.twitch}`);
             }
             /** MANUAL JOINS */
             client.join('demonwalker909');
@@ -464,6 +462,9 @@ module.exports = async (discordClient) => {
             logMessage(`Joined: darkwytchcraft (MANUAL)`);
             client.join('elementaladept');
             logMessage(`Joined: elementaladept (MANUAL)`);
+        } catch (err) {
+            logMessage(`Start Bot Error: ${err}`);
+        }
         }
         function checkTwitchChat(userstate, message, channel) {
             message = message.toLowerCase();
