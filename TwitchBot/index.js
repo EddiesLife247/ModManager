@@ -1,3 +1,20 @@
+const BotConfig = require("../botconfig/config.json");
+const SQLite = require("better-sqlite3");
+const settings = require('./settings.json');
+const tmi = require('tmi.js');
+const opts = {
+    connection: {
+        reconnect: true
+    },
+    identity: {
+        username: settings.username,
+        password: settings.password,
+    },
+    channels: [
+        "modmanagerbot",
+        "manumission247",
+    ]
+};
 const client = new tmi.client(opts);
 const twitchsql = new SQLite(`./databases/twitch.sqlite`);
 //===================================
@@ -8,31 +25,11 @@ module.exports = async (discordClient) => {
     }
     try {
         const delay = ms => new Promise(res => setTimeout(res, ms));
-        const tmi = require('tmi.js');
-        const settings = require('./settings.json');
-        const BotConfig = require("../botconfig/config.json");
-        const SQLite = require("better-sqlite3");
-        const BotFilters = require("../botconfig/filters.json");
-        const BotEmojis = require("../botconfig/emojis.json");
-        const BotEmbed = require("../botconfig/embed.json");
         const cron = require('node-cron');
         var prefix = "?";
         var Filter = require('bad-words'),
             filter = new Filter();
         // Define configuration options
-        const opts = {
-            connection: {
-                reconnect: true
-            },
-            identity: {
-                username: settings.username,
-                password: settings.password,
-            },
-            channels: [
-                "modmanagerbot",
-                "manumission247",
-            ]
-        };
 
         // Define configuration options
 
