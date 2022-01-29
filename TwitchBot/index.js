@@ -36,21 +36,6 @@ module.exports = async (discordClient) => {
         const client = new tmi.client(opts);
         const twitchsql = new SQLite(`./databases/twitch.sqlite`);
 
-        // Connect to known channels
-        const twitchsqldata = twitchsql.prepare("SELECT * FROM twitch").all();
-        for (const data of twitchsqldata) {
-            var twitchchat = data.twitch;
-            client.join(twitchchat).then((data) => {
-                logMessage(`Joined: ${twitchchat}`);
-            }).catch((err) => {
-                logMessage(`Join Error ${err}`);
-            });
-        }
-        /** MANUAL JOINS */
-        client.join('demonwalker909');
-        client.join('darkwytchcraft');
-        client.join('elementaladept');
-
         client.on('message', (channel, userstate, message, self) => {
             var chan = channel.substring(1);
             const twitchchannel = twitchsql.prepare("SELECT * FROM twitch WHERE twitch = ?").all(chan);
@@ -111,7 +96,6 @@ module.exports = async (discordClient) => {
                         }
                         if (discordClient.features.get(discord, "TwitchFilter") == false) {
                         } else {
-                            logMessage(`Message filtered: ${message}`);
                             checkTwitchChat(userstate, message, channel)
                         }
                         if (message.startsWith("?")) {
@@ -451,11 +435,10 @@ module.exports = async (discordClient) => {
             // Now conntected Join known channels
             const twitchsqldata = twitchsql.prepare("SELECT * FROM twitch").all();
             for (const data of twitchsqldata) {
-                var twitchchat = data.twitch;
-                client.join(twitchchat).then((data) => {
-                    logMessage(`Joined: ${twitchchat}`);
+                client.join(data.twitch).then((data) => {
+                    logMessage(`Joined: ${data.twitch}`);
                 }).catch((err) => {
-                    logMessage(`Join Error ${err}`);
+                    logMessage(`Join Error to ${data.twitch} - ${err}`);
                 });
             }
             /** MANUAL JOINS */
