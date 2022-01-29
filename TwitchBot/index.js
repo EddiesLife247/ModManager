@@ -41,9 +41,9 @@ module.exports = async (discordClient) => {
         for (const data of twitchsqldata) {
             var twitchchat = data.twitch;
             client.join(twitchchat).then((data) => {
-                console.log(`joined: ${twitchchat}`);
+                logMessage(`Joined: ${twitchchat}`);
             }).catch((err) => {
-                client.log.warn(`Join Error ${err}`);
+                logMessage(`Join Error ${err}`);
             });
         }
         /** MANUAL JOINS */
@@ -93,7 +93,7 @@ module.exports = async (discordClient) => {
                             for (const data of twitchsqldata) {
                                 var twitchchat = data.twitch;
                                 client.join(twitchchat);
-                                console.log(`joined: ${twitchchat}`);
+                                logMessage(`joined: ${twitchchat}`);
                             }
                             client.say(channel, `I have joined all known channels.`)
                             logMessage(`Channel : ${channel} : join comamnd`);
@@ -110,16 +110,14 @@ module.exports = async (discordClient) => {
                             logMessage(`Channel : ${channel} : discord comamnd`);
                         }
                         if (discordClient.features.get(discord, "TwitchFilter") == false) {
-                            console.log(message);
-                            return console.log('Moderation Disabled');
                         } else {
-                            console.log(message);
+                            logMessage(`Message filtered: ${message}`);
                             checkTwitchChat(userstate, message, channel)
                         }
                         if (message.startsWith("?")) {
                             const args = message.slice(prefix.length).trim().split(/ +/g);
                             const cmd = args.shift().toLowerCase();
-                            console.log(cmd);
+                            logMessage(`Command Prefix used:?: ${cmd}`);
                             try {
                                 let commandFile = require(`./commands/${cmd}.js`);
                                 if (commandFile) {
@@ -127,7 +125,7 @@ module.exports = async (discordClient) => {
                                     logMessage(`Channel : ${channel} : ${cmd} comamnd. - ${message}`);
                                 }
                             } catch (err) {
-                                return console.log(err);
+                                return logMessage(`An error occured: ${err} with command: ${cmd} - ${message}`);
                             }
                         }
                     }
@@ -177,7 +175,7 @@ module.exports = async (discordClient) => {
                     client.say(channel, `Channel SLOW MODE has been turned: ${status}`);
                     logMessage(`Channel : ${channel} : SLOW MODE has been turned: ${status}`);
                 } else {
-                    return console.log(`Twitch Bot Disabled for ${channel}`);
+                    return logMessage(`Twitch Bot Disabled for ${channel} - Slow mode`);
                 }
             }
         });
@@ -212,7 +210,7 @@ module.exports = async (discordClient) => {
                     client.say(channel, `${username} has re-subscribed for ${months} months via ${methods}. They have been subbed for ${cumulativeMonths} months!`);
                     logMessage(`Channel : ${channel} : ${username} has re-subscribed for ${months} months via ${methods}. They have been subbed for ${cumulativeMonths} months!`);
                 } else {
-                    return console.log(`Twitch Bot Disabled for ${channel}`);
+                    return logMessage(`Twitch Bot Disabled for ${channel} - Resub`);
                 }
             }
         });
@@ -242,7 +240,7 @@ module.exports = async (discordClient) => {
                     client.say(channel, `${userstate.username} Thank you for the cheer!`);
                     logMessage(`Channel : ${channel} : ${userstate.username} has cheered`);
                 } else {
-                    return console.log(`Twitch Bot Disabled for ${channel}`);
+                    return logMessage(`Twitch Bot Disabled for ${channel} - Cheer`);
                 }
             }
         });
@@ -272,7 +270,7 @@ module.exports = async (discordClient) => {
                     client.say(channel, `${username} has continued the sub from an anonymous gifter! Thank you so much!`);
                     logMessage(`Channel : ${channel} : ${username} has continued the sub from an anonymous gifter! Thank you so much!`);
                 } else {
-                    return console.log(`Twitch Bot Disabled for ${channel}`);
+                    return logMessage(`Twitch Bot Disabled for ${channel} - Anonymous Sub Upgrade`);
                 }
             }
         });
@@ -303,7 +301,7 @@ module.exports = async (discordClient) => {
                 if (discordClient.features.get(discord, "twitchbot") == true) {
                     client.say(channel, 'We are adding this to our punishment database!');
                 } else {
-                    return console.log(`Twitch Bot Disabled for ${channel}`);
+                    return logMessage(`Twitch Bot Disabled for ${channel} - Ban Added`);
                 }
             }
         });
@@ -332,7 +330,7 @@ module.exports = async (discordClient) => {
                 if (discordClient.features.get(discord, "twitchbot") == true) {
                     client.say(channel, `The channel chat has been cleared`);
                 } else {
-                    return console.log(`Twitch Bot Disabled for ${channel}`);
+                    return logMessage(`Twitch Bot Disabled for ${channel} - Clear Chat`);
                 }
             }
         });
@@ -368,7 +366,7 @@ module.exports = async (discordClient) => {
                     client.say(channel, `The channel chat follow only mode has been turned: ${status}`);
                     logMessage(`Channel : ${channel} : FOLLOW MODE has been turned: ${status}`);
                 } else {
-                    return console.log(`Twitch Bot Disabled for ${channel}`);
+                    return logMessage(`Twitch Bot Disabled for ${channel} - Folow only mode`);
                 }
             }
         });
@@ -405,7 +403,7 @@ module.exports = async (discordClient) => {
                     client.say(channel, `Channel SUB MODE has been turned: ${status}`);
                     logMessage(`Channel : ${channel} : SUB MODE has been turned: ${status}`);
                 } else {
-                    return console.log(`Twitch Bot Disabled for ${channel}`);
+                    return logMessage(`Twitch Bot Disabled for ${channel} - Sub Only`);
                 }
             }
         });
@@ -489,8 +487,7 @@ module.exports = async (discordClient) => {
             }
         }
     } catch (err) {
-        console.log(err)
-        logMessage(`**ERROR : \`\`\`${err}\`\`\``);
+        logMessage(`**ERROR** : \`\`\`${err}\`\`\``);
     }
 }
 // ===============================================
