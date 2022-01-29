@@ -453,11 +453,18 @@ module.exports = async (discordClient) => {
             for (const data of twitchsqldata) {
                 var twitchchat = data.twitch;
                 client.join(twitchchat).then((data) => {
-                    console.log(`joined: ${twitchchat}`);
+                    logMessage(`Joined: ${twitchchat}`);
                 }).catch((err) => {
-                    client.log.warn(`Join Error ${err}`);
+                    logMessage(`Join Error ${err}`);
                 });
             }
+            /** MANUAL JOINS */
+            client.join('demonwalker909');
+            logMessage(`Joined: demonwalker909 (MANUAL)`);
+            client.join('darkwytchcraft');
+            logMessage(`Joined: darkwytchcraft (MANUAL)`);
+            client.join('elementaladept');
+            logMessage(`Joined: elementaladept (MANUAL)`);
         }
         function checkTwitchChat(userstate, message, channel) {
             message = message.toLowerCase();
