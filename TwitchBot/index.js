@@ -1,3 +1,5 @@
+const client = new tmi.client(opts);
+const twitchsql = new SQLite(`./databases/twitch.sqlite`);
 //===================================
 module.exports = async (discordClient) => {
     function logMessage(message) {
@@ -33,8 +35,6 @@ module.exports = async (discordClient) => {
         };
 
         // Define configuration options
-        const client = new tmi.client(opts);
-        const twitchsql = new SQLite(`./databases/twitch.sqlite`);
 
         client.on('message', (channel, userstate, message, self) => {
             var chan = channel.substring(1);
