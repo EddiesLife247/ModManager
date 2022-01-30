@@ -135,6 +135,7 @@ module.exports = async (discordClient) => {
                                     }
                                 }
                             }
+
                         }
 
                     }
@@ -147,6 +148,7 @@ module.exports = async (discordClient) => {
 
         client.on('disconnected', (reason) => {
             logMessage(`Disconnected from twitch: ${reason}`);
+            client.connect();
         });
 
         // Connect to Twitch:
