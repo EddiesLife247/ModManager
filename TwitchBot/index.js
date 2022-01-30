@@ -96,7 +96,15 @@ module.exports = async (discordClient) => {
                         } else {
                             if (discordClient.features.get(discord, "TwitchFilter") == false) {
                             } else {
+                                const badges = userstate.badges || {};
+                                const isBroadcaster = badges.broadcaster;
+                                const isMod = badges.moderator;
+                                const isModUp = isBroadcaster || isMod;
+                                if(isModUp) {
+                                logMessage(`${channel} - checking twitch chat, but user is a mod`)
+                                } else {
                                 checkTwitchChat(userstate, message, channel)
+                                }
                             }
                             const args = message.slice(prefix.length).trim().split(/ +/g);
                             const cmd = args.shift().toLowerCase();
