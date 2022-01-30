@@ -99,8 +99,9 @@ module.exports = async (discordClient) => {
                                 const badges = userstate.badges || {};
                                 const isBroadcaster = badges.broadcaster;
                                 const isMod = badges.moderator;
-                                const isModUp = isBroadcaster || isMod;
-                                if(isModUp) {
+                                const isVIP = badges.vip;
+                                const isVIPUp = isBroadcaster || isMod || isVIP;
+                                if(isVIPUp) {
                                 logMessage(`${channel} - checking twitch chat, but user is a mod`)
                                 } else {
                                 checkTwitchChat(userstate, message, channel)
