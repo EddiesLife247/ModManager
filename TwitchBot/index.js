@@ -508,6 +508,7 @@ module.exports = async (discordClient) => {
 }
 // ===============================================
 module.exports.joinChannel = joinChannel;
+module.exports.connect = connect;
 function joinChannel(channel) {
     try {
         client.join(channel);
@@ -516,3 +517,11 @@ function joinChannel(channel) {
         console.log(e);
     }
 };
+function connect() {
+    try {
+        client.connect();
+    } catch (e) {
+        console.log(e);
+
+    }
+}

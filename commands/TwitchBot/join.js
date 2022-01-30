@@ -14,7 +14,7 @@ module.exports = {
     alloweduserids: [], //Only allow specific Users to execute a Command [OPTIONAL]
     run: async (client, message, args) => {
         try {
-            const { joinChannel } = require(`../../TwitchBot/index`);
+            const { joinChannel, connect } = require(`../../TwitchBot/index`);
             const guild = message.guild.id;
             const twitchsql = new SQLite(`./databases/twitch.sqlite`);
             const twitchchannel = twitchsql.prepare(`SELECT * FROM twitch WHERE guild = ?`).all(guild);
@@ -23,6 +23,7 @@ module.exports = {
                 var twitchchat = data.twitch;
                 console.log(twitchchat);
                 if (twitchchat) {
+                    connect();
                     joinChannel(twitchchat);
                     message.reply(`Joined channel: ${twitchchat}`);
                 } else {
