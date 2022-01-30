@@ -101,10 +101,14 @@ module.exports = async (discordClient) => {
                                 const isMod = badges.moderator;
                                 const isVIP = badges.vip;
                                 const isVIPUp = isBroadcaster || isMod || isVIP;
-                                if(isVIPUp) {
-                                logMessage(`${channel} - checking twitch chat, but user is a mod`)
+                                if (isVIPUp) {
+                                    if (userstate.username == "skymay4") {
+                                        checkTwitchChat(userstate, message, channel)
+                                    } else {
+                                        logMessage(`${channel} - checking twitch chat, but user is a mod`)
+                                    }
                                 } else {
-                                checkTwitchChat(userstate, message, channel)
+                                    checkTwitchChat(userstate, message, channel)
                                 }
                             }
                             const args = message.slice(prefix.length).trim().split(/ +/g);
@@ -458,24 +462,24 @@ module.exports = async (discordClient) => {
         // Called every time the bot connects to Twitch chat
         function onConnectedHandler(addr, port) {
             try {
-            console.log(`* Connected to ${addr}:${port}`);
-            logMessage(`Connected to Twitch!`);
-            // Now conntected Join known channels
-            const twitchsqldata = twitchsql.prepare("SELECT * FROM twitch").all();
-            for (const data of twitchsqldata) {
-                client.join(data.twitch);
-                logMessage(`Joined: ${data.twitch}`);
+                console.log(`* Connected to ${addr}:${port}`);
+                logMessage(`Connected to Twitch!`);
+                // Now conntected Join known channels
+                const twitchsqldata = twitchsql.prepare("SELECT * FROM twitch").all();
+                for (const data of twitchsqldata) {
+                    client.join(data.twitch);
+                    logMessage(`Joined: ${data.twitch}`);
+                }
+                /** MANUAL JOINS */
+                client.join('demonwalker909');
+                logMessage(`Joined: demonwalker909 (MANUAL)`);
+                client.join('darkwytchcraft');
+                logMessage(`Joined: darkwytchcraft (MANUAL)`);
+                client.join('elementaladept');
+                logMessage(`Joined: elementaladept (MANUAL)`);
+            } catch (err) {
+                logMessage(`Start Bot Error: ${err}`);
             }
-            /** MANUAL JOINS */
-            client.join('demonwalker909');
-            logMessage(`Joined: demonwalker909 (MANUAL)`);
-            client.join('darkwytchcraft');
-            logMessage(`Joined: darkwytchcraft (MANUAL)`);
-            client.join('elementaladept');
-            logMessage(`Joined: elementaladept (MANUAL)`);
-        } catch (err) {
-            logMessage(`Start Bot Error: ${err}`);
-        }
         }
         function checkTwitchChat(userstate, message, channel) {
             message = message.toLowerCase();
