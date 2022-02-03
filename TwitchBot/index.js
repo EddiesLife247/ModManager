@@ -45,8 +45,8 @@ module.exports = async (discordClient) => {
                 const isBroadcaster = badges.broadcaster;
                 const isMod = badges.moderator;
                 const isVIP = badges.vip;
-                const isVIPUp = isBroadcaster || isMod || isVIP;
-                if(isMod) {
+                const isModUp = isBroadcaster || isMod;
+                if(isModUp) {
                     client.say(channel, `I am now moderating this channel!`);
                 } else {
                     client.say(channel, `Moderator commands will not work, as I am not a mod on this channel. please do /mod modmanagerbot`);
