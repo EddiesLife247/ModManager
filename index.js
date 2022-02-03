@@ -106,7 +106,7 @@ client.aliases = new Discord.Collection();
 client.categories = require("fs").readdirSync(`./commands`);
 client.allEmojis = require("./botconfig/emojis.json");
 const { logMessage, refreshPunishDB } = require(`./handlers/newfunctions`);
-const { joinChannel } = require(`./TwitchBot/index`);
+const { joinChannel, connect } = require(`./TwitchBot/index`);
 client.setMaxListeners(100); require('events').defaultMaxListeners = 100;
 client.settings = new Enmap({ name: "settings", dataDir: "./databases/settings" });
 client.features = new Enmap({ name: "features", dataDir: "./databases/features" });
@@ -154,13 +154,8 @@ cron.schedule('0 */3 * * *', () => {
 });
 cron.schedule('0 0 * * *', () => {
   refreshPunishDB(client);
-  const twitchsqldata = twitchsql.prepare("SELECT * FROM twitch").all();
-  for (const data of twitchsqldata) {
-    var twitchchat = data.twitch;
-    joinChannel(twitchchat);
-
-  }
-  console.log('RANDOM QOTD SCRIPT SENT OUT');
+  connect();
+  console.log('Punishment Database Synced.');
 });
 
 

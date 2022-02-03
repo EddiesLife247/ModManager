@@ -32,7 +32,27 @@ module.exports = async (discordClient) => {
         // Define configuration options
 
         // Define configuration options
-
+        client.on("ping", () => {
+            logMessage(`Ping from twitch`);
+        });
+        client.on("pong", (latency) => {
+            logMessage(`Pong from Twitch: ${latency}`)
+        });
+        client.on("join", (channel, username, self) => {
+            if(self === true) {
+                // self bot.
+                const badges = username.badges || {};
+                const isBroadcaster = badges.broadcaster;
+                const isMod = badges.moderator;
+                const isVIP = badges.vip;
+                const isVIPUp = isBroadcaster || isMod || isVIP;
+                if(isMod) {
+                    client.say(channel, `I am now moderating this channel!`);
+                } else {
+                    client.say(channel, `Moderator commands will not work, as I am not a mod on this channel. please do /mod modmanagerbot`);
+                }
+            }
+        });
         client.on('message', (channel, userstate, message, self) => {
             var chan = channel.substring(1);
             const twitchchannel = twitchsql.prepare("SELECT * FROM twitch WHERE twitch = ?").all(chan);

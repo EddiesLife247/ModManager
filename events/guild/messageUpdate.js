@@ -49,6 +49,16 @@ module.exports = async (client, newMessage, message) => {
 		} else {
 			var pinned = true
 		}
+		if(message.content.length > 1000) {
+			var newContent = "Message too long to log";
+		} else {
+			var newContent = message.content;
+		}
+		if(newMessage.content.length > 1000) {
+			var oldContent = "Message too long to log";
+		} else {
+			var oldContent = newMessage.content;
+		}
 		const embed = new Discord.MessageEmbed()
 			.setColor("#ff0000")
 			.setFooter({text: `${newMessage.guild.name}`})
@@ -56,8 +66,8 @@ module.exports = async (client, newMessage, message) => {
 			.addField('Author', `<@${message.author.id}>`, true)
 			.addField('Channel', newMessage.channel.name, true)
 			.addField('Pinned Recently?:', `> ${pinned}`, true)
-			.addField('New Message:', `> ${message.content}`)
-			.addField('Old Message:', `> ${newMessage.content}`)
+			.addField('New Message:', `> ${newContent}`)
+			.addField('Old Message:', `> ${oldContent}`)
 			.setColor('0x00AAFF')
 			.setTimestamp();
 		// Send the message to the Mod Log Channel

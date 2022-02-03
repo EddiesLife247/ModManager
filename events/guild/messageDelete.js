@@ -50,6 +50,11 @@ module.exports = async (client, message) => {
 				else {
 					var execute = executor.tag == "UNKNOWN";
 				}
+				if(message.cleanContent.length > 1000) {
+					var content = "Message too long to log";
+				} else {
+					var content = message.cleanContent;
+				}
 
 				//console.log(channel.guild.channels.cache.find(c => c.name == settings.modLogChannel));
 				const embed = new Discord.MessageEmbed()
@@ -59,7 +64,7 @@ module.exports = async (client, message) => {
 					.setTitle("**Moderation** - Message Deleted")
 					.addField('Author', `> - ${message.author.username}`, true)
 					.addField('Channel', `> - ${message.channel.name}`, true)
-					.addField('Message', `> - ${message.cleanContent}`)
+					.addField('Message', `> - ${content}`)
 					.addField('Executor', `> - ${execute}`)
 					.setColor('ff0000')
 					.setTimestamp();
