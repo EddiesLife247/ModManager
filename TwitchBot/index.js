@@ -40,9 +40,9 @@ module.exports = async (discordClient) => {
         });
         client.on("join", (channel, username, self) => {
             if(self === true) {
-                    client.say(channel, `I am now moderating this channel!`);
+                    //client.say(channel, `I am now moderating this channel!`);
             } else {
-                client.say(channel, `Welcome to the channel ${username}, don't forget to follow/subscribe if you havn't done so already!`)
+                //client.say(channel, `Welcome to the channel ${username}, don't forget to follow/subscribe if you havn't done so already!`)
             }
         });
         client.on('message', (channel, userstate, message, self) => {
