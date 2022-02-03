@@ -40,17 +40,9 @@ module.exports = async (discordClient) => {
         });
         client.on("join", (channel, username, self) => {
             if(self === true) {
-                // self bot.
-                const badges = username.badges || {};
-                const isBroadcaster = badges.broadcaster;
-                const isMod = badges.moderator;
-                const isVIP = badges.vip;
-                const isModUp = isBroadcaster || isMod;
-                if(isModUp) {
                     client.say(channel, `I am now moderating this channel!`);
-                } else {
-                    client.say(channel, `Moderator commands will not work, as I am not a mod on this channel. please do /mod modmanagerbot`);
-                }
+            } else {
+                client.say(channel, `Welcome to the channel ${username}, don't forget to follow/subscribe if you havn't done so already!`)
             }
         });
         client.on('message', (channel, userstate, message, self) => {
@@ -216,6 +208,20 @@ module.exports = async (discordClient) => {
         });
         client.on("reconnect", () => {
             logMessage(`Reconnecting to Twitch!`);
+        });
+        client.on("hosted", (channel, username, viewers, autohost) => {
+            if(autohost) {
+            client.say(channel, `Thank you ${username} for AUTO HOSTING us! for ${viewers}.`)
+            } else {
+                client.say(channel, `Thank you ${username} for HOSTING us! for ${viewers}.`)
+            }
+        });
+        client.on("part", (channel, username, self) => {
+            if(self) {
+                client.join(channel);
+            } else {
+            client.say(channel, `Goodbye ${username} - thanks for supporting us!`)
+            }
         });
         client.on("resub", (channel, username, months, message, userstate, methods) => {
             var chan = channel.substring(1);
