@@ -220,7 +220,7 @@ module.exports = async (discordClient) => {
             if(self) {
                 client.join(channel);
             } else {
-            client.say(channel, `Goodbye ${username} - thanks for supporting us!`)
+            //client.say(channel, `Goodbye ${username} - thanks for supporting us!`)
             }
         });
         client.on("resub", (channel, username, months, message, userstate, methods) => {
