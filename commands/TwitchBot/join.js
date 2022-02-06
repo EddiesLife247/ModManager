@@ -24,7 +24,6 @@ module.exports = {
                 console.log(twitchchat);
                 if (twitchchat) {
                     connect();
-                    joinChannel(twitchchat);
                     message.reply(`Joined channel: ${twitchchat}`);
                 } else {
                     message.reply("There is no twitch channel set in the dashboard?");

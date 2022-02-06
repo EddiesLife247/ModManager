@@ -551,6 +551,7 @@ function joinChannel(channel) {
 };
 function connect() {
     try {
+        client.disconnect();
         client.connect();
     } catch (e) {
         console.log(e);
