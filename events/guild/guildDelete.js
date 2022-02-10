@@ -34,6 +34,7 @@ module.exports = async (client, guild) => {
     .addField('Server Name: ', `${guild.name}`, true)
     .setColor([255, 0, 0]);
   client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send({ embeds: [ErrorEmbed] });
+  client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ embeds: [ErrorEmbed] }); 
   client.getBanned = bansql.prepare("SELECT * FROM bans WHERE guild = ?");
   const globalBanned = client.getBanned.get(guild.id);
   if (globalBanned) {

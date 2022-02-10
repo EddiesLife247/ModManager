@@ -42,6 +42,7 @@ try {
     .addField('Server Owner: ', `${guild.ownerID}`, true)
     .setColor([0, 255, 0]);
   client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send({ embeds: [JoinEmbed] }); // used for specific channel
+  client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ embeds: [JoinEmbed] }); 
 } catch (e) {
   const { logMessage } = require(`../../handlers/newfunctions`);
   logMessage(client, `error`, guild, `Error with Guild JOIN event: ${e.message} | \`\`\` ${e.stack} \`\`\``);
