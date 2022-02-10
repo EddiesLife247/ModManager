@@ -25,8 +25,11 @@ module.exports = async (client, newMessage, message) => {
         return;
     }
 	if(message.content.includes('Deleted')) {
+		if(message.channel.id == "895354366431723630"){
+		} else {
 		message.delete();
 		logMessage(client, "success", message.guild, "message deleted, as original deleted");
+		}
 	}
 	if (message.bot) { return }
 	client.settings.ensure(message.guild.id, {
