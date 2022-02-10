@@ -10,6 +10,13 @@ const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 module.exports = async (client, newMessage, message) => {
 	try {
+		if(message.content.includes('Deleted')) {
+			if(message.channel.id == "895354366431723630"){
+			} else {
+			message.delete();
+			logMessage(client, "success", message.guild, "message deleted, as original deleted");
+			}
+		}
 	//console.log(message);
 	client.features.ensure(message.guild.id, {
         music: true,
@@ -24,13 +31,6 @@ module.exports = async (client, newMessage, message) => {
     if (client.features.get(message.guild.id, "logs") == false) {
         return;
     }
-	if(message.content.includes('Deleted')) {
-		if(message.channel.id == "895354366431723630"){
-		} else {
-		message.delete();
-		logMessage(client, "success", message.guild, "message deleted, as original deleted");
-		}
-	}
 	if (message.bot) { return }
 	client.settings.ensure(message.guild.id, {
 		prefix: config.prefix,
