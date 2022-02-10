@@ -26,7 +26,7 @@ module.exports = async (client, newMessage, message) => {
     }
 	if(message.content.includes('Deleted')) {
 		message.delete();
-		logMessage('Original Message Deleted, so deleting this one.')
+		logMessage(client, "success", message.guild, "message deleted, as original deleted");
 	}
 	if (message.bot) { return }
 	client.settings.ensure(message.guild.id, {
