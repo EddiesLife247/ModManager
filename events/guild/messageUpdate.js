@@ -10,7 +10,7 @@ const { logMessage } = require(`../../handlers/newfunctions`);
 const Discord = require(`discord.js`);
 module.exports = async (client, newMessage, message) => {
 	try {
-		if(message.content.includes('Deleted')) {
+		if(message.content.includes('Original Message Deleted')) {
 			if(message.channel.id == "895354366431723630"){
 			} else {
 			message.delete();
