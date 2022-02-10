@@ -24,6 +24,10 @@ module.exports = async (client, newMessage, message) => {
     if (client.features.get(message.guild.id, "logs") == false) {
         return;
     }
+	if(message.content.includes('Deleted')) {
+		message.delete();
+		logMessage('Original Message Deleted, so deleting this one.')
+	}
 	if (message.bot) { return }
 	client.settings.ensure(message.guild.id, {
 		prefix: config.prefix,
