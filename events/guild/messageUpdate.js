@@ -61,11 +61,6 @@ module.exports = async (client, newMessage, message) => {
 		} else {
 			var newContent = message.content;
 		}
-		if(newMessage.content.length > 1000) {
-			var oldContent = "Message too long to log";
-		} else {
-			var oldContent = newMessage.content;
-		}
 		const embed = new Discord.MessageEmbed()
 			.setColor("#ff0000")
 			.setFooter({text: `${newMessage.guild.name}`})
