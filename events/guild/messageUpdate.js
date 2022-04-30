@@ -61,6 +61,7 @@ module.exports = async (client, newMessage, message) => {
 		} else {
 			var newContent = message.content;
 		}
+		var oldContent = newMessage.content;
 		const embed = new Discord.MessageEmbed()
 			.setColor("#ff0000")
 			.setFooter({text: `${newMessage.guild.name}`})
