@@ -14,10 +14,12 @@ module.exports = async (client, newMessage, message) => {
 		//	console.log(message.content);
 		const forbidenWords = ['Deleted'];
 		for (var i = 0; i < forbidenWords.length; i++) {
-			if (message.content.includes(forbidenWords[i])) {
-				message.delete();
-				logMessage(client, "success", message.guild, "message deleted, as original deleted");
-				break;
+			if (message.content.includes("Original Message Deleted")) {
+				if (message.content.includes(forbidenWords[i])) {
+					message.delete();
+					logMessage(client, "success", message.guild, "message deleted, as original deleted");
+					break;
+				}
 			}
 		}
 		//console.log(message);
