@@ -11,6 +11,7 @@
   "dependencies": {
     "@bryendaco/catchscam.js": "^1.0.3",
     "@discordjs/builders": "^0.6.0",
+    "@discordjs/opus": "github:discordjs/opus",
     "@discordjs/voice": "^0.6.0",
     "@distube/soundcloud": "^0.2.2",
     "@distube/spotify": "^0.6.3",
