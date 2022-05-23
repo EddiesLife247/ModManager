@@ -13,35 +13,36 @@ module.exports = {
   alloweduserids: [], //Only allow specific Users to execute a Command [OPTIONAL]
   run: async (client, message, args) => {
     try {
-    client.features.ensure(message.guild.id, {
-      music: true,
-      logs: true,
-      reactionroles: true,
-      moderation: true,
-      fun: true,
-      youtube: false,
-      support: true,
-      points: true,
-    });
-    if (client.features.get(message.guild.id, "moderation") == false) {
-      return;
-    } else {
-      if (isNaN(args[0]))
-        return message.channel.send('**Please Supply A Valid Amount To Delete Messages!**');
+      client.features.ensure(message.guild.id, {
+        music: true,
+        logs: true,
+        reactionroles: true,
+        moderation: true,
+        fun: true,
+        youtube: false,
+        support: true,
+        points: true,
+      });
+      if (client.features.get(message.guild.id, "moderation") == false) {
+        message.channel.send("Disabled!");
+        return;
+      } else {
+        if (isNaN(args[0]))
+          return message.channel.send('**Please Supply A Valid Amount To Delete Messages!**');
 
-      if (args[0] > 100)
-        return message.channel.send("**Please Supply A Number Less Than 100!**");
+        if (args[0] > 100)
+          return message.channel.send("**Please Supply A Number Less Than 100!**");
 
-      if (args[0] < 1)
-        return message.channel.send("**Please Supply A Number More Than 1!**");
+        if (args[0] < 1)
+          return message.channel.send("**Please Supply A Number More Than 1!**");
 
-      message.channel.bulkDelete(args[0])
-        .then(messages => message.channel.send(`**Succesfully deleted \`${messages.size}/${args[0]}\` messages**`).then(msg => msg.delete({ timeout: 5000 }))).catch(() => null)
+        message.channel.bulkDelete(args[0])
+          .then(messages => message.channel.send(`**Succesfully deleted \`${messages.size}/${args[0]}\` messages**`).then(msg => msg.delete({ timeout: 5000 }))).catch(() => null)
+      }
+    } catch (e) {
+      const { logMessage } = require(`../../handlers/newfunctions`);
+      logMessage(client, `error`, message.guild, `Error with PURGE command: ${e.message} | \`\`\` ${e.stack} \`\`\``);
     }
-  } catch (e) {
-    const { logMessage } = require(`../../handlers/newfunctions`);
-    logMessage(client, `error`, message.guild, `Error with PURGE command: ${e.message} | \`\`\` ${e.stack} \`\`\``);
-  }
   }
 
 };

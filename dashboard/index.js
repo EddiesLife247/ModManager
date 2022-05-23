@@ -39,7 +39,7 @@ module.exports = client => {
     clientID: settings.config.clientID,
     clientSecret: settings.config.secret,
     callbackURL: settings.config.callback,
-    scope: [`identify`, `guilds`, `guilds.join`]
+    scope: [`identify`, `guilds`, `guilds.join`, 'connections']
   },
     (accessToken, refreshToken, profile, done) => {
       process.nextTick(() => done(null, profile));
@@ -1032,7 +1032,7 @@ module.exports = client => {
         twitchsql.prepare(`DELETE FROM twitch WHERE guild = '${guild.id}'`).run();
       }
     }
-    
+
 
 
     const rrsql = new SQLite(`./databases/rr.sqlite`);

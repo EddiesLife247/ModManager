@@ -20,7 +20,7 @@ const twitchsql = new SQLite(`./databases/twitch.sqlite`);
 //===================================
 module.exports = async (discordClient) => {
     function logMessage(message) {
-        console.log(`**TWITCH BOT:** ${message}`);
+        //console.log(`**TWITCH BOT:** ${message}`);
         discordClient.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`**TWITCH BOT:** ${message}`);
     }
     try {
@@ -39,8 +39,8 @@ module.exports = async (discordClient) => {
             logMessage(`Pong from Twitch: ${latency}`)
         });
         client.on("join", (channel, username, self) => {
-            if(self === true) {
-                    //client.say(channel, `I am now moderating this channel!`);
+            if (self === true) {
+                //client.say(channel, `I am now moderating this channel!`);
             } else {
                 //client.say(channel, `Welcome to the channel ${username}, don't forget to follow/subscribe if you havn't done so already!`)
             }
@@ -210,17 +210,17 @@ module.exports = async (discordClient) => {
             logMessage(`Reconnecting to Twitch!`);
         });
         client.on("hosted", (channel, username, viewers, autohost) => {
-            if(autohost) {
-            client.say(channel, `Thank you ${username} for AUTO HOSTING us! for ${viewers}.`)
+            if (autohost) {
+                client.say(channel, `Thank you ${username} for AUTO HOSTING us! for ${viewers}.`)
             } else {
                 client.say(channel, `Thank you ${username} for HOSTING us! for ${viewers}.`)
             }
         });
         client.on("part", (channel, username, self) => {
-            if(self) {
+            if (self) {
                 client.join(channel);
             } else {
-            //client.say(channel, `Goodbye ${username} - thanks for supporting us!`)
+                //client.say(channel, `Goodbye ${username} - thanks for supporting us!`)
             }
         });
         client.on("resub", (channel, username, months, message, userstate, methods) => {
@@ -498,11 +498,8 @@ module.exports = async (discordClient) => {
                 }
                 /** MANUAL JOINS */
                 client.join('demonwalker909');
-                logMessage(`Joined: demonwalker909 (MANUAL)`);
                 client.join('darkwytchcraft');
-                logMessage(`Joined: darkwytchcraft (MANUAL)`);
                 client.join('elementaladept');
-                logMessage(`Joined: elementaladept (MANUAL)`);
             } catch (err) {
                 logMessage(`Start Bot Error: ${err}`);
             }
