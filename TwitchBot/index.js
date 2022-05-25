@@ -26,7 +26,6 @@ module.exports = async (discordClient) => {
         discordClient.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`**TWITCH BOT:** ${message}`);
     }
     try {
-        client.connect();
         const delay = ms => new Promise(res => setTimeout(res, ms));
         const cron = require('node-cron');
         var prefix = "?";
@@ -168,10 +167,10 @@ module.exports = async (discordClient) => {
         client.on('disconnected', (reason) => {
             if(reason === 'Login unsccessful' || reason === 'Invalid NICK.' || reason === 'Connection closed.'){
             logMessage(`Disconnected from twitch: ${reason}`);
-            process.kill();
             } else {
-            connect();
+            
             }
+            process.kill():
         });
 
         // Connect to Twitch:
