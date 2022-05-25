@@ -162,11 +162,11 @@ module.exports = async (discordClient) => {
         // Register our event handlers (defined below)
         client.on('connected', function(address, port) {
             logMessage(`Connected to Twitch!`);
-            setTimeout(function() {client.disconnect();}, 5000);
+            //setTimeout(function() {client.disconnect();}, 5000);
         });
 
         client.on('disconnected', (reason) => {
-            if(reason === 'Login unsccessful' || reason === 'Invalid NICK.' || reason === 'Connection closed'){
+            if(reason === 'Login unsccessful' || reason === 'Invalid NICK.' || reason === 'Connection closed.'){
             logMessage(`Disconnected from twitch: ${reason}`);
             process.kill();
             } else {
