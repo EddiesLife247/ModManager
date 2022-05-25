@@ -19,11 +19,14 @@ const client = new tmi.client(opts);
 const twitchsql = new SQLite(`./databases/twitch.sqlite`);
 //===================================
 module.exports = async (discordClient) => {
+    // Connect to Twitch:
+        
     function logMessage(message) {
         //console.log(`**TWITCH BOT:** ${message}`);
         discordClient.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`**TWITCH BOT:** ${message}`);
     }
     try {
+        client.connect();
         const delay = ms => new Promise(res => setTimeout(res, ms));
         const cron = require('node-cron');
         var prefix = "?";
@@ -209,6 +212,9 @@ module.exports = async (discordClient) => {
                 }
             }
         });
+        client.on('connecting', () => {
+            logMessage('Connecting to Twitch Servers');
+        })
         client.on("reconnect", () => {
             logMessage(`Reconnecting to Twitch!`);
         });
