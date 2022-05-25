@@ -163,6 +163,7 @@ module.exports = async (discordClient) => {
         });
 
         // Register our event handlers (defined below)
+        client.on('connected', onConnectedHandler);
 
         client.on('disconnected', (reason) => {
             if(reason === 'Login unsccessful' || reason === 'Invalid NICK.' || reason === 'Connection closed.'){
