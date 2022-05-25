@@ -160,10 +160,6 @@ module.exports = async (discordClient) => {
         });
 
         // Register our event handlers (defined below)
-        client.on('connected', function(address, port) {
-            logMessage(`Connected to Twitch!`);
-            //setTimeout(function() {client.disconnect();}, 5000);
-        });
 
         client.on('disconnected', (reason) => {
             if(reason === 'Login unsccessful' || reason === 'Invalid NICK.' || reason === 'Connection closed.'){
@@ -498,7 +494,7 @@ module.exports = async (discordClient) => {
                 console.log(`* Connected to ${addr}:${port}`);
                 //logMessage(`Connected to Twitch!`);
                 // Now conntected Join known channels
-                logMessage(client.channels.joined);
+                
                 //if(client.channels.joined)
                 const twitchsqldata = twitchsql.prepare("SELECT * FROM twitch").all();
                 for (const data of twitchsqldata) {
