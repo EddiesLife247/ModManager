@@ -160,11 +160,13 @@ module.exports = async (discordClient) => {
         });
 
         // Register our event handlers (defined below)
-        client.on('connected', onConnectedHandler);
+        client.on('connected', onConnectedHandler) {
+            logMessage(`Connected to Twitch!`);
+        }
 
         client.on('disconnected', (reason) => {
             logMessage(`Disconnected from twitch: ${reason}`);
-            client.connect();
+            connect();
         });
 
         // Connect to Twitch:
@@ -489,8 +491,10 @@ module.exports = async (discordClient) => {
         function onConnectedHandler(addr, port) {
             try {
                 console.log(`* Connected to ${addr}:${port}`);
-                logMessage(`Connected to Twitch!`);
+                //logMessage(`Connected to Twitch!`);
                 // Now conntected Join known channels
+                logMessage(client.channels.joined);
+                //if(client.channels.joined)
                 const twitchsqldata = twitchsql.prepare("SELECT * FROM twitch").all();
                 for (const data of twitchsqldata) {
                     client.join(data.twitch);
@@ -548,7 +552,7 @@ function joinChannel(channel) {
 };
 function connect() {
     try {
-        client.disconnect();
+        //client.disconnect();
         client.connect();
     } catch (e) {
         console.log(e);
