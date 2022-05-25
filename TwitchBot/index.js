@@ -170,7 +170,7 @@ module.exports = async (discordClient) => {
             } else {
             
             }
-            process.kill():
+            process.kill();
         });
 
         // Connect to Twitch:
