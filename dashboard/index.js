@@ -619,6 +619,7 @@ module.exports = client => {
       welcomemsg: '',
       acceptedtrust: '',
       timeoutLength: '',
+      twitchinvite: '',
 
     })
     const twitchsql = new SQLite(`./databases/twitch.sqlite`);
