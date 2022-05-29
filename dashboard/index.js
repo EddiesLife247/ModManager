@@ -619,7 +619,7 @@ module.exports = client => {
       welcomemsg: '',
       acceptedtrust: '',
       timeoutLength: '',
-      twitchinvite: '',
+      twitchinvite: 'none',
 
     })
     const twitchsql = new SQLite(`./databases/twitch.sqlite`);
@@ -628,7 +628,8 @@ module.exports = client => {
     for (const data of twitchdata) {
       if (data == undefined) {
         twitchlist = "";
-        twitchinvite = "";
+        twitchinvite = "blank";
+        console.log('no twitch invite');
       } else {
         twitchlist = data.twitch;
         twitchinvite = data.invite;
