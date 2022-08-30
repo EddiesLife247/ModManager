@@ -11,9 +11,11 @@
   "dependencies": {
     "@google-cloud/phishing-protection": "^2.5.0",
     "@ksoft/api": "^3.1.9",
+    "ascii-table": "^0.0.9",
     "bad-words": "^3.0.4",
     "colors": "^1.4.0",
     "cpu-stat": "^2.0.1",
+    "discord.js": "^14.3.0",
     "dotenv": "^14.2.0",
     "ejs": "^3.1.6",
     "enmap": "^5.8.7",
@@ -22,6 +24,6 @@
     "random-animals-api": "^1.2.6",
     "request": "^2.65.0",
     "tmi.js": "^1.8.5",
-    "url": "^0.11.0",
+    "url": "^0.11.0"
   }
 }

@@ -1,13 +1,14 @@
+const { EmbedBuilder, ApplicationCommandType, } = require('discord.js');
 const Discord = require('discord.js');
 const db = require('quick.db');
 const SQLite = require("better-sqlite3");
 const bansql = new SQLite(`./databases/bans.sqlite`);
-const config = require(`../../botconfig/config.json`);
+const config = require(`../../configs/config.json`);
 module.exports = {
-	name: 'User Info',
+	name: 'Warn user',
 	cooldown: 3000,
 	type: ApplicationCommandType.User,
-    default_member_permissions: 'kickMembers', // permission required
+    default_member_permissions: 'KickMembers', // permission required
 	run: async (client, interaction) => {
         const member = interaction.guild.members.cache.get(interaction.options.get('user').value);
         member.send(`You have been warned by <${message.author.username}> for this reason: ${reason}`)
