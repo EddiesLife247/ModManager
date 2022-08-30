@@ -26,7 +26,7 @@ module.exports = {
             }
             if(KickCount == ""){
                 KickCount = "0";
-            }npm
+            }
             if(warningCount == ""){
                 warningCount = "0";
             }
