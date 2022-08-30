@@ -10,8 +10,9 @@ module.exports = {
 	type: ApplicationCommandType.User,
     default_member_permissions: 'KickMembers', // permission required
 	run: async (client, interaction) => {
+        const reason = "Not Set";
         const member = interaction.guild.members.cache.get(interaction.options.get('user').value);
-        member.send(`You have been warned by <${message.author.username}> for this reason: ${reason}`)
+        member.send(`You have been warned. for this reason: ${reason}`)
         .catch(error => message.channel.send(`Sorry <${message.author}> I couldn't n't warn because of : ${error}`));
         // Message Embed
         const embed = new EmbedBuilder();
