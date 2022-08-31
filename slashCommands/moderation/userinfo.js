@@ -23,6 +23,9 @@ module.exports = {
         const count = `\n Local Bans: ${localBanCount} \n Global Bans: ${globalBanCount} \n Kicks: ${KickCount} \n Warnings: ${warningCount} \n Timeouts: ${timeoutCount}`;
 
         const data = await getUserInfo(interaction, member.user.id);
+        client.getWarning = bansql.prepare(`SELECT * FROM bans WHERE user = ${member.user.id}`);
+        let getWarning = client.getWarning.get().reason;
+        console.log(client.getWarning.get());
         const embed = new EmbedBuilder();
     embed.setColor("#00ff00")
     embed.setTitle(`**User Info** - ${member.user.username}`)
@@ -36,6 +39,7 @@ module.exports = {
         { name: 'Timouts:', value: `${timeoutCount.length}`, inline: true },
         { name: 'Local Bans:', value: `${localBanCount.length}`, inline: true },
         { name: 'Global Bans:', value: `${globalBanCount.length}`, inline: true },
+        { name: 'Last Punishment Reason:', value: `${getWarning}`, inline: true },
 	)
         await interaction.reply({ content: `User history: ${member.user.username}`, ephemeral: true, embeds: [embed] });
 
