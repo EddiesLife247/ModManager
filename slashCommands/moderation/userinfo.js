@@ -18,21 +18,6 @@ module.exports = {
             var KickCount = bansql.prepare(`SELECT * FROM bans WHERE approved = 'KICK' AND user = ${member.user.id}`).all();
             var warningCount = bansql.prepare(`SELECT * FROM bans WHERE approved = 'WARNING' AND user = ${member.user.id}`).all();
             var timeoutCount = bansql.prepare(`SELECT * FROM bans WHERE approved = 'TIMEOUT' AND user = ${member.user.id}`).all();
-            if(localBanCount == ""){
-                localBanCount = "0";
-            }
-            if(globalBanCount == ""){
-                globalBanCount = "0";
-            }
-            if(KickCount == ""){
-                KickCount = "0";
-            }
-            if(warningCount == ""){
-                warningCount = "0";
-            }
-            if(timeoutCount == ""){
-                timeoutCount = "0";
-            }
         if (!interaction.isUserContextMenuCommand()) return;
             //console.log(`SELECT * FROM bans WHERE approved = 'LOCAL' AND user = ${member.user.id}`);
         const count = `\n Local Bans: ${localBanCount} \n Global Bans: ${globalBanCount} \n Kicks: ${KickCount} \n Warnings: ${warningCount} \n Timeouts: ${timeoutCount}`;
@@ -46,11 +31,11 @@ module.exports = {
         { name: 'Username', value: `${member.user.username}` },
         { name: 'Code', value: `${member.user.discriminator}`, inline: true },
         { name: '\u200B', value: '\u200B' },
-		{ name: 'Warnings:', value: `${warningCount}`, inline: true },
-        { name: 'Kicks:', value: `${KickCount}`, inline: true },
-        { name: 'Timouts:', value: `${timeoutCount}`, inline: true },
-        { name: 'Local Bans:', value: `${localBanCount}`, inline: true },
-        { name: 'Global Bans:', value: `${globalBanCount}`, inline: true },
+		{ name: 'Warnings:', value: `${warningCount.length}`, inline: true },
+        { name: 'Kicks:', value: `${KickCount.length}`, inline: true },
+        { name: 'Timouts:', value: `${timeoutCount.length}`, inline: true },
+        { name: 'Local Bans:', value: `${localBanCount.length}`, inline: true },
+        { name: 'Global Bans:', value: `${globalBanCount.length}`, inline: true },
 	)
         await interaction.reply({ content: `User history: ${member.user.username}`, ephemeral: true, embeds: [embed] });
 
