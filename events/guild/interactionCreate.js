@@ -1,11 +1,9 @@
 const { EmbedBuilder, Collection, PermissionsBitField } = require('discord.js');
 const ms = require('ms');
-const client = require('..');
-const config = require('../configs/config.json');
+const config = require('../../configs/config.json');
 
 const cooldown = new Collection();
-
-client.on('interactionCreate', async interaction => {
+module.exports = async (client, interaction) => {
 	const slashCommand = client.slashCommands.get(interaction.commandName);
 		if (interaction.type == 4) {
 			if(slashCommand.autocomplete) {
@@ -61,4 +59,4 @@ client.on('interactionCreate', async interaction => {
 		} catch (error) {
 				console.log(error);
 		}
-});
+};

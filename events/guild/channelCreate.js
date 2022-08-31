@@ -2,7 +2,7 @@ const {
     MessageEmbed,
     Message
 } = require("discord.js");
-const config = require(`../configs/config.json`);
+const config = require(`../../configs/config.json`);
 const Discord = require(`discord.js`);
 module.exports = async (client, channel) => {
     try {

@@ -1,7 +1,6 @@
-const client = require('..')
 const chalk = require('chalk')
 
-client.on("ready", () => {
+module.exports = client => {
 	const activities = [
 		{ name: `${client.guilds.cache.size} Servers`, type: 2 }, // LISTENING
 		{ name: `${client.channels.cache.size} Channels`, type: 0 }, // PLAYING
@@ -27,4 +26,4 @@ client.on("ready", () => {
 		s++;
 	}, 30000);
 	console.log(chalk.red(`Logged in as ${client.user.tag}!`))
-});
+};
