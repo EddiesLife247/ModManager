@@ -71,7 +71,7 @@ module.exports = {
                 submitted.reply({ content: `User has been banned: ${member.user.username}`, ephemeral: true, embeds: [embed] });
                 //console.log(member);
                 member.send(`You have been banned from **${interaction.guild.name}**. for this reason: **${reason}**.`);
-                client.addBan.run(score2);
+                //client.addBan.run(score2);
                 member.ban();
 
 
