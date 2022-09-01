@@ -41,8 +41,8 @@ module.exports = {
 
             client.modchannel = botsql.prepare(`SELECT settings.settingValue FROM settings WHERE setting = 'modchannel' AND guildid = ${interaction.guild.id}`);
             try {
-                console.log(client.modchannel.get().settingValue);
-                console.log(interaction);
+                //console.log(client.modchannel.get().settingValue);
+                //console.log(interaction.targetMessage);
                 const channel = interaction.guild.channels.cache.get(client.modchannel.get().settingValue);
                 //console.log(channel);
                 const embed = new EmbedBuilder();
@@ -51,7 +51,9 @@ module.exports = {
                 embed.setTimestamp();
                 embed.addFields(
                     { name: 'Reporter:', value: `${interaction.user.username}`, inline: true},
-                    { name: 'Reason:', value: `${reason}`, inline: true },
+                    { name: 'Message Author:', value: `${interaction.targetMessage.author.username}`, inline: true },
+                    { name: 'Message Content:', value: `${interaction.targetMessage.content}`, inline: false },
+                    { name: 'Reason:', value: `${reason}`, inline: false },
                 )
                 channel.send({content: `A User has reported a message for: ${reason}`, embeds: [embed]});
                 submitted.reply({ content: `Your message has been reported to moderators`, ephemeral: true });
