@@ -6,8 +6,9 @@ module.exports = {
 	name: 'User Info',
 	cooldown: 3000,
 	type: ApplicationCommandType.User,
-    default_member_permissions: 'BanMembers', // permission required
+    default_member_permissions: 'ModerateMembers', // permission required
 	run: async (client, interaction) => {
+        try {
         const member = interaction.guild.members.cache.get(interaction.options.get('user').value);
         const guild = interaction.guild;
         console.log(member.user.id);
@@ -23,9 +24,10 @@ module.exports = {
         const count = `\n Local Bans: ${localBanCount} \n Global Bans: ${globalBanCount} \n Kicks: ${KickCount} \n Warnings: ${warningCount} \n Timeouts: ${timeoutCount}`;
 
         const data = await getUserInfo(interaction, member.user.id);
-        client.getWarning = bansql.prepare(`SELECT * FROM bans WHERE user = ${member.user.id}`);
+        client.getWarning = bansql.prepare(`SELECT * FROM bans WHERE user = ${member.user.id} ORDER BY date DESC
+        LIMIT 1`);
         let getWarning = client.getWarning.get().reason;
-        console.log(client.getWarning.get());
+        //console.log(client.getWarning.get());
         const embed = new EmbedBuilder();
     embed.setColor("#00ff00")
     embed.setTitle(`**User Info** - ${member.user.username}`)
@@ -42,7 +44,10 @@ module.exports = {
         { name: 'Last Punishment Reason:', value: `${getWarning}`, inline: true },
 	)
         await interaction.reply({ content: `User history: ${member.user.username}`, ephemeral: true, embeds: [embed] });
-
+    } catch (err) {
+        console.log(err);
+        interaction.followUp('There was an error seek support!');
+    }
     }
 };
 async function getUserInfo(interaction,userid){
