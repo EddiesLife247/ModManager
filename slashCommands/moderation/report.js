@@ -55,6 +55,7 @@ module.exports = {
                     { name: 'Message Content:', value: `${interaction.targetMessage.content}`, inline: false },
                     { name: 'Reason:', value: `${reason}`, inline: false },
                 )
+                embed.setURL(`https://discord.com/channels/${interaction.guild.id}/${interaction.targetMessage.channelId}/${interaction.targetMessage.id}`);
                 channel.send({content: `A User has reported a message for: ${reason}`, embeds: [embed]});
                 submitted.reply({ content: `Your message has been reported to moderators`, ephemeral: true });
             } catch (err) {
