@@ -24,93 +24,13 @@ module.exports = async (client, message) => {
 
 		
 		if (message.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
-			client.floodprotection = botsql.prepare(`SELECT settingValue FROM settings WHERE setting = 'floodprotection' AND guildid = ${guild.id}`);
-			let floodprotection = client.floodprotection.all().settingValue;
-			if(floodprotection) {
-			if (msgCooldown(message, cooldown)) {
-				//WARNING GOES HERE
-				let banneduserId = message.author.id;
-				let bannedguildId = message.guild.id;
-				let bannedtype = 'WARNING';
-				let bannedlength = 2;
-				let bannedreason = `[AUTO] User spammed in a channel meeting guild message cooldown requirements ${cooldown} seconds`;
-				let bannedbanid = Math.floor(Math.random() * 9999999999) + 25;
-				client.addBan = bansql.prepare("INSERT INTO bans (id, user, guild, reason, approved, appealed, date, length) VALUES (@id, @user, @guild, @reason, @approved, 'No', datetime('now'), @length);");
-				score5 = { id: `${banneduserId}-${bannedbanid} `, user: banneduserId, guild: bannedguildId, reason: bannedreason, approved: bannedtype, length: bannedlength };
-				const KickCount = bansql.prepare(`SELECT * FROM bans WHERE approved = 'WARNING' AND user = ${message.author.id} AND guild = ${message.guild.id} `).all();
-				member = await message.guild.members.cache.get(message.author.id);
-				if (KickCount.length == 0) {
-				  client.addBan.run(score5);
-				  message.delete();
-				  message.channel.send({
-					embeds: [new Discord.MessageEmbed()
-					  .setColor(ee.wrongcolor)
-					  .setFooter(ee.footertext, ee.footericon)
-					  .setTitle(replacemsg(settings.messages.msgcooldown, {
-						timeLeft: msgCooldown(message, cooldown)
-					  }))
-					  .addField(`WARNINGS: `, `${KickCount.length + 1} /  ${client.settings.get(message.guild.id, "warnkick")}`)
-					]
-				  }).then(msg => {
-					setTimeout(function () { // Setup a timer
-					  msg.delete(); // Deletes the ticket message
-					}, 8000); // 5 seconds in milliseconds
-				  });
-				  return;
-				}
-				else if (client.settings.get(message.guild.id, "warnkick") == 0 || client.settings.get(message.guild.id, "warnkick") == null) {
-				  client.addBan.run(score5);
-				  message.delete();
-				  message.channel.send({
-					embeds: [new Discord.MessageEmbed()
-					  .setColor(ee.wrongcolor)
-					  .setFooter(ee.footertext, ee.footericon)
-					  .setTitle(replacemsg(settings.messages.msgcooldown, {
-						timeLeft: msgCooldown(message, cooldown)
-					  }))
-					  .addField(`WARNINGS: `, `${KickCount.length + 1} /  ${client.settings.get(message.guild.id, "warnkick")}`)
-					]
-				  }).then(msg => {
-					setTimeout(function () { // Setup a timer
-					  msg.delete(); // Deletes the ticket message
-					}, 8000); // 5 seconds in milliseconds
-				  });
-				  return;
-				}
-				else if (KickCount.length >= client.settings.get(message.guild.id, "warnkick")) {
-				  member.timeout(60 * 60 * 1000, `You were Warned ${KickCount.length} times within the last 15 days, you now have a 1 hour timeout`)
-				  message.delete();
-				  return;
-	  
-				} else {
-				  await client.addBan.run(score5);
-				  message.delete();
-				  message.channel.send({
-					embeds: [new Discord.MessageEmbed()
-					  .setColor(ee.wrongcolor)
-					  .setFooter(ee.footertext, ee.footericon)
-					  .setTitle(replacemsg(settings.messages.msgcooldown, {
-						timeLeft: msgCooldown(message, cooldown)
-					  }))
-					  .addField(`WARNINGS: `, `${KickCount.length + 1} /  ${client.settings.get(message.guild.id, "warnkick")}`)
-					]
-				  }).then(msg => {
-					setTimeout(function () { // Setup a timer
-					  msg.delete(); // Deletes the ticket message
-					}, 8000); // 5 seconds in milliseconds
-				  });
-				  return;
-				}
-	  
-	  
-			  }
-			}
-
-			const forbidenWords = ['fuck', 'shit', 'bollocks', 'twat', 'nigger', 'bastard', 'cunt', '.xxx', 'XXXX'];
-			client.messagefilter = botsql.prepare(`SELECT settingValue FROM settings WHERE setting = 'messagefilter' AND guildid = ${guild.id}`);
-			let msgfilter = client.messagefilter.get().settingValue;
+			
 			client.warnkick = botsql.prepare(`SELECT settingValue FROM settings WHERE setting = 'warnkick' AND guildid = ${guild.id}`);
 			let warnkick = client.warnkick.get().settingValue;
+			const forbidenWords = ['fuck', 'shit', 'bollocks', 'twat', 'nigger', 'bastard', 'cunt', '.xxx', 'XXXX'];
+			client.messagefilter = botsql.prepare(`SELECT * FROM settings WHERE setting = 'messagefilter' AND guildid = ${guild.id}`);
+			let msgfilter = client.messagefilter.get().settingValue;
+
 			
 			if(msgfilter == 'true'){
 			//console.log(msgfilter);
@@ -188,9 +108,79 @@ module.exports = async (client, message) => {
 					}
 				  }
 			}
+			client.inviteFilter = botsql.prepare(`SELECT settingValue FROM settings WHERE setting = 'inviteFilter' AND guildid = ${guild.id}`);
+			let inviteFilter = client.inviteFilter.get().settingValue;
+			if(inviteFilter == 'true'){
+				console.log("invite filter enabled");
+			const bannedWords = [`discord.gg`, `.gg/`, `.gg /`, `. gg /`, `. gg/`, `discord .gg /`, `discord.gg /`, `discord .gg/`, `discord .gg`, `discord . gg`, `discord. gg`, `discord gg`, `discordgg`, `discord gg /`]
+        try {
+
+          if (bannedWords.some(word => message.content.toLowerCase().includes(word))) {
+			  console.log("invite sent");
+            if (!message.member.permissions.has(PermissionsBitField.Flags.Administrator) || !message.member.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
+	              try {
+					  console.log("deleting invite");
+                await message.channel.send(`You cannot send invites to other Discord servers`);
+                let banneduserId = message.author.id;
+                let bannedguildId = message.guild.id;
+                let bannedtype = 'WARNING';
+                let bannedlength = 15;
+                let bannedreason = '[AUTO] User warned for sharing discord invite links';
+                let bannedbanid = Math.floor(Math.random() * 9999999999) + 25;
+                client.addBan = bansql.prepare("INSERT INTO bans (id, user, guild, reason, approved, appealed, date, length) VALUES (@id, @user, @guild, @reason, @approved, 'No', datetime('now'), @length);");
+                score3 = { id: `${banneduserId}-${bannedbanid}`, user: banneduserId, guild: bannedguildId, reason: bannedreason, approved: bannedtype, length: bannedlength };
+                const KickCount = bansql.prepare(`SELECT * FROM bans WHERE approved = 'WARNING' AND user = ${message.author.id} AND guild = ${message.guild.id}`).all();
+                member = await message.guild.members.cache.get(message.author.id);
+                if (KickCount.length == 0) {
+                  client.addBan.run(score3);
+                  message.channel.send(`Please do not send invites on this server! <@${message.author.id}>`);
+                  message.delete();
+                  // console.log("Kick is set to null add data.")
+                  return;
+                }
+                else if (warnkick == 0 || warnkick == null) {
+                  client.addBan.run(score3);
+                  message.channel.send(`Please do not send invites on this server! <@${message.author.id}> WARNING: ${KickCount.length + 1} /  ${warnkick}`);
+                  message.delete();
+                  // console.log("Kick is set to null add data.")
+                  return;
+                }
+                else if (KickCount.length >= warnkick) {
+                  member.timeout(timedout * 60 * 1000, `You were Warned ${KickCount.length} times within the last 15 days, you now have a 1 hour timeout`)
+                  message.channel.send(`Please do not send invites on this server! <@${message.author.id}> WARNING: ${KickCount.length + 1} /  ${warnkick}`);
+                  message.delete();
+                  return;
+
+                } else {
+                  await client.addBan.run(score3);
+                  message.channel.send(`Please do not send invites on this server! <@${message.author.id}> WARNING: ${KickCount.length + 1} /  ${warnkick}`);
+                  message.delete();
+                  return;
+                }
+
+              } catch (err) {
+                message.channel.send(`Please do not send invites on this server! <@${message.author.id}> WARNING: ${KickCount.length + 1} /  ${warnkick}`);
+                console.log(err);
+                logMessage(client, "error", message.guild, `Error at line 252: ${error} (messageCreate)`);
+                message.delete();
+              }
+            }
+            //if (message.author.id === message.guild.ownerID) return console.log("owner override");
+
+
+            //await message.delete();
+
+
+            return;
+          }
+        } catch (e) {
+          logMessage(client, "error", message.guild, `Error at line 265: ${e} (messageCreate)`);
+          console.log(e);
+        }
+      }
 
 		} else {
-			console.log("Filter enabled, but not enough permissions set. Server must check permissions with /botcheck");
+			console.log("Not enough permissions to check message content! but not enough permissions set. Server must check permissions with /botcheck");
 		}
 
 	
