@@ -49,6 +49,7 @@ module.exports = {
     */
             client.warnkick = botsql.prepare(`SELECT settingValue FROM settings WHERE setting = 'warnkick' AND guildid = ${interaction.guild.id}`);
             let warnkick = client.warnkick.get().settingValue;
+            console.log(warnkick);
             let banneduserId = member.user.id;
             let bannedguildId = interaction.guild.id;
             let bannedtype = 'KICK';
@@ -71,7 +72,7 @@ module.exports = {
             //console.log(member);
             member.send(`You have been kicked from **${interaction.guild.name}**. for this reason: **${reason}**.`);
             client.addBan.run(score2);
-            member.kick(`User Kicked! - ${reason}`)
+            //member.kick(`User Kicked! - ${reason}`)
 
 
 
