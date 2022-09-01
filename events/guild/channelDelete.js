@@ -21,7 +21,7 @@ module.exports = async (client, channel) => {
             //if (channel.me.permissions.has("VIEW_AUDIT_LOG")) {
             const fetchedLogs = await channel.guild.fetchAuditLogs({
                 limit: 1,
-                type: AuditLogEvent.ChannelCreate,
+                type: AuditLogEvent.ChannelDelete,
             });
             const chLog = fetchedLogs.entries.first();
             if (Date.now() - chLog.createdTimestamp < 5000) {
@@ -38,8 +38,8 @@ module.exports = async (client, channel) => {
             const logchannel = channel.guild.channels.cache.get(client.logchannel.get().settingValue);
             console.log(logchannel.id);
             const embed = new EmbedBuilder();
-                embed.setColor("#00ff00")
-                embed.setTitle('**MODERATION LOG: Channel Created**');
+                embed.setColor("#ff0000")
+                embed.setTitle('**MODERATION LOG: Channel Deleted**');
                 embed.addFields(
                     { name: 'Channel Name::', value: `${channel.name}`, inline: true },
                     { name: 'Executor', value: `${execute}`, inline: false },
