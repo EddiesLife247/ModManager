@@ -40,7 +40,6 @@ module.exports = async (client, message) => {
 					try {
 					  var customFilter = new Filter({ placeHolder: 'XX' });
 					  if (message.content == null) {
-						  console.log("NO CONTENT MSG");
 						// NO NEED TO CHECK ITS NOTHING!
 					  } else {
 						  //console.log(message.content);
@@ -48,7 +47,6 @@ module.exports = async (client, message) => {
 						console.log(msg);
 						for (var i = 0; i < forbidenWords.length; i++) {
 						  if (msg.includes(forbidenWords[i])) {
-							  console.log("FILTER MSG");
 							try {
 							  let banneduserId = message.author.id;
 							  let bannedguildId = message.guild.id;
