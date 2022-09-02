@@ -21,7 +21,7 @@ module.exports = async (client, interaction) => {
 
 	// Button Interaction
 	if (interaction.isButton()) {
-		if (message.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageRoles)) {
+		if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageRoles)) {
 			client.logchannel = botsql.prepare(`SELECT settings.settingValue FROM settings WHERE setting = 'logchannel' AND guildid = '${interaction.guild.id}'`);
 			const logchannel = interaction.guild.channels.cache.get(client.logchannel.get().settingValue);
 			//console.log(interaction);
@@ -60,6 +60,8 @@ module.exports = async (client, interaction) => {
 			} else {
 				console.log(`Reaction Role does not exist in database, skipping!`);
 			}
+		} else {
+			interaction.reply({ content: `I don't have permissions anymore to manage roles, contact a staff member!`, ephemeral: true });
 		}
 	}
 
