@@ -19,8 +19,10 @@ module.exports = async (client, interaction) => {
 
 
 
-		// Button Interaction
+	// Button Interaction
 	if (interaction.isButton()) {
+		client.logchannel = botsql.prepare(`SELECT settings.settingValue FROM settings WHERE setting = 'logchannel' AND guildid = '${interaction.guild.id}'`);
+		const logchannel = interaction.guild.channels.cache.get(client.logchannel.get().settingValue);
 		//console.log(interaction);
 		// Get roles from database;
 		client.getRr = rrsql.prepare("SELECT * FROM rrtable WHERE emoji = ?  AND guild = ? AND channel = ? AND messageid = ?");
@@ -35,11 +37,25 @@ module.exports = async (client, interaction) => {
 			if (interaction.member.roles.cache.some(role => role.id === `${rr.emoji}`)) {
 				interaction.member.roles.remove(`${rr.emoji}`);
 				interaction.reply({ content: `Successfully left <@&${rr.emoji}>!`, ephemeral: true });
+				role = 'LEFT ROLE VIA REACTION ROLES';
+
 			} else {
 				interaction.member.roles.add(`${rr.emoji}`);
 				interaction.reply({ content: `Successfully joined <@&${rr.emoji}>!`, ephemeral: true });
 				console.log(`${interaction.user.tag} joined ${interaction.customId}!`);
+				role = 'JOINED ROLE VIA REACTION ROLES';
 			}
+			const embed = new EmbedBuilder();
+			embed.setColor("#0000ff");
+			embed.setTitle(`**Moderation** - ${role}`);
+			embed.setTimestamp();
+			embed.addFields(
+				{ name: 'Member:', value: `<@${interaction.member.user.id}>`, inline: true },
+				{ name: 'Role:', value: `<@&${rr.role}>`, inline: true },
+			);
+			console.log(interaction.member.user.username);
+
+			logchannel.send({ embeds: [embed] });
 		} else {
 			console.log(`Reaction Role does not exist in database, skipping!`);
 		}
