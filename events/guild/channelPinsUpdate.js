@@ -16,12 +16,12 @@ module.exports = async (client, channel) => {
         const logchannel = channel.guild.channels.cache.get(client.logchannel.get().settingValue);
         if (!logchannel.id == "") {
             const guild = channel.guild;
+            //console.log(channel.messages.messages);
             if (channel.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
                 try {
-                    //if (channel.me.permissions.has("VIEW_AUDIT_LOG")) {
                     const fetchedLogs = await channel.guild.fetchAuditLogs({
                         limit: 1,
-                        type: AuditLogEvent.ChannelDelete,
+                        type: AuditLogEvent.ChannelPins,
                     });
                     const chLog = fetchedLogs.entries.first();
                     if (Date.now() - chLog.createdTimestamp < 5000) {
@@ -36,8 +36,8 @@ module.exports = async (client, channel) => {
                     }
                     //console.log(channel.guild.channels.cache.find(c => c.name == settings.modLogChannel));
                     const embed = new EmbedBuilder();
-                    embed.setColor("#ff0000")
-                    embed.setTitle('**MODERATION LOG: Channel Deleted**');
+                    embed.setColor("#0000FF")
+                    embed.setTitle('**MODERATION LOG: Channel Pins Updated**');
                     embed.addFields(
                         { name: 'Channel Name::', value: `${channel.name}`, inline: true },
                         { name: 'Executor', value: `${execute}`, inline: false },

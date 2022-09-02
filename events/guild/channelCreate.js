@@ -12,51 +12,48 @@ const bansql = new SQLite(`./databases/bans.sqlite`);
 const botsql = new SQLite(`./databases/bot.sqlite`);
 module.exports = async (client, channel) => {
     try {
-    const guild = channel.guild;
-    if (channel.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
-            try {
-                client.logchannel = botsql.prepare(`SELECT settings.settingValue FROM settings WHERE setting = 'logchannel' AND guildid = '${channel.guild.id}'`);
-                console.log(`SELECT settings.settingValue FROM settings WHERE setting = 'logchannel' AND guildid = ${channel.guild.id}`);
-                console.log(client.logchannel.get());
-            //if (channel.me.permissions.has("VIEW_AUDIT_LOG")) {
-            const fetchedLogs = await channel.guild.fetchAuditLogs({
-                limit: 1,
-                type: AuditLogEvent.ChannelCreate,
-            });
-            const chLog = fetchedLogs.entries.first();
-            if (Date.now() - chLog.createdTimestamp < 5000) {
-                if (!chLog) {
-                    var execute = "UNKNOWN";
+        client.logchannel = botsql.prepare(`SELECT settings.settingValue FROM settings WHERE setting = 'logchannel' AND guildid = '${channel.guild.id}'`);
+        const logchannel = channel.guild.channels.cache.get(client.logchannel.get().settingValue);
+        if (!logchannel.id == "") {
+            const guild = channel.guild;
+            if (channel.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
+                try {
+                    const fetchedLogs = await channel.guild.fetchAuditLogs({
+                        limit: 1,
+                        type: AuditLogEvent.ChannelCreate,
+                    });
+                    const chLog = fetchedLogs.entries.first();
+                    if (Date.now() - chLog.createdTimestamp < 5000) {
+                        if (!chLog) {
+                            var execute = "UNKNOWN";
+                        }
+                        const { executor, target } = chLog;
+                        var execute = executor.tag;
+                    }
+                    else {
+                        var execute = "UNKNOWN";
+                    }
+                    const embed = new EmbedBuilder();
+                    embed.setColor("#00ff00")
+                    embed.setTitle('**MODERATION LOG: Channel Created**');
+                    embed.addFields(
+                        { name: 'Channel Name::', value: `${channel.name}`, inline: true },
+                        { name: 'Executor', value: `${execute}`, inline: false },
+                    )
+                    embed.setTimestamp();
+
+                    logchannel.send({ embeds: [embed] });
+                    //console.log(`pin updated in a guild that has logs enabled!`);
+                    //}
                 }
-                const { executor, target } = chLog;
-                var execute = executor.tag;
+                catch (err) {
+                    console.log(err);
+                    return;
+                }
             }
-            else {
-                var execute = "UNKNOWN";
-            }
-            //console.log(channel.guild.channels.cache.find(c => c.name == settings.modLogChannel));
-            const logchannel = channel.guild.channels.cache.get(client.logchannel.get().settingValue);
-            console.log(logchannel.id);
-            const embed = new EmbedBuilder();
-                embed.setColor("#00ff00")
-                embed.setTitle('**MODERATION LOG: Channel Created**');
-                embed.addFields(
-                    { name: 'Channel Name::', value: `${channel.name}`, inline: true },
-                    { name: 'Executor', value: `${execute}`, inline: false },
-                )
-                embed.setTimestamp();
-                
-               logchannel.send({ embeds: [embed] });
-            //console.log(`pin updated in a guild that has logs enabled!`);
-            //}
         }
-        catch (err) {
-            console.log(err);
-            return;
-        }
+    } catch (e) {
+        console.log(e);
     }
-} catch (e) {
-    console.log(e);
-}
 
 };
