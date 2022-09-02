@@ -31,7 +31,7 @@ module.exports = {
         }
     ],
     run: async (client, interaction) => {
-        if (message.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageRoles)) {
+        if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageRoles)) {
             var error = false;
             client.logchannel = botsql.prepare(`SELECT settings.settingValue FROM settings WHERE setting = 'logchannel' AND guildid = '${interaction.guild.id}'`);
             const logchannel = interaction.guild.channels.cache.get(client.logchannel.get().settingValue);
