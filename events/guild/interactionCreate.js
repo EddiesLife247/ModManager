@@ -7,6 +7,8 @@ const botsql = new SQLite(`./databases/bot.sqlite`);
 const rrsql = new SQLite(`./databases/rr.sqlite`);
 const cooldown = new Collection();
 module.exports = async (client, interaction) => {
+	client.logchannel = botsql.prepare(`SELECT settings.settingValue FROM settings WHERE setting = 'logchannel' AND guildid = '${interaction.guild.id}'`);
+	const logchannel = interaction.guild.channels.cache.get(client.logchannel.get().settingValue);
 	const slashCommand = client.slashCommands.get(interaction.commandName);
 	if (interaction.type == 4) {
 		if (slashCommand.autocomplete) {
@@ -22,8 +24,6 @@ module.exports = async (client, interaction) => {
 	// Button Interaction
 	if (interaction.isButton()) {
 		if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageRoles)) {
-			client.logchannel = botsql.prepare(`SELECT settings.settingValue FROM settings WHERE setting = 'logchannel' AND guildid = '${interaction.guild.id}'`);
-			const logchannel = interaction.guild.channels.cache.get(client.logchannel.get().settingValue);
 			//console.log(interaction);
 			// Get roles from database;
 			client.getRr = rrsql.prepare("SELECT * FROM rrtable WHERE emoji = ?  AND guild = ? AND channel = ? AND messageid = ?");
@@ -55,8 +55,9 @@ module.exports = async (client, interaction) => {
 					{ name: 'Role:', value: `<@&${rr.role}>`, inline: true },
 				);
 				console.log(interaction.member.user.username);
-
-				logchannel.send({ embeds: [embed] });
+				if (!logchannel.id == "") {
+					logchannel.send({ embeds: [embed] });
+				}
 			} else {
 				console.log(`Reaction Role does not exist in database, skipping!`);
 			}

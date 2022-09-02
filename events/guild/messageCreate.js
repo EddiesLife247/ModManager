@@ -9,6 +9,8 @@ const scoresql = new SQLite(`./databases/scores.sqlite`);
 const bansql = new SQLite(`./databases/bans.sqlite`);
 const botsql = new SQLite(`./databases/bot.sqlite`);
 module.exports = async (client, message) => {
+	client.logchannel = botsql.prepare(`SELECT settings.settingValue FROM settings WHERE setting = 'logchannel' AND guildid = '${interaction.guild.id}'`);
+	const logchannel = interaction.guild.channels.cache.get(client.logchannel.get().settingValue);
 	const prefix = client.prefix;
 	const guild = message.guild;
 	if (!message.guild || !message.channel || message.author.bot) return;
@@ -33,9 +35,6 @@ module.exports = async (client, message) => {
 
 			
 			if(msgfilter == 'true'){
-			//console.log(msgfilter);
-				// Message Filter enabled on the guild.
-				//console.log(message.content);
 				if (message.channel.nsfw == false) {
 					try {
 					  var customFilter = new Filter({ placeHolder: 'XX' });
@@ -47,6 +46,18 @@ module.exports = async (client, message) => {
 						console.log(msg);
 						for (var i = 0; i < forbidenWords.length; i++) {
 						  if (msg.includes(forbidenWords[i])) {
+							const embed = new EmbedBuilder();
+							embed.setColor("#0000ff");
+							embed.setTitle(`**Moderation** - Blocked Messagge`);
+							embed.setTimestamp();
+							embed.addFields(
+								{ name: 'Member:', value: `<@${message.author.id}>`, inline: true },
+								{ name: 'Content:', value: `<@&${message.content}>`, inline: true },
+								{ name: 'Reason:', value: `Swearword Filter Enabled, not a NSFW channel`, inline: true },
+							);
+							if (!logchannel.id == "") {
+								logchannel.send({ embeds: [embed] });
+							}
 							try {
 							  let banneduserId = message.author.id;
 							  let bannedguildId = message.guild.id;
@@ -114,6 +125,18 @@ module.exports = async (client, message) => {
         try {
 
           if (bannedWords.some(word => message.content.toLowerCase().includes(word))) {
+			const embed = new EmbedBuilder();
+			embed.setColor("#0000ff");
+			embed.setTitle(`**Moderation** - Blocked Messagge`);
+			embed.setTimestamp();
+			embed.addFields(
+				{ name: 'Member:', value: `<@${message.author.id}>`, inline: true },
+				{ name: 'Content:', value: `<@&${message.content}>`, inline: true },
+				{ name: 'Reason:', value: `Invite Filter Enabled, not got ManageMembers Permission`, inline: true },
+			);
+			if (!logchannel.id == "") {
+				logchannel.send({ embeds: [embed] });
+			}
 			  console.log("invite sent");
             if (!message.member.permissions.has(PermissionsBitField.Flags.Administrator) || !message.member.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
 	              try {
@@ -155,6 +178,7 @@ module.exports = async (client, message) => {
                   message.delete();
                   return;
                 }
+				
 
               } catch (err) {
                 message.channel.send(`Please do not send invites on this server! <@${message.author.id}> WARNING: ${KickCount.length + 1} /  ${warnkick}`);
@@ -172,7 +196,6 @@ module.exports = async (client, message) => {
             return;
           }
         } catch (e) {
-          logMessage(client, "error", message.guild, `Error at line 265: ${e} (messageCreate)`);
           console.log(e);
         }
       }
