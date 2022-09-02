@@ -86,7 +86,8 @@ module.exports = {
                     const row = new ActionRowBuilder();
                     const row2 = new ActionRowBuilder();
                     const row3 = new ActionRowBuilder();
-
+                    const row4 = new ActionRowBuilder();
+                    const row5 = new ActionRowBuilder();
 
                     for (let i = 0; i < roleList.length; i++) {
                         var gotrole = interaction.guild.roles.cache.get(roleList[i].role);
@@ -122,6 +123,26 @@ module.exports = {
                             row3.addComponents(button);
 
                         }
+                        if (i >= 15 && i <= 19) {
+                            const button = new ButtonBuilder()
+                                .setLabel(`${gotrole.name}`)
+                                .setCustomId(`${gotrole.id}`)
+                                .setStyle('Primary')
+                                .setDisabled(false)
+                            //console.log(button);
+                            row4.addComponents(button);
+
+                        }
+                        if (i >= 20 && i <= 24) {
+                            const button = new ButtonBuilder()
+                                .setLabel(`${gotrole.name}`)
+                                .setCustomId(`${gotrole.id}`)
+                                .setStyle('Primary')
+                                .setDisabled(false)
+                            //console.log(button);
+                            row5.addComponents(button);
+
+                        }
                     }
                     for (let i = 0; i < roleList.length; i++) {
 
@@ -141,7 +162,7 @@ module.exports = {
                                 return interaction.reply({ content: `An Error occured!`, ephemeral: true });
                             });
                         }
-                        if (i >= 5 && i <= 9) {
+                        else if (i >= 5 && i <= 9) {
                             console.log('2 rows of buttons');
                             channel.messages.fetch(`${msgid}`).then(message => {
                                 //console.log(getAllButtons());
@@ -157,7 +178,7 @@ module.exports = {
                                 return interaction.reply({ content: `An Error occured!`, ephemeral: true });
                             });
                         }
-                        if (i >= 10 && i <= 14) {
+                        else if (i >= 10 && i <= 14) {
                             console.log('3 rows of buttons');
                             channel.messages.fetch(`${msgid}`).then(message => {
                                 //console.log(getAllButtons());
@@ -171,6 +192,38 @@ module.exports = {
                                 error = true;
                                 return interaction.reply({ content: `An Error occured!`, ephemeral: true });
                             });
+                        }
+                        else if (i >= 15 && i <= 19) {
+                            console.log('4 rows of buttons');
+                            channel.messages.fetch(`${msgid}`).then(message => {
+                                //console.log(getAllButtons());
+                                message.edit({ embeds: [embed], components: [row, row2, row3, row4] }).then(btnmsg => {
+                                    console.log(`message edited! with id: ${msgid}`);
+
+
+                                });
+                            }).catch(err => {
+                                console.error(err);
+                                error = true;
+                                return interaction.reply({ content: `An Error occured!`, ephemeral: true });
+                            });
+                        }
+                        else if (i >= 20 && i <= 24) {
+                            console.log('5 rows of buttons');
+                            channel.messages.fetch(`${msgid}`).then(message => {
+                                //console.log(getAllButtons());
+                                message.edit({ embeds: [embed], components: [row, row2, row3, row4, row5] }).then(btnmsg => {
+                                    console.log(`message edited! with id: ${msgid}`);
+
+
+                                });
+                            }).catch(err => {
+                                console.error(err);
+                                error = true;
+                                return interaction.reply({ content: `An Error occured!`, ephemeral: true });
+                            });
+                        } else {
+                            return interaction.reply({ content: `A Maximum of 25 Roles maybe added`, ephemeral: true });
                         }
                     }
                 } else {
