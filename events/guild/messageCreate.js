@@ -9,8 +9,8 @@ const scoresql = new SQLite(`./databases/scores.sqlite`);
 const bansql = new SQLite(`./databases/bans.sqlite`);
 const botsql = new SQLite(`./databases/bot.sqlite`);
 module.exports = async (client, message) => {
-	client.logchannel = botsql.prepare(`SELECT settings.settingValue FROM settings WHERE setting = 'logchannel' AND guildid = '${interaction.guild.id}'`);
-	const logchannel = interaction.guild.channels.cache.get(client.logchannel.get().settingValue);
+	client.logchannel = botsql.prepare(`SELECT settings.settingValue FROM settings WHERE setting = 'logchannel' AND guildid = '${message.guild.id}'`);
+	const logchannel = message.guild.channels.cache.get(client.logchannel.get().settingValue);
 	const prefix = client.prefix;
 	const guild = message.guild;
 	if (!message.guild || !message.channel || message.author.bot) return;
