@@ -109,7 +109,7 @@ module.exports = async (client, message) => {
 			client.inviteFilter = botsql.prepare(`SELECT settingValue FROM settings WHERE setting = 'inviteFilter' AND guildid = ${guild.id}`);
 			let inviteFilter = client.inviteFilter.get().settingValue;
 			if(inviteFilter == 'true'){
-				console.log("invite filter enabled");
+				//console.log("invite filter enabled");
 			const bannedWords = [`discord.gg`, `.gg/`, `.gg /`, `. gg /`, `. gg/`, `discord .gg /`, `discord.gg /`, `discord .gg/`, `discord .gg`, `discord . gg`, `discord. gg`, `discord gg`, `discordgg`, `discord gg /`]
         try {
 

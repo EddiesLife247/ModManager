@@ -60,7 +60,7 @@ module.exports = {
             embed.setURL(`https://discord.gg/ynUy2Sfx9U`);
             embed.addFields(
                 { name: 'botinfo', value: `Return's information about myself` },
-                { name: 'checkperms', value: `Checks the permissions of the bot on your server, use this for troubleshooting errors` },
+                { name: 'botcheck', value: `Checks the permissions of the bot on your server, use this for troubleshooting errors` },
                 { name: 'help', value: `Returns this help menu and options` },
                 { name: 'config (option)', value: `Configure the settings of the bot for the server` },
             );
