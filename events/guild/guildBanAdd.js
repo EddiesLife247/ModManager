@@ -14,80 +14,83 @@ module.exports = async (client, member) => {
     console.log("Ban Added");
     client.addBan = bansql.prepare("INSERT INTO bans (id, user, guild, reason, approved, appealed, date, length) VALUES (@id, @user, @guild, @reason, @approved, 'No', datetime('now'), 60);");
     try {
-    const guild = member.guild;
-    if (member.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
-            try {
-                client.logchannel = botsql.prepare(`SELECT settings.settingValue FROM settings WHERE setting = 'logchannel' AND guildid = '${member.guild.id}'`);
-                //console.log(`SELECT settings.settingValue FROM settings WHERE setting = 'logchannel' AND guildid = ${member.guild.id}`);
-                //console.log(client.logchannel.get());
-            //if (channel.me.permissions.has("VIEW_AUDIT_LOG")) {
-            const fetchedLogs = await member.guild.fetchAuditLogs({
-                limit: 1,
-                type: AuditLogEvent.MemberBanAdd,
-            });
-            const chLog = fetchedLogs.entries.first();
-            if (Date.now() - chLog.createdTimestamp < 5000) {
-                if (!chLog) {
-                    var execute = "UNKNOWN";
+        client.logchannel = botsql.prepare(`SELECT settings.settingValue FROM settings WHERE setting = 'logchannel' AND guildid = '${member.guild.id}'`);
+        const logchannel = member.guild.channels.cache.get(client.logchannel.get().settingValue);
+        if (!logchannel.id == "") {
+            const guild = member.guild;
+            if (member.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
+                try {
+                    const fetchedLogs = await member.guild.fetchAuditLogs({
+                        limit: 1,
+                        type: AuditLogEvent.MemberBanAdd,
+                    });
+                    const chLog = fetchedLogs.entries.first();
+                    if (Date.now() - chLog.createdTimestamp < 5000) {
+                        if (!chLog) {
+                            var execute = "UNKNOWN";
+                        }
+                        const { executor, target } = chLog;
+                        var execute = executor.tag;
+                        var targ = target.username;
+                    }
+                    else {
+                        var execute = "UNKNOWN";
+                    }
+                    //console.log(logchannel.id);
+                    const embed = new EmbedBuilder();
+                    embed.setColor("#ff0000")
+                    embed.setTitle('**MODERATION LOG: Member Banned**');
+                    embed.addFields(
+                        { name: 'Member Banned:', value: `${targ}`, inline: true },
+                        { name: 'Executor', value: `${execute}`, inline: false },
+                        { name: 'Reason', value: `${chLog.reason}`, inline: false },
+                    )
+                    embed.setTimestamp();
+
+                    logchannel.send({ embeds: [embed] });
+                    if (!chLog.reason) {
+                        let banid = Math.floor(Math.random() * 9999999999) + 25;
+                        let banReason = "LOCAL BAN"
+                        let banApproved = "LOCAL"
+                        score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: banReason, approved: banApproved };
+                        client.addBan.run(score);
+                    }
+                    else if (chLog.reason.toLowerCase().includes("nitro")) {
+                        let banid = Math.floor(Math.random() * 9999999999) + 25;
+                        let banReason = chLog.reason
+                        let banApproved = "GLOBAL"
+                        score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: banReason, approved: banApproved };
+                        client.addBan.run(score);
+                    } else if (chLog.reason.toLowerCase().includes("advertising")) {
+                        let banid = Math.floor(Math.random() * 9999999999) + 25;
+                        let banReason = chLog.reason
+                        let banApproved = "GLOBAL"
+                        score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: banReason, approved: banApproved };
+                        client.addBan.run(score);
+                    } else {
+                        let banid = Math.floor(Math.random() * 9999999999) + 25;
+                        let banReason = chLog.reason
+                        let banApproved = "PENDING"
+                        score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: banReason, approved: banApproved };
+                        client.addBan.run(score);
+                    }
+                    //console.log(`pin updated in a guild that has logs enabled!`);
+                    //}
                 }
-                const { executor, target } = chLog;
-                var execute = executor.tag;
-                var targ = target.username;
+                catch (err) {
+                    console.log(err);
+                    return;
+                }
             }
-            else {
-                var execute = "UNKNOWN";
-            }
-            //console.log(chLog);
-            //console.log(channel.guild.channels.cache.find(c => c.name == settings.modLogChannel));
-            const logchannel = member.guild.channels.cache.get(client.logchannel.get().settingValue);
-            //console.log(logchannel.id);
-            const embed = new EmbedBuilder();
-                embed.setColor("#ff0000")
-                embed.setTitle('**MODERATION LOG: Member Banned**');
-                embed.addFields(
-                    { name: 'Member Banned:', value: `${targ}`, inline: true },
-                    { name: 'Executor', value: `${execute}`, inline: false },
-                    { name: 'Reason', value: `${chLog.reason}`, inline: false },
-                )
-                embed.setTimestamp();
-                
-               logchannel.send({ embeds: [embed] });
-               if (!chLog.reason) {
-                let banid = Math.floor(Math.random() * 9999999999) + 25;
-                let banReason = "LOCAL BAN"
-                let banApproved = "LOCAL"
-                score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: banReason, approved: banApproved };
-                client.addBan.run(score);
-            }
-            else if (chLog.reason.toLowerCase().includes("nitro")) {
-                let banid = Math.floor(Math.random() * 9999999999) + 25;
-                let banReason = chLog.reason
-                let banApproved = "GLOBAL"
-                score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: banReason, approved: banApproved };
-                client.addBan.run(score);
-            } else if (chLog.reason.toLowerCase().includes("advertising")) {
-                let banid = Math.floor(Math.random() * 9999999999) + 25;
-                let banReason = chLog.reason
-                let banApproved = "GLOBAL"
-                score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: banReason, approved: banApproved };
-                client.addBan.run(score);
-            } else {
-                let banid = Math.floor(Math.random() * 9999999999) + 25;
-                let banReason = chLog.reason
-                let banApproved = "PENDING"
-                score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: banReason, approved: banApproved };
-                client.addBan.run(score);
-            }
-            //console.log(`pin updated in a guild that has logs enabled!`);
-            //}
+        } else {
+            let banid = Math.floor(Math.random() * 9999999999) + 25;
+            let banReason = 'No Access to view logs/reasons';
+            let banApproved = "LOCAL"
+            score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: banReason, approved: banApproved };
+            client.addBan.run(score);
         }
-        catch (err) {
-            console.log(err);
-            return;
-        }
+    } catch (e) {
+        console.log(e);
     }
-} catch (e) {
-    console.log(e);
-}
 
 };
