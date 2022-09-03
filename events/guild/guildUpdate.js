@@ -34,6 +34,6 @@ module.exports = async (client, oldGuild, newGuild) => {
             }
         }
     } catch (err) {
-        console.log(error);
+        console.log(err);
     }
 };

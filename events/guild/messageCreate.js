@@ -19,7 +19,20 @@ module.exports = async (client, message) => {
 	// Let people know what the prefix is if they mention my name.
 	const prefixMention = new RegExp(`^<@!?${client.user.id}> ?$`);
 	if (message.content.match(prefixMention)) {
-		return message.reply(`My prefix on this guild is \`!\``);
+		const embed = new EmbedBuilder();
+        embed.setColor("#0000ff");
+        embed.setTitle(`**Mod Manager** - V4.0(BETA)`);
+        embed.setTimestamp();
+        embed.setURL(`https://discord.gg/ynUy2Sfx9U`);
+        embed.addFields(
+            { name: 'Owner:', value: `EddieDoesStuff`, inline: true },
+            { name: 'Support Server:', value: `https://discord.gg/ynUy2Sfx9U`, inline: true },
+            { name: 'Dashboard:', value: `Dashboard Coming Soon`, inline: true },
+            { name: 'Invite Me to your server:', value: `https://discord.com/api/oauth2/authorize?client_id=714939771935522838&permissions=1127763619046&scope=bot%20applications.commands`, inline: true },
+			{ name: 'Slash Commands ONLY:', value: `We only support Slash Commands in version 4. More info use /help`, inline: true },
+            { name: 'Support Command:', value: `/help`, inline: true },
+        );
+        return message.reply({ content: `Hi, I am Mod Manager, here is some information about me!`, embeds: [embed], ephemeral: true });
 	}
 	client.setup = botsql.prepare(`SELECT * FROM settings WHERE guildid = '${message.guild.id}'`);
 	if (!client.setup.all().length) {
