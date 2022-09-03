@@ -31,6 +31,16 @@ module.exports = {
 					type: 4,
 				},
 				{
+					name: 'kickban',
+					description: 'How many kicks before we ban a user?',
+					type: 4,
+				},
+				{
+					name: 'acceptedtrust',
+					description: 'What trust level should we accept people at? (23 is best)',
+					type: 4,
+				},
+				{
 					name: 'messagefilter',
 					description: 'Should we moderate messages for swearwords?',
 					type: 5,
@@ -39,7 +49,12 @@ module.exports = {
 					name: 'invitefilter',
 					description: 'Should we moderate messages for invites?',
 					type: 5,
-				}
+				},
+				{
+					name: 'globalbans',
+					description: 'Should we ban the user if they are global banned in our databse?',
+					type: 5,
+				},
 			]
 		}
 	],
@@ -93,12 +108,56 @@ module.exports = {
 						interaction.reply({ content: `ERROR, I don't have enough permissions to Kick messages!`, ephemeral: true });
 					}
 				}
+				if (interaction.options.get('acceptedtrust')) {
+					if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.KickMembers)) {
+						const acceptedtrust = interaction.options.get('acceptedtrust').value;
+						if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
+							if (botsql.exec(`UPDATE settings SET 'acceptedtrust' = ${acceptedtrust};`)) {
+								interaction.reply({ content: `I will now kick after a user if they don't get this trust level or more: ${acceptedtrust} score.`, ephemeral: true });
+							} else {
+								return interaction.reply({ content: `ERROR: An error occured!`, ephemeral: true });
+							}
+						}
+	
+					} else {
+						interaction.reply({ content: `ERROR, I don't have enough permissions to Kick messages!`, ephemeral: true });
+					}
+				}
+				if (interaction.options.get('kickban')) {
+					if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.BanMembers)) {
+						const kickban = interaction.options.get('kickban').value;
+						if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
+							if (botsql.exec(`UPDATE settings SET 'kickban' = ${kickban};`)) {
+								interaction.reply({ content: `I will now kick after a user has recieved: ${kickban} warnings.`, ephemeral: true });
+							} else {
+								return interaction.reply({ content: `ERROR: An error occured!`, ephemeral: true });
+							}
+						}
+	
+					} else {
+						interaction.reply({ content: `ERROR, I don't have enough permissions to Kick messages!`, ephemeral: true });
+					}
+				}
 				if (interaction.options.get('messagefilter')) {
 					if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
 						const messagefilter = interaction.options.get('messagefilter').value;
 						if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
 							if (botsql.exec(`UPDATE settings SET 'messagefilter' = ${messagefilter};`)) {
 								interaction.reply({ content: `Message filter is now set to: ${warnkick}.`, ephemeral: true });
+							} else {
+								return interaction.reply({ content: `ERROR: An error occured!`, ephemeral: true });
+							}
+						}
+					} else {
+						interaction.reply({ content: `ERROR, I don't have enough permissions to manage messages!`, ephemeral: true });
+					}
+				}
+				if (interaction.options.get('globalbans')) {
+					if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
+						const globalbans = interaction.options.get('globalbans').value;
+						if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
+							if (botsql.exec(`UPDATE settings SET 'globalbans' = ${globalbans};`)) {
+								interaction.reply({ content: `Global Bans are now set to: ${globalbans}.`, ephemeral: true });
 							} else {
 								return interaction.reply({ content: `ERROR: An error occured!`, ephemeral: true });
 							}
