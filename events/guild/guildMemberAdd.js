@@ -187,6 +187,7 @@ module.exports = async (client, member) => {
                 const embed = new EmbedBuilder();
                 embed.setColor("#00ff00")
                 embed.setTitle('**MODERATION LOG: NEW MEMBER JOINED**');
+                embed.setThumbnail(member.user.displayAvatarURL())
                 embed.addFields(
                     { name: 'Username::', value: `${member.user.username}`, inline: true },
                     { name: 'Local Bans', value: `${localBanCount.length}`, inline: false },

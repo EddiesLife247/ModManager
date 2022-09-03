@@ -94,6 +94,7 @@ module.exports = async (client, member) => {
                     const embed = new EmbedBuilder();
                     embed.setColor("#ff0000")
                     embed.setTitle('**MODERATION LOG: MEMBER LEFT**');
+                    embed.setThumbnail(member.user.displayAvatarURL())
                     embed.addFields(
                         { name: 'Username::', value: `${member.user.username}`, inline: true },
                         { name: 'Reason:', value: `We don't have access to view Logs, so not sure.`, inline: false },

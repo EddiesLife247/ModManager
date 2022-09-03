@@ -1,7 +1,9 @@
 const { EmbedBuilder, ApplicationCommandType, } = require('discord.js');
-  const config = require(`../../configs/config.json`);
-  const SQLite = require("better-sqlite3");
-  const Discord = require(`discord.js`);
+const Discord = require('discord.js');
+const SQLite = require("better-sqlite3");
+const botsql = new SQLite(`./databases/bot.sqlite`);
+const bansql = new SQLite(`./databases/bans.sqlite`);
+const config = require(`../../configs/config.json`);
 module.exports = {
 	name: 'User Info',
 	cooldown: 3000,
