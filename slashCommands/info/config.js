@@ -144,7 +144,7 @@ module.exports = {
 						const messagefilter = interaction.options.get('messagefilter').value;
 						if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
 							if (botsql.exec(`UPDATE settings SET 'messagefilter' = ${messagefilter};`)) {
-								interaction.reply({ content: `Message filter is now set to: ${warnkick}.`, ephemeral: true });
+								interaction.reply({ content: `Message filter is now set to: ${messagefilter}.`, ephemeral: true });
 							} else {
 								return interaction.reply({ content: `ERROR: An error occured!`, ephemeral: true });
 							}
