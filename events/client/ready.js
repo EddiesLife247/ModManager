@@ -5,12 +5,10 @@ module.exports = client => {
 		{ name: `${client.guilds.cache.size} Servers`, type: 2 }, // LISTENING
 		{ name: `${client.channels.cache.size} Channels`, type: 0 }, // PLAYING
 		{ name: `${client.users.cache.size} Users`, type: 3 }, // WATCHING
-		{ name: `Upgrading to Version 4`, type: 5 } // COMPETING
+		{ name: `Now on Version 4 | Run /config to SETUP`, type: 1 } // COMPETING
 	];
 	const status = [
-		'online',
-		'dnd',
-		'idle'
+		'online'
 	];
 	let i = 0;
 	setInterval(() => {

@@ -1,6 +1,5 @@
 const { EmbedBuilder, ApplicationCommandType, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
 const Discord = require('discord.js');
-const db = require('quick.db');
 const SQLite = require("better-sqlite3");
 const bansql = new SQLite(`./databases/bans.sqlite`);
 const botsql = new SQLite(`./databases/bot.sqlite`);
