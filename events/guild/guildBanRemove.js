@@ -53,15 +53,17 @@ module.exports = async (client, member) => {
                     if (globalBanned) {
                         bansql.prepare(`DELETE FROM 'bans' WHERE user = '${member.user.id}' AND guild = '${member.guild.id}'`).run()
                     }
-                }
-                catch (err) {
+                } catch (err) {
                     console.log(err);
+                    client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${err.message} | \`\`\` ${err.stack} \`\`\`` });
                     return;
                 }
             }
         }
-    } catch (e) {
-        console.log(e);
+    } catch (err) {
+        console.log(err);
+        client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${err.message} | \`\`\` ${err.stack} \`\`\`` });
+        return;
     }
 
 };

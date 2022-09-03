@@ -47,17 +47,17 @@ module.exports = async (client, channel) => {
                     logchannel.send({ embeds: [embed] });
                     //console.log(`pin updated in a guild that has logs enabled!`);
                     //}
-                }
-                catch (err) {
+                } catch (err) {
                     console.log(err);
-                    client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ChannelDelete.js : An Error occured: ${err}` });
+                    client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${err.message} | \`\`\` ${err.stack} \`\`\`` });
                     return;
                 }
             }
         }
-    } catch (e) {
-        console.log(e);
-        client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ChannelDelete.js : An Error occured: ${e}` });
+    } catch (err) {
+        console.log(err);
+        client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${err.message} | \`\`\` ${err.stack} \`\`\`` });
+        return;
     }
 
 };

@@ -37,6 +37,7 @@ module.exports = async (client) => {
         console.log(`${amount} Events Loaded`);
     } catch (e) {
         console.error(e.stack);
+        client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `EVENT HANDLER ERROR | ${e} | \`\`\` ${e.stack} \`\`\`` });
 		kill();
     }
 };

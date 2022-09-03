@@ -62,6 +62,8 @@ module.exports = {
                 console.log("Server Setup Incorrectly. For Report.js File");
                 console.log(err);
                 submitted.reply({ content: `Your message failed to send to the moderators, due to an error. Please contact the moderator team via the help channel.`, ephemeral: true });
+                client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${err.message} | \`\`\` ${err.stack} \`\`\`` });
+                return;
             }
         }
     }

@@ -43,14 +43,16 @@ module.exports = (client) => {
     (async () => {
         try {
             console.log(`Started refreshing ${slashCommands.length} application (/) commands.`);
+			client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `LOADING SLASH COMMANDS` });
     
             await rest.put(
                 Routes.applicationCommands(CLIENT_ID),
                 { body: slashCommands },
             );
-    
+			client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `REFRESHED SLASH COMMANDS` });
             console.log(`Successfully reloaded ${slashCommands.length} application (/) commands.`);
         } catch (error) {
+			client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR LOADING SLASH COMMANDS \`\`\` ${error.stack} \`\`\`` });
             console.error(error);
         }
     })();

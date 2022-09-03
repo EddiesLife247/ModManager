@@ -85,7 +85,8 @@ module.exports = {
             }
         } catch (err) {
             console.log(err);
-            interaction.followUp('There was an error seek support!');
+            client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${err.message} | \`\`\` ${err.stack} \`\`\`` });
+            return;
         }
     }
 

@@ -39,9 +39,11 @@ module.exports = async (client, guild) => {
             { name: 'Owner ID:', value: `${guild.ownerId}`, inline: false },
         )
         embed.setTimestamp();
-        client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send({ embeds: [embed] }); // used for specific channel
+        //client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send({ embeds: [embed] }); // used for specific channel
         client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ embeds: [embed] });
-    } catch (e) {
-        console.log(`Error with VOICE STATE UPDATE event: ${e.message} | \`\`\` ${e.stack} \`\`\``);
+    } catch (err) {
+        console.log(err);
+        client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${err.message} | \`\`\` ${err.stack} \`\`\`` });
+        return;
     }
 };

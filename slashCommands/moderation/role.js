@@ -71,6 +71,7 @@ module.exports = {
 
                 return interaction.reply({ embeds: [embed] })
             } catch {
+                client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${err.message} | \`\`\` ${err.stack} \`\`\`` });
                 return interaction.reply({ content: `Sorry, I failed adding that role to you!`, ephemeral: true });
             }
 
@@ -91,6 +92,7 @@ module.exports = {
                 return interaction.reply({ embeds: [embed] })
             } catch (error) {
                 console.log(error);
+                client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${err.message} | \`\`\` ${err.stack} \`\`\`` });
                 return interaction.reply({ content: `Sorry, I failed removeing that role!`, ephemeral: true });
             }
 

@@ -176,6 +176,7 @@ module.exports = {
                                 }).catch(err => {
                                     console.error(err);
                                     error = true;
+                                    client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${err.message} | \`\`\` ${err.stack} \`\`\`` });
                                     return interaction.reply({ content: `An Error occured!`, ephemeral: true });
                                 });
                             }
@@ -192,6 +193,7 @@ module.exports = {
                                 }).catch(err => {
                                     console.error(err);
                                     error = true;
+                                    client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${err.message} | \`\`\` ${err.stack} \`\`\`` });
                                     return interaction.reply({ content: `An Error occured!`, ephemeral: true });
                                 });
                             }
@@ -207,6 +209,7 @@ module.exports = {
                                 }).catch(err => {
                                     console.error(err);
                                     error = true;
+                                    client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${err.message} | \`\`\` ${err.stack} \`\`\`` });
                                     return interaction.reply({ content: `An Error occured!`, ephemeral: true });
                                 });
                             }
@@ -222,6 +225,7 @@ module.exports = {
                                 }).catch(err => {
                                     console.error(err);
                                     error = true;
+                                    client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${err.message} | \`\`\` ${err.stack} \`\`\`` });
                                     return interaction.reply({ content: `An Error occured!`, ephemeral: true });
                                 });
                             }
@@ -275,6 +279,7 @@ module.exports = {
                     return interaction.reply({ content: `Your reaction role has been added!`, ephemeral: true });
                 } catch (error) {
                     console.log(error);
+                    client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${err.message} | \`\`\` ${err.stack} \`\`\`` });
                     return interaction.reply({ content: `Sorry, I failed to add the reaction role!`, ephemeral: true });
                 }
 
@@ -390,6 +395,7 @@ module.exports = {
                             }).catch(err => {
                                 console.error(err);
                                 error = true;
+                                client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${err.message} | \`\`\` ${err.stack} \`\`\`` });
                                 return interaction.reply({ content: `An Error occured!`, ephemeral: true });
                             });
                         }
@@ -406,6 +412,7 @@ module.exports = {
                             }).catch(err => {
                                 console.error(err);
                                 error = true;
+                                client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${err.message} | \`\`\` ${err.stack} \`\`\`` });
                                 return interaction.reply({ content: `An Error occured!`, ephemeral: true });
                             });
                         }
@@ -436,6 +443,7 @@ module.exports = {
                             }).catch(err => {
                                 console.error(err);
                                 error = true;
+                                client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${err.message} | \`\`\` ${err.stack} \`\`\`` });
                                 return interaction.reply({ content: `An Error occured!`, ephemeral: true });
                             });
                         }
@@ -451,6 +459,7 @@ module.exports = {
                             }).catch(err => {
                                 console.error(err);
                                 error = true;
+                                client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${err.message} | \`\`\` ${err.stack} \`\`\`` });
                                 return interaction.reply({ content: `An Error occured!`, ephemeral: true });
                             });
                         } else {
