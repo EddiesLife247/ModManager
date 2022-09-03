@@ -29,17 +29,19 @@ module.exports = async (client, message) => {
                             var execute = "UNKNOWN";
                         }
                         const { executor, target } = chLog;
-                        var execute = executor.tag;
-						var author = target.user.usename;
+                        var execute = executor.username;
+						var author = target.ClientUser.id;
                     }
                     else {
                         var execute = "UNKNOWN";
+						var author = "UNKNOWN";
                     }
                     const embed = new EmbedBuilder();
                     embed.setColor("#00ff00")
                     embed.setTitle('**MODERATION LOG: Message Deleted**');
                     embed.addFields(
 						{ name: 'Channel:', value: `<#${message.channel.name}>`, inline: true },
+						{ name: 'Author:', value: `<#${author}>`, inline: true },
 						{ name: 'Deleted by:', value: `${execute}`, inline: false },
                     )
                     embed.setTimestamp();

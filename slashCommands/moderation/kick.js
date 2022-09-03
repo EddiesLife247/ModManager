@@ -47,16 +47,6 @@ module.exports = {
         .then(() => console.log("Timed out member"))
         .catch(console.log);
         */
-                client.warnkick = botsql.prepare(`SELECT warnkick FROM settings WHERE guildid = '${interaction.guild.id}'`);
-                let warnkick = client.warnkick.get().warnkick;
-                let banneduserId = member.user.id;
-                let bannedguildId = interaction.guild.id;
-                let bannedtype = 'KICK';
-                let bannedlength = 30;
-                let bannedreason = `User Kicked for: ${reason}`;
-                let bannedbanid = Math.floor(Math.random() * 9999999999) + 25;
-                client.addBan = bansql.prepare("INSERT INTO bans (id, user, guild, reason, approved, appealed, date, length) VALUES (@id, @user, @guild, @reason, @approved, 'No', datetime('now'), @length);");
-                score2 = { id: `${banneduserId}-${bannedbanid}`, user: banneduserId, guild: bannedguildId, reason: bannedreason, approved: bannedtype, length: bannedlength };
                 const embed = new EmbedBuilder();
                 embed.setColor("#00ff00")
                 embed.setTitle(`**User Kicked** - ${member.user.username}`)
