@@ -21,13 +21,36 @@ module.exports = async (client, message) => {
 	if (message.content.match(prefixMention)) {
 		return message.reply(`My prefix on this guild is \`!\``);
 	}
+	client.setup = botsql.prepare(`SELECT * FROM settings WHERE guildid = '${message.guild.id}'`);
+	if (!client.setup.all().length) {
+		console.log(`${message.guild.name} - Is not setup!`);
+		return;
+	}
 	//check if Message Filter is enabled
-
-
+	if (message.guild.id == '787871047139328000') {
+		if (message.channel.id == '901905815810760764') {
+			if (message.content === "?@updatenotice") {
+				client.guilds.cache.each(guild => {
+					try {
+						const channel = guild.channels.cache.find(channel => channel.name === 'general') || guild.channels.cache.first();
+						if (channel) {
+							if (guild.members.me.permissions.has(PermissionsBitField.Flags.SendMessages)) {
+								if (channel.members.me.permissions.has(PermissionsBitField.Flags.SendMessages)) {
+									channel.send('Mod Manager is now updated to VERSION 4.0 you will need to re-configure me using /config - if you need help use /help');
+								}
+							}
+						} else {
+							console.log('The server ' + guild.name + ' has no channels.');
+						}
+					} catch (err) {
+						console.log('Could not send message to ' + guild.name + '.');
+					}
+				});
+			}
+		}
+	}
 
 	if (message.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
-		client.warnkick = botsql.prepare(`SELECT warnkick FROM settings WHERE guildid = '${message.guild.id}'`);
-		let warnkick = client.warnkick.get().warnkick;
 		const forbidenWords = ['fuck', 'shit', 'bollocks', 'twat', 'nigger', 'bastard', 'cunt', '.xxx', 'XXXX'];
 		client.messagefilter = botsql.prepare(`SELECT messagefilter FROM settings WHERE guildid = '${message.guild.id}'`);
 		if (client.messagefilter.get().messagefilter) {
@@ -69,33 +92,39 @@ module.exports = async (client, message) => {
 										//console.log(KickCount.length);
 										member = await message.guild.members.cache.get(message.author.id);
 										//console.log(member);
-										if (KickCount.length == 0) {
-											client.addBan.run(score2);
-											message.channel.send(`Please do not swear on this server! <@${message.author.id}> WARNING: ${KickCount.length + 1} /  ${warnkick}`);
-											message.delete();
-											//console.log("Kick is set to null add data.")
-											return;
-										}
-										else if (warnkick == 0 || warnkick == null) {
-											client.addBan.run(score2);
-											message.channel.send(`Please do not swear on this server! <@${message.author.id}> WARNING: ${KickCount.length + 1} /  ${warnkick}`);
-											message.delete();
-											//console.log("Kick is set to null add data.")
-											return;
-										}
-										else if (KickCount.length >= warnkick) {
-											member.timeout(timedout * 60 * 1000, `You were Warned ${KickCount.length} times within the last 15 days, you now have a 1 hour timeout`)
-											message.channel.send(`Please do not swear on this server! <@${message.author.id}> WARNING: ${KickCount.length + 1} /  ${warnkick}`);
-											message.delete();
-											// console.log("meets kick req");
-											return;
+										client.warnkick = botsql.prepare(`SELECT warnkick FROM settings WHERE guildid = '${message.guild.id}'`);
+										if (client.warnkick.all().length) {
+											if (KickCount.length == 0) {
+												client.addBan.run(score2);
+												message.channel.send(`Please do not swear on this server! <@${message.author.id}> WARNING: ${KickCount.length + 1} /  ${warnkick}`);
+												message.delete();
+												//console.log("Kick is set to null add data.")
+												return;
+											}
 
-										} else {
-											//console.log("Adding Data");
-											await client.addBan.run(score2);
-											message.channel.send(`Please do not swear on this server! <@${message.author.id}> WARNING: ${KickCount.length + 1} /  ${warnkick}`);
-											message.delete();
-											return;
+
+
+											else if (warnkick == 0 || warnkick == null) {
+												client.addBan.run(score2);
+												message.channel.send(`Please do not swear on this server! <@${message.author.id}> WARNING: ${KickCount.length + 1} /  ${warnkick}`);
+												message.delete();
+												//console.log("Kick is set to null add data.")
+												return;
+											}
+											else if (KickCount.length >= warnkick) {
+												member.timeout(timedout * 60 * 1000, `You were Warned ${KickCount.length} times within the last 15 days, you now have a 1 hour timeout`)
+												message.channel.send(`Please do not swear on this server! <@${message.author.id}> WARNING: ${KickCount.length + 1} /  ${warnkick}`);
+												message.delete();
+												// console.log("meets kick req");
+												return;
+
+											} else {
+												//console.log("Adding Data");
+												await client.addBan.run(score2);
+												message.channel.send(`Please do not swear on this server! <@${message.author.id}> WARNING: ${KickCount.length + 1} /  ${warnkick}`);
+												message.delete();
+												return;
+											}
 										}
 
 									} catch (err) {
@@ -122,7 +151,7 @@ module.exports = async (client, message) => {
 				//console.log("invite filter enabled");
 				const bannedWords = [`discord.gg`, `.gg/`, `.gg /`, `. gg /`, `. gg/`, `discord .gg /`, `discord.gg /`, `discord .gg/`, `discord .gg`, `discord . gg`, `discord. gg`, `discord gg`, `discordgg`, `discord gg /`]
 				try {
-					
+
 					if (bannedWords.some(word => message.content.toLowerCase().includes(word))) {
 						console.log('blocked');
 						const embed = new EmbedBuilder();
@@ -134,7 +163,7 @@ module.exports = async (client, message) => {
 							{ name: 'Content:', value: `${message.content}`, inline: true },
 							{ name: 'Reason:', value: `Invite Filter Enabled, not got ManageMembers Permission`, inline: true },
 						);
-						
+
 						if (!client.logchannel.all().length == null) {
 							const logchannel = message.guild.channels.cache.get(client.logchannel.get().logchannel);
 							logchannel.send({ embeds: [embed] });

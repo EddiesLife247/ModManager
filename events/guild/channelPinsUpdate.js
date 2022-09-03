@@ -13,7 +13,7 @@ const botsql = new SQLite(`./databases/bot.sqlite`);
 module.exports = async (client, channel) => {
     try {
         client.logchannel = botsql.prepare(`SELECT logchannel FROM settings WHERE guildid = '${channel.guild.id}'`);
-        if (!client.logchannel.all().length == null) {
+        if (client.logchannel.all().length) {
             const logchannel = channel.guild.channels.cache.get(client.logchannel.get().logchannel);
             const guild = channel.guild;
             //console.log(channel.messages.messages);

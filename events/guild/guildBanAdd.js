@@ -15,7 +15,7 @@ module.exports = async (client, member) => {
     client.addBan = bansql.prepare("INSERT INTO bans (id, user, guild, reason, approved, appealed, date, length) VALUES (@id, @user, @guild, @reason, @approved, 'No', datetime('now'), 60);");
     try {
         client.logchannel = botsql.prepare(`SELECT logchannel FROM settings WHERE guildid = '${member.guild.id}'`);
-        if (!client.logchannel.all().length == null) {
+        if (client.logchannel.all().length) {
             const logchannel = member.guild.channels.cache.get(client.logchannel.get().logchannel);
             const guild = member.guild;
             if (member.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {

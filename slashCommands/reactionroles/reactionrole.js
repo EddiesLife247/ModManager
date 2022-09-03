@@ -28,6 +28,25 @@ module.exports = {
                     required: true,
                 }
             ]
+        },
+        {
+            name: 'del',
+            description: 'Deletes a Reaction Role.',
+            type: 1,
+            options: [
+                {
+                    name: 'channel',
+                    description: 'The channel where the reaction role message is?',
+                    type: 7,
+                    required: true,
+                },
+                {
+                    name: 'role',
+                    description: 'The role you dont want to show',
+                    type: 8,
+                    required: true,
+                }
+            ]
         }
     ],
     run: async (client, interaction) => {
@@ -262,6 +281,8 @@ module.exports = {
                     return interaction.reply({ content: `Sorry, I failed to add the reaction role!`, ephemeral: true });
                 }
 
+            }
+            if (interaction.options._subcommand === 'del') {
             }
         } else {
             interaction.reply({ content: `Sorry, I don't have enough permissions to mange roles, run /botcheck for more info!`, ephemeral: true });
