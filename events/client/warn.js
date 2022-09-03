@@ -1,6 +1,7 @@
 //here the event starts
 module.exports = (client, error) => {
     console.warn(error);
+    client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `A Warning occured: ${error}` });
   }
   /**
     * @INFO

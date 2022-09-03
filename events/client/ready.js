@@ -24,4 +24,5 @@ module.exports = client => {
 		s++;
 	}, 30000);
 	console.log(chalk.red(`Logged in as ${client.user.tag}!`))
+	client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `BOT ONLINE!` });
 };

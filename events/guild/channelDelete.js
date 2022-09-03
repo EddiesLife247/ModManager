@@ -50,12 +50,14 @@ module.exports = async (client, channel) => {
                 }
                 catch (err) {
                     console.log(err);
+                    client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ChannelDelete.js : An Error occured: ${err}` });
                     return;
                 }
             }
         }
     } catch (e) {
         console.log(e);
+        client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ChannelDelete.js : An Error occured: ${e}` });
     }
 
 };

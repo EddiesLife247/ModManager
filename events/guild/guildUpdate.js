@@ -10,11 +10,11 @@ const bansql = new SQLite(`./databases/bans.sqlite`);
 const botsql = new SQLite(`./databases/bot.sqlite`);
 module.exports = async (client, oldGuild, newGuild) => {
     try {
-        client.logchannel = botsql.prepare(`SELECT logchannel FROM settings WHERE guildid = '${oldGuild.guild.id}'`);
+        console.log(newGuild.id);
+        client.logchannel = botsql.prepare(`SELECT logchannel FROM settings WHERE guildid = '${newGuild.id}'`);
         if (client.logchannel.all().length) {
-            const logchannel = oldGuild.guild.channels.cache.get(client.logchannel.get().logchannel);
-			const guild = sticker.guild;
-            if (oldGuild.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
+            const logchannel = oldGuild.channels.cache.get(client.logchannel.get().logchannel);
+            if (oldGuild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
                 const embed = new EmbedBuilder();
                 embed.setColor("#00ff00")
                 embed.setTitle('**MODERATION LOG: GUILD CHANGED**');
