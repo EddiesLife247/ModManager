@@ -31,7 +31,12 @@ module.exports = {
         const data = await getUserInfo(interaction, member.user.id);
         client.getWarning = bansql.prepare(`SELECT * FROM bans WHERE user = ${member.user.id} ORDER BY date DESC
         LIMIT 1`);
-        let getWarning = client.getWarning.get().reason;
+        let getWarning = '';
+        if(client.getWarning.all().length) {
+            getWarning = client.getWarning.get().reason;
+        } else {
+            getWarning = 'No Punishments';
+        }
         //console.log(client.getWarning.get());
         const embed = new EmbedBuilder();
     embed.setColor("#00ff00")
