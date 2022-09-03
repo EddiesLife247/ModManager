@@ -9,7 +9,7 @@ module.exports = {
 	description: 'Configure the bot database',
 	cooldown: 3000,
 	type: ApplicationCommandType.ChatInput,
-	default_member_permissions: 'Administrator',
+	default_member_permissions: 'ManageGuild',
 	options: [
 		{
 			name: 'setting',
@@ -62,8 +62,11 @@ module.exports = {
 	run: async (client, interaction) => {
 		client.addSetting = botsql.prepare(`INSERT INTO settings (guildid) VALUES ('${interaction.guild.id}');`);
 		client.settings = botsql.prepare(`SELECT * FROM settings WHERE guildid = '${interaction.guild.id}'`);
-		if(client.settings.all().length == null){
+		console.log(client.settings.all().length);
+        if (!client.settings.all().length) {
+			
 			client.addSetting.run();
+			console.log(`Added Guild Config: ${interaction.guild.id}`)
 		}
 		if (interaction.options._subcommand === 'setting') {
 			try {

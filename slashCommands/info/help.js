@@ -67,7 +67,7 @@ module.exports = {
                 { name: 'botinfo', value: `Return's information about myself` },
                 { name: 'botcheck', value: `Checks the permissions of the bot on your server, use this for troubleshooting errors` },
                 { name: 'help', value: `Returns this help menu and options` },
-                { name: 'config (option)', value: `Configure the settings of the bot for the server` },
+                { name: 'config (option) *Manageguild permissions Required', value: `Configure the settings of the bot for the server` },
             );
             return interaction.editReply({ content: `Here is the information about: ${chosenString}`, embeds: [embed], ephemeral: true });
         }

@@ -9,6 +9,7 @@ const bansql = new SQLite(`./databases/bans.sqlite`);
 const scresql = new SQLite(`./databases/scores.sqlite`);
 module.exports = async (client, oldState, newState) => {
     client.setup = botsql.prepare(`SELECT * FROM settings WHERE guildid = '${oldState.guild.id}'`);
+    console.log(client.setup.all());
     if (!client.setup.all().length) {
         console.log(`${oldState.guild.name} - Is not setup!`);
         return;

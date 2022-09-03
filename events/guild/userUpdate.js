@@ -10,6 +10,7 @@ const bansql = new SQLite(`./databases/bans.sqlite`);
 const botsql = new SQLite(`./databases/bot.sqlite`);
 module.exports = async (client, oldUser, newUser) => {
     try {
+        /*
         client.setup = botsql.prepare(`SELECT * FROM settings WHERE guildid = '${newUser.guild.id}'`);
 		if (!client.setup.all().length) {
 			console.log(`${newUser.guild.name} - Is not setup!`);
@@ -35,6 +36,7 @@ module.exports = async (client, oldUser, newUser) => {
                 logchannel.send({ embeds: [embed] });
             }
         }
+        */
     } catch (err) {
         console.log(err);
     }
