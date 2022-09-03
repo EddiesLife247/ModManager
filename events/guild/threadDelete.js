@@ -10,6 +10,11 @@ const bansql = new SQLite(`./databases/bans.sqlite`);
 const botsql = new SQLite(`./databases/bot.sqlite`);
 module.exports = async (client, thread) => {
 	try {
+        client.setup = botsql.prepare(`SELECT * FROM settings WHERE guildid = '${thread.guild.id}'`);
+		if (!client.setup.all().length) {
+			console.log(`${thread.guild.name} - Is not setup!`);
+			return;
+		}
         client.logchannel = botsql.prepare(`SELECT logchannel FROM settings WHERE guildid = '${thread.guild.id}'`);
         if (client.logchannel.get().logchannel) {
             const logchannel = thread.guild.channels.cache.get(client.logchannel.get().logchannel);

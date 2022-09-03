@@ -6,6 +6,10 @@ module.exports = {
 	type: ApplicationCommandType.ChatInput,
 	run: async (client, interaction) => {
         await interaction.deferReply();
+        client.setup = botsql.prepare(`SELECT * FROM settings WHERE guildid = '${interaction.guild.id}'`);
+        if (!client.setup.all().length) {
+            return interaction.editReply("The bot has not been configured yet, run /config to setup the bot.");
+        }
         if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.Administrator)) {
             return interaction.editReply("The bot has full administrator permissions. Does not require any further checks.");
         } else {
