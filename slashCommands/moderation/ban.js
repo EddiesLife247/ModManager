@@ -11,6 +11,10 @@ module.exports = {
     type: ApplicationCommandType.User,
     default_member_permissions: 'BanMembers', // permission required
     run: async (client, interaction) => {
+        client.setup = botsql.prepare(`SELECT * FROM settings WHERE guildid = '${interaction.guild.id}'`);
+        if (!client.setup.all().length) {
+            return interaction.editReply("The bot has not been configured yet, run /config to setup the bot.");
+        }
         try {
             
             const member = interaction.guild.members.cache.get(interaction.options.get('user').value);

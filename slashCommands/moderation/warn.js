@@ -12,6 +12,10 @@ module.exports = {
     default_member_permissions: 'ModerateMembers', // permission required
     run: async (client, interaction) => {
         try {
+            client.setup = botsql.prepare(`SELECT * FROM settings WHERE guildid = '${interaction.guild.id}'`);
+            if (!client.setup.all().length) {
+                return interaction.editReply("The bot has not been configured yet, run /config to setup the bot.");
+            }
             const member = interaction.guild.members.cache.get(interaction.options.get('user').value);
             const modal = new ModalBuilder()
                 .setCustomId('myModal')

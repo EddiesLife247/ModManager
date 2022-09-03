@@ -9,8 +9,12 @@ const scoresql = new SQLite(`./databases/scores.sqlite`);
 const bansql = new SQLite(`./databases/bans.sqlite`);
 const botsql = new SQLite(`./databases/bot.sqlite`);
 module.exports = async (client, oldUser, newUser) => {
-    console.log(oldUser);
     try {
+        client.setup = botsql.prepare(`SELECT * FROM settings WHERE guildid = '${oldUser.guild.id}'`);
+		if (!client.setup.all().length) {
+			console.log(`${oldUser.guild.name} - Is not setup!`);
+			return;
+		}
         client.logchannel = botsql.prepare(`SELECT logchannel FROM settings WHERE guildid = '${thread.guild.id}'`);
         if (client.logchannel.get().logchannel) {
             const logchannel = thread.guild.channels.cache.get(client.logchannel.get().logchannel);

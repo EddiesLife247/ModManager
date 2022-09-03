@@ -13,7 +13,7 @@ const botsql = new SQLite(`./databases/bot.sqlite`);
 module.exports = async (client, oldEmoji, newEmoji) => {
     try {
         client.logchannel = botsql.prepare(`SELECT logchannel FROM settings WHERE guildid = '${newEmoji.guild.id}'`);
-        if (!client.logchannel.all().length == null) {
+        if (client.logchannel.all().length) {
             const logchannel = newEmoji.guild.channels.cache.get(client.logchannel.get().logchannel);
             const guild = oldEmoji.guild;
             //console.log(channel.messages.messages);

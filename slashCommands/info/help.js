@@ -32,7 +32,7 @@ module.exports = {
             embed.setURL(`https://discord.gg/ynUy2Sfx9U`);
             embed.addFields(
                 { name: 'add (role) (channel)', value: `Add's a reaction role to a specifc channel with the chosen role, the role name will be displayed as an option` },
-                { name: 'remove (role)', value: `Remove's a reaction role from the server.` },
+                { name: 'del (role) (channel)', value: `Remove's a reaction role from the server.` },
             );
             return interaction.editReply({ content: `Here is the information about: ${chosenString}`, embeds: [embed], ephemeral: true });
         }

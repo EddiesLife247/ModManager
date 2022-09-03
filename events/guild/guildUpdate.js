@@ -11,7 +11,7 @@ const botsql = new SQLite(`./databases/bot.sqlite`);
 module.exports = async (client, oldGuild, newGuild) => {
     try {
         client.logchannel = botsql.prepare(`SELECT logchannel FROM settings WHERE guildid = '${oldGuild.guild.id}'`);
-        if (client.logchannel.get().logchannel) {
+        if (client.logchannel.all().length) {
             const logchannel = oldGuild.guild.channels.cache.get(client.logchannel.get().logchannel);
 			const guild = sticker.guild;
             if (oldGuild.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
