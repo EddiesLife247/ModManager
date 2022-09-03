@@ -27,13 +27,14 @@ module.exports = async (client, message) => {
                         type: AuditLogEvent.MessageDelete,
                     });
                     const chLog = fetchedLogs.entries.first();
-					console.log(chLog);
+					//console.log(chLog);
                     if (Date.now() - chLog.createdTimestamp < 5000) {
                         if (!chLog) {
                             var execute = "UNKNOWN";
                         }
                         const { executor, target } = chLog;
                         var execute = executor.username;
+                        console.log(target);
 						var author = target.ClientUser.id;
                     }
                     else {
