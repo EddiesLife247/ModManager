@@ -12,16 +12,10 @@
 
 
 # ModManager
-* ModManager Bot Version 3.0
+* ModManager Bot Version 4.0
 <br>
-* Support Server: https://discord.gg/P3cyNxZ9UV
+* Support Server: https://discord.gg/ynUy2Sfx9U
 <br>
-* Official Website/Dashboard: http://modmanager.manumission247.co.uk:38455/
-<br>
-* Invite The Bot: https://discord.com/api/oauth2/authorize?client_id=714939771935522838&permissions=8&scope=applications.commands%20bot
-<br>
-# Command List: https://github.com/Manumission247/ModManager/wiki/Commands
+* Invite The Bot: https://discord.com/api/oauth2/authorize?client_id=714939771935522838&permissions=1127763619046&scope=bot%20applications.commands
 <br><br>
-REPORT ANY ISSUES ON DISCORD VIA ?report <problem> to be logged here.
-<br><br>
-A Huge thanks to #Tomato6966 for his support on the music part: https://github.com/Tomato6966/Musicium
+REPORT ANY ISSUES ON DISCORD OR VIA ISSUES Tab!.
