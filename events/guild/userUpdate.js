@@ -10,12 +10,12 @@ const bansql = new SQLite(`./databases/bans.sqlite`);
 const botsql = new SQLite(`./databases/bot.sqlite`);
 module.exports = async (client, oldUser, newUser) => {
     try {
-        client.setup = botsql.prepare(`SELECT * FROM settings WHERE guildid = '${oldUser.guild.id}'`);
+        client.setup = botsql.prepare(`SELECT * FROM settings WHERE guildid = '${newUser.guild.id}'`);
 		if (!client.setup.all().length) {
-			console.log(`${oldUser.guild.name} - Is not setup!`);
+			console.log(`${newUser.guild.name} - Is not setup!`);
 			return;
 		}
-        client.logchannel = botsql.prepare(`SELECT logchannel FROM settings WHERE guildid = '${thread.guild.id}'`);
+        client.logchannel = botsql.prepare(`SELECT logchannel FROM settings WHERE guildid = '${newUser.guild.id}'`);
         if (client.logchannel.get().logchannel) {
             const logchannel = thread.guild.channels.cache.get(client.logchannel.get().logchannel);
 			const guild = sticker.guild;
