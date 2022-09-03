@@ -92,7 +92,7 @@ module.exports = {
                 if (checksfailed == false) {
                     interaction.editReply(`Checks Failed The following permissions are currently set for myself: \n View Audit Log: ${ViewAuditLog} \n View Channels: ${ViewChannel} \n Manage Guild: ${ManageGuild} \n Manage Channels: ${ManageChannels} \n Send Messages: ${sendMessages} \n Manage Messages: ${ManageMessages} \n Read Message History ${ReadMessageHistory} \n Timeout Members: ${ModerateMembers} \n Kick Members; ${KickMembers} \n Ban Members: ${BanMembers} \n Use Commands: ${UseApplicationCommands} \n \n **These MUST be set to TRUE for full operational use of this bot**`);
                 } else {
-                    interaction.editReply(`Bot Permission Checks are completed, all required permissions are given.`);
+                    interaction.editReply(`Bot Permission Checks are completed, all required permissions are given, make sure to keep your /config upto date.`);
                 }
             }
 
