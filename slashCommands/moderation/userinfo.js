@@ -8,7 +8,6 @@ module.exports = {
 	name: 'User Info',
 	cooldown: 3000,
 	type: ApplicationCommandType.User,
-    default_member_permissions: 'ModerateMembers', // permission required
 	run: async (client, interaction) => {
         try {
             client.setup = botsql.prepare(`SELECT * FROM settings WHERE guildid = '${interaction.guild.id}'`);

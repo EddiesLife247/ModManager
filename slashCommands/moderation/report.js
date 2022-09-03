@@ -43,16 +43,17 @@ module.exports = {
             //console.log(reason);
             try {
                 client.modchannel = botsql.prepare(`SELECT modchannel FROM settings WHERE guildid = '${interaction.guild.id}'`);
+                console.log(client.modchannel.get().modchannel);
                 const channel = interaction.guild.channels.cache.get(client.modchannel.get().modchannel);
                 const embed = new EmbedBuilder();
                 embed.setColor("#00ff00")
                 embed.setTitle(`**User Message Report**`)
                 embed.setTimestamp();
                 embed.addFields(
-                    { name: 'Reporter:', value: `${interaction.user.username}`, inline: true},
-                    { name: 'Message Author:', value: `${interaction.targetMessage.author.username}`, inline: true },
-                    { name: 'Message Content:', value: `${interaction.targetMessage.content}`, inline: false },
-                    { name: 'Reason:', value: `${reason}`, inline: false },
+                    { name: 'Reporter:', value: `> ${interaction.user.username}`, inline: true},
+                    { name: 'Message Author:', value: `> ${interaction.targetMessage.author.username}`, inline: true },
+                    { name: 'Message Content:', value: `> ${interaction.targetMessage.content}`, inline: false },
+                    { name: 'Reason:', value: `> ${reason}`, inline: false },
                 )
                 embed.setURL(`https://discord.com/channels/${interaction.guild.id}/${interaction.targetMessage.channelId}/${interaction.targetMessage.id}`);
                 channel.send({content: `A User has reported a message for: ${reason}`, embeds: [embed]});

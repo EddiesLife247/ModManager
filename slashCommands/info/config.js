@@ -73,7 +73,7 @@ module.exports = {
 				if (interaction.options.get('modchannel')) {
 					if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.SendMessages)) {
 						const modchannel = interaction.options.get('modchannel').channel;
-						if (botsql.exec(`UPDATE settings SET 'modchannel' = '${modchannel.id}'`)) {
+						if (botsql.exec(`UPDATE settings SET 'modchannel' = '${modchannel.id}' WHERE guildid = '${interaction.guild.id}'`)) {
 							interaction.reply({ content: `Moderator Log channel has been updated successfully`, ephemeral: true });
 						} else {
 							return interaction.reply({ content: `ERROR: An error occured!`, ephemeral: true });
@@ -87,7 +87,7 @@ module.exports = {
 				if (interaction.options.get('logchannel')) {
 					if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
 						const logchannel = interaction.options.get('logchannel').channel;
-						if (botsql.exec(`UPDATE settings SET 'logchannel' = ${logchannel.id};`)) {
+						if (botsql.exec(`UPDATE settings SET 'logchannel' = ${logchannel.id} WHERE guildid = '${interaction.guild.id}';`)) {
 							interaction.reply({ content: `Audit Log channel has been updated successfully`, ephemeral: true });
 						} else {
 							return interaction.reply({ content: `ERROR: An error occured!`, ephemeral: true });
@@ -101,7 +101,7 @@ module.exports = {
 					if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.KickMembers)) {
 						const warnkick = interaction.options.get('warnkick').value;
 						if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
-							if (botsql.exec(`UPDATE settings SET 'warnkick' = ${warnkick};`)) {
+							if (botsql.exec(`UPDATE settings SET 'warnkick' = ${warnkick} WHERE guildid = '${interaction.guild.id}'`)) {
 								interaction.reply({ content: `I will now kick after a user has recieved: ${warnkick} warnings.`, ephemeral: true });
 							} else {
 								return interaction.reply({ content: `ERROR: An error occured!`, ephemeral: true });
@@ -116,7 +116,7 @@ module.exports = {
 					if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.KickMembers)) {
 						const acceptedtrust = interaction.options.get('acceptedtrust').value;
 						if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
-							if (botsql.exec(`UPDATE settings SET 'acceptedtrust' = ${acceptedtrust};`)) {
+							if (botsql.exec(`UPDATE settings SET 'acceptedtrust' = ${acceptedtrust} WHERE guildid = '${interaction.guild.id}';`)) {
 								interaction.reply({ content: `I will now kick after a user if they don't get this trust level or more: ${acceptedtrust} score.`, ephemeral: true });
 							} else {
 								return interaction.reply({ content: `ERROR: An error occured!`, ephemeral: true });
@@ -131,7 +131,7 @@ module.exports = {
 					if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.BanMembers)) {
 						const kickban = interaction.options.get('kickban').value;
 						if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
-							if (botsql.exec(`UPDATE settings SET 'kickban' = ${kickban};`)) {
+							if (botsql.exec(`UPDATE settings SET 'kickban' = ${kickban} WHERE guildid = '${interaction.guild.id}';`)) {
 								interaction.reply({ content: `I will now kick after a user has recieved: ${kickban} warnings.`, ephemeral: true });
 							} else {
 								return interaction.reply({ content: `ERROR: An error occured!`, ephemeral: true });
@@ -146,7 +146,7 @@ module.exports = {
 					if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
 						const messagefilter = interaction.options.get('messagefilter').value;
 						if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
-							if (botsql.exec(`UPDATE settings SET 'messagefilter' = ${messagefilter};`)) {
+							if (botsql.exec(`UPDATE settings SET 'messagefilter' = ${messagefilter} WHERE guildid = '${interaction.guild.id}';`)) {
 								interaction.reply({ content: `Message filter is now set to: ${messagefilter}.`, ephemeral: true });
 							} else {
 								return interaction.reply({ content: `ERROR: An error occured!`, ephemeral: true });
@@ -160,7 +160,7 @@ module.exports = {
 					if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
 						const globalbans = interaction.options.get('globalbans').value;
 						if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
-							if (botsql.exec(`UPDATE settings SET 'globalbans' = ${globalbans};`)) {
+							if (botsql.exec(`UPDATE settings SET 'globalbans' = ${globalbans} WHERE guildid = '${interaction.guild.id}';`)) {
 								interaction.reply({ content: `Global Bans are now set to: ${globalbans}.`, ephemeral: true });
 							} else {
 								return interaction.reply({ content: `ERROR: An error occured!`, ephemeral: true });
@@ -174,7 +174,7 @@ module.exports = {
 					if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
 						const invitefilter = interaction.options.get('invitefilter').value;
 						if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
-							if (botsql.exec(`UPDATE settings SET 'invitefilter' = ${invitefilter};`)) {
+							if (botsql.exec(`UPDATE settings SET 'invitefilter' = ${invitefilter} WHERE guildid = '${interaction.guild.id}';`)) {
 								interaction.reply({ content: `Invite filter is now set to: ${invitefilter}.`, ephemeral: true });
 							} else {
 								return interaction.reply({ content: `ERROR: An error occured!`, ephemeral: true });
