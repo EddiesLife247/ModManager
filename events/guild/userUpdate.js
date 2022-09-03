@@ -36,6 +36,6 @@ module.exports = async (client, oldUser, newUser) => {
             }
         }
     } catch (err) {
-        console.log(error);
+        console.log(err);
     }
 };
