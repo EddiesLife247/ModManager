@@ -1,0 +1,34 @@
+const { EmbedBuilder, Collection, PermissionsBitField, AuditLogEvent } = require('discord.js')
+const ms = require('ms');
+const config = require('../../configs/config.json');
+const SQLite = require("better-sqlite3");
+var Filter = require('bad-words'),
+	filter = new Filter();
+const cooldown = new Collection();
+const scoresql = new SQLite(`./databases/scores.sqlite`);
+const bansql = new SQLite(`./databases/bans.sqlite`);
+const botsql = new SQLite(`./databases/bot.sqlite`);
+module.exports = async (client, sticker) => {
+	try {
+		
+        client.logchannel = botsql.prepare(`SELECT logchannel FROM settings WHERE guildid = '${sticker.guild.id}'`);
+        if (client.logchannel.get().logchannel) {
+            const logchannel = sticker.guild.channels.cache.get(client.logchannel.get().logchannel);
+			const guild = sticker.guild;
+            if (sticker.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
+                const embed = new EmbedBuilder();
+                embed.setColor("#ff0000")
+                embed.setTitle('**MODERATION LOG: Sticker DELETED**');
+                embed.addFields(
+                    { name: 'Sticker Name::', value: `${sticker.name}`, inline: true },
+                )
+                embed.setTimestamp();
+
+                logchannel.send({ embeds: [embed] });
+            }
+        }
+
+    } catch (err) {
+        console.log(err);
+    }
+}
