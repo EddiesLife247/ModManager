@@ -12,9 +12,9 @@ const bansql = new SQLite(`./databases/bans.sqlite`);
 const botsql = new SQLite(`./databases/bot.sqlite`);
 module.exports = async (client, channel) => {
     try {
-        client.logchannel = botsql.prepare(`SELECT settings.settingValue FROM settings WHERE setting = 'logchannel' AND guildid = '${channel.guild.id}'`);
-        const logchannel = channel.guild.channels.cache.get(client.logchannel.get().settingValue);
-        if (!logchannel.id == "") {
+        client.logchannel = botsql.prepare(`SELECT logchannel FROM settings WHERE guildid = '${channel.guild.id}'`);
+        if (!client.logchannel.all().length == null) {
+            const logchannel = channel.guild.channels.cache.get(client.logchannel.get().logchannel);
             const guild = channel.guild;
             if (channel.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
                 try {

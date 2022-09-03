@@ -12,9 +12,9 @@ const bansql = new SQLite(`./databases/bans.sqlite`);
 const botsql = new SQLite(`./databases/bot.sqlite`);
 module.exports = async (client, oldEmoji, newEmoji) => {
     try {
-        client.logchannel = botsql.prepare(`SELECT settings.settingValue FROM settings WHERE setting = 'logchannel' AND guildid = '${oldEmoji.guild.id}'`);
-        const logchannel = oldEmoji.guild.channels.cache.get(client.logchannel.get().settingValue);
-        if (!logchannel.id == "") {
+        client.logchannel = botsql.prepare(`SELECT logchannel FROM settings WHERE guildid = '${newEmoji.guild.id}'`);
+        if (!client.logchannel.all().length == null) {
+            const logchannel = newEmoji.guild.channels.cache.get(client.logchannel.get().logchannel);
             const guild = oldEmoji.guild;
             //console.log(channel.messages.messages);
             if (oldEmoji.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {

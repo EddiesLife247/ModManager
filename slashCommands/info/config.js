@@ -44,36 +44,21 @@ module.exports = {
 		}
 	],
 	run: async (client, interaction) => {
-
-		client.addSetting = botsql.prepare("INSERT INTO settings (guildid, setting, settingValue) VALUES (?, ?, ?);");
-		client.updateSetting = botsql.prepare("UPDATE settings SET settingValue = ? WHERE setting = ?;");
-		client.settings = botsql.prepare(`SELECT settings.settingValue FROM settings WHERE setting = ? AND guildid = ${interaction.guild.id}`);
+		client.addSetting = botsql.prepare(`INSERT INTO settings (guildid) VALUES ('${interaction.guild.id}');`);
+		client.settings = botsql.prepare(`SELECT * FROM settings WHERE guildid = '${interaction.guild.id}'`);
+		if(client.settings.all().length == null){
+			client.addSetting.run();
+		}
 		if (interaction.options._subcommand === 'setting') {
 			try {
 				if (interaction.options.get('modchannel')) {
 					if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.SendMessages)) {
 						const modchannel = interaction.options.get('modchannel').channel;
-						try {
-							const check = client.settings.get('modchannel').settingValue;
-							console.log(modchannel.id);
-							if (client.settings.get('modchannel').settingValue) {
-								// already in database.
-								if (client.updateSetting.run(`${modchannel.id}`, 'modchannel')) {
-									interaction.reply({ content: `Moderator Log channel has been updated successfully`, ephemeral: true });
-								} else {
-									interaction.reply({ content: `There was an error changing the config, contact support`, ephemeral: true });
-								}
-							}
-						} catch (err) {
-							settingName = 'modchannel';
-							settingValue = modchannel.id;
-							if (client.addSetting.run(interaction.guild.id, settingName, settingValue)) {
-								interaction.reply({ content: `Moderator Log channel has been updated successfully`, ephemeral: true });
-							} else {
-								interaction.reply({ content: `There was an error changing the config, contact support`, ephemeral: true });
-								console.log('Error Reported');
-								console.log(err);
-							}
+						if (botsql.exec(`UPDATE settings SET 'modchannel' = '${modchannel.id}'`)) {
+							interaction.reply({ content: `Moderator Log channel has been updated successfully`, ephemeral: true });
+						} else {
+							return interaction.reply({ content: `ERROR: An error occured!`, ephemeral: true });
+							
 						}
 					} else {
 						return interaction.reply({ content: `ERROR: I don't have enough permissions to send messages`, ephemeral: true });
@@ -83,90 +68,39 @@ module.exports = {
 				if (interaction.options.get('logchannel')) {
 					if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
 						const logchannel = interaction.options.get('logchannel').channel;
-						console.log(logchannel.id);
-						try {
-
-							const check = client.settings.get('logchannel').settingValue;
-							// already indatabase.
-							if (client.updateSetting.run(`${logchannel.id}`, 'logchannel')) {
-								interaction.reply({ content: `Moderator Log channel has been updated successfully, make sure I have the "View Audit Log Permissions"`, ephemeral: true });
-							} else {
-								interaction.reply({ content: `There was an error changing the config, contact support`, ephemeral: true });
-								console.log('Error Reported');
-								console.log(err);
-							}
-
-						} catch (err) {
-							//console.log(err);
-							settingName = 'logchannel';
-							settingValue = logchannel.id;
-							if (client.addSetting.run(interaction.guild.id, settingName, settingValue)) {
-								interaction.reply({ content: `Moderator Log channel has been updated successfully, make sure I have the "View Audit Log Permissions"`, ephemeral: true });
-							} else {
-								interaction.reply({ content: `There was an error changing the config, contact support`, ephemeral: true });
-								console.log('Error Reported');
-								console.log(err);
-							}
+						if (botsql.exec(`UPDATE settings SET 'logchannel' = ${logchannel.id};`)) {
+							interaction.reply({ content: `Audit Log channel has been updated successfully`, ephemeral: true });
+						} else {
+							return interaction.reply({ content: `ERROR: An error occured!`, ephemeral: true });
 						}
 					} else {
-						interaction.reply({ content: `ERROR: I don't have enough permissions to view the audit logs`, ephemeral: true });
+						return interaction.reply({ content: `ERROR: I don't have enough permissions to View the audit log`, ephemeral: true });
 					}
 
 				}
 				if (interaction.options.get('warnkick')) {
 					if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.KickMembers)) {
 						const warnkick = interaction.options.get('warnkick').value;
-						console.log(interaction.options.get('warnkick').value);
-						try {
-							const check = client.settings.get('warnkick').settingValue;
-							// already in database.
-							if (client.updateSetting.run(`${warnkick}`, 'warnkick')) {
-								interaction.reply({ content: `I will now kick a user after they have recieved: ${warnkick} warnings.`, ephemeral: true });
+						if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
+							if (botsql.exec(`UPDATE settings SET 'warnkick' = ${warnkick};`)) {
+								interaction.reply({ content: `I will now kick after a user has recieved: ${warnkick} warnings.`, ephemeral: true });
 							} else {
-								interaction.reply({ content: `There was an error changing the config, contact support`, ephemeral: true });
-								console.log('Error Reported');
-								console.log(err);
-							}
-
-						} catch (err) {
-							settingName = 'warnkick';
-							settingValue = warnkick;
-							if (client.addSetting.run(interaction.guild.id, settingName, settingValue)) {
-								interaction.reply({ content: `I will now kick a user after they have recieved: ${warnkick} warnings.`, ephemeral: true });
-							} else {
-								interaction.reply({ content: `There was an error changing the config, contact support`, ephemeral: true });
-								console.log('Error Reported');
-								console.log(err);
+								return interaction.reply({ content: `ERROR: An error occured!`, ephemeral: true });
 							}
 						}
+	
 					} else {
-						interaction.reply({ content: `ERROR: I don't have enough permissions to kick a member`, ephemeral: true });
+						interaction.reply({ content: `ERROR, I don't have enough permissions to Kick messages!`, ephemeral: true });
 					}
 				}
 				if (interaction.options.get('messagefilter')) {
 					if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
 						const messagefilter = interaction.options.get('messagefilter').value;
-						console.log(interaction.options.get('messagefilter').value);
-						try {
-							const check = client.settings.get('messagefilter').settingValue;
-							// already in database.
-							if (client.updateSetting.run(`${messagefilter}`, 'messagefilter')) {
-								interaction.reply({ content: `Message filter is now: ${messagefilter}.`, ephemeral: true });
+						if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
+							if (botsql.exec(`UPDATE settings SET 'messagefilter' = ${messagefilter};`)) {
+								interaction.reply({ content: `Message filter is now set to: ${warnkick}.`, ephemeral: true });
 							} else {
-								interaction.reply({ content: `There was an error changing the config, contact support`, ephemeral: true });
-								console.log('Error Reported');
-								console.log(err);
-							}
-
-						} catch (err) {
-							settingName = 'messagefilter';
-							settingValue = messagefilter;
-							if (client.addSetting.run(interaction.guild.id, settingName, settingValue)) {
-								interaction.reply({ content: `Message filter is now: ${messagefilter}.`, ephemeral: true });
-							} else {
-								interaction.reply({ content: `There was an error changing the config, contact support`, ephemeral: true });
-								console.log('Error Reported');
-								console.log(err);
+								return interaction.reply({ content: `ERROR: An error occured!`, ephemeral: true });
 							}
 						}
 					} else {
@@ -175,28 +109,12 @@ module.exports = {
 				}
 				if (interaction.options.get('invitefilter')) {
 					if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
-						const inviteFilter = interaction.options.get('invitefilter').value;
-						console.log(interaction.options.get('invitefilter').value);
-						try {
-							const check = client.settings.get('invitefilter').settingValue;
-							// already in database.
-							if (client.updateSetting.run(`${inviteFilter}`, 'inviteFilter')) {
-								interaction.reply({ content: `Invite filter is now: ${inviteFilter}.`, ephemeral: true });
+						const invitefilter = interaction.options.get('invitefilter').value;
+						if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
+							if (botsql.exec(`UPDATE settings SET 'invitefilter' = ${invitefilter};`)) {
+								interaction.reply({ content: `Invite filter is now set to: ${invitefilter}.`, ephemeral: true });
 							} else {
-								interaction.reply({ content: `There was an error changing the config, contact support`, ephemeral: true });
-								console.log('Error Reported');
-								console.log(err);
-							}
-
-						} catch (err) {
-							settingName = 'invitefilter';
-							settingValue = inviteFilter;
-							if (client.addSetting.run(interaction.guild.id, settingName, settingValue)) {
-								interaction.reply({ content: `Invite filter is now: ${inviteFilter}.`, ephemeral: true });
-							} else {
-								interaction.reply({ content: `There was an error changing the config, contact support`, ephemeral: true });
-								console.log('Error Reported');
-								console.log(err);
+								return interaction.reply({ content: `ERROR: An error occured!`, ephemeral: true });
 							}
 						}
 					} else {

@@ -12,9 +12,9 @@ const bansql = new SQLite(`./databases/bans.sqlite`);
 const botsql = new SQLite(`./databases/bot.sqlite`);
 module.exports = async (client, member) => {
     try {
-        client.logchannel = botsql.prepare(`SELECT settings.settingValue FROM settings WHERE setting = 'logchannel' AND guildid = '${member.guild.id}'`);
-        const logchannel = member.guild.channels.cache.get(client.logchannel.get().settingValue);
-        if (!logchannel.id == "") {
+        client.logchannel = botsql.prepare(`SELECT logchannel FROM settings WHERE guildid = '${member.guild.id}'`);
+        if (!client.logchannel.all().length == null) {
+            const logchannel = member.guild.channels.cache.get(client.logchannel.get().logchannel);
             const guild = member.guild;
             if (member.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
                 try {
@@ -46,7 +46,7 @@ module.exports = async (client, member) => {
                     logchannel.send({ embeds: [embed] });
                     //console.log(`pin updated in a guild that has logs enabled!`);
                     //}
-                    
+
                     client.getBanned = bansql.prepare("SELECT * FROM bans WHERE user = ? AND guild = ?");
                     let globalBanned;
                     globalBanned = client.getBanned.get(member.user.id, member.guild.id);

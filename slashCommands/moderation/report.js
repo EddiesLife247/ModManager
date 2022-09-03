@@ -38,13 +38,9 @@ module.exports = {
         if (submitted) {
             var reason = submitted.fields.getTextInputValue('ReasonInput');
             //console.log(reason);
-
-            client.modchannel = botsql.prepare(`SELECT settings.settingValue FROM settings WHERE setting = 'modchannel' AND guildid = ${interaction.guild.id}`);
             try {
-                //console.log(client.modchannel.get().settingValue);
-                //console.log(interaction.targetMessage);
-                const channel = interaction.guild.channels.cache.get(client.modchannel.get().settingValue);
-                //console.log(channel);
+                client.modchannel = botsql.prepare(`SELECT modchannel FROM settings WHERE guildid = '${interaction.guild.id}'`);
+                const channel = interaction.guild.channels.cache.get(client.modchannel.get().modchannel);
                 const embed = new EmbedBuilder();
                 embed.setColor("#00ff00")
                 embed.setTitle(`**User Message Report**`)

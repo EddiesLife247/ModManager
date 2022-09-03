@@ -11,9 +11,9 @@ module.exports = async (client, oldState, newState) => {
     if (oldState.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
         try {
 
-            client.logchannel = botsql.prepare(`SELECT settings.settingValue FROM settings WHERE setting = 'logchannel' AND guildid = '${oldState.guild.id}'`);
-            const logchannel = oldState.guild.channels.cache.get(client.logchannel.get().settingValue);
-            if (!logchannel.id == "") {
+            client.logchannel = botsql.prepare(`SELECT logchannel FROM settings WHERE guildid = '${oldState.guild.id}'`);
+            if (!client.logchannel.get().logchannel == "") {
+                const logchannel = oldState.guild.channels.cache.get(client.logchannel.get().logchannel);
 
                 //console.log(channel.guild.channels.cache.find(c => c.name == settings.modLogChannel));
                 //console.log(`member joined guild that has logs enabled!`);
