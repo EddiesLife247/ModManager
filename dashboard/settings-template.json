@@ -14,7 +14,7 @@
         "chain": ""
       },
       "enabled": true,
-      "port": 443
+      "port": 2096
     },
     "callback": "",
     "clientID": "",
