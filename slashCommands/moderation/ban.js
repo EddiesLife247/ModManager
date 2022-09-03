@@ -48,8 +48,8 @@ module.exports = {
         .then(() => console.log("Timed out member"))
         .catch(console.log);
         */
-                client.warnkick = botsql.prepare(`SELECT settingValue FROM settings WHERE setting = 'warnkick' AND guildid = ${interaction.guild.id}`);
-                let warnkick = client.warnkick.get().settingValue;
+                client.warnkick = botsql.prepare(`SELECT warnkick FROM settings WHERE guildid = '${interaction.guild.id}'`);
+                let warnkick = client.warnkick.get().warnkick;
                 let banneduserId = member.user.id;
                 let bannedguildId = interaction.guild.id;
                 let bannedtype = 'PENDING';
