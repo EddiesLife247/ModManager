@@ -7,8 +7,7 @@ const botsql = new SQLite(`./databases/bot.sqlite`);
 const rrsql = new SQLite(`./databases/rr.sqlite`);
 const cooldown = new Collection();
 module.exports = async (client, interaction) => {
-	client.logchannel = botsql.prepare(`SELECT settings.settingValue FROM settings WHERE setting = 'logchannel' AND guildid = '${interaction.guild.id}'`);
-	const logchannel = interaction.guild.channels.cache.get(client.logchannel.get().settingValue);
+	client.logchannel = botsql.prepare(`SELECT logchannel FROM settings WHERE guildid = '${interaction.guild.id}'`);
 	const slashCommand = client.slashCommands.get(interaction.commandName);
 	if (interaction.type == 4) {
 		if (slashCommand.autocomplete) {
@@ -55,7 +54,8 @@ module.exports = async (client, interaction) => {
 					{ name: 'Role:', value: `<@&${rr.role}>`, inline: true },
 				);
 				console.log(interaction.member.user.username);
-				if (!logchannel.id == "") {
+				if (client.logchannel.get().logchannel) {
+					const logchannel = interaction.guild.channels.cache.get(client.logchannel.get().logchannel);
 					logchannel.send({ embeds: [embed] });
 				}
 			} else {
