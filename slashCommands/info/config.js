@@ -62,7 +62,6 @@ module.exports = {
 	run: async (client, interaction) => {
 		client.addSetting = botsql.prepare(`INSERT INTO settings (guildid) VALUES ('${interaction.guild.id}');`);
 		client.settings = botsql.prepare(`SELECT * FROM settings WHERE guildid = '${interaction.guild.id}'`);
-		console.log(client.settings.all().length);
         if (!client.settings.all().length) {
 			
 			client.addSetting.run();
