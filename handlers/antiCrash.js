@@ -19,4 +19,5 @@ module.exports = client => {
         console.log(type, promise, reason);
         client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `[antiCrash] :: Uncaught Exception/Catch (MONITOR) ${type} | ${reason} | \`\`\` ${promise} \`\`\`` });
     });
+    //test github
 }
