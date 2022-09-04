@@ -45,17 +45,24 @@ module.exports = async (client, message) => {
                         var execute = "UNKNOWN";
                         var author = "UNKNOWN";
                     }
+                    if(message.content == null) {
+                        msgcnt = "UNKNOWN - Due to not being cached.";
+                    } else {
+                        msgcnt = message.content;
+                    }
                     const embed = new EmbedBuilder();
                     embed.setColor("#ff0000")
                     embed.setTitle('**MODERATION LOG: Message Deleted**');
                     embed.addFields(
-                        { name: 'Channel:', value: `<#${message.channel.name}>`, inline: true },
+                        { name: 'Channel:', value: `<#${message.channel.id}>`, inline: true },
                         { name: 'Author:', value: `<@${message.author.id}>`, inline: true },
                         { name: 'Pinned status', value: `${message.pinned}`, inline: true },
                         { name: 'Message was tts?', value: `${message.tts}`, inline: true },
                         { name: 'Message ID?', value: `${message.id}`, inline: true },
                         { name: 'Message was tts?', value: `${message.tts}`, inline: true },
                         { name: 'Deleted by:', value: `${execute}`, inline: true },
+                        { name: 'Message Content:', value: `${msgcnt}`, inline: false },
+
                     )
                     embed.setTimestamp();
 
