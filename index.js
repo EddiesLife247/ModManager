@@ -36,10 +36,11 @@ module.exports = client;
   require(`./handlers/${handler}`)(client)
 });
 
-cron.schedule('0 0 * * *', () => {
+var refresh = cron.schedule('0 0 * * *', () => {
   refreshPunishDB(client);
   console.log('Punishment Database Synced.');
 });
+refresh.start();
 function refreshPunishDB(client) {
   const top10 = bansql.prepare("SELECT * FROM 'bans'").all();
   const embed = new Discord.MessageEmbed()
@@ -120,4 +121,5 @@ function refreshPunishDB(client) {
   client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send({ embeds: [embed] });
   client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ embeds: [embed] });
 }
+
 client.login(process.env.TOKEN)
