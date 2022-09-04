@@ -50,8 +50,12 @@ module.exports = async (client, message) => {
                     embed.setTitle('**MODERATION LOG: Message Deleted**');
                     embed.addFields(
                         { name: 'Channel:', value: `<#${message.channel.name}>`, inline: true },
-                        { name: 'Author:', value: `<#${author}>`, inline: true },
-                        { name: 'Deleted by:', value: `${execute}`, inline: false },
+                        { name: 'Author:', value: `<@${message.author.id}>`, inline: true },
+                        { name: 'Pinned status', value: `${message.pinned}`, inline: true },
+                        { name: 'Message was tts?', value: `${message.tts}`, inline: true },
+                        { name: 'Message ID?', value: `${message.id}`, inline: true },
+                        { name: 'Message was tts?', value: `${message.tts}`, inline: true },
+                        { name: 'Deleted by:', value: `${execute}`, inline: true },
                     )
                     embed.setTimestamp();
 
