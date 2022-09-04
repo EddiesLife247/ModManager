@@ -107,7 +107,9 @@ module.exports = {
                         const row5 = new ActionRowBuilder();
 
                         for (let i = 0; i < roleList.length; i++) {
+                            console.log(roleList[i].role);
                             var gotrole = interaction.guild.roles.cache.get(roleList[i].role);
+                            console.log(gotrole);
                             if (i >= 0 && i <= 4) {
                                 const button = new ButtonBuilder()
                                     .setLabel(`${gotrole.name}`)
@@ -279,7 +281,7 @@ module.exports = {
                     return interaction.reply({ content: `Your reaction role has been added!`, ephemeral: true });
                 } catch (error) {
                     console.log(error);
-                    client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${err.message} | \`\`\` ${err.stack} \`\`\`` });
+                    client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${error.message} | \`\`\` ${error.stack} \`\`\`` });
                     return interaction.reply({ content: `Sorry, I failed to add the reaction role!`, ephemeral: true });
                 }
 
