@@ -31,9 +31,10 @@ module.exports = async (client, interaction) => {
 			//console.log(reaction.message.id);
 			//return;
 			let rr;
-			console.log(interaction.customId);
+			//console.log(interaction.customId);
 			rr = client.getRr.get(interaction.customId, interaction.guild.id, interaction.channel.id, interaction.message.id);
 			if (rr) {
+				console.log(`Someone used the reaction buttons on: ${interaction.guild.name}.`);
 				if (interaction.member.roles.cache.some(role => role.id === `${rr.emoji}`)) {
 					interaction.member.roles.remove(`${rr.emoji}`);
 					interaction.reply({ content: `Successfully left <@&${rr.emoji}>!`, ephemeral: true });
@@ -69,6 +70,7 @@ module.exports = async (client, interaction) => {
 	if (!slashCommand) return client.slashCommands.delete(interaction.commandName);
 	try {
 		if (slashCommand.cooldown) {
+			console.log(`Someone used an interaction on: ${interaction.guild.name} but it was on cooldown. ${interaction.commandName}.`);
 			if (cooldown.has(`slash-${slashCommand.name}${interaction.user.id}`)) return interaction.reply({ content: config.messages["COOLDOWN_MESSAGE"].replace('<duration>', ms(cooldown.get(`slash-${slashCommand.name}${interaction.user.id}`) - Date.now(), { long: true })) })
 			if (slashCommand.userPerms || slashCommand.botPerms) {
 				if (!interaction.memberPermissions.has(PermissionsBitField.resolve(slashCommand.userPerms || []))) {
@@ -87,12 +89,14 @@ module.exports = async (client, interaction) => {
 			}
 
 			await slashCommand.run(client, interaction);
+			console.log(`Someone used an interaction on: ${interaction.guild.name} : ${interaction.commandName}.`);
 			cooldown.set(`slash-${slashCommand.name}${interaction.user.id}`, Date.now() + slashCommand.cooldown)
 			setTimeout(() => {
 				cooldown.delete(`slash-${slashCommand.name}${interaction.user.id}`)
 			}, slashCommand.cooldown)
 		} else {
 			if (slashCommand.userPerms || slashCommand.botPerms) {
+
 				if (!interaction.memberPermissions.has(PermissionsBitField.resolve(slashCommand.userPerms || []))) {
 					const userPerms = new EmbedBuilder()
 						.setDescription(`🚫 ${interaction.user}, You don't have \`${slashCommand.userPerms}\` permissions to use this command!`)
@@ -108,6 +112,7 @@ module.exports = async (client, interaction) => {
 
 			}
 			await slashCommand.run(client, interaction);
+			console.log(`Someone used an interaction on: ${interaction.guild.name} : ${interaction.commandName}.`);
 		}
 	} catch (err) {
 		console.log(err);

@@ -10,7 +10,7 @@ const bansql = new SQLite(`./databases/bans.sqlite`);
 const botsql = new SQLite(`./databases/bot.sqlite`);
 module.exports = async (client, message) => {
     try {
-        console.log('update');
+        
         client.setup = botsql.prepare(`SELECT * FROM settings WHERE guildid = '${message.guild.id}'`);
         if (!client.setup.all().length) {
             console.log(`${message.guild.name} - Is not setup!`);
@@ -76,6 +76,7 @@ module.exports = async (client, message) => {
 
             }
         }
+        console.log(`Message Deleted in: ${message.guild.name} : ${message.channel.name}.`);
 
     } catch (err) {
         console.log(err);

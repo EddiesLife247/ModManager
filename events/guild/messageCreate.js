@@ -32,7 +32,9 @@ module.exports = async (client, message) => {
 			{ name: 'Slash Commands ONLY:', value: `We only support Slash Commands in version 4. More info use /help`, inline: true },
             { name: 'Support Command:', value: `/help`, inline: true },
         );
+		console.log(`I was highlighted in: ${message.guild.name} : ${message.channel.name}.`);
         return message.reply({ content: `Hi, I am Mod Manager, here is some information about me!`, embeds: [embed], ephemeral: true });
+
 	}
 	client.setup = botsql.prepare(`SELECT * FROM settings WHERE guildid = '${message.guild.id}'`);
 	if (!client.setup.all().length) {
@@ -88,6 +90,7 @@ module.exports = async (client, message) => {
 										{ name: 'Content:', value: `${message.content}`, inline: true },
 										{ name: 'Reason:', value: `Swearword Filter Enabled, not a NSFW channel`, inline: true },
 									);
+									console.log(`Message Filtered in: ${message.guild.name} : ${message.channel.name}.`);
 									if (!client.logchannel.get().settingValue == "") {
 										const logchannel = message.guild.channels.cache.get(client.logchannel.get().settingValue);
 										logchannel.send({ embeds: [embed] });
@@ -176,7 +179,7 @@ module.exports = async (client, message) => {
 							{ name: 'Content:', value: `${message.content}`, inline: true },
 							{ name: 'Reason:', value: `Invite Filter Enabled, not got ManageMembers Permission`, inline: true },
 						);
-
+						console.log(`Invite Filtered in: ${message.guild.name} : ${message.channel.name}.`);
 						if (!client.logchannel.all().length == null) {
 							const logchannel = message.guild.channels.cache.get(client.logchannel.get().logchannel);
 							logchannel.send({ embeds: [embed] });

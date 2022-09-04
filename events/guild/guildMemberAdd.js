@@ -155,9 +155,11 @@ module.exports = async (client, member) => {
                         // DO THIS
                         if (client.modchannel.get().modchannel) {
                             staffchan.send(`${member.user.tag} - Recently Joined and has been added to the global ban database. \n \n They were banned for: \`\`\` ${globalBanned.reason}\`\`\` The user will now be banned from this guild.`)
+                            console.log(`${member.user.tag} - tried to join ${member.guild.name}, but was banned globally.`);
                         }
                         else {
                             if (client.logchannel.get().logchannel) {
+                                console.log(`${member.user.tag} - tried to join ${member.guild.name}, but was banned globally.`);
                                 logchannel.send(`** WARNING: ** ${member.user.tag} - Recently Joined and has been added to the global ban database. \n \n They were banned for: \`\`\` ${globalBanned.reason}\`\`\` `)
                             }
                         }
@@ -166,10 +168,12 @@ module.exports = async (client, member) => {
                     } else {
                         if (client.modchannel.get().modchannel) {
                             staffchan.send(`** WARNING: ** ${member.user.tag} - Recently Joined and has been added to the global ban database. \n \n They were banned for: \`\`\` ${globalBanned.reason}\`\`\` \n \n Global Bans have been disabled on this server.`)
+                            console.log(`${member.user.tag} - tried to join ${member.guild.name}, but was banned globally, Global bans disabled`);
                         }
                         else {
                             if (client.logchannel.get().logchannel) {
                                 logchannel.send(`** WARNING: ** ${member.user.tag} - Recently Joined and has been added to the global ban database. \n \n They were banned for: \`\`\` ${globalBanned.reason}\`\`\` `)
+                                console.log(`${member.user.tag} - tried to join ${member.guild.name}, but was banned globally, Global bans disabled`);
                             }
                         }
                         member.send(`**WARNING: Your username has been added to our global ban database, appeal via email to: https://discord.gg/ZqUSVpDcRq **`).catch(() => null)
@@ -184,6 +188,7 @@ module.exports = async (client, member) => {
                     logchannel.send(`${member.user.tag} - Recently Joined member has been added to the global ban list, but has appealed their ban successfully \n \n They were banned for: \`\`\` ${globalAppealed.reason}\`\`\` `)
                 }
                 member.send(`**WARNING:** Your account has been previously banned and you have a successful appeal, this will be sent to new servers for the next 60 days`).catch(() => null)
+                console.log(`${member.user.tag} - tried to join ${member.guild.name}, but was banned globally, and has appealed the ban successfuly.`);
             }
             if (client.logchannel.get().logchannel) {
                 const logchannel = member.guild.channels.cache.get(client.logchannel.get().logchannel);
@@ -203,6 +208,7 @@ module.exports = async (client, member) => {
                     { name: 'Calculation(s)', value: `${reason}`, inline: false },
                 )
                 logchannel.send({ embeds: [embed] });
+                console.log(`${member.user.tag} - joined ${member.guild.name}.`);
             }
         }
     } catch (err) {

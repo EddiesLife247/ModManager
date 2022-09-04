@@ -24,14 +24,17 @@ module.exports = async (client, oldState, newState) => {
                 //console.log(`member joined guild that has logs enabled!`);
                 var userDetail = client.users.cache.find(user => user.id === oldState.id).tag;
                 if (newState.channelId == null) {
+                    var channelDetails = oldState.guild.channels.cache.find(c => c.id == oldState.channelId);
                     const embed = new EmbedBuilder();
                     embed.setColor("#ff0000")
                     embed.setTitle('**Moderation** - Member Left Voice Channel');
                     embed.addFields(
                         { name: 'Member', value: `${userDetail}`, inline: false },
+                        { name: 'Current Channel', value: `${channelDetails.name}`, inline: false },
                     )
                     embed.setTimestamp();
                     logchannel.send({ embeds: [embed] });
+                    console.log(`Memeber Left a voice channel in: ${oldState.guild.name}.`);
                 } else {
                     if (oldState.channelId == undefined) {
                         var channelDetails = newState.guild.channels.cache.find(c => c.id == newState.channelId);
@@ -44,6 +47,7 @@ module.exports = async (client, oldState, newState) => {
                         )
                         embed.setTimestamp();
                         logchannel.send({ embeds: [embed] });
+                        console.log(`Memeber Joined a voice channel in: ${oldState.guild.name}.`);
                     }
                 }
             }

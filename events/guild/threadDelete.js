@@ -36,6 +36,7 @@ module.exports = async (client, thread) => {
                 logchannel.send({ embeds: [embed] });
             }
         }
+        console.log(`Thread Deleted in: ${thread.guild.name}.`);
 
     } catch (err) {
         console.log(err);
