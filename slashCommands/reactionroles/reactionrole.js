@@ -31,7 +31,7 @@ module.exports = {
                     name: 'text',
                     description: 'What text do you want to show?',
                     type: 3,
-                    required: true,
+                    required: false,
                 }
             ]
         },
@@ -125,7 +125,7 @@ module.exports = {
                             
                             var gotrole = interaction.guild.roles.cache.get(roleList[i].role);
                             console.log(roleList[i].name);
-                            if (roleList[i].name == null) {
+                            if (!roleList[i].name == null) {
                                 txt = roleList[i].name;
                             } else {
                                 txt = gotrole.name;
