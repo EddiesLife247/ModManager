@@ -125,7 +125,7 @@ module.exports = {
                             var gotrole = interaction.guild.roles.cache.get(roleList[i].role);
                             console.log(roleList[i].name);
                             if (roleList[i].name == null) {
-                                txt = role.name;
+                                txt = roleList[i].name;
                             } else {
                                 txt = gotrole.name;
                             }
@@ -347,7 +347,7 @@ module.exports = {
                     for (let i = 0; i < roleList.length; i++) {
                         console.log(roleList[i].name);
                         if (roleList[i].name == null) {
-                            txt = role.name;
+                            txt = roleList[i].name;
                         } else {
                             txt = gotrole.name;
                         }
