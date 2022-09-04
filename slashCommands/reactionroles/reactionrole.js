@@ -26,6 +26,12 @@ module.exports = {
                     description: 'The role we need to assign to the user',
                     type: 8,
                     required: true,
+                },
+                {
+                    name: 'text',
+                    description: 'What text do you want to show?',
+                    type: 3,
+                    required: true,
                 }
             ]
         },
@@ -44,12 +50,6 @@ module.exports = {
                     name: 'role',
                     description: 'The role you dont want to show',
                     type: 8,
-                    required: true,
-                },
-                {
-                    name: 'text',
-                    description: 'What text do you want to show?',
-                    type: 3,
                     required: true,
                 }
             ]
