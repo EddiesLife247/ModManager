@@ -342,9 +342,10 @@ module.exports = {
                         .setColor('Green')
                         .setTimestamp()
                         .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL() });
-                        console.log(roleList[i].name);
+                        
 
                     for (let i = 0; i < roleList.length; i++) {
+                        console.log(roleList[i].name);
                         if (roleList[i].name == null) {
                             txt = role.name;
                         } else {
