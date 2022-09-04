@@ -64,7 +64,7 @@ module.exports = {
                     const role = interaction.options.get('role').role;
                     const text = interaction.options.getString('text');
                     console.log(text);
-                    client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrtable (id, emoji, guild, role, messageid, channel) VALUES (@id, @emoji, @guild, @role, @messageid, @rrchan);");
+                    client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrtable (id, emoji, guild, role, messageid, channel, text) VALUES (@id, @emoji, @guild, @role, @messageid, @rrchan, @text);");
 
                     const getButtons = (toggle = false, choice) => {
                         if (text == null) {
@@ -104,7 +104,7 @@ module.exports = {
                             return interaction.reply({ content: `There was an error, in finding the messageid!`, ephemeral: true });
                         }
                         msgid = rr.messageid;
-                        score = { id: `${interaction.guild.id}-${role.id}`, emoji: role.id, guild: interaction.guild.id, role: role.id, messageid: rr.messageid, rrchan: channel.id };
+                        score = { id: `${interaction.guild.id}-${role.id}`, emoji: role.id, guild: interaction.guild.id, role: role.id, messageid: rr.messageid, rrchan: channel.id, name: text };
                         await client.addRr.run(score);
                         //console.log(rr.messageid);
                         // get all the reaction roles for the message.
@@ -273,7 +273,7 @@ module.exports = {
                             //add the reaction role to the database for looking up later
                             msgid = msg.id;
                             //console.log(msg);
-                            score = { id: `${interaction.guild.id}-${role.id}`, emoji: role.id, guild: interaction.guild.id, role: role.id, messageid: msgid, rrchan: channel.id };
+                            score = { id: `${interaction.guild.id}-${role.id}`, emoji: role.id, guild: interaction.guild.id, role: role.id, messageid: msgid, rrchan: channel.id, name: text };
                             client.addRr.run(score);
 
                             // get all reaction roles for that message.
