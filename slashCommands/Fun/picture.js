@@ -31,7 +31,7 @@ module.exports = {
         const botsql = new SQLite(`./databases/bot.sqlite`);
         client.hidefuncmds = botsql.prepare(`SELECT hidefuncmds FROM settings WHERE guildid = '${interaction.guild.id}'`);
         console.log(client.hidefuncmds.get().hidefuncmds);
-        if (client.hidefuncmds.get().hidefuncmds) {
+        if (client.hidefuncmds.get().hidefuncmds == '0' || client.hidefuncmds.get().hidefuncmds == '1') {
             hidefuncmds = client.hidefuncmds.get().hidefuncmds;
             if (hidefuncmds == "0") {
                 await interaction.deferReply({ ephemeral: false });
