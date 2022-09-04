@@ -37,26 +37,27 @@ module.exports = async (client, message) => {
                         } else {
                             const { executor, target } = chLog;
                             var execute = executor.username;
-                            console.log(target);
-                            var author = target.username;
+                            //console.log(target);
+                            author = target.username;
                         }
 
                     }
                     else {
                         var execute = "UNKNOWN";
-                        
+                        var author;
+                        if(message.author) {
+                            author = message.author.id;
+                        } else {
+                            author = "UNKNOWN";
+                        }
                     }
-                    var author;
+                    
                     if(message.content == null) {
                         msgcnt = "UNKNOWN - Due to not being cached.";
                     } else {
                         msgcnt = message.content;
                     }
-                    if(message.author) {
-                        author = message.author.id;
-                    } else {
-                        author = "UNKNOWN";
-                    }
+
                     const embed = new EmbedBuilder();
                     embed.setColor("#ff0000")
                     embed.setTitle('**MODERATION LOG: Message Deleted**');
