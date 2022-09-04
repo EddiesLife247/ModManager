@@ -70,16 +70,21 @@ module.exports = async (client, interaction) => {
 	if (!slashCommand) return client.slashCommands.delete(interaction.commandName);
 	try {
 		if (slashCommand.cooldown) {
-			console.log(`Someone used an interaction on: ${interaction.guild.name} but it was on cooldown. ${interaction.commandName}.`);
-			if (cooldown.has(`slash-${slashCommand.name}${interaction.user.id}`)) return interaction.reply({ content: config.messages["COOLDOWN_MESSAGE"].replace('<duration>', ms(cooldown.get(`slash-${slashCommand.name}${interaction.user.id}`) - Date.now(), { long: true })) })
+			
+			if (cooldown.has(`slash-${slashCommand.name}${interaction.user.id}`)) {
+				console.log(`Someone used an interaction on: ${interaction.guild.name} but it was on cooldown. ${interaction.commandName}.`);
+				return interaction.reply({ content: config.messages["COOLDOWN_MESSAGE"].replace('<duration>', ms(cooldown.get(`slash-${slashCommand.name}${interaction.user.id}`) - Date.now(), { long: true })) })
+			}
 			if (slashCommand.userPerms || slashCommand.botPerms) {
 				if (!interaction.memberPermissions.has(PermissionsBitField.resolve(slashCommand.userPerms || []))) {
+					console.log(`Someone failed to use an interaction on: ${interaction.guild.name} : ${interaction.commandName}. As they didn't have permissions`);
 					const userPerms = new EmbedBuilder()
 						.setDescription(`🚫 ${interaction.user}, You don't have \`${slashCommand.userPerms}\` permissions to use this command!`)
 						.setColor('Red')
 					return interaction.reply({ embeds: [userPerms] })
 				}
 				if (!interaction.guild.members.cache.get(client.user.id).permissions.has(PermissionsBitField.resolve(slashCommand.botPerms || []))) {
+					console.log(`Someone failed to use an interaction on: ${interaction.guild.name} : ${interaction.commandName}. As the bot didn't have permissions`);
 					const botPerms = new EmbedBuilder()
 						.setDescription(`🚫 ${interaction.user}, I don't have \`${slashCommand.botPerms}\` permissions to use this command!`)
 						.setColor('Red')
@@ -98,14 +103,16 @@ module.exports = async (client, interaction) => {
 			if (slashCommand.userPerms || slashCommand.botPerms) {
 
 				if (!interaction.memberPermissions.has(PermissionsBitField.resolve(slashCommand.userPerms || []))) {
+					console.log(`Someone failed to use an interaction on: ${interaction.guild.name} : ${interaction.commandName}. As they didn't have permissions`);
 					const userPerms = new EmbedBuilder()
 						.setDescription(`🚫 ${interaction.user}, You don't have \`${slashCommand.userPerms}\` permissions to use this command!`)
 						.setColor('Red')
 					return interaction.reply({ embeds: [userPerms] })
 				}
 				if (!interaction.guild.members.cache.get(client.user.id).permissions.has(PermissionsBitField.resolve(slashCommand.botPerms || []))) {
+					console.log(`Someone failed to use an interaction on: ${interaction.guild.name} : ${interaction.commandName}. As the bot didn't have permissions`);
 					const botPerms = new EmbedBuilder()
-						.setDescription(`🚫 ${interaction.user}, I don't have \`${slashCommand.botPerms}\` permissions to use this command!`)
+						.setDescription(`🚫 ${interaction.user}, I don't have \`${slashCommand.botPerms}\` permissions to use this command! You should get someone todo /botcheck.`)
 						.setColor('Red')
 					return interaction.reply({ embeds: [botPerms] })
 				}
