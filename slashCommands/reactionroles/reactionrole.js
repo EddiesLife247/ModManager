@@ -347,13 +347,14 @@ module.exports = {
                         
 
                     for (let i = 0; i < roleList.length; i++) {
+                        var gotrole = interaction.guild.roles.cache.get(roleList[i].role);
                         console.log(roleList[i].name);
                         if (!roleList[i].name == null) {
                             txt = roleList[i].name;
                         } else {
                             txt = gotrole.name;
                         }
-                        var gotrole = interaction.guild.roles.cache.get(roleList[i].role);
+                        
                         if (i >= 0 && i <= 4) {
                             const button = new ButtonBuilder()
                                 .setLabel(`${txt}`)
