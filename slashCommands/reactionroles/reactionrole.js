@@ -85,11 +85,15 @@ module.exports = {
                     }
 
                     const embed = new EmbedBuilder()
-                        .setTitle('Choose a reaction role')
-                        .setDescription(`Choose a button below to get access to that role.`)
+                        .setTitle('Reaction Roles')
+                        .setDescription(`The following button(s) Grant's access to some of the servers roles!`)
                         .setColor('Green')
                         .setTimestamp()
-                        .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL() });
+                        .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL() })
+                        .addFields(
+                            { name: 'Adding a role:', value: `Want to get access to more features? click a button below to start!`, inline: false },
+                            { name: 'Removing a role:', value: `Don't want a role anymore? simply click the button to remove it!`, inline: false },
+                        );
 
 
 
@@ -122,7 +126,7 @@ module.exports = {
 
                         for (let i = 0; i < roleList.length; i++) {
 
-                            
+
                             var gotrole = interaction.guild.roles.cache.get(roleList[i].role);
                             console.log(roleList[i].name);
                             if (roleList[i].name) {
@@ -339,12 +343,16 @@ module.exports = {
                     const row4 = new ActionRowBuilder();
                     const row5 = new ActionRowBuilder();
                     const embed = new EmbedBuilder()
-                        .setTitle('Choose a reaction role')
-                        .setDescription(`Choose a button below to get access to that role.`)
+                        .setTitle('Reaction Roles')
+                        .setDescription(`The following button(s) Grant's access to some of the servers roles!`)
                         .setColor('Green')
                         .setTimestamp()
-                        .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL() });
-                        
+                        .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL() })
+                        .addFields(
+                            { name: 'Adding a role:', value: `Want to get access to more features? click a button below to start!`, inline: false },
+                            { name: 'Removing a role:', value: `Don't want a role anymore? simply click the button to remove it!`, inline: false },
+                        );
+
 
                     for (let i = 0; i < roleList.length; i++) {
                         var gotrole = interaction.guild.roles.cache.get(roleList[i].role);
@@ -354,7 +362,7 @@ module.exports = {
                         } else {
                             txt = gotrole.name;
                         }
-                        
+
                         if (i >= 0 && i <= 4) {
                             const button = new ButtonBuilder()
                                 .setLabel(`${txt}`)
