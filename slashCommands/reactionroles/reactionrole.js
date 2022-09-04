@@ -63,6 +63,7 @@ module.exports = {
                     const channel = interaction.options.get('channel').channel;
                     const role = interaction.options.get('role').role;
                     const text = interaction.options.getString('text');
+                    console.log(text);
                     client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrtable (id, emoji, guild, role, messageid, channel) VALUES (@id, @emoji, @guild, @role, @messageid, @rrchan);");
 
                     const getButtons = (toggle = false, choice) => {
