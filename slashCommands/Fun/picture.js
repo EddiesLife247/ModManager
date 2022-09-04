@@ -30,6 +30,7 @@ module.exports = {
         const SQLite = require("better-sqlite3");
         const botsql = new SQLite(`./databases/bot.sqlite`);
         client.hidefuncmds = botsql.prepare(`SELECT hidefuncmds FROM settings WHERE guildid = '${interaction.guild.id}'`);
+        console.log(client.hidefuncmds.get().hidefuncmds);
         if (client.hidefuncmds.get().hidefuncmds) {
             hidefuncmds = client.hidefuncmds.get().hidefuncmds;
             if (hidefuncmds == "0") {
