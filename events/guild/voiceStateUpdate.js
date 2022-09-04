@@ -25,7 +25,7 @@ module.exports = async (client, oldState, newState) => {
                 var userDetail = client.users.cache.find(user => user.id === oldState.id).tag;
                 if (newState.channelId == null) {
                     const embed = new EmbedBuilder();
-                    embed.setColor("#00ff00")
+                    embed.setColor("#ff0000")
                     embed.setTitle('**Moderation** - Member Left Voice Channel');
                     embed.addFields(
                         { name: 'Member', value: `${userDetail}`, inline: false },

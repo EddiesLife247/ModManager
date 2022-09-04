@@ -38,7 +38,7 @@ module.exports = async (client, member) => {
                     }
                     //console.log(logchannel.id);
                     const embed = new EmbedBuilder();
-                    embed.setColor("#ff0000")
+                    embed.setColor("#00ff00")
                     embed.setTitle('**MODERATION LOG: Member Banned**');
                     embed.addFields(
                         { name: 'Member Banned:', value: `${targ}`, inline: true },

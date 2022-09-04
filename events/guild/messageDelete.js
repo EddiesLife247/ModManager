@@ -37,6 +37,7 @@ module.exports = async (client, message) => {
                             const { executor, target } = chLog;
                             var execute = executor.username;
                             console.log(target);
+                            var author = target.username;
                         }
 
                     }
@@ -45,7 +46,7 @@ module.exports = async (client, message) => {
                         var author = "UNKNOWN";
                     }
                     const embed = new EmbedBuilder();
-                    embed.setColor("#00ff00")
+                    embed.setColor("#ff0000")
                     embed.setTitle('**MODERATION LOG: Message Deleted**');
                     embed.addFields(
                         { name: 'Channel:', value: `<#${message.channel.name}>`, inline: true },

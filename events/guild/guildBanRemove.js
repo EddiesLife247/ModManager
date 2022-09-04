@@ -35,7 +35,7 @@ module.exports = async (client, member) => {
                         var execute = "UNKNOWN";
                     }
                     const embed = new EmbedBuilder();
-                    embed.setColor("#00ff00")
+                    embed.setColor("#ff0000")
                     embed.setTitle('**MODERATION LOG: Member Unbanned**');
                     embed.addFields(
                         { name: 'Member UnBanned:', value: `${targ}`, inline: true },

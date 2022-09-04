@@ -3,25 +3,25 @@ const ms = require('ms');
 const config = require('../../configs/config.json');
 const SQLite = require("better-sqlite3");
 var Filter = require('bad-words'),
-	filter = new Filter();
+    filter = new Filter();
 const cooldown = new Collection();
 const scoresql = new SQLite(`./databases/scores.sqlite`);
 const bansql = new SQLite(`./databases/bans.sqlite`);
 const botsql = new SQLite(`./databases/bot.sqlite`);
 module.exports = async (client, thread) => {
-	try {
+    try {
         client.setup = botsql.prepare(`SELECT * FROM settings WHERE guildid = '${thread.guild.id}'`);
-		if (!client.setup.all().length) {
-			console.log(`${thread.guild.name} - Is not setup!`);
-			return;
-		}
+        if (!client.setup.all().length) {
+            console.log(`${thread.guild.name} - Is not setup!`);
+            return;
+        }
         client.logchannel = botsql.prepare(`SELECT logchannel FROM settings WHERE guildid = '${thread.guild.id}'`);
         if (client.logchannel.get().logchannel) {
             const logchannel = thread.guild.channels.cache.get(client.logchannel.get().logchannel);
-			const guild = sticker.guild;
+            const guild = sticker.guild;
             if (thread.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
                 const embed = new EmbedBuilder();
-                embed.setColor("#00ff00")
+                embed.setColor("#ff0000")
                 embed.setTitle('**MODERATION LOG: THREAD DELETED**');
                 embed.addFields(
                     { name: 'Thread Name::', value: `${thread.name}`, inline: true },
