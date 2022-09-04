@@ -63,7 +63,7 @@ module.exports = {
                     const channel = interaction.options.get('channel').channel;
                     const role = interaction.options.get('role').role;
                     const text = interaction.options.getString('text');
-                    console.log(text);
+                    //console.log(text);
                     client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrtable (id, emoji, guild, role, messageid, channel, name) VALUES (@id, @emoji, @guild, @role, @messageid, @rrchan, @name);");
 
                     const getButtons = (toggle = false, choice) => {
@@ -72,7 +72,7 @@ module.exports = {
                         } else {
                             txt = text;
                         }
-                        console.log(`${txt} - is now the name!`)
+                        console.log(`${txt} - is now the name! (single)`)
                         const row = new ActionRowBuilder().addComponents(
                             new ButtonBuilder()
                                 .setLabel(`${txt}`)
