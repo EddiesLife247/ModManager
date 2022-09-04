@@ -2,6 +2,7 @@ const { EmbedBuilder, Collection, PermissionsBitField, AuditLogEvent } = require
 const ms = require('ms');
 const config = require('../../configs/config.json');
 const SQLite = require("better-sqlite3");
+const e = require('express');
 var Filter = require('bad-words'),
     filter = new Filter();
 const cooldown = new Collection();
@@ -43,19 +44,25 @@ module.exports = async (client, message) => {
                     }
                     else {
                         var execute = "UNKNOWN";
-                        var author = "UNKNOWN";
+                        
                     }
+                    var author;
                     if(message.content == null) {
                         msgcnt = "UNKNOWN - Due to not being cached.";
                     } else {
                         msgcnt = message.content;
+                    }
+                    if(message.author) {
+                        author = message.author.id;
+                    } else {
+                        author = "UNKNOWN";
                     }
                     const embed = new EmbedBuilder();
                     embed.setColor("#ff0000")
                     embed.setTitle('**MODERATION LOG: Message Deleted**');
                     embed.addFields(
                         { name: 'Channel:', value: `<#${message.channel.id}>`, inline: true },
-                        { name: 'Author:', value: `<@${message.author.id}>`, inline: true },
+                        { name: 'Author:', value: `<@${author}>`, inline: true },
                         { name: 'Pinned status', value: `${message.pinned}`, inline: true },
                         { name: 'Message was tts?', value: `${message.tts}`, inline: true },
                         { name: 'Message ID?', value: `${message.id}`, inline: true },
