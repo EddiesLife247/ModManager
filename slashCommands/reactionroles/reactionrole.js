@@ -343,12 +343,13 @@ module.exports = {
                         .setTimestamp()
                         .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL() });
                         console.log(roleList[i].name);
+
+                    for (let i = 0; i < roleList.length; i++) {
                         if (roleList[i].name == null) {
                             txt = role.name;
                         } else {
                             txt = gotrole.name;
                         }
-                    for (let i = 0; i < roleList.length; i++) {
                         var gotrole = interaction.guild.roles.cache.get(roleList[i].role);
                         if (i >= 0 && i <= 4) {
                             const button = new ButtonBuilder()
