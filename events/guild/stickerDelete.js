@@ -31,7 +31,7 @@ module.exports = async (client, sticker) => {
                 logchannel.send({ embeds: [embed] });
             }
         }
-        console.log(`Sticker Deleted in: ${stiicker.guild.name}.`);
+        console.log(`Sticker Deleted in: ${sticker.guild.name}.`);
 
     } catch (err) {
         console.log(err);
