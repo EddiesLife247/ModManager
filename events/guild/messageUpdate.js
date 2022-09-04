@@ -34,8 +34,8 @@ module.exports = async (client, oldMessage, newMessage) => {
                         { name: 'Message ID?', value: `${newMessage.id}`, inline: true },
                         { name: 'Old Pinned status', value: `${oldMessage.pinned}`, inline: true },
                         { name: 'New Pinned status', value: `${newMessage.pinned}`, inline: true },
-                        { name: 'Old Message Content:', value: `${oldMessage.content}`, inline: false },
-                        { name: 'New Message Content:', value: `${newMessage.content}`, inline: false },
+                        { name: 'Old Message Content:', value: `>${oldMessage.content}`, inline: false },
+                        { name: 'New Message Content:', value: `>${newMessage.content}`, inline: false },
 
                     )
                     embed.setTimestamp();
