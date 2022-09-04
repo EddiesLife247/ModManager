@@ -42,7 +42,6 @@ module.exports = {
                 const chosenString = interaction.options.getString("category");
                 if (chosenString === 'Cat') {
                     try {
-                        await interaction.deferReply();
                         //const reply = await interaction.editReply("Cat Picture!");
                         let url = "https://aws.random.cat/meow";
                         https.get(url, (res) => {

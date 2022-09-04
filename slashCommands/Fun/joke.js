@@ -23,7 +23,7 @@ module.exports = {
     const SQLite = require("better-sqlite3");
     const botsql = new SQLite(`./databases/bot.sqlite`);
     client.hidefuncmds = botsql.prepare(`SELECT hidefuncmds FROM settings WHERE guildid = '${interaction.guild.id}'`);
-    if (client.hidefuncmds.get().hidefuncmds) {
+    if (client.hidefuncmds.get().hidefuncmds == '0' || client.hidefuncmds.get().hidefuncmds == '1') {
       hidefuncmds = client.hidefuncmds.get().hidefuncmds;
       if (hidefuncmds == "1") {
         await interaction.deferReply({ephemeral: true });
