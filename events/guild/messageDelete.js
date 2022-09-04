@@ -59,7 +59,6 @@ module.exports = async (client, message) => {
                         { name: 'Pinned status', value: `${message.pinned}`, inline: true },
                         { name: 'Message was tts?', value: `${message.tts}`, inline: true },
                         { name: 'Message ID?', value: `${message.id}`, inline: true },
-                        { name: 'Message was tts?', value: `${message.tts}`, inline: true },
                         { name: 'Deleted by:', value: `${execute}`, inline: true },
                         { name: 'Message Content:', value: `${msgcnt}`, inline: false },
 
