@@ -11,7 +11,7 @@ const bansql = new SQLite(`./databases/bans.sqlite`);
 const botsql = new SQLite(`./databases/bot.sqlite`);
 module.exports = async (client, oldMessage, newMessage) => {
     try {
-        console.log(oldMessage);
+        //console.log(oldMessage);
         client.setup = botsql.prepare(`SELECT * FROM settings WHERE guildid = '${newMessage.guild.id}'`);
         if (!client.setup.all().length) {
             console.log(`${newMessage.guild.name} - Is not setup! (MessageUpdate)`);
@@ -24,15 +24,16 @@ module.exports = async (client, oldMessage, newMessage) => {
             if (newMessage.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
                 // LOGS HERE
                 try {
-                    console.log(oldMessage);
+                    //console.log(oldMessage);
                     const embed = new EmbedBuilder();
                     embed.setColor("#0000ff")
                     embed.setTitle('**MODERATION LOG: Message Changed**');
                     embed.addFields(
                         { name: 'Channel:', value: `<#${newMessage.channel.id}>`, inline: true },
                         { name: 'Author:', value: `<@${newMessage.author.id}>`, inline: true },
-                        { name: 'Pinned status', value: `${newMessage.pinned}`, inline: true },
                         { name: 'Message ID?', value: `${newMessage.id}`, inline: true },
+                        { name: 'Old Pinned status', value: `${oldMessage.pinned}`, inline: true },
+                        { name: 'New Pinned status', value: `${newMessage.pinned}`, inline: true },
                         { name: 'Old Message Content:', value: `${oldMessage.content}`, inline: false },
                         { name: 'New Message Content:', value: `${newMessage.content}`, inline: false },
 
