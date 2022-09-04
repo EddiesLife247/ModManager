@@ -348,7 +348,7 @@ module.exports = {
 
                     for (let i = 0; i < roleList.length; i++) {
                         console.log(roleList[i].name);
-                        if (roleList[i].name == null) {
+                        if (!roleList[i].name == null) {
                             txt = roleList[i].name;
                         } else {
                             txt = gotrole.name;
