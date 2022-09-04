@@ -56,14 +56,19 @@ module.exports = {
 					description: 'Should we ban the user if they are global banned in our databse?',
 					type: 5,
 				},
+				{
+					name: 'hidefuncmds',
+					description: 'Should fun commands be sent only to the user, and not to the chat?',
+					type: 5,
+				},
 			]
 		}
 	],
 	run: async (client, interaction) => {
 		client.addSetting = botsql.prepare(`INSERT INTO settings (guildid) VALUES ('${interaction.guild.id}');`);
 		client.settings = botsql.prepare(`SELECT * FROM settings WHERE guildid = '${interaction.guild.id}'`);
-        if (!client.settings.all().length) {
-			
+		if (!client.settings.all().length) {
+
 			client.addSetting.run();
 			console.log(`Added Guild Config: ${interaction.guild.id}`)
 		}
@@ -76,7 +81,7 @@ module.exports = {
 							interaction.reply({ content: `Moderator Log channel has been updated successfully`, ephemeral: true });
 						} else {
 							return interaction.reply({ content: `ERROR: An error occured!`, ephemeral: true });
-							
+
 						}
 					} else {
 						return interaction.reply({ content: `ERROR: I don't have enough permissions to send messages`, ephemeral: true });
@@ -99,14 +104,12 @@ module.exports = {
 				if (interaction.options.get('warnkick')) {
 					if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.KickMembers)) {
 						const warnkick = interaction.options.get('warnkick').value;
-						if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
-							if (botsql.exec(`UPDATE settings SET 'warnkick' = ${warnkick} WHERE guildid = '${interaction.guild.id}'`)) {
-								interaction.reply({ content: `I will now kick after a user has recieved: ${warnkick} warnings.`, ephemeral: true });
-							} else {
-								return interaction.reply({ content: `ERROR: An error occured!`, ephemeral: true });
-							}
+						if (botsql.exec(`UPDATE settings SET 'warnkick' = ${warnkick} WHERE guildid = '${interaction.guild.id}'`)) {
+							interaction.reply({ content: `I will now kick after a user has recieved: ${warnkick} warnings.`, ephemeral: true });
+						} else {
+							return interaction.reply({ content: `ERROR: An error occured!`, ephemeral: true });
 						}
-	
+
 					} else {
 						interaction.reply({ content: `ERROR, I don't have enough permissions to Kick messages!`, ephemeral: true });
 					}
@@ -114,14 +117,12 @@ module.exports = {
 				if (interaction.options.get('acceptedtrust')) {
 					if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.KickMembers)) {
 						const acceptedtrust = interaction.options.get('acceptedtrust').value;
-						if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
-							if (botsql.exec(`UPDATE settings SET 'acceptedtrust' = ${acceptedtrust} WHERE guildid = '${interaction.guild.id}';`)) {
-								interaction.reply({ content: `I will now kick after a user if they don't get this trust level or more: ${acceptedtrust} score.`, ephemeral: true });
-							} else {
-								return interaction.reply({ content: `ERROR: An error occured!`, ephemeral: true });
-							}
+						if (botsql.exec(`UPDATE settings SET 'acceptedtrust' = ${acceptedtrust} WHERE guildid = '${interaction.guild.id}';`)) {
+							interaction.reply({ content: `I will now kick after a user if they don't get this trust level or more: ${acceptedtrust} score.`, ephemeral: true });
+						} else {
+							return interaction.reply({ content: `ERROR: An error occured!`, ephemeral: true });
 						}
-	
+
 					} else {
 						interaction.reply({ content: `ERROR, I don't have enough permissions to Kick messages!`, ephemeral: true });
 					}
@@ -135,8 +136,10 @@ module.exports = {
 							} else {
 								return interaction.reply({ content: `ERROR: An error occured!`, ephemeral: true });
 							}
+						} else {
+							interaction.reply({ content: `ERROR, I don't have enough permissions to View the Audit Log Information!`, ephemeral: true });
 						}
-	
+
 					} else {
 						interaction.reply({ content: `ERROR, I don't have enough permissions to Kick messages!`, ephemeral: true });
 					}
@@ -144,12 +147,22 @@ module.exports = {
 				if (interaction.options.get('messagefilter')) {
 					if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
 						const messagefilter = interaction.options.get('messagefilter').value;
-						if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
-							if (botsql.exec(`UPDATE settings SET 'messagefilter' = ${messagefilter} WHERE guildid = '${interaction.guild.id}';`)) {
-								interaction.reply({ content: `Message filter is now set to: ${messagefilter}.`, ephemeral: true });
-							} else {
-								return interaction.reply({ content: `ERROR: An error occured!`, ephemeral: true });
-							}
+						if (botsql.exec(`UPDATE settings SET 'messagefilter' = ${messagefilter} WHERE guildid = '${interaction.guild.id}';`)) {
+							interaction.reply({ content: `Message filter is now set to: ${messagefilter}.`, ephemeral: true });
+						} else {
+							return interaction.reply({ content: `ERROR: An error occured!`, ephemeral: true });
+						}
+					} else {
+						interaction.reply({ content: `ERROR, I don't have enough permissions to manage messages!`, ephemeral: true });
+					}
+				}
+				if (interaction.options.get('hidefuncmds')) {
+					if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.SendMessages)) {
+						const hidefuncmds = interaction.options.get('hidefuncmds').value;
+						if (botsql.exec(`UPDATE settings SET 'hidefuncmds' = ${hidefuncmds} WHERE guildid = '${interaction.guild.id}';`)) {
+							interaction.reply({ content: `Hide Fun Commands are now set to: ${hidefuncmds}.`, ephemeral: true });
+						} else {
+							return interaction.reply({ content: `ERROR: An error occured!`, ephemeral: true });
 						}
 					} else {
 						interaction.reply({ content: `ERROR, I don't have enough permissions to manage messages!`, ephemeral: true });
@@ -164,6 +177,8 @@ module.exports = {
 							} else {
 								return interaction.reply({ content: `ERROR: An error occured!`, ephemeral: true });
 							}
+						} else {
+							interaction.reply({ content: `ERROR, I don't have enough permissions to View the Audit Log Information!`, ephemeral: true });
 						}
 					} else {
 						interaction.reply({ content: `ERROR, I don't have enough permissions to manage messages!`, ephemeral: true });
@@ -172,12 +187,10 @@ module.exports = {
 				if (interaction.options.get('invitefilter')) {
 					if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
 						const invitefilter = interaction.options.get('invitefilter').value;
-						if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
-							if (botsql.exec(`UPDATE settings SET 'invitefilter' = ${invitefilter} WHERE guildid = '${interaction.guild.id}';`)) {
-								interaction.reply({ content: `Invite filter is now set to: ${invitefilter}.`, ephemeral: true });
-							} else {
-								return interaction.reply({ content: `ERROR: An error occured!`, ephemeral: true });
-							}
+						if (botsql.exec(`UPDATE settings SET 'invitefilter' = ${invitefilter} WHERE guildid = '${interaction.guild.id}';`)) {
+							interaction.reply({ content: `Invite filter is now set to: ${invitefilter}.`, ephemeral: true });
+						} else {
+							return interaction.reply({ content: `ERROR: An error occured!`, ephemeral: true });
 						}
 					} else {
 						interaction.reply({ content: `ERROR, I don't have enough permissions to manage messages!`, ephemeral: true });
