@@ -72,6 +72,7 @@ module.exports = {
                         } else {
                             txt = text;
                         }
+                        console.log(`${txt} - is now the name!`)
                         const row = new ActionRowBuilder().addComponents(
                             new ButtonBuilder()
                                 .setLabel(`${txt}`)
@@ -129,6 +130,7 @@ module.exports = {
                             } else {
                                 txt = gotrole.name;
                             }
+                            console.log(`${txt} - is now the name!`)
                             if (i >= 0 && i <= 4) {
                                 const button = new ButtonBuilder()
                                     .setLabel(`${txt}`)
