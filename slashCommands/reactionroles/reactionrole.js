@@ -121,9 +121,9 @@ module.exports = {
 
                         for (let i = 0; i < roleList.length; i++) {
 
-                            console.log(roleList[i].role);
+                            
                             var gotrole = interaction.guild.roles.cache.get(roleList[i].role);
-                            console.log(gotrole);
+                            console.log(roleList[i].name);
                             if (roleList[i].name == null) {
                                 txt = role.name;
                             } else {
@@ -342,11 +342,17 @@ module.exports = {
                         .setColor('Green')
                         .setTimestamp()
                         .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL() });
+                        console.log(roleList[i].name);
+                        if (roleList[i].name == null) {
+                            txt = role.name;
+                        } else {
+                            txt = gotrole.name;
+                        }
                     for (let i = 0; i < roleList.length; i++) {
                         var gotrole = interaction.guild.roles.cache.get(roleList[i].role);
                         if (i >= 0 && i <= 4) {
                             const button = new ButtonBuilder()
-                                .setLabel(`${gotrole.name}`)
+                                .setLabel(`${txt}`)
                                 .setCustomId(`${gotrole.id}`)
                                 .setStyle('Primary')
                                 .setDisabled(false)
@@ -358,7 +364,7 @@ module.exports = {
                         }
                         if (i >= 5 && i <= 9) {
                             const button = new ButtonBuilder()
-                                .setLabel(`${gotrole.name}`)
+                                .setLabel(`${txt}`)
                                 .setCustomId(`${gotrole.id}`)
                                 .setStyle('Primary')
                                 .setDisabled(false)
@@ -368,7 +374,7 @@ module.exports = {
                         }
                         if (i >= 10 && i <= 14) {
                             const button = new ButtonBuilder()
-                                .setLabel(`${gotrole.name}`)
+                                .setLabel(`${txt}`)
                                 .setCustomId(`${gotrole.id}`)
                                 .setStyle('Primary')
                                 .setDisabled(false)
@@ -378,7 +384,7 @@ module.exports = {
                         }
                         if (i >= 15 && i <= 19) {
                             const button = new ButtonBuilder()
-                                .setLabel(`${gotrole.name}`)
+                                .setLabel(`${txt}`)
                                 .setCustomId(`${gotrole.id}`)
                                 .setStyle('Primary')
                                 .setDisabled(false)
@@ -388,7 +394,7 @@ module.exports = {
                         }
                         if (i >= 20 && i <= 24) {
                             const button = new ButtonBuilder()
-                                .setLabel(`${gotrole.name}`)
+                                .setLabel(`${txt}`)
                                 .setCustomId(`${gotrole.id}`)
                                 .setStyle('Primary')
                                 .setDisabled(false)
