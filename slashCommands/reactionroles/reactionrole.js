@@ -45,6 +45,12 @@ module.exports = {
                     description: 'The role you dont want to show',
                     type: 8,
                     required: true,
+                },
+                {
+                    name: 'text',
+                    description: 'What text do you want to show?',
+                    type: 3,
+                    required: true,
                 }
             ]
         }
@@ -56,12 +62,18 @@ module.exports = {
                 try {
                     const channel = interaction.options.get('channel').channel;
                     const role = interaction.options.get('role').role;
+                    const text = interaction.options.getString('text');
                     client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrtable (id, emoji, guild, role, messageid, channel) VALUES (@id, @emoji, @guild, @role, @messageid, @rrchan);");
 
                     const getButtons = (toggle = false, choice) => {
+                        if (text == null) {
+                            txt = role.name;
+                        } else {
+                            txt = text;
+                        }
                         const row = new ActionRowBuilder().addComponents(
                             new ButtonBuilder()
-                                .setLabel(`${role.name}`)
+                                .setLabel(`${txt}`)
                                 .setCustomId(`${role.id}`)
                                 .setStyle(toggle == true && choice == 'blue' ? 'Secondary' : 'Primary')
                                 .setDisabled(toggle),
@@ -107,12 +119,18 @@ module.exports = {
                         const row5 = new ActionRowBuilder();
 
                         for (let i = 0; i < roleList.length; i++) {
+
                             console.log(roleList[i].role);
                             var gotrole = interaction.guild.roles.cache.get(roleList[i].role);
                             console.log(gotrole);
+                            if (roleList[i].name == null) {
+                                txt = role.name;
+                            } else {
+                                txt = gotrole.name;
+                            }
                             if (i >= 0 && i <= 4) {
                                 const button = new ButtonBuilder()
-                                    .setLabel(`${gotrole.name}`)
+                                    .setLabel(`${txt}`)
                                     .setCustomId(`${gotrole.id}`)
                                     .setStyle('Primary')
                                     .setDisabled(false)
@@ -124,7 +142,7 @@ module.exports = {
                             }
                             if (i >= 5 && i <= 9) {
                                 const button = new ButtonBuilder()
-                                    .setLabel(`${gotrole.name}`)
+                                    .setLabel(`${txt}`)
                                     .setCustomId(`${gotrole.id}`)
                                     .setStyle('Primary')
                                     .setDisabled(false)
@@ -134,7 +152,7 @@ module.exports = {
                             }
                             if (i >= 10 && i <= 14) {
                                 const button = new ButtonBuilder()
-                                    .setLabel(`${gotrole.name}`)
+                                    .setLabel(`${txt}`)
                                     .setCustomId(`${gotrole.id}`)
                                     .setStyle('Primary')
                                     .setDisabled(false)
@@ -144,7 +162,7 @@ module.exports = {
                             }
                             if (i >= 15 && i <= 19) {
                                 const button = new ButtonBuilder()
-                                    .setLabel(`${gotrole.name}`)
+                                    .setLabel(`${txt}`)
                                     .setCustomId(`${gotrole.id}`)
                                     .setStyle('Primary')
                                     .setDisabled(false)
@@ -154,7 +172,7 @@ module.exports = {
                             }
                             if (i >= 20 && i <= 24) {
                                 const button = new ButtonBuilder()
-                                    .setLabel(`${gotrole.name}`)
+                                    .setLabel(`${txt}`)
                                     .setCustomId(`${gotrole.id}`)
                                     .setStyle('Primary')
                                     .setDisabled(false)
@@ -318,11 +336,11 @@ module.exports = {
                     const row4 = new ActionRowBuilder();
                     const row5 = new ActionRowBuilder();
                     const embed = new EmbedBuilder()
-                    .setTitle('Choose a reaction role')
-                    .setDescription(`Choose a button below to get access to that role.`)
-                    .setColor('Green')
-                    .setTimestamp()
-                    .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL() });
+                        .setTitle('Choose a reaction role')
+                        .setDescription(`Choose a button below to get access to that role.`)
+                        .setColor('Green')
+                        .setTimestamp()
+                        .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL() });
                     for (let i = 0; i < roleList.length; i++) {
                         var gotrole = interaction.guild.roles.cache.get(roleList[i].role);
                         if (i >= 0 && i <= 4) {
@@ -379,7 +397,7 @@ module.exports = {
                         }
                     }
                     for (let i = 0; i < roleList.length; i++) {
-                        if(i == null) {
+                        if (i == null) {
                             channel.messages.fetch(`${msgid}`).then(message => {
                                 message.delete();
                             });
