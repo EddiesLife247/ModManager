@@ -64,11 +64,11 @@ module.exports = async (client, message) => {
                     embed.addFields(
                         { name: 'Channel:', value: `<#${message.channel.id}>`, inline: true },
                         { name: 'Author:', value: `<@${author}>`, inline: true },
-                        { name: 'Pinned status', value: `${message.pinned}`, inline: true },
-                        { name: 'Message was tts?', value: `${message.tts}`, inline: true },
-                        { name: 'Message ID?', value: `${message.id}`, inline: true },
-                        { name: 'Deleted by:', value: `${execute}`, inline: true },
-                        { name: 'Message Content:', value: `${msgcnt}`, inline: false },
+                        { name: 'Pinned status', value: `>${message.pinned}`, inline: true },
+                        { name: 'Message was tts?', value: `>${message.tts}`, inline: true },
+                        { name: 'Message ID?', value: `>${message.id}`, inline: true },
+                        { name: 'Deleted by:', value: `>${execute}`, inline: true },
+                        { name: 'Message Content:', value: `>${msgcnt}`, inline: false },
 
                     )
                     embed.setTimestamp();
