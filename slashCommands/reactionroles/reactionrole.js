@@ -357,7 +357,7 @@ module.exports = {
                                     console.log(`msg sent, with msg id: ${msgid}`);
 
                                     //console.log(btnmsg);
-                                    return interaction.reply({ content: `Your reaction role has been added!`, ephemeral: true });
+                                    return interaction.followUp({ content: `Your reaction role has been added!`, ephemeral: true });
 
                                 });
                             }).catch(err => {
