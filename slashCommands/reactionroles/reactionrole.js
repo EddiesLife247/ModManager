@@ -96,7 +96,7 @@ module.exports = {
                         const row = new ActionRowBuilder()
                         const button = new ButtonBuilder()
                             .setLabel(`${txt}`)
-                            .setCustomId(`${gotrole.id}`)
+                            .setCustomId(`${role.id}`)
                             .setDisabled(false);
                         if (chosenString) {
                             button.setStyle(chosenString);
