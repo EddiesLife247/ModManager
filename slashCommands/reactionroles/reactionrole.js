@@ -1,4 +1,4 @@
-const { EmbedBuilder, ApplicationCommandType, PermissionsBitField, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
+const { EmbedBuilder, ApplicationCommandType, PermissionsBitField, ButtonBuilder, ActionRowBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
 const Discord = require('discord.js');
 const db = require('quick.db');
 const SQLite = require("better-sqlite3");
@@ -670,6 +670,33 @@ module.exports = {
             }
             if (interaction.options._subcommand === 'message') {
                 try {
+                    const input = new ModalBuilder()
+                    .setCustomId('reactionrolemessage')
+                    .setTitle('Configure your Reaction Role Message');
+                    
+                    const titleInput = new TextInputBuilder()
+                    .setCustomId('title')
+                    .setLabel('What should the embed be titled?')
+                    .setStyle(TextInputStyle.Short);
+                    const colourInput = new TextInputBuilder()
+                    .setCustomId('colour')
+                    .setLabel('What colour the embed be?')
+                    .setStyle(TextInputStyle.Short);
+                    const descriptionInput = new TextInputBuilder()
+                    .setCustomId('description')
+                    .setLabel('What should the main text be?')
+                    .setStyle(TextInputStyle.Paragraph);
+
+                    const firstActionRow = new ActionRowBuilder().addComponents(titleInput);
+                    const secondActionRow = new ActionRowBuilder().addComponents(colourInput);
+                    const thirdActionRow = new ActionRowBuilder().addComponents(descriptionInput);
+                    
+                    input.addComponents(firstActionRow, secondActionRow, thirdActionRow);
+
+                    await interaction.showModal(input).then(modal => {
+                        console.log(modal);
+                    })
+                    
                     //client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrmsg (id, guild, channelid, messageid, colour, title, description) VALUES (@id, @guild, @channelid, @messageid, @colour, @title, @description);");
                     const colour = interaction.options.getString('colour');
                     const title = interaction.options.getString('title');
