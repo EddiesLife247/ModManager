@@ -82,24 +82,6 @@ module.exports = {
                     description: 'The channel where you want message sent?',
                     type: 7,
                     required: true,
-                },
-                {
-                    name: 'title',
-                    description: 'Change the title',
-                    type: 3,
-                    required: true,
-                },
-                {
-                    name: 'description',
-                    description: 'Change the description',
-                    type: 3,
-                    required: true,
-                },
-                {
-                    name: 'colour',
-                    description: 'Change the embed colour!',
-                    type: 3,
-                    required: true,
                 }
             ]
         }
@@ -671,60 +653,83 @@ module.exports = {
             if (interaction.options._subcommand === 'message') {
                 try {
                     const input = new ModalBuilder()
-                    .setCustomId('reactionrolemessage')
-                    .setTitle('Configure your Reaction Role Message');
-                    
+                        .setCustomId('reactionrolemessage')
+                        .setTitle('Configure your Reaction Role Message');
+
                     const titleInput = new TextInputBuilder()
-                    .setCustomId('title')
-                    .setLabel('What should the embed be titled?')
-                    .setStyle(TextInputStyle.Short);
+                        .setCustomId('title')
+                        .setLabel('What should the embed be titled?')
+                        .setStyle(TextInputStyle.Short)
+                        .setRequired(true);
                     const colourInput = new TextInputBuilder()
-                    .setCustomId('colour')
-                    .setLabel('What colour the embed be?')
-                    .setStyle(TextInputStyle.Short);
+                        .setCustomId('colour')
+                        .setLabel('What colour the embed be?')
+                        .setStyle(TextInputStyle.Short)
+                        .setRequired(true);
                     const descriptionInput = new TextInputBuilder()
-                    .setCustomId('description')
-                    .setLabel('What should the main text be?')
-                    .setStyle(TextInputStyle.Paragraph);
+                        .setCustomId('description')
+                        .setLabel('What should the main text be?')
+                        .setStyle(TextInputStyle.Paragraph)
+                        .setRequired(true);
 
                     const firstActionRow = new ActionRowBuilder().addComponents(titleInput);
                     const secondActionRow = new ActionRowBuilder().addComponents(colourInput);
                     const thirdActionRow = new ActionRowBuilder().addComponents(descriptionInput);
-                    
+
                     input.addComponents(firstActionRow, secondActionRow, thirdActionRow);
 
-                    await interaction.showModal(input).then(modal => {
-                        console.log(modal);
+                    await interaction.showModal(input);
+                    const submitted = await interaction.awaitModalSubmit({
+                        // Timeout after a minute of not receiving any valid Modals
+                        time: 600000,
+                        // Make sure we only accept Modals from the User who sent the original Interaction we're responding to
+                        filter: i => i.user.id === interaction.user.id,
+                    }).catch(error => {
+                        // Catch any Errors that are thrown (e.g. if the awaitModalSubmit times out after 60000 ms)
+                        console.error(error)
+                        return null
                     })
-                    
-                    //client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrmsg (id, guild, channelid, messageid, colour, title, description) VALUES (@id, @guild, @channelid, @messageid, @colour, @title, @description);");
-                    const colour = interaction.options.getString('colour');
-                    const title = interaction.options.getString('title');
-                    const description = interaction.options.getString('description');
-                    const channel = interaction.options.get('channel').channel;
-                    client.getmsg = rrsql.prepare("SELECT * FROM rrmsg WHERE guild = ? AND channelid = ?")
-                    const msgdata = client.getmsg.get(interaction.guild.id, channel.id);
-                    const embed = new EmbedBuilder()
-                        .setTitle(title)
-                        .setDescription(description)
-                        .setColor(colour)
-                        .setTimestamp()
-                    console.log(msgdata);
-                    if (msgdata) {
-                        if (msgdata.channelid = channel) {
-                            client.addRr = rrsql.prepare("UPDATE rrmsg SET colour = ?, title = ?, description = ? WHERE guild = ? AND channelid = ?;");
-                            console.log(msgdata.messageid);
-                            console.log(channel.messages);
-                            channel.messages.fetch(`${msgdata.messageid}`).then(message => {
-                                //console.log(getAllButtons());
-                                console.log(`Editing message: ${msgdata.messageid}`);
-                                message.edit({ embeds: [embed] })
-                                client.addRr.run(colour, title, description, interaction.guild.id, channel.id);
-                                console.log('message edited!');
-                            });
+                    if (submitted) {
+                        //client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrmsg (id, guild, channelid, messageid, colour, title, description) VALUES (@id, @guild, @channelid, @messageid, @colour, @title, @description);");
+                        const colour = submitted.fields.getTextInputValue('colour');
+                        const title = submitted.fields.getTextInputValue('title');
+                        const description = submitted.fields.getTextInputValue('description');
+                        const channel = interaction.options.get('channel').channel;
+                        client.getmsg = rrsql.prepare("SELECT * FROM rrmsg WHERE guild = ? AND channelid = ?")
+                        const msgdata = client.getmsg.get(interaction.guild.id, channel.id);
+                        const embed = new EmbedBuilder()
+                            .setTitle(title)
+                            .setDescription(description)
+                            .setColor(colour)
+                            .setTimestamp()
+                        console.log(msgdata);
+                        if (msgdata) {
+                            if (msgdata.channelid = channel) {
+                                client.addRr = rrsql.prepare("UPDATE rrmsg SET colour = ?, title = ?, description = ? WHERE guild = ? AND channelid = ?;");
+                                console.log(msgdata.messageid);
+                                console.log(channel.messages);
+                                channel.messages.fetch(`${msgdata.messageid}`).then(message => {
+                                    //console.log(getAllButtons());
+                                    console.log(`Editing message: ${msgdata.messageid}`);
+                                    message.edit({ embeds: [embed] })
+                                    client.addRr.run(colour, title, description, interaction.guild.id, channel.id);
+                                    console.log('message edited!');
+                                });
 
 
-                            interaction.reply({ content: `Your embed message has been updated in: ${channel.name}, and will be used for future reaction roles`, ephemeral: true });
+                                interaction.reply({ content: `Your embed message has been updated in: ${channel.name}, and will be used for future reaction roles`, ephemeral: true });
+                            } else {
+                                client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrmsg (id, guild, channelid, messageid, colour, title, description) VALUES (@id, @guild, @channelid, @messageid, @colour, @title, @description);");
+                                channel.send({ embeds: [embed] }).then(msg => {
+                                    //add the reaction role to the database for looking up later
+                                    msgid = msg.id;
+                                    //console.log(msg);
+                                    score = { id: `${interaction.guild.id}-${channel.id}`, guild: interaction.guild.id, channelid: channel.id, messageid: msgid, colour: colour, title: title, description: description };
+                                    client.addRr.run(score);
+                                });
+                                interaction.reply({ content: `Your embed message has been sent in: ${channel.name}, and will be used for future reaction roles`, ephemeral: true });
+
+                            }
                         } else {
                             client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrmsg (id, guild, channelid, messageid, colour, title, description) VALUES (@id, @guild, @channelid, @messageid, @colour, @title, @description);");
                             channel.send({ embeds: [embed] }).then(msg => {
@@ -735,20 +740,8 @@ module.exports = {
                                 client.addRr.run(score);
                             });
                             interaction.reply({ content: `Your embed message has been sent in: ${channel.name}, and will be used for future reaction roles`, ephemeral: true });
-
                         }
-                    } else {
-                        client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrmsg (id, guild, channelid, messageid, colour, title, description) VALUES (@id, @guild, @channelid, @messageid, @colour, @title, @description);");
-                        channel.send({ embeds: [embed] }).then(msg => {
-                            //add the reaction role to the database for looking up later
-                            msgid = msg.id;
-                            //console.log(msg);
-                            score = { id: `${interaction.guild.id}-${channel.id}`, guild: interaction.guild.id, channelid: channel.id, messageid: msgid, colour: colour, title: title, description: description };
-                            client.addRr.run(score);
-                        });
-                        interaction.reply({ content: `Your embed message has been sent in: ${channel.name}, and will be used for future reaction roles`, ephemeral: true });
                     }
-
                 } catch (err) {
                     console.log(err);
                     interaction.reply('AN Error occured!');
