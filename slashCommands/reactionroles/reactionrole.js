@@ -142,7 +142,7 @@ module.exports = {
 
                         return row;
                     }
-                    client.getmsg = rrsql.prepare("SELECT * FROM rrmsg WHERE guild = ? AND channel = ?")
+                    client.getmsg = rrsql.prepare("SELECT * FROM rrmsg WHERE guild = ? AND channelid = ?")
                     const msgdata = client.getmsg(interaction.guild.id, channel.id);
                     const embed = new EmbedBuilder();
                     if (msgdata) {
@@ -658,7 +658,7 @@ module.exports = {
                 const title = interaction.options.getString('title');
                 const description = interaction.options.getString('description');
                 const channel = interaction.options.get('channel').channel;
-                client.getmsg = rrsql.prepare("SELECT * FROM rrmsg WHERE guild = ? AND channel = ?")
+                client.getmsg = rrsql.prepare("SELECT * FROM rrmsg WHERE guild = ? AND channelid = ?")
                 const msgdata = client.getmsg(interaction.guild.id, channel.id);
                 const embed = new EmbedBuilder()
                     .setTitle(title)
