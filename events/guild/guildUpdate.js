@@ -10,7 +10,7 @@ const bansql = new SQLite(`./databases/bans.sqlite`);
 const botsql = new SQLite(`./databases/bot.sqlite`);
 module.exports = async (client, oldGuild, newGuild) => {
     try {
-        console.log(newGuild.id);
+        //console.log(newGuild.id);
         client.logchannel = botsql.prepare(`SELECT logchannel FROM settings WHERE guildid = '${newGuild.id}'`);
         if (client.logchannel.all().length) {
             const logchannel = oldGuild.channels.cache.get(client.logchannel.get().logchannel);
@@ -31,6 +31,7 @@ module.exports = async (client, oldGuild, newGuild) => {
                 logchannel.send({ embeds: [embed] });
                 //client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send({ embeds: [embed] }); // used for specific channel
                 client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ embeds: [embed] });
+                console.log(`${oldGuild.name} changed details, now known as: ${newGuild.name}`);
             }
         }
     } catch (err) {

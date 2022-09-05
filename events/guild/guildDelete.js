@@ -39,7 +39,7 @@ module.exports = async (client, guild) => {
 
             }
             bansql.prepare(`DELETE FROM 'bans' WHERE guild = '${guild.id}'`).run()
-            console.log(client, "success", guild, `Left a discord server, Bans Deleted.`);
+            console.log(`I Left: ${guild.name} server, Bans Deleted.`);
         }
     } catch (err) {
         console.log(err);

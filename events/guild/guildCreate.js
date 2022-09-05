@@ -41,6 +41,7 @@ module.exports = async (client, guild) => {
         embed.setTimestamp();
         //client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send({ embeds: [embed] }); // used for specific channel
         client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ embeds: [embed] });
+        console.log(`I Joined: ${guild.name} server.`);
     } catch (err) {
         console.log(err);
         client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${err.message} | \`\`\` ${err.stack} \`\`\`` });

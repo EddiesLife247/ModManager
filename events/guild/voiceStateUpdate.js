@@ -10,7 +10,7 @@ const scresql = new SQLite(`./databases/scores.sqlite`);
 module.exports = async (client, oldState, newState) => {
     client.setup = botsql.prepare(`SELECT * FROM settings WHERE guildid = '${oldState.guild.id}'`);
     if (!client.setup.all().length) {
-        console.log(`${oldState.guild.name} - Is not setup!`);
+        //console.log(`${oldState.guild.name} - Is not setup!`);
         return;
     }
     if (oldState.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {

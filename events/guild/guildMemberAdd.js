@@ -14,7 +14,7 @@ const botsql = new SQLite(`./databases/bot.sqlite`);
 module.exports = async (client, member) => {
     try {
         client.settings = botsql.prepare(`SELECT * FROM settings WHERE guildid = '${member.guild.id}'`);
-		console.log(client.settings.all().length);
+		//console.log(client.settings.all().length);
         if (!client.settings.all().length) {
             return;
         }

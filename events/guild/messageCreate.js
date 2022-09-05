@@ -169,7 +169,7 @@ module.exports = async (client, message) => {
 				try {
 
 					if (bannedWords.some(word => message.content.toLowerCase().includes(word))) {
-						console.log('blocked');
+						//console.log('blocked');
 						const embed = new EmbedBuilder();
 						embed.setColor("#0000ff");
 						embed.setTitle(`**Moderation** - Blocked Messagge`);
@@ -184,10 +184,10 @@ module.exports = async (client, message) => {
 							const logchannel = message.guild.channels.cache.get(client.logchannel.get().logchannel);
 							logchannel.send({ embeds: [embed] });
 						}
-						console.log("invite sent");
+						//console.log("invite sent");
 						if (!message.member.permissions.has(PermissionsBitField.Flags.Administrator) || !message.member.permissions.has(PermissionsBitField.Flags.ManageMessages)) {
 							try {
-								console.log("deleting invite");
+								//console.log("deleting invite");
 								await message.channel.send(`You cannot send invites to other Discord servers`);
 								let banneduserId = message.author.id;
 								let bannedguildId = message.guild.id;
@@ -233,7 +233,8 @@ module.exports = async (client, message) => {
 								message.delete();
 							}
 						} else {
-							console.log('invite sent, but admin permissions given.. excempting');
+							//console.log('invite sent, but admin permissions given.. excempting');
+							return;
 						}
 
 						//if (message.author.id === message.guild.ownerID) return console.log("owner override");
@@ -253,7 +254,7 @@ module.exports = async (client, message) => {
 			}
 		}
 	} else {
-		console.log("Not enough permissions to check message content! but not enough permissions set. Server must check permissions with /botcheck");
+		console.log(`${message.guild.name} had an error: Not enough permissions to check message content! but not enough permissions set. Server must check permissions with /botcheck`);
 	}
 
 

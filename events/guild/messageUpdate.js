@@ -14,7 +14,7 @@ module.exports = async (client, oldMessage, newMessage) => {
         //console.log(oldMessage);
         client.setup = botsql.prepare(`SELECT * FROM settings WHERE guildid = '${newMessage.guild.id}'`);
         if (!client.setup.all().length) {
-            console.log(`${newMessage.guild.name} - Is not setup! (MessageUpdate)`);
+           // console.log(`${newMessage.guild.name} - Is not setup! (MessageUpdate)`);
             return;
         }
         client.logchannel = botsql.prepare(`SELECT logchannel FROM settings WHERE guildid = '${newMessage.guild.id}'`);

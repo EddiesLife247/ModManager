@@ -12,7 +12,7 @@ module.exports = async (client, sticker) => {
 	try {
         client.setup = botsql.prepare(`SELECT * FROM settings WHERE guildid = '${sticker.guild.id}'`);
 		if (!client.setup.all().length) {
-			console.log(`${sticker.guild.name} - Is not setup!`);
+			//console.log(`${sticker.guild.name} - Is not setup!`);
 			return;
 		}
         client.logchannel = botsql.prepare(`SELECT logchannel FROM settings WHERE guildid = '${sticker.guild.id}'`);

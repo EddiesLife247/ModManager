@@ -54,7 +54,7 @@ module.exports = async (client, interaction) => {
 					{ name: 'Member:', value: `<@${interaction.member.user.id}>`, inline: true },
 					{ name: 'Role:', value: `<@&${rr.role}>`, inline: true },
 				);
-				console.log(interaction.member.user.username);
+				//console.log(interaction.member.user.username);
 				if (client.logchannel.get().logchannel) {
 					const logchannel = interaction.guild.channels.cache.get(client.logchannel.get().logchannel);
 					logchannel.send({ embeds: [embed] });

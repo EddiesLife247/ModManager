@@ -12,7 +12,7 @@ module.exports = async (client, thread) => {
     try {
         client.setup = botsql.prepare(`SELECT * FROM settings WHERE guildid = '${thread.guild.id}'`);
         if (!client.setup.all().length) {
-            console.log(`${thread.guild.name} - Is not setup!`);
+            //console.log(`${thread.guild.name} - Is not setup!`);
             return;
         }
         client.logchannel = botsql.prepare(`SELECT logchannel FROM settings WHERE guildid = '${thread.guild.id}'`);
