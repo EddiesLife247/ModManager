@@ -83,6 +83,9 @@ module.exports = async (client, member) => {
                 trustlevel = trustlevel - 1;
                 reason = reason + `\n Trust level now: ${trustlevel} action: -1 reason: You do not have an avatar`;
             }
+            client.localBanCount = bansql.prepare("SELECT * FROM bans WHERE user = ?  AND approved = 'LOCAL' AND appealed = 'No'");
+            let localBanCount;
+            localBanCount = client.localBanCount.all(member.user.id);
             if (localBanCount.length < 1) {
                 trustlevel = trustlevel + 5;
                 reason = reason + `\n Trust level now: ${trustlevel} action: +5 reason: You do not have any active bans on record.`;
@@ -91,7 +94,10 @@ module.exports = async (client, member) => {
                 trustlevel = trustlevel - localBanCount.length;
                 reason = reason + `\n Trust level now: ${trustlevel} action: -${localBanCount.length} reason: You have active bans on record`;
             }
-            if (warningCount < 1) {
+            client.warningCount = bansql.prepare("SELECT * FROM bans WHERE user = ?  AND approved = 'WARNING' AND appealed = 'No'");
+            let warningCount;
+            warningCount = client.warningCount.all(member.user.id);
+            if (warningCount.length < 1) {
                 trustlevel = trustlevel + 5;
                 reason = reason + `\n Trust level now: ${trustlevel} action: +5 reason: You do not have any active warnings on record.`;
             }
@@ -99,7 +105,10 @@ module.exports = async (client, member) => {
                 trustlevel = trustlevel - warningCount.length;
                 reason = reason + `\n Trust level now: ${trustlevel} action: -${warningCount.length} reason: You have active warnings on record`;
             }
-            if (timeoutCount < 1) {
+            client.timeoutCount = bansql.prepare("SELECT * FROM bans WHERE user = ?  AND approved = 'TIMEOUT' AND appealed = 'No'");
+            let timeoutCount;
+            timeoutCount = client.warningCount.all(member.user.id);
+            if (timeoutCount.length < 1) {
                 trustlevel = trustlevel + 5;
                 reason = reason + `\n Trust level now: ${trustlevel} action: +5 reason: You do not have any active timeout's on record.`;
             }
@@ -107,7 +116,10 @@ module.exports = async (client, member) => {
                 trustlevel = trustlevel - timeoutCount.length;
                 reason = reason + `\n Trust level now: ${trustlevel} action: -${timeoutCount.length} reason: You have active timeout's on record`;
             }
-            if (KickCount < 1) {
+            client.KickCount = bansql.prepare("SELECT * FROM bans WHERE user = ?  AND approved = 'KICK' AND appealed = 'No'");
+            let KickCount;
+            KickCount = client.KickCount.all(member.user.id);
+            if (KickCount.length < 1) {
                 trustlevel = trustlevel + 5;
                 reason = reason + `\n Trust level now: ${trustlevel} action: +5 reason: You do not have any active kick's on record.`;
             }
@@ -115,7 +127,10 @@ module.exports = async (client, member) => {
                 trustlevel = trustlevel - KickCount.length;
                 reason = reason + `\n Trust level now: ${trustlevel} action: -${KickCount.length} reason: You have active kick's on record`;
             }
-            if (globalBanCount < 1) {
+            client.globalBanCount = bansql.prepare("SELECT * FROM bans WHERE user = ?  AND approved = 'GLOBAL' AND appealed = 'No'");
+            let globalBanCount;
+            globalBanCount = client.globalBanCount.all(member.user.id);
+            if (globalBanCount.length < 1) {
                 trustlevel = trustlevel + 5;
                 reason = reason + `\n Trust level now: ${trustlevel} action: +5 reason: You do not have any active global ban's on record.`;
             }
