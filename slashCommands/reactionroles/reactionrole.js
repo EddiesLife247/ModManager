@@ -96,7 +96,7 @@ module.exports = {
                     required: true,
                 },
                 {
-                    name: 'color',
+                    name: 'colour',
                     description: 'Change the embed colour!',
                     type: 3,
                     required: true,
