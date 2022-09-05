@@ -153,14 +153,14 @@ module.exports = {
                             .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL() })
                     } else {
                         embed.setTitle('Reaction Roles')
-                        .setDescription(`The following button(s) Grant's access to some of the servers roles!`)
-                        .setColor('Green')
-                        .setTimestamp()
-                        .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL() })
-                        .addFields(
-                            { name: 'Adding a role:', value: `Want to get access to more features? click a button below to start!`, inline: false },
-                            { name: 'Removing a role:', value: `Don't want a role anymore? simply click the button to remove it!`, inline: false },
-                        );
+                            .setDescription(`The following button(s) Grant's access to some of the servers roles!`)
+                            .setColor('Green')
+                            .setTimestamp()
+                            .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL() })
+                            .addFields(
+                                { name: 'Adding a role:', value: `Want to get access to more features? click a button below to start!`, inline: false },
+                                { name: 'Removing a role:', value: `Don't want a role anymore? simply click the button to remove it!`, inline: false },
+                            );
                     }
 
 
@@ -445,16 +445,26 @@ module.exports = {
                     const row3 = new ActionRowBuilder();
                     const row4 = new ActionRowBuilder();
                     const row5 = new ActionRowBuilder();
-                    const embed = new EmbedBuilder()
-                        .setTitle('Reaction Roles')
-                        .setDescription(`The following button(s) Grant's access to some of the servers roles!`)
-                        .setColor('Green')
-                        .setTimestamp()
-                        .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL() })
-                        .addFields(
-                            { name: 'Adding a role:', value: `Want to get access to more features? click a button below to start!`, inline: false },
-                            { name: 'Removing a role:', value: `Don't want a role anymore? simply click the button to remove it!`, inline: false },
-                        );
+                    client.getmsg = rrsql.prepare("SELECT * FROM rrmsg WHERE guild = ? AND channel = ?")
+                    const msgdata = client.getmsg(interaction.guild.id, channel.id);
+                    const embed = new EmbedBuilder();
+                    if (msgdata) {
+                        embed.setTitle(msgdata.title)
+                            .setDescription(msgdata.description)
+                            .setColor(msgdata.colour)
+                            .setTimestamp()
+                            .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL() })
+                    } else {
+                        embed.setTitle('Reaction Roles')
+                            .setDescription(`The following button(s) Grant's access to some of the servers roles!`)
+                            .setColor('Green')
+                            .setTimestamp()
+                            .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL() })
+                            .addFields(
+                                { name: 'Adding a role:', value: `Want to get access to more features? click a button below to start!`, inline: false },
+                                { name: 'Removing a role:', value: `Don't want a role anymore? simply click the button to remove it!`, inline: false },
+                            );
+                    }
 
 
                     for (let i = 0; i < roleList.length; i++) {
@@ -642,23 +652,38 @@ module.exports = {
                 }
             }
             if (interaction.options._subcommand === 'message') {
-                client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrmsg (id, guild, channelid, messageid, colour, title, description) VALUES (@id, @guild, @channelid, @messageid, @colour, @title, @description);");
+
+                //client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrmsg (id, guild, channelid, messageid, colour, title, description) VALUES (@id, @guild, @channelid, @messageid, @colour, @title, @description);");
                 const colour = interaction.options.getString('colour');
                 const title = interaction.options.getString('title');
                 const description = interaction.options.getString('description');
                 const channel = interaction.options.get('channel').channel;
+                client.getmsg = rrsql.prepare("SELECT * FROM rrmsg WHERE guild = ? AND channel = ?")
+                const msgdata = client.getmsg(interaction.guild.id, channel.id);
                 const embed = new EmbedBuilder()
                     .setTitle(title)
                     .setDescription(description)
                     .setColor(colour)
                     .setTimestamp()
-                channel.send({ embeds: [embed] }).then(msg => {
-                    //add the reaction role to the database for looking up later
-                    msgid = msg.id;
-                    //console.log(msg);
-                    score = { id: `${interaction.guild.id}-${channel.id}`, guild: interaction.guild.id, channelid: channel.id, messageid: msgid, colour: colour, title: title, description: description };
+                if (msgdata.channel = channel) {
+                    client.addRr = rrsql.prepare("UPDATE rrmsg SET colour = @colour, title = @title, description = @description WHERE guild = @guild AND channel = @channelid;");
+                    channel.messages.fetch(`${msgdata.messageid}`).then(message => {
+                        //console.log(getAllButtons());
+                        message.edit({ embeds: [embed] })
+                    });
+                    score = { guild: interaction.guild.id, channelid: channel.id, colour: colour, title: title, description: description };
                     client.addRr.run(score);
-                });
+                } else {
+                    client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrmsg (id, guild, channelid, messageid, colour, title, description) VALUES (@id, @guild, @channelid, @messageid, @colour, @title, @description);");
+                    channel.send({ embeds: [embed] }).then(msg => {
+                        //add the reaction role to the database for looking up later
+                        msgid = msg.id;
+                        //console.log(msg);
+                        score = { id: `${interaction.guild.id}-${channel.id}`, guild: interaction.guild.id, channelid: channel.id, messageid: msgid, colour: colour, title: title, description: description };
+                        client.addRr.run(score);
+                    });
+
+                }
             }
         } else {
             interaction.reply({ content: `Sorry, I don't have enough permissions to mange roles, run /botcheck for more info!`, ephemeral: true });
