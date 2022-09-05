@@ -361,7 +361,7 @@ module.exports = {
 
                                 });
                             }).catch(err => {
-                                console.error(err);
+                                console.log(err);
                                 return interaction.followUp({ content: `An Error occured!`, ephemeral: true });
                             });
 
