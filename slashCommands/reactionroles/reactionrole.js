@@ -350,11 +350,11 @@ module.exports = {
                             //console.log('first message, in channel so adding button to reaction role.')
                             client.getRr = rrsql.prepare("SELECT * FROM rrtable WHERE guild = ? AND channel = ? AND messageid = ?")
                             rr = client.getRr.get(interaction.guild.id, channel.id, msg.id);
-                            console.log(rr);
+                            //console.log(rr);
                             //edit the message with the new buttons.
                             channel.messages.fetch(`${msgid}`).then(message => {
                                 message.edit({ embeds: [embed], components: [getButtons()] }).then(btnmsg => {
-                                    console.log(`msg sent, with msg id: ${msgid}`);
+                                    //console.log(`msg sent, with msg id: ${msgid}`);
 
                                     //console.log(btnmsg);
                                     return interaction.followUp({ content: `Your reaction role has been added!`, ephemeral: true });
