@@ -51,7 +51,7 @@ module.exports = async (client, oldMessage, newMessage) => {
 
             }
         }
-        console.log(`Message Deleted in: ${newMessage.guild.name} : ${newMessage.channel.name}.`);
+        console.log(`Message Uppdated in: ${newMessage.guild.name} : ${newMessage.channel.name}.`);
 
     } catch (err) {
         console.log(err);
