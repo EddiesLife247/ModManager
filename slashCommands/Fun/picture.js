@@ -82,7 +82,6 @@ module.exports = {
                     }
                 }
                 if (chosenString === "Dog") {
-                    await interaction.deferReply();
                     let url = "https://dog.ceo/api/breeds/image/random";
                     https.get(url, (res) => {
                         let body = "";
@@ -109,7 +108,6 @@ module.exports = {
                     });
                 }
                 if (chosenString === "Fox") {
-                    await interaction.deferReply();
                     animals.fox()
                         .then(url => {
                             if (hidefuncmds == "0") {
@@ -120,7 +118,6 @@ module.exports = {
                         })
                 }
                 if (chosenString === "Lizard") {
-                    await interaction.deferReply();
                     animals.lizard()
                         .then(url => {
                             if (hidefuncmds == "0") {
@@ -131,7 +128,6 @@ module.exports = {
                         })
                 }
                 if (chosenString === "Panda") {
-                    await interaction.deferReply();
                     animals.panda()
                         .then(url => {
                             if (hidefuncmds == "0") {
@@ -142,7 +138,6 @@ module.exports = {
                         })
                 }
                 if (chosenString === "Duck") {
-                    await interaction.deferReply();
                     animals.duck()
                         .then(url => {
                             if (hidefuncmds == "0") {
