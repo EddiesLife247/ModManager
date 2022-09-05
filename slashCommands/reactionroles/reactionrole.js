@@ -143,7 +143,7 @@ module.exports = {
                         return row;
                     }
                     client.getmsg = rrsql.prepare("SELECT * FROM rrmsg WHERE guild = ? AND channelid = ?")
-                    const msgdata = client.getmsg(interaction.guild.id, channel.id);
+                    const msgdata = client.getmsg.get(interaction.guild.id, channel.id);
                     const embed = new EmbedBuilder();
                     if (msgdata) {
                         embed.setTitle(msgdata.title)
@@ -445,8 +445,8 @@ module.exports = {
                     const row3 = new ActionRowBuilder();
                     const row4 = new ActionRowBuilder();
                     const row5 = new ActionRowBuilder();
-                    client.getmsg = rrsql.prepare("SELECT * FROM rrmsg WHERE guild = ? AND channel = ?")
-                    const msgdata = client.getmsg(interaction.guild.id, channel.id);
+                    client.getmsg = rrsql.prepare("SELECT * FROM rrmsg WHERE guild = ? AND channelid = ?")
+                    const msgdata = client.getmsg.get(interaction.guild.id, channel.id);
                     const embed = new EmbedBuilder();
                     if (msgdata) {
                         embed.setTitle(msgdata.title)
@@ -659,7 +659,7 @@ module.exports = {
                 const description = interaction.options.getString('description');
                 const channel = interaction.options.get('channel').channel;
                 client.getmsg = rrsql.prepare("SELECT * FROM rrmsg WHERE guild = ? AND channelid = ?")
-                const msgdata = client.getmsg(interaction.guild.id, channel.id);
+                const msgdata = client.getmsg.get(interaction.guild.id, channel.id);
                 const embed = new EmbedBuilder()
                     .setTitle(title)
                     .setDescription(description)
