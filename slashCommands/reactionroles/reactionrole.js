@@ -668,14 +668,14 @@ module.exports = {
                     console.log(msgdata);
                     if (msgdata) {
                         if (msgdata.channelid = channel) {
-                            client.addRr = rrsql.prepare("UPDATE rrmsg SET colour = @colour, title = @title, description = @description WHERE guild = @guild AND channelid = @channelid;");
+                            client.addRr = rrsql.prepare("UPDATE rrmsg SET colour = ?, title = ?, description = ? WHERE guild = ? AND channelid = ?;");
                             console.log
                             channel.messages.fetch(`${msgdata.messageid}`).then(message => {
                                 //console.log(getAllButtons());
                                 message.edit({ embeds: [embed] })
                             });
-                            score = { guild: interaction.guild.id, channelid: channel.id, colour: colour, title: title, description: description };
-                            client.addRr.run(score);
+                            console.log(client.addRr.run(colour, title, description, interaction.guild.id, channel.id));
+                            
                             interaction.followUp('Message has been edited to the channel!');
                         } else {
                             client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrmsg (id, guild, channelid, messageid, colour, title, description) VALUES (@id, @guild, @channelid, @messageid, @colour, @title, @description);");
