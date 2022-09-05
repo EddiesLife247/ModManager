@@ -71,6 +71,37 @@ module.exports = {
                     required: true,
                 }
             ]
+        },
+        {
+            name: 'message',
+            description: 'Change the message embed.',
+            type: 1,
+            options: [
+                {
+                    name: 'channel',
+                    description: 'The channel where you want message sent?',
+                    type: 7,
+                    required: true,
+                },
+                {
+                    name: 'title',
+                    description: 'Change the title',
+                    type: 3,
+                    required: true,
+                },
+                {
+                    name: 'description',
+                    description: 'Change the description',
+                    type: 3,
+                    required: true,
+                },
+                {
+                    name: 'color',
+                    description: 'Change the embed colour!',
+                    type: 3,
+                    required: true,
+                }
+            ]
         }
     ],
     run: async (client, interaction) => {
@@ -111,9 +142,17 @@ module.exports = {
 
                         return row;
                     }
-
-                    const embed = new EmbedBuilder()
-                        .setTitle('Reaction Roles')
+                    client.getmsg = rrsql.prepare("SELECT * FROM rrmsg WHERE guild = ? AND channel = ?")
+                    const msgdata = client.getmsg(interaction.guild.id, channel.id);
+                    const embed = new EmbedBuilder();
+                    if (msgdata) {
+                        embed.setTitle(msgdata.title)
+                            .setDescription(msgdata.description)
+                            .setColor(msgdata.colour)
+                            .setTimestamp()
+                            .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL() })
+                    } else {
+                        embed.setTitle('Reaction Roles')
                         .setDescription(`The following button(s) Grant's access to some of the servers roles!`)
                         .setColor('Green')
                         .setTimestamp()
@@ -122,7 +161,7 @@ module.exports = {
                             { name: 'Adding a role:', value: `Want to get access to more features? click a button below to start!`, inline: false },
                             { name: 'Removing a role:', value: `Don't want a role anymore? simply click the button to remove it!`, inline: false },
                         );
-
+                    }
 
 
                     //send inital message, and grab id of the message for later
@@ -289,7 +328,7 @@ module.exports = {
                                 });
                             }
                             else if (i >= 10 && i <= 14) {
-                               // console.log('3 rows of buttons');
+                                // console.log('3 rows of buttons');
                                 channel.messages.fetch(`${msgid}`).then(message => {
                                     //console.log(getAllButtons());
                                     message.edit({ embeds: [embed], components: [row, row2, row3] }).then(btnmsg => {
@@ -305,7 +344,7 @@ module.exports = {
                                 });
                             }
                             else if (i >= 15 && i <= 19) {
-                               // console.log('4 rows of buttons');
+                                // console.log('4 rows of buttons');
                                 channel.messages.fetch(`${msgid}`).then(message => {
                                     //console.log(getAllButtons());
                                     message.edit({ embeds: [embed], components: [row, row2, row3, row4] }).then(btnmsg => {
@@ -321,7 +360,7 @@ module.exports = {
                                 });
                             }
                             else if (i >= 20 && i <= 24) {
-                               // console.log('5 rows of buttons');
+                                // console.log('5 rows of buttons');
                                 channel.messages.fetch(`${msgid}`).then(message => {
                                     //console.log(getAllButtons());
                                     message.edit({ embeds: [embed], components: [row, row2, row3, row4, row5] }).then(btnmsg => {
@@ -386,7 +425,7 @@ module.exports = {
                 console.log(rr);
                 console.log(`Length is: ${rr.length}`);
                 if (rr.length > 0) {
-                   // console.log(`more than 1 reaction role`);
+                    // console.log(`more than 1 reaction role`);
                     rr = client.getRr.get(interaction.guild.id, role.id, channel.id);
                     //console.log(rr);
                     if (!rr.messageid) {
@@ -430,17 +469,17 @@ module.exports = {
                         var emojichoice = roleList[i].emojichoice;
                         if (i >= 0 && i <= 4) {
                             const button = new ButtonBuilder()
-                            .setLabel(`${txt}`)
-                            .setCustomId(`${gotrole.id}`)
-                            .setDisabled(false);
-                        if (colour) {
-                            button.setStyle(colour);
-                        } else {
-                            button.setStyle('Primary');
-                        }
-                        if (emojichoice) {
-                            button.setEmoji(emojichoice);
-                        }
+                                .setLabel(`${txt}`)
+                                .setCustomId(`${gotrole.id}`)
+                                .setDisabled(false);
+                            if (colour) {
+                                button.setStyle(colour);
+                            } else {
+                                button.setStyle('Primary');
+                            }
+                            if (emojichoice) {
+                                button.setEmoji(emojichoice);
+                            }
                             //console.log(button);
                             row.addComponents(button);
 
@@ -452,14 +491,14 @@ module.exports = {
                                 .setLabel(`${txt}`)
                                 .setCustomId(`${gotrole.id}`)
                                 .setDisabled(false);
-                                if (colour) {
-                                    button.setStyle(colour);
-                                } else {
-                                    button.setStyle('Primary');
-                                }
-                                if (emojichoice) {
-                                    button.setEmoji(emojichoice);
-                                }
+                            if (colour) {
+                                button.setStyle(colour);
+                            } else {
+                                button.setStyle('Primary');
+                            }
+                            if (emojichoice) {
+                                button.setEmoji(emojichoice);
+                            }
                             //console.log(button);
                             row2.addComponents(button);
 
@@ -479,14 +518,14 @@ module.exports = {
                                 .setLabel(`${txt}`)
                                 .setCustomId(`${gotrole.id}`)
                                 .setDisabled(false);
-                                if (colour) {
-                                    button.setStyle(colour);
-                                } else {
-                                    button.setStyle('Primary');
-                                }
-                                if (emojichoice) {
-                                    button.setEmoji(emojichoice);
-                                }
+                            if (colour) {
+                                button.setStyle(colour);
+                            } else {
+                                button.setStyle('Primary');
+                            }
+                            if (emojichoice) {
+                                button.setEmoji(emojichoice);
+                            }
                             //console.log(button);
                             row4.addComponents(button);
 
@@ -496,14 +535,14 @@ module.exports = {
                                 .setLabel(`${txt}`)
                                 .setCustomId(`${gotrole.id}`)
                                 .setDisabled(false);
-                                if (colour) {
-                                    button.setStyle(colour);
-                                } else {
-                                    button.setStyle('Primary');
-                                }
-                                if (emojichoice) {
-                                    button.setEmoji(emojichoice);
-                                }
+                            if (colour) {
+                                button.setStyle(colour);
+                            } else {
+                                button.setStyle('Primary');
+                            }
+                            if (emojichoice) {
+                                button.setEmoji(emojichoice);
+                            }
                             //console.log(button);
                             row5.addComponents(button);
 
@@ -516,7 +555,7 @@ module.exports = {
                             });
                         }
                         if (i >= 0 && i <= 4) {
-                           // console.log('1 row of buttons');
+                            // console.log('1 row of buttons');
                             channel.messages.fetch(`${msgid}`).then(message => {
                                 //console.log(getAllButtons());
                                 message.edit({ embeds: [embed], components: [row] }).then(btnmsg => {
@@ -581,7 +620,7 @@ module.exports = {
                             });
                         }
                         else if (i >= 20 && i <= 24) {
-                           // console.log('5 rows of buttons');
+                            // console.log('5 rows of buttons');
                             channel.messages.fetch(`${msgid}`).then(message => {
                                 //console.log(getAllButtons());
                                 message.edit({ embeds: [embed], components: [row, row2, row3, row4, row5] }).then(btnmsg => {
@@ -601,6 +640,25 @@ module.exports = {
                     }
                     return interaction.reply({ content: `Your reaction role has been removed!`, ephemeral: true });
                 }
+            }
+            if (interaction.options._subcommand === 'message') {
+                client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrmsg (id, guild, channelid, messageid, colour, title, description) VALUES (@id, @guild, @channelid, @role, @messageid, @color, @title, @description);");
+                const colour = interaction.options.getString('colour');
+                const title = interaction.options.getString('title');
+                const description = interaction.options.getString('description');
+                const channel = interaction.options.get('channel').channel;
+                const embed = new EmbedBuilder()
+                    .setTitle(title)
+                    .setDescription(description)
+                    .setColor(colour)
+                    .setTimestamp()
+                channel.send({ embeds: [embed] }).then(msg => {
+                    //add the reaction role to the database for looking up later
+                    msgid = msg.id;
+                    //console.log(msg);
+                    score = { id: `${interaction.guild.id}-${channel.id}`, guild: interaction.guild.id, channelid: channel.id, messageid: msgid, colour: colour, title: title, description: description };
+                    client.addRr.run(score);
+                });
             }
         } else {
             interaction.reply({ content: `Sorry, I don't have enough permissions to mange roles, run /botcheck for more info!`, ephemeral: true });
