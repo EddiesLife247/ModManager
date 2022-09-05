@@ -128,7 +128,7 @@ module.exports = {
                     //send inital message, and grab id of the message for later
                     client.getRr = rrsql.prepare("SELECT * FROM rrtable WHERE guild = ? AND channel = ? ")
                     rr = client.getRr.all(interaction.guild.id, channel.id);
-                    console.log(`Length is: ${rr.length}`);
+                    //console.log(`Length is: ${rr.length}`);
                     if (rr.length > 0) {
                         console.log(`more than 1 reaction role`);
                         rr = client.getRr.get(interaction.guild.id, channel.id);
@@ -158,7 +158,7 @@ module.exports = {
                             var gotrole = interaction.guild.roles.cache.get(roleList[i].role);
                             var colour = roleList[i].colour;
                             var emojichoice = roleList[i].emojichoice;
-                            console.log(roleList[i].name);
+                            //console.log(roleList[i].name);
                             if (roleList[i].name) {
                                 txt = roleList[i].name;
                             } else {
@@ -255,7 +255,7 @@ module.exports = {
                         for (let i = 0; i < roleList.length; i++) {
 
                             if (i >= 0 && i <= 4) {
-                                console.log('1 row of buttons');
+                                //console.log('1 row of buttons');
                                 channel.messages.fetch(`${msgid}`).then(message => {
                                     //console.log(getAllButtons());
                                     message.edit({ embeds: [embed], components: [row] }).then(btnmsg => {
@@ -272,7 +272,7 @@ module.exports = {
                                 });
                             }
                             else if (i >= 5 && i <= 9) {
-                                console.log('2 rows of buttons');
+                                //console.log('2 rows of buttons');
                                 channel.messages.fetch(`${msgid}`).then(message => {
                                     //console.log(getAllButtons());
                                     message.edit({ embeds: [embed], components: [row, row2] }).then(btnmsg => {
@@ -289,7 +289,7 @@ module.exports = {
                                 });
                             }
                             else if (i >= 10 && i <= 14) {
-                                console.log('3 rows of buttons');
+                               // console.log('3 rows of buttons');
                                 channel.messages.fetch(`${msgid}`).then(message => {
                                     //console.log(getAllButtons());
                                     message.edit({ embeds: [embed], components: [row, row2, row3] }).then(btnmsg => {
@@ -305,7 +305,7 @@ module.exports = {
                                 });
                             }
                             else if (i >= 15 && i <= 19) {
-                                console.log('4 rows of buttons');
+                               // console.log('4 rows of buttons');
                                 channel.messages.fetch(`${msgid}`).then(message => {
                                     //console.log(getAllButtons());
                                     message.edit({ embeds: [embed], components: [row, row2, row3, row4] }).then(btnmsg => {
@@ -321,7 +321,7 @@ module.exports = {
                                 });
                             }
                             else if (i >= 20 && i <= 24) {
-                                console.log('5 rows of buttons');
+                               // console.log('5 rows of buttons');
                                 channel.messages.fetch(`${msgid}`).then(message => {
                                     //console.log(getAllButtons());
                                     message.edit({ embeds: [embed], components: [row, row2, row3, row4, row5] }).then(btnmsg => {
@@ -347,7 +347,7 @@ module.exports = {
                             client.addRr.run(score);
 
                             // get all reaction roles for that message.
-                            console.log('first message, in channel so adding button to reaction role.')
+                            //console.log('first message, in channel so adding button to reaction role.')
                             client.getRr = rrsql.prepare("SELECT * FROM rrtable WHERE guild = ? AND channel = ? AND messageid = ?")
                             rr = client.getRr.get(interaction.guild.id, channel.id, msg.id);
                             console.log(rr);
@@ -378,15 +378,15 @@ module.exports = {
             if (interaction.options._subcommand === 'del') {
                 const channel = interaction.options.get('channel').channel;
                 const role = interaction.options.get('role').role;
-                console.log(channel.id);
-                console.log(role.id);
+                //console.log(channel.id);
+                //console.log(role.id);
                 client.delRr = rrsql.prepare("DELETE FROM rrtable WHERE guild = ? AND emoji = ? AND channel = ?")
                 client.getRr = rrsql.prepare("SELECT * FROM rrtable WHERE guild = ? AND emoji = ? AND channel = ?")
                 rr = client.getRr.all(interaction.guild.id, role.id, channel.id);
                 console.log(rr);
                 console.log(`Length is: ${rr.length}`);
                 if (rr.length > 0) {
-                    console.log(`more than 1 reaction role`);
+                   // console.log(`more than 1 reaction role`);
                     rr = client.getRr.get(interaction.guild.id, role.id, channel.id);
                     //console.log(rr);
                     if (!rr.messageid) {
@@ -399,7 +399,7 @@ module.exports = {
                     client.getRr = rrsql.prepare("SELECT * FROM rrtable WHERE guild = ? AND channel = ? AND messageid = ?")
                     const roleList = client.getRr.all(interaction.guild.id, channel.id, msgid);
                     //console.log(roleList);
-                    console.log(`getting rows, and adding to buttons`);
+                    //console.log(`getting rows, and adding to buttons`);
                     //We can still edit the message, and add the button, but only upto 25 roles.
                     const row = new ActionRowBuilder();
                     const row2 = new ActionRowBuilder();
@@ -420,7 +420,7 @@ module.exports = {
 
                     for (let i = 0; i < roleList.length; i++) {
                         var gotrole = interaction.guild.roles.cache.get(roleList[i].role);
-                        console.log(roleList[i].name);
+                        //console.log(roleList[i].name);
                         if (roleList[i].name) {
                             txt = roleList[i].name;
                         } else {
@@ -516,7 +516,7 @@ module.exports = {
                             });
                         }
                         if (i >= 0 && i <= 4) {
-                            console.log('1 row of buttons');
+                           // console.log('1 row of buttons');
                             channel.messages.fetch(`${msgid}`).then(message => {
                                 //console.log(getAllButtons());
                                 message.edit({ embeds: [embed], components: [row] }).then(btnmsg => {
@@ -533,7 +533,7 @@ module.exports = {
                             });
                         }
                         else if (i >= 5 && i <= 9) {
-                            console.log('2 rows of buttons');
+                            //console.log('2 rows of buttons');
                             channel.messages.fetch(`${msgid}`).then(message => {
                                 //console.log(getAllButtons());
                                 message.edit({ embeds: [embed], components: [row, row2] }).then(btnmsg => {
@@ -550,7 +550,7 @@ module.exports = {
                             });
                         }
                         else if (i >= 10 && i <= 14) {
-                            console.log('3 rows of buttons');
+                            //console.log('3 rows of buttons');
                             channel.messages.fetch(`${msgid}`).then(message => {
                                 //console.log(getAllButtons());
                                 message.edit({ embeds: [embed], components: [row, row2, row3] }).then(btnmsg => {
@@ -565,7 +565,7 @@ module.exports = {
                             });
                         }
                         else if (i >= 15 && i <= 19) {
-                            console.log('4 rows of buttons');
+                            //console.log('4 rows of buttons');
                             channel.messages.fetch(`${msgid}`).then(message => {
                                 //console.log(getAllButtons());
                                 message.edit({ embeds: [embed], components: [row, row2, row3, row4] }).then(btnmsg => {
@@ -581,7 +581,7 @@ module.exports = {
                             });
                         }
                         else if (i >= 20 && i <= 24) {
-                            console.log('5 rows of buttons');
+                           // console.log('5 rows of buttons');
                             channel.messages.fetch(`${msgid}`).then(message => {
                                 //console.log(getAllButtons());
                                 message.edit({ embeds: [embed], components: [row, row2, row3, row4, row5] }).then(btnmsg => {
