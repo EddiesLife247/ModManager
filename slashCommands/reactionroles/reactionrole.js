@@ -343,7 +343,7 @@ module.exports = {
                             //add the reaction role to the database for looking up later
                             msgid = msg.id;
                             //console.log(msg);
-                            score = { id: `${interaction.guild.id}-${role.id}`, emoji: role.id, guild: interaction.guild.id, role: role.id, messageid: rr.messageid, rrchan: channel.id, name: text, colour: chosenString, emojichoice: emoji };
+                            score = { id: `${interaction.guild.id}-${role.id}`, emoji: role.id, guild: interaction.guild.id, role: role.id, messageid: msgid, rrchan: channel.id, name: text, colour: chosenString, emojichoice: emoji };
                             await client.addRr.run(score);
 
                             // get all reaction roles for that message.
