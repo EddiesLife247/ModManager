@@ -34,9 +34,9 @@ module.exports = {
             embed.setTitle(`**Help Guides** - Reaction Roles`);
             embed.setDescription(`If you require any extra support, click the link above to join the support server. \n Required Options: () Optional Options []`);
             embed.setTimestamp();
-            embed.setURL(`https://discord.gg/ynUy2Sfx9U`);
+            embed.setURL(`https://discord.gg/rqJ75H8xVTU`);
             embed.addFields(
-                { name: 'add (role) (channel)', value: `Add's a reaction role to a specifc channel with the chosen role, the role name will be displayed as an option` },
+                { name: 'add (role) (channel) [text]', value: `Add's a reaction role to a specifc channel with the chosen role, the role name will be displayed as an option` },
                 { name: 'del (role) (channel)', value: `Remove's a reaction role from the server.` },
             );
             return interaction.editReply({ content: `Here is the information about: ${chosenString}`, embeds: [embed], ephemeral: true });
@@ -47,7 +47,7 @@ module.exports = {
             embed.setTitle(`**Help Guides** - Fun Commands`);
             embed.setDescription(`If you require any extra support, click the link above to join the support server. \n Required Options: () Optional Options []`);
             embed.setTimestamp();
-            embed.setURL(`https://discord.gg/ynUy2Sfx9U`);
+            embed.setURL(`https://discord.gg/rqJ75H8xVT`);
             embed.addFields(
                 { name: 'picture (category)', value: `Return's a picture to the chat of the chosen category` },
                 { name: 'joke', value: `Returns a random joke.` },
@@ -62,7 +62,7 @@ module.exports = {
             embed.setTitle(`**Help Guides** - Bot Commands`);
             embed.setDescription(`If you require any extra support, click the link above to join the support server. \n Required Options: () Optional Options []`);
             embed.setTimestamp();
-            embed.setURL(`https://discord.gg/ynUy2Sfx9U`);
+            embed.setURL(`https://discord.gg/rqJ75H8xVT`);
             embed.addFields(
                 { name: 'botinfo', value: `Return's information about myself` },
                 { name: 'botcheck', value: `Checks the permissions of the bot on your server, use this for troubleshooting errors` },
@@ -77,7 +77,7 @@ module.exports = {
             embed.setTitle(`**Help Guides** - Moderator Commands`);
             embed.setDescription(`If you require any extra support, click the link above to join the support server. \n Required Options: () Optional Options []`);
             embed.setTimestamp();
-            embed.setURL(`https://discord.gg/ynUy2Sfx9U`);
+            embed.setURL(`https://discord.gg/rqJ75H8xVT`);
             embed.addFields(
                 { name: 'warn *moderate members permission required', value: `Right click a user and choose Apps > Warn - A warning reason dialog will show enter, and this will be sent to the user and logged to the database` },
                 { name: 'kick *kick members permission required', value: `Right click a user and choose Apps > kick - A reason dialog will show enter the reason why you are kicking the user, it will be added to our database` },
@@ -94,7 +94,7 @@ module.exports = {
             embed.setTitle(`**Help Guides** - Log Channels`);
             embed.setDescription(`If you require any extra support, click the link above to join the support server. \n Required Options: () Optional Options []`);
             embed.setTimestamp();
-            embed.setURL(`https://discord.gg/ynUy2Sfx9U`);
+            embed.setURL(`https://discord.gg/rqJ75H8xVT`);
             embed.addFields(
                 { name: 'Log Channel Notices', value: `Get Audit Logs to a channel in your server using /config logchannel (channel), The bot must have permission to view audit logs`},
             );

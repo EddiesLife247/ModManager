@@ -26,8 +26,8 @@ module.exports = async (client, message) => {
         embed.setURL(`https://discord.gg/ynUy2Sfx9U`);
         embed.addFields(
             { name: 'Owner:', value: `EddieDoesStuff`, inline: true },
-            { name: 'Support Server:', value: `https://discord.gg/ynUy2Sfx9U`, inline: true },
-            { name: 'Dashboard:', value: `Dashboard Coming Soon`, inline: true },
+            { name: 'Support Server:', value: `https://discord.gg/rqJ75H8xVTU`, inline: true },
+            { name: 'Dashboard:', value: `http://modmanagerbot.manumission247.co.uk:2096/`, inline: true },
             { name: 'Invite Me to your server:', value: `https://discord.com/api/oauth2/authorize?client_id=714939771935522838&permissions=1127763619046&scope=bot%20applications.commands`, inline: true },
 			{ name: 'Slash Commands ONLY:', value: `We only support Slash Commands in version 4. More info use /help`, inline: true },
             { name: 'Support Command:', value: `/help`, inline: true },
