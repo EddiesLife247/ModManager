@@ -84,10 +84,31 @@ module.exports = async (client, member) => {
                 }
             }
         } else {
+            let BannedReason = '';
+            let banApproved = "";
+            if (member.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
+                
+                try {
+                    const fetchedLogs = await member.guild.fetchAuditLogs({
+                        limit: 1,
+                        type: AuditLogEvent.MemberBanAdd,
+                    });
+                    const chLog = fetchedLogs.entries.first();
+                    if (Date.now() - chLog.createdTimestamp < 5000) {
+                        BannedReason = chLog.reason;
+                        banApproved = 'PENDING';
+                    }
+                } catch (error) {
+                    console.log(error);
+                    
+                }
+            } else {
+                BannedReason = 'No Access to view logs/reasons';
+                banApproved = 'LOCAL';
+            }
             let banid = Math.floor(Math.random() * 9999999999) + 25;
-            let banReason = 'No Access to view logs/reasons';
-            let banApproved = "LOCAL"
-            score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: banReason, approved: banApproved };
+            
+            score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: BannedReason, approved: banApproved };
             client.addBan.run(score);
             client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `BAN ADDED: Member: ${member.user.username} | ${member.guild.name} | Status: ${banApproved} \`\`\` ${banReason} \`\`\`` });
         }
