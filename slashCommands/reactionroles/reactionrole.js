@@ -665,7 +665,7 @@ module.exports = {
                     .setDescription(description)
                     .setColor(colour)
                     .setTimestamp()
-                if (msgdata.channel = channel) {
+                if (msgdata.channelid = channel) {
                     client.addRr = rrsql.prepare("UPDATE rrmsg SET colour = @colour, title = @title, description = @description WHERE guild = @guild AND channel = @channelid;");
                     channel.messages.fetch(`${msgdata.messageid}`).then(message => {
                         //console.log(getAllButtons());
