@@ -27,7 +27,6 @@ module.exports = {
     run: async (client, interaction) => {
         await interaction.deferReply({ephemeral: true });
         const chosenString = interaction.options.getString("topic");
-        console.log(chosenString);
         if (chosenString === 'Reaction Roles') {
             const embed = new EmbedBuilder();
             embed.setColor("#0000ff");
