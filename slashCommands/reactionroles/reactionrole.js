@@ -652,30 +652,43 @@ module.exports = {
                 }
             }
             if (interaction.options._subcommand === 'message') {
+                try {
+                    //client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrmsg (id, guild, channelid, messageid, colour, title, description) VALUES (@id, @guild, @channelid, @messageid, @colour, @title, @description);");
+                    const colour = interaction.options.getString('colour');
+                    const title = interaction.options.getString('title');
+                    const description = interaction.options.getString('description');
+                    const channel = interaction.options.get('channel').channel;
+                    client.getmsg = rrsql.prepare("SELECT * FROM rrmsg WHERE guild = ? AND channelid = ?")
+                    const msgdata = client.getmsg.get(interaction.guild.id, channel.id);
+                    const embed = new EmbedBuilder()
+                        .setTitle(title)
+                        .setDescription(description)
+                        .setColor(colour)
+                        .setTimestamp()
+                    console.log(msgdata);
+                    if (msgdata) {
+                        if (msgdata.channelid = channel) {
+                            client.addRr = rrsql.prepare("UPDATE rrmsg SET colour = @colour, title = @title, description = @description WHERE guild = @guild AND channelid = @channelid;");
+                            console.log
+                            channel.messages.fetch(`${msgdata.messageid}`).then(message => {
+                                //console.log(getAllButtons());
+                                message.edit({ embeds: [embed] })
+                            });
+                            score = { guild: interaction.guild.id, channelid: channel.id, colour: colour, title: title, description: description };
+                            client.addRr.run(score);
+                            interaction.followUp('Message has been edited to the channel!');
+                        } else {
+                            client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrmsg (id, guild, channelid, messageid, colour, title, description) VALUES (@id, @guild, @channelid, @messageid, @colour, @title, @description);");
+                            channel.send({ embeds: [embed] }).then(msg => {
+                                //add the reaction role to the database for looking up later
+                                msgid = msg.id;
+                                //console.log(msg);
+                                score = { id: `${interaction.guild.id}-${channel.id}`, guild: interaction.guild.id, channelid: channel.id, messageid: msgid, colour: colour, title: title, description: description };
+                                client.addRr.run(score);
+                            });
+                            interaction.followUp('Message has been sent to the channel!');
 
-                //client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrmsg (id, guild, channelid, messageid, colour, title, description) VALUES (@id, @guild, @channelid, @messageid, @colour, @title, @description);");
-                const colour = interaction.options.getString('colour');
-                const title = interaction.options.getString('title');
-                const description = interaction.options.getString('description');
-                const channel = interaction.options.get('channel').channel;
-                client.getmsg = rrsql.prepare("SELECT * FROM rrmsg WHERE guild = ? AND channelid = ?")
-                const msgdata = client.getmsg.get(interaction.guild.id, channel.id);
-                const embed = new EmbedBuilder()
-                    .setTitle(title)
-                    .setDescription(description)
-                    .setColor(colour)
-                    .setTimestamp()
-                console.log(msgdata);
-                if (msgdata) {
-                    if (msgdata.channelid = channel) {
-                        client.addRr = rrsql.prepare("UPDATE rrmsg SET colour = @colour, title = @title, description = @description WHERE guild = @guild AND channelid = @channelid;");
-                        channel.messages.fetch(`${msgdata.messageid}`).then(message => {
-                            //console.log(getAllButtons());
-                            message.edit({ embeds: [embed] })
-                        });
-                        score = { guild: interaction.guild.id, channelid: channel.id, colour: colour, title: title, description: description };
-                        client.addRr.run(score);
-                        interaction.followUp('Message has been edited to the channel!');
+                        }
                     } else {
                         client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrmsg (id, guild, channelid, messageid, colour, title, description) VALUES (@id, @guild, @channelid, @messageid, @colour, @title, @description);");
                         channel.send({ embeds: [embed] }).then(msg => {
@@ -686,20 +699,12 @@ module.exports = {
                             client.addRr.run(score);
                         });
                         interaction.followUp('Message has been sent to the channel!');
-
                     }
-                } else {
-                    client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrmsg (id, guild, channelid, messageid, colour, title, description) VALUES (@id, @guild, @channelid, @messageid, @colour, @title, @description);");
-                    channel.send({ embeds: [embed] }).then(msg => {
-                        //add the reaction role to the database for looking up later
-                        msgid = msg.id;
-                        //console.log(msg);
-                        score = { id: `${interaction.guild.id}-${channel.id}`, guild: interaction.guild.id, channelid: channel.id, messageid: msgid, colour: colour, title: title, description: description };
-                        client.addRr.run(score);
-                    });
-                    interaction.followUp('Message has been sent to the channel!');
+
+                } catch (err) {
+                    console.log(err);
+                    interaction.reply('AN Error occured!');
                 }
-                
             }
         } else {
             interaction.reply({ content: `Sorry, I don't have enough permissions to mange roles, run /botcheck for more info!`, ephemeral: true });
