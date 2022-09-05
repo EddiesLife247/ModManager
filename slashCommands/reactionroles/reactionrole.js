@@ -642,7 +642,7 @@ module.exports = {
                 }
             }
             if (interaction.options._subcommand === 'message') {
-                client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrmsg (id, guild, channelid, messageid, colour, title, description) VALUES (@id, @guild, @channelid, @messageid, @color, @title, @description);");
+                client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrmsg (id, guild, channelid, messageid, colour, title, description) VALUES (@id, @guild, @channelid, @messageid, @colour, @title, @description);");
                 const colour = interaction.options.getString('colour');
                 const title = interaction.options.getString('title');
                 const description = interaction.options.getString('description');
