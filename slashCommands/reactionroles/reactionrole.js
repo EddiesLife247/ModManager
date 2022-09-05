@@ -717,7 +717,7 @@ module.exports = {
                                 });
 
 
-                                interaction.reply({ content: `Your embed message has been updated in: ${channel.name}, and will be used for future reaction roles`, ephemeral: true });
+                                submitted.reply({ content: `Your embed message has been updated in: ${channel.name}, and will be used for future reaction roles`, ephemeral: true });
                             } else {
                                 client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrmsg (id, guild, channelid, messageid, colour, title, description) VALUES (@id, @guild, @channelid, @messageid, @colour, @title, @description);");
                                 channel.send({ embeds: [embed] }).then(msg => {
@@ -727,7 +727,7 @@ module.exports = {
                                     score = { id: `${interaction.guild.id}-${channel.id}`, guild: interaction.guild.id, channelid: channel.id, messageid: msgid, colour: colour, title: title, description: description };
                                     client.addRr.run(score);
                                 });
-                                interaction.reply({ content: `Your embed message has been sent in: ${channel.name}, and will be used for future reaction roles`, ephemeral: true });
+                                submitted.reply({ content: `Your embed message has been sent in: ${channel.name}, and will be used for future reaction roles`, ephemeral: true });
 
                             }
                         } else {
@@ -739,7 +739,7 @@ module.exports = {
                                 score = { id: `${interaction.guild.id}-${channel.id}`, guild: interaction.guild.id, channelid: channel.id, messageid: msgid, colour: colour, title: title, description: description };
                                 client.addRr.run(score);
                             });
-                            interaction.reply({ content: `Your embed message has been sent in: ${channel.name}, and will be used for future reaction roles`, ephemeral: true });
+                            submitted.reply({ content: `Your embed message has been sent in: ${channel.name}, and will be used for future reaction roles`, ephemeral: true });
                         }
                     }
                 } catch (err) {
