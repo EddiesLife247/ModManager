@@ -675,6 +675,7 @@ module.exports = {
                         });
                         score = { guild: interaction.guild.id, channelid: channel.id, colour: colour, title: title, description: description };
                         client.addRr.run(score);
+                        interaction.followUp('Message has been edited to the channel!');
                     } else {
                         client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrmsg (id, guild, channelid, messageid, colour, title, description) VALUES (@id, @guild, @channelid, @messageid, @colour, @title, @description);");
                         channel.send({ embeds: [embed] }).then(msg => {
@@ -684,6 +685,7 @@ module.exports = {
                             score = { id: `${interaction.guild.id}-${channel.id}`, guild: interaction.guild.id, channelid: channel.id, messageid: msgid, colour: colour, title: title, description: description };
                             client.addRr.run(score);
                         });
+                        interaction.followUp('Message has been sent to the channel!');
 
                     }
                 } else {
@@ -695,7 +697,9 @@ module.exports = {
                         score = { id: `${interaction.guild.id}-${channel.id}`, guild: interaction.guild.id, channelid: channel.id, messageid: msgid, colour: colour, title: title, description: description };
                         client.addRr.run(score);
                     });
+                    interaction.followUp('Message has been sent to the channel!');
                 }
+                
             }
         } else {
             interaction.reply({ content: `Sorry, I don't have enough permissions to mange roles, run /botcheck for more info!`, ephemeral: true });
