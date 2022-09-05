@@ -1,6 +1,6 @@
 //here the event starts
 module.exports = (client, info) => {
-    console.log(info);
+    //console.log(info);
     //a-client.guilds.cache.get("787871047139328000").channels.cache.get("902360193667592263").send(`*** DEBUG: ** ${info}`);
   }
   /**
