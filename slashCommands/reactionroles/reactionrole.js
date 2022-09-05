@@ -665,15 +665,27 @@ module.exports = {
                     .setDescription(description)
                     .setColor(colour)
                     .setTimestamp()
-                    console.log(msgdata);
-                if (msgdata.channelid = channel) {
-                    client.addRr = rrsql.prepare("UPDATE rrmsg SET colour = @colour, title = @title, description = @description WHERE guild = @guild AND channel = @channelid;");
-                    channel.messages.fetch(`${msgdata.messageid}`).then(message => {
-                        //console.log(getAllButtons());
-                        message.edit({ embeds: [embed] })
-                    });
-                    score = { guild: interaction.guild.id, channelid: channel.id, colour: colour, title: title, description: description };
-                    client.addRr.run(score);
+                console.log(msgdata);
+                if (msgdata) {
+                    if (msgdata.channelid = channel) {
+                        client.addRr = rrsql.prepare("UPDATE rrmsg SET colour = @colour, title = @title, description = @description WHERE guild = @guild AND channel = @channelid;");
+                        channel.messages.fetch(`${msgdata.messageid}`).then(message => {
+                            //console.log(getAllButtons());
+                            message.edit({ embeds: [embed] })
+                        });
+                        score = { guild: interaction.guild.id, channelid: channel.id, colour: colour, title: title, description: description };
+                        client.addRr.run(score);
+                    } else {
+                        client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrmsg (id, guild, channelid, messageid, colour, title, description) VALUES (@id, @guild, @channelid, @messageid, @colour, @title, @description);");
+                        channel.send({ embeds: [embed] }).then(msg => {
+                            //add the reaction role to the database for looking up later
+                            msgid = msg.id;
+                            //console.log(msg);
+                            score = { id: `${interaction.guild.id}-${channel.id}`, guild: interaction.guild.id, channelid: channel.id, messageid: msgid, colour: colour, title: title, description: description };
+                            client.addRr.run(score);
+                        });
+
+                    }
                 } else {
                     client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrmsg (id, guild, channelid, messageid, colour, title, description) VALUES (@id, @guild, @channelid, @messageid, @colour, @title, @description);");
                     channel.send({ embeds: [embed] }).then(msg => {
@@ -683,7 +695,6 @@ module.exports = {
                         score = { id: `${interaction.guild.id}-${channel.id}`, guild: interaction.guild.id, channelid: channel.id, messageid: msgid, colour: colour, title: title, description: description };
                         client.addRr.run(score);
                     });
-
                 }
             }
         } else {
