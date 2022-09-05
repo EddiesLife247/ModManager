@@ -268,7 +268,7 @@ module.exports = {
                                     console.error(err);
                                     error = true;
                                     client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${err.message} | \`\`\` ${err.stack} \`\`\`` });
-                                    return interaction.reply({ content: `An Error occured!`, ephemeral: true });
+                                    return interaction.folloUp({ content: `An Error occured!`, ephemeral: true });
                                 });
                             }
                             else if (i >= 5 && i <= 9) {
@@ -285,7 +285,7 @@ module.exports = {
                                     console.error(err);
                                     error = true;
                                     client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${err.message} | \`\`\` ${err.stack} \`\`\`` });
-                                    return interaction.reply({ content: `An Error occured!`, ephemeral: true });
+                                    return interaction.folloUp({ content: `An Error occured!`, ephemeral: true });
                                 });
                             }
                             else if (i >= 10 && i <= 14) {
@@ -301,7 +301,7 @@ module.exports = {
                                     console.error(err);
                                     error = true;
                                     client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${err.message} | \`\`\` ${err.stack} \`\`\`` });
-                                    return interaction.reply({ content: `An Error occured!`, ephemeral: true });
+                                    return interaction.folloUp({ content: `An Error occured!`, ephemeral: true });
                                 });
                             }
                             else if (i >= 15 && i <= 19) {
@@ -317,7 +317,7 @@ module.exports = {
                                     console.error(err);
                                     error = true;
                                     client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${err.message} | \`\`\` ${err.stack} \`\`\`` });
-                                    return interaction.reply({ content: `An Error occured!`, ephemeral: true });
+                                    return interaction.folloUp({ content: `An Error occured!`, ephemeral: true });
                                 });
                             }
                             else if (i >= 20 && i <= 24) {
@@ -332,7 +332,7 @@ module.exports = {
                                 }).catch(err => {
                                     console.error(err);
                                     error = true;
-                                    return interaction.reply({ content: `An Error occured!`, ephemeral: true });
+                                    return interaction.folloUp({ content: `An Error occured!`, ephemeral: true });
                                 });
                             } else {
                                 return interaction.reply({ content: `A Maximum of 25 Roles maybe added`, ephemeral: true });
@@ -362,7 +362,7 @@ module.exports = {
                                 });
                             }).catch(err => {
                                 console.error(err);
-                                return interaction.reply({ content: `An Error occured!`, ephemeral: true });
+                                return interaction.folloUp({ content: `An Error occured!`, ephemeral: true });
                             });
 
                         });
@@ -529,7 +529,7 @@ module.exports = {
                                 console.error(err);
                                 error = true;
                                 client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${err.message} | \`\`\` ${err.stack} \`\`\`` });
-                                return interaction.reply({ content: `An Error occured!`, ephemeral: true });
+                                return interaction.folloUp({ content: `An Error occured!`, ephemeral: true });
                             });
                         }
                         else if (i >= 5 && i <= 9) {
@@ -546,7 +546,7 @@ module.exports = {
                                 console.error(err);
                                 error = true;
                                 client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${err.message} | \`\`\` ${err.stack} \`\`\`` });
-                                return interaction.reply({ content: `An Error occured!`, ephemeral: true });
+                                return interaction.folloUp({ content: `An Error occured!`, ephemeral: true });
                             });
                         }
                         else if (i >= 10 && i <= 14) {
@@ -561,7 +561,7 @@ module.exports = {
                             }).catch(err => {
                                 console.error(err);
                                 error = true;
-                                return interaction.reply({ content: `An Error occured!`, ephemeral: true });
+                                return interaction.folloUp({ content: `An Error occured!`, ephemeral: true });
                             });
                         }
                         else if (i >= 15 && i <= 19) {
@@ -577,7 +577,7 @@ module.exports = {
                                 console.error(err);
                                 error = true;
                                 client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${err.message} | \`\`\` ${err.stack} \`\`\`` });
-                                return interaction.reply({ content: `An Error occured!`, ephemeral: true });
+                                return interaction.folloUp({ content: `An Error occured!`, ephemeral: true });
                             });
                         }
                         else if (i >= 20 && i <= 24) {
@@ -593,7 +593,7 @@ module.exports = {
                                 console.error(err);
                                 error = true;
                                 client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${err.message} | \`\`\` ${err.stack} \`\`\`` });
-                                return interaction.reply({ content: `An Error occured!`, ephemeral: true });
+                                return interaction.folloUp({ content: `An Error occured!`, ephemeral: true });
                             });
                         } else {
                             return interaction.reply({ content: `A Maximum of 25 Roles maybe added`, ephemeral: true });
