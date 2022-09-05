@@ -378,33 +378,50 @@ module.exports = {
                             }
                         }
                     } else {
-                        channel.send({ embeds: [embed] }).then(msg => {
-                            //add the reaction role to the database for looking up later
-                            msgid = msg.id;
-                            //console.log(msg);
-                            score = { id: `${interaction.guild.id}-${role.id}`, emoji: role.id, guild: interaction.guild.id, role: role.id, messageid: msgid, rrchan: channel.id, name: text, colour: chosenString, emojichoice: emoji };
-                            client.addRr.run(score);
-
-                            // get all reaction roles for that message.
-                            //console.log('first message, in channel so adding button to reaction role.')
-                            client.getRr = rrsql.prepare("SELECT * FROM rrtable WHERE guild = ? AND channel = ? AND messageid = ?")
-                            rr = client.getRr.get(interaction.guild.id, channel.id, msg.id);
-                            //console.log(rr);
-                            //edit the message with the new buttons.
-                            channel.messages.fetch(`${msgid}`).then(message => {
+                        client.getmsg = rrsql.prepare("SELECT * FROM rrmsg WHERE guild = ? AND channelid = ?")
+                        const msgdata = client.getmsg.get(interaction.guild.id, channel.id);
+                        if (msgdata) {
+                            channel.messages.fetch(`${msgdata.messageid}`).then(message => {
+                                //console.log(getAllButtons());
+                                msgid = message.id;
+                                console.log(`Editing message: ${msgdata.messageid}`);
                                 message.edit({ embeds: [embed], components: [getButtons()] }).then(btnmsg => {
-                                    //console.log(`msg sent, with msg id: ${msgid}`);
-
-                                    //console.log(btnmsg);
+                                    score = { id: `${interaction.guild.id}-${role.id}`, emoji: role.id, guild: interaction.guild.id, role: role.id, messageid: msgid, rrchan: channel.id, name: text, colour: chosenString, emojichoice: emoji };
+                                    client.addRr.run(score);
                                     return interaction.followUp({ content: `Your reaction role has been added!`, ephemeral: true });
-
                                 });
-                            }).catch(err => {
-                                console.log(err);
-                                return interaction.followUp({ content: `An Error occured!`, ephemeral: true });
                             });
+                        } else {
 
-                        });
+
+                            channel.send({ embeds: [embed] }).then(msg => {
+                                //add the reaction role to the database for looking up later
+                                msgid = msg.id;
+                                //console.log(msg);
+                                score = { id: `${interaction.guild.id}-${role.id}`, emoji: role.id, guild: interaction.guild.id, role: role.id, messageid: msgid, rrchan: channel.id, name: text, colour: chosenString, emojichoice: emoji };
+                                client.addRr.run(score);
+
+                                // get all reaction roles for that message.
+                                //console.log('first message, in channel so adding button to reaction role.')
+                                client.getRr = rrsql.prepare("SELECT * FROM rrtable WHERE guild = ? AND channel = ? AND messageid = ?")
+                                rr = client.getRr.get(interaction.guild.id, channel.id, msg.id);
+                                //console.log(rr);
+                                //edit the message with the new buttons.
+                                channel.messages.fetch(`${msgid}`).then(message => {
+                                    message.edit({ embeds: [embed], components: [getButtons()] }).then(btnmsg => {
+                                        //console.log(`msg sent, with msg id: ${msgid}`);
+
+                                        //console.log(btnmsg);
+                                        return interaction.followUp({ content: `Your reaction role has been added!`, ephemeral: true });
+
+                                    });
+                                }).catch(err => {
+                                    console.log(err);
+                                    return interaction.followUp({ content: `An Error occured!`, ephemeral: true });
+                                });
+
+                            });
+                        }
                     }
                     return interaction.reply({ content: `Your reaction role has been added!`, ephemeral: true });
                 } catch (error) {
@@ -678,8 +695,8 @@ module.exports = {
                                 client.addRr.run(colour, title, description, interaction.guild.id, channel.id);
                                 console.log('message edited!');
                             });
-                            
-                            
+
+
                             interaction.reply({ content: `Your embed message has been updated in: ${channel.name}, and will be used for future reaction roles`, ephemeral: true });
                         } else {
                             client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrmsg (id, guild, channelid, messageid, colour, title, description) VALUES (@id, @guild, @channelid, @messageid, @colour, @title, @description);");
