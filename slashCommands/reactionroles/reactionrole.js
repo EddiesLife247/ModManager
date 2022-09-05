@@ -156,8 +156,8 @@ module.exports = {
 
 
                             var gotrole = interaction.guild.roles.cache.get(roleList[i].role);
-                            var chosenString = roleList[i].colour;
-                            var emoji = roleList[i].emojichoice;
+                            var colour = roleList[i].colour;
+                            var emojichoice = roleList[i].emojichoice;
                             console.log(roleList[i].name);
                             if (roleList[i].name) {
                                 txt = roleList[i].name;
@@ -169,13 +169,13 @@ module.exports = {
                                     .setLabel(`${txt}`)
                                     .setCustomId(`${gotrole.id}`)
                                     .setDisabled(false);
-                                if (chosenString) {
-                                    button.setStyle(chosenString);
+                                if (colour) {
+                                    button.setStyle(colour);
                                 } else {
                                     button.setStyle('Primary');
                                 }
-                                if (emoji) {
-                                    button.setEmoji(emoji);
+                                if (emojichoice) {
+                                    button.setEmoji(emojichoice);
                                 }
                                 //console.log(button);
                                 row.addComponents(button);
@@ -188,13 +188,13 @@ module.exports = {
                                     .setLabel(`${txt}`)
                                     .setCustomId(`${gotrole.id}`)
                                     .setDisabled(false);
-                                if (chosenString) {
-                                    button.setStyle(chosenString);
+                                if (colour) {
+                                    button.setStyle(colour);
                                 } else {
                                     button.setStyle('Primary');
                                 }
-                                if (emoji) {
-                                    button.setEmoji(emoji);
+                                if (emojichoice) {
+                                    button.setEmoji(emojichoice);
                                 }
                                 //console.log(button);
                                 row2.addComponents(button);
@@ -205,13 +205,13 @@ module.exports = {
                                     .setLabel(`${txt}`)
                                     .setCustomId(`${gotrole.id}`)
                                     .setDisabled(false);
-                                if (chosenString) {
-                                    button.setStyle(chosenString);
+                                if (colour) {
+                                    button.setStyle(colour);
                                 } else {
                                     button.setStyle('Primary');
                                 }
-                                if (emoji) {
-                                    button.setEmoji(emoji);
+                                if (emojichoice) {
+                                    button.setEmoji(emojichoice);
                                 }
                                 //console.log(button);
                                 row3.addComponents(button);
@@ -222,13 +222,13 @@ module.exports = {
                                     .setLabel(`${txt}`)
                                     .setCustomId(`${gotrole.id}`)
                                     .setDisabled(false);
-                                if (chosenString) {
-                                    button.setStyle(chosenString);
+                                if (colour) {
+                                    button.setStyle(colour);
                                 } else {
                                     button.setStyle('Primary');
                                 }
-                                if (emoji) {
-                                    button.setEmoji(emoji);
+                                if (emojichoice) {
+                                    button.setEmoji(emojichoice);
                                 }
                                 //console.log(button);
                                 row4.addComponents(button);
@@ -239,13 +239,13 @@ module.exports = {
                                     .setLabel(`${txt}`)
                                     .setCustomId(`${gotrole.id}`)
                                     .setDisabled(false);
-                                if (chosenString) {
-                                    button.setStyle(chosenString);
+                                if (colour) {
+                                    button.setStyle(colour);
                                 } else {
                                     button.setStyle('Primary');
                                 }
-                                if (emoji) {
-                                    button.setEmoji(emoji);
+                                if (emojichoice) {
+                                    button.setEmoji(emojichoice);
                                 }
                                 //console.log(button);
                                 row5.addComponents(button);
@@ -426,21 +426,21 @@ module.exports = {
                         } else {
                             txt = gotrole.name;
                         }
-                        var chosenString = roleList[i].colour;
-                        var emoji = roleList[i].emojichoice;
+                        var colour = roleList[i].colour;
+                        var emojichoice = roleList[i].emojichoice;
                         if (i >= 0 && i <= 4) {
                             const button = new ButtonBuilder()
-                                .setLabel(`${txt}`)
-                                .setCustomId(`${gotrole.id}`)
-                                .setDisabled(false);
-                            if (chosenString) {
-                                button.setStyle(chosenString);
-                            } else {
-                                button.setStyle('Primary');
-                            }
-                            if (emoji) {
-                                button.setEmoji(emoji);
-                            }
+                            .setLabel(`${txt}`)
+                            .setCustomId(`${gotrole.id}`)
+                            .setDisabled(false);
+                        if (colour) {
+                            button.setStyle(colour);
+                        } else {
+                            button.setStyle('Primary');
+                        }
+                        if (emojichoice) {
+                            button.setEmoji(emojichoice);
+                        }
                             //console.log(button);
                             row.addComponents(button);
 
@@ -452,14 +452,14 @@ module.exports = {
                                 .setLabel(`${txt}`)
                                 .setCustomId(`${gotrole.id}`)
                                 .setDisabled(false);
-                            if (chosenString) {
-                                button.setStyle(chosenString);
-                            } else {
-                                button.setStyle('Primary');
-                            }
-                            if (emoji) {
-                                button.setEmoji(emoji);
-                            }
+                                if (colour) {
+                                    button.setStyle(colour);
+                                } else {
+                                    button.setStyle('Primary');
+                                }
+                                if (emojichoice) {
+                                    button.setEmoji(emojichoice);
+                                }
                             //console.log(button);
                             row2.addComponents(button);
 
@@ -479,14 +479,14 @@ module.exports = {
                                 .setLabel(`${txt}`)
                                 .setCustomId(`${gotrole.id}`)
                                 .setDisabled(false);
-                            if (chosenString) {
-                                button.setStyle(chosenString);
-                            } else {
-                                button.setStyle('Primary');
-                            }
-                            if (emoji) {
-                                button.setEmoji(emoji);
-                            }
+                                if (colour) {
+                                    button.setStyle(colour);
+                                } else {
+                                    button.setStyle('Primary');
+                                }
+                                if (emojichoice) {
+                                    button.setEmoji(emojichoice);
+                                }
                             //console.log(button);
                             row4.addComponents(button);
 
@@ -496,14 +496,14 @@ module.exports = {
                                 .setLabel(`${txt}`)
                                 .setCustomId(`${gotrole.id}`)
                                 .setDisabled(false);
-                            if (chosenString) {
-                                button.setStyle(chosenString);
-                            } else {
-                                button.setStyle('Primary');
-                            }
-                            if (emoji) {
-                                button.setEmoji(emoji);
-                            }
+                                if (colour) {
+                                    button.setStyle(colour);
+                                } else {
+                                    button.setStyle('Primary');
+                                }
+                                if (emojichoice) {
+                                    button.setEmoji(emojichoice);
+                                }
                             //console.log(button);
                             row5.addComponents(button);
 
