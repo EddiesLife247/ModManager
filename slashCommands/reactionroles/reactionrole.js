@@ -1,4 +1,4 @@
-const { EmbedBuilder, ApplicationCommandType, PermissionsBitField, ButtonBuilder, ActionRowBuilder } = require('discord.js');
+const { EmbedBuilder, ApplicationCommandType, PermissionsBitField, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
 const Discord = require('discord.js');
 const db = require('quick.db');
 const SQLite = require("better-sqlite3");
@@ -32,6 +32,24 @@ module.exports = {
                     description: 'What text do you want to show?',
                     type: 3,
                     required: false,
+                },
+                {
+                    name: 'emoji',
+                    description: 'What emoji do you want to show?',
+                    type: 3,
+                    required: false,
+                },
+                {
+                    name: 'colour',
+                    description: 'What colour do you want to show?',
+                    type: 3,
+                    required: false,
+                    choices: [
+                        { name: "blue", value: "Primary" },
+                        { name: "red", value: "Danger" },
+                        { name: "grey", value: "Secondary" },
+                        { name: "green", value: "Success" },
+                    ],
                 }
             ]
         },
@@ -63,8 +81,10 @@ module.exports = {
                     const channel = interaction.options.get('channel').channel;
                     const role = interaction.options.get('role').role;
                     const text = interaction.options.getString('text');
-                    //console.log(text);
-                    client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrtable (id, emoji, guild, role, messageid, channel, name) VALUES (@id, @emoji, @guild, @role, @messageid, @rrchan, @name);");
+                    const chosenString = interaction.options.getString("colour");
+                    const emoji = interaction.options.getString('emoji');
+
+                    client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrtable (id, emoji, guild, role, messageid, channel, name, colour, emojichoice) VALUES (@id, @emoji, @guild, @role, @messageid, @rrchan, @name, @colour, @emojichoice);");
 
                     const getButtons = (toggle = false, choice) => {
                         if (text == null) {
@@ -73,13 +93,21 @@ module.exports = {
                             txt = text;
                         }
                         console.log(`${txt} - is now the name! (single)`)
-                        const row = new ActionRowBuilder().addComponents(
-                            new ButtonBuilder()
-                                .setLabel(`${txt}`)
-                                .setCustomId(`${role.id}`)
-                                .setStyle(toggle == true && choice == 'blue' ? 'Secondary' : 'Primary')
-                                .setDisabled(toggle),
-                        );
+                        const row = new ActionRowBuilder()
+                        const button = new ButtonBuilder()
+                            .setLabel(`${txt}`)
+                            .setCustomId(`${gotrole.id}`)
+                            .setDisabled(false);
+                        if (chosenString) {
+                            button.setStyle(chosenString);
+                        } else {
+                            button.setStyle('Primary');
+                        }
+                        if (emoji) {
+                            button.setEmoji(emoji);
+                        }
+                        row.addComponents(button);
+
 
                         return row;
                     }
@@ -109,7 +137,7 @@ module.exports = {
                             return interaction.reply({ content: `There was an error, in finding the messageid!`, ephemeral: true });
                         }
                         msgid = rr.messageid;
-                        score = { id: `${interaction.guild.id}-${role.id}`, emoji: role.id, guild: interaction.guild.id, role: role.id, messageid: rr.messageid, rrchan: channel.id, name: text };
+                        score = { id: `${interaction.guild.id}-${role.id}`, emoji: role.id, guild: interaction.guild.id, role: role.id, messageid: rr.messageid, rrchan: channel.id, name: text, colour: chosenString, emojichoice: emoji };
                         await client.addRr.run(score);
                         //console.log(rr.messageid);
                         // get all the reaction roles for the message.
@@ -128,19 +156,27 @@ module.exports = {
 
 
                             var gotrole = interaction.guild.roles.cache.get(roleList[i].role);
+                            var chosenString = roleList[i].colour;
+                            var emoji = roleList[i].emojichoice;
                             console.log(roleList[i].name);
                             if (roleList[i].name) {
                                 txt = roleList[i].name;
                             } else {
                                 txt = gotrole.name;
                             }
-                            console.log(`${txt} - is now the name!`)
                             if (i >= 0 && i <= 4) {
                                 const button = new ButtonBuilder()
                                     .setLabel(`${txt}`)
                                     .setCustomId(`${gotrole.id}`)
-                                    .setStyle('Primary')
-                                    .setDisabled(false)
+                                    .setDisabled(false);
+                                if (chosenString) {
+                                    button.setStyle(chosenString);
+                                } else {
+                                    button.setStyle('Primary');
+                                }
+                                if (emoji) {
+                                    button.setEmoji(emoji);
+                                }
                                 //console.log(button);
                                 row.addComponents(button);
 
@@ -151,8 +187,15 @@ module.exports = {
                                 const button = new ButtonBuilder()
                                     .setLabel(`${txt}`)
                                     .setCustomId(`${gotrole.id}`)
-                                    .setStyle('Primary')
-                                    .setDisabled(false)
+                                    .setDisabled(false);
+                                if (chosenString) {
+                                    button.setStyle(chosenString);
+                                } else {
+                                    button.setStyle('Primary');
+                                }
+                                if (emoji) {
+                                    button.setEmoji(emoji);
+                                }
                                 //console.log(button);
                                 row2.addComponents(button);
 
@@ -161,8 +204,15 @@ module.exports = {
                                 const button = new ButtonBuilder()
                                     .setLabel(`${txt}`)
                                     .setCustomId(`${gotrole.id}`)
-                                    .setStyle('Primary')
-                                    .setDisabled(false)
+                                    .setDisabled(false);
+                                if (chosenString) {
+                                    button.setStyle(chosenString);
+                                } else {
+                                    button.setStyle('Primary');
+                                }
+                                if (emoji) {
+                                    button.setEmoji(emoji);
+                                }
                                 //console.log(button);
                                 row3.addComponents(button);
 
@@ -171,8 +221,15 @@ module.exports = {
                                 const button = new ButtonBuilder()
                                     .setLabel(`${txt}`)
                                     .setCustomId(`${gotrole.id}`)
-                                    .setStyle('Primary')
-                                    .setDisabled(false)
+                                    .setDisabled(false);
+                                if (chosenString) {
+                                    button.setStyle(chosenString);
+                                } else {
+                                    button.setStyle('Primary');
+                                }
+                                if (emoji) {
+                                    button.setEmoji(emoji);
+                                }
                                 //console.log(button);
                                 row4.addComponents(button);
 
@@ -181,8 +238,15 @@ module.exports = {
                                 const button = new ButtonBuilder()
                                     .setLabel(`${txt}`)
                                     .setCustomId(`${gotrole.id}`)
-                                    .setStyle('Primary')
-                                    .setDisabled(false)
+                                    .setDisabled(false);
+                                if (chosenString) {
+                                    button.setStyle(chosenString);
+                                } else {
+                                    button.setStyle('Primary');
+                                }
+                                if (emoji) {
+                                    button.setEmoji(emoji);
+                                }
                                 //console.log(button);
                                 row5.addComponents(button);
 
@@ -279,8 +343,8 @@ module.exports = {
                             //add the reaction role to the database for looking up later
                             msgid = msg.id;
                             //console.log(msg);
-                            score = { id: `${interaction.guild.id}-${role.id}`, emoji: role.id, guild: interaction.guild.id, role: role.id, messageid: msgid, rrchan: channel.id, name: text };
-                            client.addRr.run(score);
+                            score = { id: `${interaction.guild.id}-${role.id}`, emoji: role.id, guild: interaction.guild.id, role: role.id, messageid: rr.messageid, rrchan: channel.id, name: text, colour: chosenString, emojichoice: emoji };
+                            await client.addRr.run(score);
 
                             // get all reaction roles for that message.
                             console.log('first message, in channel so adding button to reaction role.')
@@ -362,13 +426,21 @@ module.exports = {
                         } else {
                             txt = gotrole.name;
                         }
-
+                        var chosenString = roleList[i].colour;
+                        var emoji = roleList[i].emojichoice;
                         if (i >= 0 && i <= 4) {
                             const button = new ButtonBuilder()
                                 .setLabel(`${txt}`)
                                 .setCustomId(`${gotrole.id}`)
-                                .setStyle('Primary')
-                                .setDisabled(false)
+                                .setDisabled(false);
+                            if (chosenString) {
+                                button.setStyle(chosenString);
+                            } else {
+                                button.setStyle('Primary');
+                            }
+                            if (emoji) {
+                                button.setEmoji(emoji);
+                            }
                             //console.log(button);
                             row.addComponents(button);
 
@@ -379,8 +451,15 @@ module.exports = {
                             const button = new ButtonBuilder()
                                 .setLabel(`${txt}`)
                                 .setCustomId(`${gotrole.id}`)
-                                .setStyle('Primary')
-                                .setDisabled(false)
+                                .setDisabled(false);
+                            if (chosenString) {
+                                button.setStyle(chosenString);
+                            } else {
+                                button.setStyle('Primary');
+                            }
+                            if (emoji) {
+                                button.setEmoji(emoji);
+                            }
                             //console.log(button);
                             row2.addComponents(button);
 
@@ -399,8 +478,15 @@ module.exports = {
                             const button = new ButtonBuilder()
                                 .setLabel(`${txt}`)
                                 .setCustomId(`${gotrole.id}`)
-                                .setStyle('Primary')
-                                .setDisabled(false)
+                                .setDisabled(false);
+                            if (chosenString) {
+                                button.setStyle(chosenString);
+                            } else {
+                                button.setStyle('Primary');
+                            }
+                            if (emoji) {
+                                button.setEmoji(emoji);
+                            }
                             //console.log(button);
                             row4.addComponents(button);
 
@@ -409,8 +495,15 @@ module.exports = {
                             const button = new ButtonBuilder()
                                 .setLabel(`${txt}`)
                                 .setCustomId(`${gotrole.id}`)
-                                .setStyle('Primary')
-                                .setDisabled(false)
+                                .setDisabled(false);
+                            if (chosenString) {
+                                button.setStyle(chosenString);
+                            } else {
+                                button.setStyle('Primary');
+                            }
+                            if (emoji) {
+                                button.setEmoji(emoji);
+                            }
                             //console.log(button);
                             row5.addComponents(button);
 
