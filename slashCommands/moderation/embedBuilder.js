@@ -22,6 +22,12 @@ module.exports = {
                     type: 7,
                     required: true,
                 },
+                {
+                    name: 'messageid',
+                    description: 'If Updating what is the message id of the original embed sent by me?',
+                    type: 7,
+                    required: false,
+                },
             ]
         },
         {
@@ -130,19 +136,39 @@ module.exports = {
                         const colour = submitted.fields.getTextInputValue('colour');
                         const title = submitted.fields.getTextInputValue('title');
                         const description = submitted.fields.getTextInputValue('description');
+                        const timestamp = submitted.fields.getTextInputValue('timestamp');
+                        const footer = submitted.fields.getTextInputValue('footer');
+                        const author = submitted.fields.getTextInputValue('author');
+                        const thumbnail = submitted.fields.getTextInputValue('thumbnail');
                         const channel = interaction.options.get('channel').channel;
-                        client.getmsg = emdssql.prepare("SELECT * FROM embeds WHERE guild = ? AND channelid = ?")
-                        const msgdata = client.getmsg.get(interaction.guild.id, channel.id);
+                        const messageid = interaction.options.get('messageid').messageid;
+                        client.getmsg = emdssql.prepare("SELECT * FROM embeds WHERE guild = ? AND channelid = ? AND messageid = ?")
+                        const msgdata = client.getmsg.get(interaction.guild.id, channel.id, messageid);
                         const embed = new EmbedBuilder()
                             .setTitle(title)
-                            .setDescription(description)
                             .setColor(colour)
-                            .setTimestamp()
+                        if(timestamp == 'true') {
+                            embed.setTimestamp();
+                        }
+                        if(!description == null) {
+                            embed.setFooter(description);
+                        }
+                        if(!footer == null) {
+                            embed.setFooter(footer);
+                        }
+                        if(!author == null) {
+                            embed.setAuthor(author);
+                        }
+                        if(!thumbnail == null) {
+                            embed.setThumbnail(thumbnail);
+                        }
                         console.log(msgdata);
                         if (msgdata) {
                             if (msgdata.channelid = channel) {
-                                client.addRr = emdssql.prepare("UPDATE embeds SET colour = ?, title = ?, description = ? WHERE guild = ? AND channelid = ?;");
+                                client.addRr = emdssql.prepare("UPDATE embeds SET colour = ?, title = ?, description = ? WHERE guild = ? AND channelid = ? AND messageid = ?;");
                             }
+                        } else {
+                            //send the  embed.
                         }
                     }
                 }
