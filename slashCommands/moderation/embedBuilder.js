@@ -14,7 +14,7 @@ module.exports = {
         {
             name: 'message',
             description: 'Manage the Main message data',
-            type: 1,
+            type: 2,
             options: [
                 {
                     name: 'channel',
@@ -27,13 +27,12 @@ module.exports = {
         {
             name: 'fields',
             description: 'Manage the fields on an embed.',
-            type: 1,
+            type: 2,
             options: [
                 {
                     name: 'add',
                     description: 'Add a field to an embed?',
                     type: 2,
-                    required: true,
                     options: [
                         {
                             name: 'messageid',
@@ -47,7 +46,6 @@ module.exports = {
                     name: 'remove',
                     description: 'Remove a field from an embed?',
                     type: 2,
-                    required: true,
                     options: [
                         {
                             name: 'messageid',
