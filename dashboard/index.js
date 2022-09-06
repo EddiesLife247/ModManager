@@ -106,8 +106,8 @@ module.exports = client => {
     const SQLite = require("better-sqlite3");
     const botsql = new SQLite(`./databases/bot.sqlite`);
     //console.log(req.user)
-    const top10 = botsql.prepare("SELECT * FROM guildadmin WHERE account = ? AND type = 'DASHBLOCK'").all(req.user.id);
-    if (top10.length >= 1) {
+    //const top10 = botsql.prepare("SELECT * FROM guildadmin WHERE account = ? AND type = 'DASHBLOCK'").all(req.user.id);
+    /*if (top10.length >= 1) {
       for (const data of top10) {
         banned = true;
         client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send(`${req.user.username} / ${req.user.id} Tried to login to the dashboard, but was blocked!`);
@@ -117,9 +117,10 @@ module.exports = client => {
         });
         return;
       }
-    } else {
+      
+   */ 
       res.redirect(`/dashboard`)
-    }
+    //}
   });
 
 
