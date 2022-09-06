@@ -9,6 +9,7 @@ module.exports = {
     description: 'Manage Reaction Role',
     cooldown: 3000,
     type: ApplicationCommandType.ChatInput,
+    default_member_permissions: 'ManageRoles', // permission required
     options: [
         {
             name: 'add',
