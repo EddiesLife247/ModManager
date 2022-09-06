@@ -82,12 +82,37 @@ module.exports = {
                         .setLabel('What should the main text be?')
                         .setStyle(TextInputStyle.Paragraph)
                         .setRequired(true);
+                    const thumbnailInput = new TextInputBuilder()
+                        .setCustomId('thumbnail')
+                        .setLabel('What image link should we use as a thumbnail?')
+                        .setStyle(TextInputStyle.Short)
+                        .setRequired(true);
+                    const authorInput = new TextInputBuilder()
+                        .setCustomId('author')
+                        .setLabel('Who should the author be?')
+                        .setStyle(TextInputStyle.Short)
+                        .setRequired(true);
+                    const footerInput = new TextInputBuilder()
+                        .setCustomId('footer')
+                        .setLabel('What should the footer say?')
+                        .setStyle(TextInputStyle.Short)
+                        .setRequired(true);
+                    const timestampInput = new TextInputBuilder()
+                        .setCustomId('timestamp')
+                        .setLabel('True/False should we show a timestamp?')
+                        .setStyle(TextInputStyle.Short)
+                        .setRequired(true);
+
 
                     const firstActionRow = new ActionRowBuilder().addComponents(titleInput);
                     const secondActionRow = new ActionRowBuilder().addComponents(colourInput);
                     const thirdActionRow = new ActionRowBuilder().addComponents(descriptionInput);
+                    const forthActionRow = new ActionRowBuilder().addComponents(thumbnailInput);
+                    const fifthActionRow = new ActionRowBuilder().addComponents(authorInput);
+                    const sixthActionRow = new ActionRowBuilder().addComponents(footerInput);
+                    const seventhActionRow = new ActionRowBuilder().addComponents(timestampInput);
 
-                    input.addComponents(firstActionRow, secondActionRow, thirdActionRow);
+                    input.addComponents(firstActionRow, secondActionRow, thirdActionRow, forthActionRow, fifthActionRow, sixthActionRow, seventhActionRow);
 
                     await interaction.showModal(input);
                     const submitted = await interaction.awaitModalSubmit({
@@ -106,7 +131,7 @@ module.exports = {
                         const title = submitted.fields.getTextInputValue('title');
                         const description = submitted.fields.getTextInputValue('description');
                         const channel = interaction.options.get('channel').channel;
-                        client.getmsg = emdssql.prepare("SELECT * FROM rrmsg WHERE guild = ? AND channelid = ?")
+                        client.getmsg = emdssql.prepare("SELECT * FROM embeds WHERE guild = ? AND channelid = ?")
                         const msgdata = client.getmsg.get(interaction.guild.id, channel.id);
                         const embed = new EmbedBuilder()
                             .setTitle(title)
@@ -116,7 +141,7 @@ module.exports = {
                         console.log(msgdata);
                         if (msgdata) {
                             if (msgdata.channelid = channel) {
-                                client.addRr = emdssql.prepare("UPDATE rrmsg SET colour = ?, title = ?, description = ? WHERE guild = ? AND channelid = ?;");
+                                client.addRr = emdssql.prepare("UPDATE embeds SET colour = ?, title = ?, description = ? WHERE guild = ? AND channelid = ?;");
                             }
                         }
                     }
