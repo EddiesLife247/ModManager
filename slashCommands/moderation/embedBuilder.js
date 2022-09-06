@@ -112,10 +112,12 @@ module.exports = {
                         .addOptions({
                             label: 'True',
                             value: 'true',
+                            description: 'I want to show a timestamp',
                         },
                         {
                             label: 'False',
                             value: 'false',
+                            description: 'I do not want to show a timestamp',
                         }
                         )
                         .setRequired(true);
