@@ -19,7 +19,9 @@ module.exports = async (client, oldState, newState) => {
             client.logchannel = botsql.prepare(`SELECT logchannel FROM settings WHERE guildid = '${oldState.guild.id}'`);
             if (!client.logchannel.get().logchannel == "") {
                 const logchannel = oldState.guild.channels.cache.get(client.logchannel.get().logchannel);
-
+                if(logchannel == null){
+                    return;
+                }
                 //console.log(channel.guild.channels.cache.find(c => c.name == settings.modLogChannel));
                 //console.log(`member joined guild that has logs enabled!`);
                 var userDetail = client.users.cache.find(user => user.id === oldState.id).tag;

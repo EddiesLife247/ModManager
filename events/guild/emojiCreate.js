@@ -16,6 +16,9 @@ module.exports = async (client, emoji) => {
         if (client.logchannel.all().length) {
             const logchannel = emoji.guild.channels.cache.get(client.logchannel.get().logchannel);
             const guild = emoji.guild;
+            if(logchannel == null){
+                return;
+            }
             //console.log(channel.messages.messages);
             if (emoji.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
                 try {

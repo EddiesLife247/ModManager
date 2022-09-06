@@ -18,9 +18,12 @@ module.exports = async (client, member) => {
         if (!client.settings.all().length) {
             return;
         }
+        
         client.logchannel = botsql.prepare(`SELECT logchannel FROM settings WHERE guildid = '${member.guild.id}'`);
+        
         if (client.logchannel.all().length) {
             const logchannel = member.guild.channels.cache.get(client.logchannel.get().logchannel);
+
             var trustlevel = 0;
             var reason = "";
             const Discord_Employee = 1;
@@ -159,10 +162,7 @@ module.exports = async (client, member) => {
             if (globalBanned) {
                 // Check if user has joined support server
                 if (member.guild.id == '787871047139328000') {
-                    //if so set their role to the "GLOBAL BANNED" role.
-                    var role = member.guild.roles.cache.find(role => role.id === "901933035342159932");
-                    member.roles.add(role.id);
-                    logMessage(client, "success", member.guild, `${member.user.tag} Attempted to join, but was removed due to Being Global Banned`);
+                    console.log(`ALERT MEMBER JOINED AND IS GLOBAL BANNED!`);
                 } else {
                     client.globalbans = botsql.prepare(`SELECT globalbans FROM settings WHERE guildid = '${member.guild.id}'`);
                     if (client.globalbans.get().globalbans == '1') {
@@ -174,6 +174,9 @@ module.exports = async (client, member) => {
                         }
                         else {
                             if (client.logchannel.get().logchannel) {
+                                if(logchannel == null){
+                                    return;
+                                }
                                 console.log(`${member.user.tag} - tried to join ${member.guild.name}, but was banned globally.`);
                                 logchannel.send(`** WARNING: ** ${member.user.tag} - Recently Joined and has been added to the global ban database. \n \n They were banned for: \`\`\` ${globalBanned.reason}\`\`\` `)
                             }
@@ -187,6 +190,9 @@ module.exports = async (client, member) => {
                         }
                         else {
                             if (client.logchannel.get().logchannel) {
+                                if(logchannel == null){
+                                    return;
+                                }
                                 logchannel.send(`** WARNING: ** ${member.user.tag} - Recently Joined and has been added to the global ban database. \n \n They were banned for: \`\`\` ${globalBanned.reason}\`\`\` `)
                                 console.log(`${member.user.tag} - tried to join ${member.guild.name}, but was banned globally, Global bans disabled`);
                             }
@@ -222,6 +228,9 @@ module.exports = async (client, member) => {
                     { name: 'Trust level(s)', value: `${trustlevel}`, inline: false },
                     { name: 'Calculation(s)', value: `${reason}`, inline: false },
                 )
+                if(logchannel == null){
+                    return;
+                }
                 logchannel.send({ embeds: [embed] });
                 console.log(`${member.user.tag} - joined ${member.guild.name}.`);
             }

@@ -16,6 +16,10 @@ module.exports = async (client, oldChannel, newChannel) => {
         if (client.logchannel.all().length) {
             const logchannel = oldChannel.guild.channels.cache.get(client.logchannel.get().logchannel);
             const guild = oldChannel.guild;
+            console.log(logchannel);
+            if(logchannel == null){
+                return;
+            }
             if (oldChannel.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
                 try {
                     //if (channel.me.permissions.has("VIEW_AUDIT_LOG")) {

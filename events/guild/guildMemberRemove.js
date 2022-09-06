@@ -20,6 +20,9 @@ module.exports = async (client, member) => {
         }
         client.logchannel = botsql.prepare(`SELECT logchannel FROM settings WHERE guildid = '${member.guild.id}'`);
         const logchannel = member.guild.channels.cache.get(client.logchannel.get().logchannel);
+        if(logchannel == null){
+            return;
+        }
         if (client.logchannel.all().length) {
             if (member.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
                 try {

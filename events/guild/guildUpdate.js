@@ -14,6 +14,9 @@ module.exports = async (client, oldGuild, newGuild) => {
         client.logchannel = botsql.prepare(`SELECT logchannel FROM settings WHERE guildid = '${newGuild.id}'`);
         if (client.logchannel.all().length) {
             const logchannel = oldGuild.channels.cache.get(client.logchannel.get().logchannel);
+            if(logchannel == null){
+                return;
+            }
             if (oldGuild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
                 const embed = new EmbedBuilder();
                 embed.setColor("#00ff00")

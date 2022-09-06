@@ -17,6 +17,9 @@ module.exports = async (client, member) => {
         if (client.logchannel.all().length) {
             const logchannel = member.guild.channels.cache.get(client.logchannel.get().logchannel);
             const guild = member.guild;
+            if(logchannel == null){
+                return;
+            }
             if (member.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
                 try {
                     const fetchedLogs = await member.guild.fetchAuditLogs({

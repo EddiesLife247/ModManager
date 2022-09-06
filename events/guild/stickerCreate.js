@@ -19,6 +19,9 @@ module.exports = async (client, sticker) => {
         if (client.logchannel.get().logchannel) {
             const logchannel = sticker.guild.channels.cache.get(client.logchannel.get().logchannel);
 			const guild = sticker.guild;
+            if(logchannel == null){
+                return;
+            }
             if (sticker.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
                 const embed = new EmbedBuilder();
                 embed.setColor("#00ff00")
