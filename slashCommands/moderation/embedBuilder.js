@@ -113,12 +113,10 @@ module.exports = {
                     const firstActionRow = new ActionRowBuilder().addComponents(titleInput);
                     const secondActionRow = new ActionRowBuilder().addComponents(colourInput);
                     const thirdActionRow = new ActionRowBuilder().addComponents(descriptionInput);
-                    const forthActionRow = new ActionRowBuilder().addComponents(thumbnailInput);
-                    const fifthActionRow = new ActionRowBuilder().addComponents(authorInput);
-                    const sixthActionRow = new ActionRowBuilder().addComponents(footerInput);
-                    const seventhActionRow = new ActionRowBuilder().addComponents(timestampInput);
+                    const forthActionRow = new ActionRowBuilder().addComponents(thumbnailInput, timestampInput);
+                    const fifthActionRow = new ActionRowBuilder().addComponents(authorInput, footerInput);
 
-                    input.addComponents(firstActionRow, secondActionRow, thirdActionRow, forthActionRow, fifthActionRow, sixthActionRow, seventhActionRow);
+                    input.addComponents(firstActionRow, secondActionRow, thirdActionRow, forthActionRow, fifthActionRow);
 
                     await interaction.showModal(input);
                     const submitted = await interaction.awaitModalSubmit({
