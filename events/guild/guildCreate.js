@@ -5,16 +5,6 @@ const SQLite = require("better-sqlite3");
 const botsql = new SQLite(`./databases/bot.sqlite`);
 module.exports = async (client, guild) => {
     try {
-        const top10 = botsql.prepare("SELECT * FROM guildadmin WHERE account = ? AND type = 'GUILDBAN'").all(guild.id);
-        if (top10.length >= 1) {
-            for (const data of top10) {
-                const channel = guild.channels.cache.filter(m => m.type === 'GUILD_TEXT').first();
-                channel.send(`Sorry, ModManager is not permitted to join this server for: \`\`\`${data.reason} \`\`\` Contact support if you think this is an error: https://discord.gg/ZqUSVpDcRq`)
-                client.guilds.cache.get(guild.id).leave()
-                console.log(client, "success", guild, `Joined and Left due to Guild Ban for reason: ${data.reason}`);
-                client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `I was invited to: ${guild.name}, but have been blocked from joining so left` });
-            }
-        }
         const channel = guild.channels.cache.filter(m => m.type === 'GUILD_TEXT').first();
         const welcome = new EmbedBuilder();
         welcome.setColor("#0000ff");

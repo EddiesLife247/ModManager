@@ -15,7 +15,11 @@ module.exports = async (client, oldEmoji, newEmoji) => {
         client.logchannel = botsql.prepare(`SELECT logchannel FROM settings WHERE guildid = '${newEmoji.guild.id}'`);
         if (client.logchannel.all().length) {
             const logchannel = newEmoji.guild.channels.cache.get(client.logchannel.get().logchannel);
+            console.log(logchannel);
             const guild = oldEmoji.guild;
+            if(logchannel == null){
+                return;
+            }
             //console.log(channel.messages.messages);
             if (oldEmoji.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
                 try {
