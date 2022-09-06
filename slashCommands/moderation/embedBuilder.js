@@ -12,9 +12,10 @@ module.exports = {
     default_member_permissions: 'ManageMessages', // permission required
     run: async (client, interaction) => {
         try {
+            console.log(interaction.guild);
             if (!interaction.guild.id === '787871047139328000') {
                 interaction.error('You have found a spoiler! - Disabled command, sorry');
-                return 'Disabled Command';
+                return;
             } else {
                 const input = new ModalBuilder()
                     .setCustomId('reactionrolemessage')
