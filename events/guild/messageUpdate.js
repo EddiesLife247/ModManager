@@ -38,6 +38,7 @@ module.exports = async (client, oldMessage, newMessage) => {
                         { name: 'New Message Content:', value: `>${newMessage.content}`, inline: false },
 
                     )
+                    embed.setURL(`https://ptb.discord.com/channels/${message.guild.id}/${message.channel.id}/${message.id}`)
                     embed.setTimestamp();
 
                     logchannel.send({ embeds: [embed] });
