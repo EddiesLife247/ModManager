@@ -92,22 +92,28 @@ module.exports = {
                         .setCustomId('thumbnail')
                         .setLabel('What image link should we use as a thumbnail?')
                         .setStyle(TextInputStyle.Short)
+                        .setMaxLength(30)
                         .setRequired(true);
                     const authorInput = new TextInputBuilder()
                         .setCustomId('author')
                         .setLabel('Who should the author be?')
                         .setStyle(TextInputStyle.Short)
+                        .setMaxLength(30)
                         .setRequired(true);
                     const footerInput = new TextInputBuilder()
                         .setCustomId('footer')
                         .setLabel('What should the footer say?')
                         .setStyle(TextInputStyle.Short)
+                        .setMaxLength(30)
                         .setRequired(true);
                     const timestampInput = new TextInputBuilder()
                         .setCustomId('timestamp')
                         .setLabel('True/False should we show a timestamp?')
                         .setStyle(TextInputStyle.Short)
+                        .setMaxLength(5)
+                        .setValue('True')
                         .setRequired(true);
+                        
 
 
                     const firstActionRow = new ActionRowBuilder().addComponents(titleInput);
