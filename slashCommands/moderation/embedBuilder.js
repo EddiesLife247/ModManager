@@ -27,7 +27,7 @@ module.exports = {
         {
             name: 'fields',
             description: 'Manage the fields on an embed.',
-            type: 1,
+            type: 2,
             options: [
                 {
                     name: 'add',
