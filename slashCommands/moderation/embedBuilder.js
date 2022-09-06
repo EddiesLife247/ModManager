@@ -1,4 +1,4 @@
-const { EmbedBuilder, ApplicationCommandType, PermissionsBitField, ButtonBuilder, ActionRowBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
+const { EmbedBuilder, ApplicationCommandType, PermissionsBitField, ButtonBuilder, ActionRowBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle, SelectMenuBuilder, SelectMenuComponent, SelectMenuOptionBuilder } = require('discord.js');
 const Discord = require('discord.js');
 const db = require('quick.db');
 const SQLite = require("better-sqlite3");
@@ -106,12 +106,18 @@ module.exports = {
                         .setStyle(TextInputStyle.Short)
                         .setMaxLength(30)
                         .setRequired(true);
-                    const timestampInput = new TextInputBuilder()
+                    const timestampInput = new SelectMenuComponent()
                         .setCustomId('timestamp')
                         .setLabel('True/False should we show a timestamp?')
-                        .setStyle(TextInputStyle.Short)
-                        .setMaxLength(5)
-                        .setValue('True')
+                        .addOptions({
+                            label: 'True',
+                            value: 'true',
+                        },
+                        {
+                            label: 'False',
+                            value: 'false',
+                        }
+                        )
                         .setRequired(true);
                         
 
