@@ -62,67 +62,76 @@ module.exports = {
         try {
             console.log(interaction.guild);
             if (interaction.guild.id == '787871047139328000') {
-                const input = new ModalBuilder()
-                .setCustomId('reactionrolemessage')
-                .setTitle('Configure your Reaction Role Message');
+                if (interaction.options._subcommand === 'message') {
+                    const input = new ModalBuilder()
+                        .setCustomId('reactionrolemessage')
+                        .setTitle('Configure your Reaction Role Message');
 
-            const titleInput = new TextInputBuilder()
-                .setCustomId('title')
-                .setLabel('What should the embed be titled?')
-                .setStyle(TextInputStyle.Short)
-                .setRequired(true);
-            const colourInput = new TextInputBuilder()
-                .setCustomId('colour')
-                .setLabel('What colour the embed be?')
-                .setStyle(TextInputStyle.Short)
-                .setRequired(true);
-            const descriptionInput = new TextInputBuilder()
-                .setCustomId('description')
-                .setLabel('What should the main text be?')
-                .setStyle(TextInputStyle.Paragraph)
-                .setRequired(true);
+                    const titleInput = new TextInputBuilder()
+                        .setCustomId('title')
+                        .setLabel('What should the embed be titled?')
+                        .setStyle(TextInputStyle.Short)
+                        .setRequired(true);
+                    const colourInput = new TextInputBuilder()
+                        .setCustomId('colour')
+                        .setLabel('What colour the embed be?')
+                        .setStyle(TextInputStyle.Short)
+                        .setRequired(true);
+                    const descriptionInput = new TextInputBuilder()
+                        .setCustomId('description')
+                        .setLabel('What should the main text be?')
+                        .setStyle(TextInputStyle.Paragraph)
+                        .setRequired(true);
 
-            const firstActionRow = new ActionRowBuilder().addComponents(titleInput);
-            const secondActionRow = new ActionRowBuilder().addComponents(colourInput);
-            const thirdActionRow = new ActionRowBuilder().addComponents(descriptionInput);
+                    const firstActionRow = new ActionRowBuilder().addComponents(titleInput);
+                    const secondActionRow = new ActionRowBuilder().addComponents(colourInput);
+                    const thirdActionRow = new ActionRowBuilder().addComponents(descriptionInput);
 
-            input.addComponents(firstActionRow, secondActionRow, thirdActionRow);
+                    input.addComponents(firstActionRow, secondActionRow, thirdActionRow);
 
-            await interaction.showModal(input);
-            const submitted = await interaction.awaitModalSubmit({
-                // Timeout after a minute of not receiving any valid Modals
-                time: 600000,
-                // Make sure we only accept Modals from the User who sent the original Interaction we're responding to
-                filter: i => i.user.id === interaction.user.id,
-            }).catch(error => {
-                // Catch any Errors that are thrown (e.g. if the awaitModalSubmit times out after 60000 ms)
-                console.error(error)
-                return null
-            })
-            if (submitted) {
-                //client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrmsg (id, guild, channelid, messageid, colour, title, description) VALUES (@id, @guild, @channelid, @messageid, @colour, @title, @description);");
-                const colour = submitted.fields.getTextInputValue('colour');
-                const title = submitted.fields.getTextInputValue('title');
-                const description = submitted.fields.getTextInputValue('description');
-                const channel = interaction.options.get('channel').channel;
-                client.getmsg = emdssql.prepare("SELECT * FROM rrmsg WHERE guild = ? AND channelid = ?")
-                const msgdata = client.getmsg.get(interaction.guild.id, channel.id);
-                const embed = new EmbedBuilder()
-                    .setTitle(title)
-                    .setDescription(description)
-                    .setColor(colour)
-                    .setTimestamp()
-                console.log(msgdata);
-                if (msgdata) {
-                    if (msgdata.channelid = channel) {
-                        client.addRr = emdssql.prepare("UPDATE rrmsg SET colour = ?, title = ?, description = ? WHERE guild = ? AND channelid = ?;");
+                    await interaction.showModal(input);
+                    const submitted = await interaction.awaitModalSubmit({
+                        // Timeout after a minute of not receiving any valid Modals
+                        time: 600000,
+                        // Make sure we only accept Modals from the User who sent the original Interaction we're responding to
+                        filter: i => i.user.id === interaction.user.id,
+                    }).catch(error => {
+                        // Catch any Errors that are thrown (e.g. if the awaitModalSubmit times out after 60000 ms)
+                        console.error(error)
+                        return null
+                    })
+                    if (submitted) {
+                        //client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrmsg (id, guild, channelid, messageid, colour, title, description) VALUES (@id, @guild, @channelid, @messageid, @colour, @title, @description);");
+                        const colour = submitted.fields.getTextInputValue('colour');
+                        const title = submitted.fields.getTextInputValue('title');
+                        const description = submitted.fields.getTextInputValue('description');
+                        const channel = interaction.options.get('channel').channel;
+                        client.getmsg = emdssql.prepare("SELECT * FROM rrmsg WHERE guild = ? AND channelid = ?")
+                        const msgdata = client.getmsg.get(interaction.guild.id, channel.id);
+                        const embed = new EmbedBuilder()
+                            .setTitle(title)
+                            .setDescription(description)
+                            .setColor(colour)
+                            .setTimestamp()
+                        console.log(msgdata);
+                        if (msgdata) {
+                            if (msgdata.channelid = channel) {
+                                client.addRr = emdssql.prepare("UPDATE rrmsg SET colour = ?, title = ?, description = ? WHERE guild = ? AND channelid = ?;");
+                            }
+                        }
                     }
                 }
-            }
+                if (interaction.options._subcommand === 'fields') {
+                    if (interaction.options._subcommand === 'add') {
+                        interaction.reply({content: 'add a field', ephemeral: true})
+                    } else if (interaction.options.__subcommand === 'remove') {
+                        interaction.reply({content: 'remove a field', ephemeral: true})
+                    }
+                }
             } else {
-                interaction.reply({content: 'You have found a spoiler! - This command is still being developed! - Disabled command, sorry', ephemeral: true});
+                interaction.reply({ content: 'You have found a spoiler! - This command is still being developed! - Disabled command, sorry', ephemeral: true });
                 return;
-                
+
             }
         } catch (error) {
             console.log(error);
