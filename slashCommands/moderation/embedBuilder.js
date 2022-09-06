@@ -5,7 +5,7 @@ const SQLite = require("better-sqlite3");
 const botsql = new SQLite(`./databases/bot.sqlite`);
 const emdssql = new SQLite(`./databases/embeds.sqlite`);
 module.exports = {
-    name: 'EmbedBuilder',
+    name: 'embedbuilder',
     cooldown: 3000,
     type: ApplicationCommandType.ChatInput,
     default_member_permissions: 'ManageMessages', // permission required
