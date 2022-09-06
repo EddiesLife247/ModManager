@@ -10,6 +10,56 @@ module.exports = {
     cooldown: 3000,
     type: ApplicationCommandType.ChatInput,
     default_member_permissions: 'ManageMessages', // permission required
+    options: [
+        {
+            name: 'message',
+            description: 'Manage the Main message data',
+            type: 1,
+            options: [
+                {
+                    name: 'channel',
+                    description: 'The channel where you want the role to be chosen?',
+                    type: 7,
+                    required: true,
+                },
+            ]
+        },
+        {
+            name: 'fields',
+            description: 'Manage the fields on an embed.',
+            type: 1,
+            options: [
+                {
+                    name: 'add',
+                    description: 'Add a field to an embed?',
+                    type: 2,
+                    required: true,
+                    options: [
+                        {
+                            name: 'messageid',
+                            description: 'What was the embed that was sent?',
+                            type: 3,
+                            required: true,
+                        },
+                    ]
+                },
+                {
+                    name: 'remove',
+                    description: 'Remove a field from an embed?',
+                    type: 2,
+                    required: true,
+                    options: [
+                        {
+                            name: 'messageid',
+                            description: 'What was the embed that was sent?',
+                            type: 3,
+                            required: true,
+                        },
+                    ]
+                }
+            ]
+        },
+    ],
     run: async (client, interaction) => {
         try {
             console.log(interaction.guild);
@@ -72,7 +122,7 @@ module.exports = {
                 }
             }
             } else {
-                interaction.reply('You have found a spoiler! - Disabled command, sorry');
+                interaction.reply({content: 'You have found a spoiler! - This command is still being developed! - Disabled command, sorry', ephemeral: true});
                 return;
                 
             }
