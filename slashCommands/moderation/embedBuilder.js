@@ -27,12 +27,12 @@ module.exports = {
         {
             name: 'fields',
             description: 'Manage the fields on an embed.',
-            type: 2,
+            type: 1,
             options: [
                 {
                     name: 'add',
                     description: 'Add a field to an embed?',
-                    type: 1,
+                    type: 2,
                     required: true,
                     options: [
                         {
@@ -46,7 +46,7 @@ module.exports = {
                 {
                     name: 'remove',
                     description: 'Remove a field from an embed?',
-                    type: 1,
+                    type: 2,
                     required: true,
                     options: [
                         {
