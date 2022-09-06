@@ -6,6 +6,7 @@ const botsql = new SQLite(`./databases/bot.sqlite`);
 const emdssql = new SQLite(`./databases/embeds.sqlite`);
 module.exports = {
     name: 'embedbuilder',
+    description: 'Allows moderators to send and manage Message Embeds to channels /help embedbuilder',
     cooldown: 3000,
     type: ApplicationCommandType.ChatInput,
     default_member_permissions: 'ManageMessages', // permission required
