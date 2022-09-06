@@ -60,7 +60,7 @@ module.exports = {
     ],
     run: async (client, interaction) => {
         try {
-            console.log(interaction.guild);
+            //console.log(interaction.guild);
             if (interaction.guild.id == '787871047139328000') {
                 if (interaction.options._subcommand === 'message') {
                     const input = new ModalBuilder()
@@ -121,12 +121,10 @@ module.exports = {
                         }
                     }
                 }
-                if (interaction.options._subcommand === 'fields') {
-                    if (interaction.options._subcommand === 'add') {
-                        interaction.reply({content: 'add a field', ephemeral: true})
-                    } else if (interaction.options.__subcommand === 'remove') {
-                        interaction.reply({content: 'remove a field', ephemeral: true})
-                    }
+                if (interaction.options._subcommand === 'add') {
+                    interaction.reply({ content: 'add a field', ephemeral: true })
+                } else if (interaction.options.__subcommand === 'remove') {
+                    interaction.reply({ content: 'remove a field', ephemeral: true })
                 }
             } else {
                 interaction.reply({ content: 'You have found a spoiler! - This command is still being developed! - Disabled command, sorry', ephemeral: true });
