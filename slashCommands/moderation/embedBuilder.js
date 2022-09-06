@@ -36,7 +36,7 @@ module.exports = {
             type: 2,
             options: [
                 {
-                    name: 'add',
+                    name: 'addfield',
                     description: 'Add a field to an embed?',
                     type: 1,
                     options: [
@@ -49,7 +49,7 @@ module.exports = {
                     ]
                 },
                 {
-                    name: 'remove',
+                    name: 'removefield',
                     description: 'Remove a field from an embed?',
                     type: 1,
                     options: [
@@ -163,19 +163,45 @@ module.exports = {
                             embed.setThumbnail(thumbnail);
                         }
                         console.log(msgdata);
+                        
                         if (msgdata) {
-                            if (msgdata.channelid = channel) {
-                                client.addRr = emdssql.prepare("UPDATE embeds SET colour = ?, title = ?, description = ? WHERE guild = ? AND channelid = ? AND messageid = ?;");
+                            if (msgdata.channelid = channel.id) {
+                                if(msgdata.messageid = messageid) {
+                                client.updateEmbed = emdssql.prepare("UPDATE embeds SET colour = ?, title = ?, description = ?, author = ?, thumbnail = ?, footer = ?, timestamp = ? WHERE guild = ? AND channelid = ? AND messageid = ?;");
+                                channel.messages.fetch(`${msgdata.messageid}`).then(message => {
+                                    //console.log(getAllButtons());
+                                    console.log(`Editing message: ${msgdata.messageid}`);
+                                    message.edit({ embeds: [embed] })
+                                    client.updateEmbed.run(colour, title, description, author, thumbnail, footer, timestamp, interaction.guild.id, channel.id, msgdata.messageid);
+                                    console.log('message edited!');
+                                });
+
+                                submitted.reply({ content: `Your embed message has been updated in: ${channel.name}, and will be used for future reaction roles`, ephemeral: true });
+                                } else {
+                                    submitted.reply({content: `Error: the message with id: ${messageid}, does not appear in our database, are you sure we sent it?`, ephemeral: true});
+                                }
+
+                            } else {
+                                submitted.reply({content: `Error: the message in channel: ${channel.name} does not appear in our database, are you sure we sent it?`, ephemeral: true});
                             }
                         } else {
                             //send the  embed.
+                            client.addEmbed = emdssql.prepare("INSERT OR REPLACE INTO embeds (id, guild, channelid, messageid, colour, title, description, author, thumbnail, footer, timestamp) VALUES (@id, @guild, @channelid, @messageid, @colour, @title, @description, @author, @thumbnail, @footer, @timestamp);");
+                                    channel.send({ embeds: [embed] }).then(msg => {
+                                        //add the reaction role to the database for looking up later
+                                        msgid = msg.id;
+                                        //console.log(msg);
+                                        score = { id: `${interaction.guild.id}-${channel.id}`, guild: interaction.guild.id, channelid: channel.id, messageid: msgid, colour: colour, title: title, description: description, author: author, thumbnail: thumbnail, footer: footer, timestamp: timestamp };
+                                        client.addEmbed.run(score);
+                                    });
+                                    submitted.reply({ content: `Your embed message has been sent in: ${channel.name}, and will be used for future reaction roles`, ephemeral: true });
                         }
                     }
                 }
                 console.log(interaction.options._subcommand);
-                if (interaction.options._subcommand === 'add') {
+                if (interaction.options._subcommand === 'addfield') {
                     interaction.reply({ content: 'add a field', ephemeral: true })
-                } else if (interaction.options._subcommand === 'remove') {
+                } else if (interaction.options._subcommand === 'removefield') {
                     interaction.reply({ content: 'remove a field', ephemeral: true })
                 }
             } else {
