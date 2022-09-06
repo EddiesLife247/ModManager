@@ -124,7 +124,7 @@ module.exports = {
                 console.log(interaction.options._subcommand);
                 if (interaction.options._subcommand === 'add') {
                     interaction.reply({ content: 'add a field', ephemeral: true })
-                } else if (interaction.options.__subcommand === 'remove') {
+                } else if (interaction.options._subcommand === 'remove') {
                     interaction.reply({ content: 'remove a field', ephemeral: true })
                 }
             } else {
