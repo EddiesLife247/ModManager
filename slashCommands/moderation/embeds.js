@@ -7,10 +7,11 @@ const emdssql = new SQLite(`./databases/embeds.sqlite`);
 module.exports = {
     name: 'Embeds',
     cooldown: 3000,
-    type: ApplicationCommandType.Message,
+    type: ApplicationCommandType.ChatInput,
     default_member_permissions: 'ManageMessages', // permission required
     run: async (client, interaction) => {
         try {
+            interaction.reply('Disabled command');
             return 'Disabled Command';
             const input = new ModalBuilder()
                 .setCustomId('reactionrolemessage')
