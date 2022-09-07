@@ -104,9 +104,9 @@ module.exports = {
                         .setLabel('What should the main text be?')
                         .setStyle(TextInputStyle.Paragraph)
                         .setRequired(true);
-                    const authorInput = new TextInputBuilder()
-                        .setCustomId('author')
-                        .setLabel('Who should the author be?')
+                    const urlInput = new TextInputBuilder()
+                        .setCustomId('url')
+                        .setLabel('Should we set this as a link?')
                         .setStyle(TextInputStyle.Short)
                         .setRequired(false);
                     const footerInput = new TextInputBuilder()
@@ -120,7 +120,7 @@ module.exports = {
                     const firstActionRow = new ActionRowBuilder().addComponents(titleInput);
                     const secondActionRow = new ActionRowBuilder().addComponents(colourInput);
                     const thirdActionRow = new ActionRowBuilder().addComponents(descriptionInput);
-                    const forthActionRow = new ActionRowBuilder().addComponents(authorInput);
+                    const forthActionRow = new ActionRowBuilder().addComponents(urlInput);
                     const fifthActionRow = new ActionRowBuilder().addComponents(footerInput);
 
                     input.addComponents(firstActionRow, secondActionRow, thirdActionRow, forthActionRow, fifthActionRow);
@@ -137,7 +137,7 @@ module.exports = {
                         return null
                     })
                     if (submitted) {
-                        var author = '';
+                        var url = '';
                         var timestamp = '0';
                         var thumbnail = '';
                         var footer = '';
@@ -146,8 +146,9 @@ module.exports = {
                         const colour = submitted.fields.getTextInputValue('colour');
                         const title = submitted.fields.getTextInputValue('title');
                         const description = submitted.fields.getTextInputValue('description');
-                        if (submitted.fields.getTextInputValue('author')) {
-                            author = submitted.fields.getTextInputValue('author').value;
+                        const row = new ActionRowBuilder()
+                        if (submitted.fields.getTextInputValue('urlInput')) {
+                            url = submitted.fields.getTextInputValue('urlInput').value;
                         }
                         if (interaction.options.get('timestamp')) {
                             timestamp = interaction.options.get('timestamp').value;
@@ -180,8 +181,13 @@ module.exports = {
                         if (!footer == '') {
                             embed.setFooter({text: footer, iconURL: interaction.guild.iconURL()});
                         }
-                        if (!author == '') {
-                            embed.setAuthor({name: author, iconURL: interaction.guild.iconURL()});
+                        if (!url == '') {
+                            embed.setURL(url);
+                            const button = new ButtonBuilder()
+                                .setLabel(`Go to link`)
+                                .setStyle(`Link`)
+                                .setURL(url);
+                            row.addComponents(button);
                         }
                         console.log(thumbnail);
                         if (!thumbnail == '') {
@@ -196,6 +202,11 @@ module.exports = {
                                     channel.messages.fetch(`${msgdata.messageid}`).then(message => {
                                         //console.log(getAllButtons());
                                         //console.log(`Editing message: ${msgdata.messageid}`);
+                                        if(row.components.length == 0) {
+                                            message.edit({ embeds: [embed], components: [row] })
+                                        } else {
+                                            message.edit({ embeds: [embed] })
+                                        }
                                         message.edit({ embeds: [embed] })
                                         client.updateEmbed.run(colour, title, description, author, thumbnail, footer, timestamp, interaction.guild.id, channel.id, msgdata.messageid);
                                         console.log('message edited!');
