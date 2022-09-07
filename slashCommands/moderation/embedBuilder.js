@@ -154,6 +154,7 @@ module.exports = {
                         }
                         if (submitted.fields.getTextInputValue('footer')) {
                             footer = submitted.fields.getTextInputValue('footer');
+                            console.log(footer);
                         }
                         if (interaction.options.get('thumbnail')) {
                             thumbnail = interaction.options.get('thumbnailurl').value;
@@ -171,16 +172,16 @@ module.exports = {
                         if (timestamp == '1') {
                             embed.setTimestamp();
                         }
-                        if (!description == '') {
+                        if (description) {
                             embed.setDescription(description);
                         }
-                        if (!footer == '') {
+                        if (footer) {
                             embed.setFooter(footer);
                         }
-                        if (!author == '') {
+                        if (author) {
                             embed.setAuthor(author);
                         }
-                        if (!thumbnail == '') {
+                        if (thumbnail) {
                             embed.setThumbnail(thumbnail);
                         }
                         //console.log(msgdata);
