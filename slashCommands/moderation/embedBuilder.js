@@ -114,7 +114,7 @@ module.exports = {
             if (interaction.options._subcommand === 'message') {
                 const input = new ModalBuilder()
                     .setCustomId('embedBuilder')
-                    .setTitle('Configure your Reaction Role Message');
+                    .setTitle('Embed Builder');
 
                 const titleInput = new TextInputBuilder()
                     .setCustomId('title')
@@ -255,7 +255,7 @@ module.exports = {
             if (interaction.options._subcommand === 'addfield') {
                 const fieldAdd = new ModalBuilder()
                     .setCustomId('embedFieldAdd')
-                    .setTitle('Add a field to an embed');
+                    .setTitle('Embed Builder: Add a field');
 
                 const titleInput = new TextInputBuilder()
                     .setCustomId('title')
