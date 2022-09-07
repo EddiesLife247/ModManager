@@ -25,8 +25,24 @@ module.exports = {
                 {
                     name: 'messageid',
                     description: 'If Updating what is the message id of the original embed sent by me?',
-                    type: 7,
+                    type: 3,
                     required: false,
+                },
+                {
+                    name: 'thumbnailUrl',
+                    description: 'What thumbnail do you want to use in the embed?',
+                    type: 3,
+                    required: false,
+                },
+                {
+                    name: 'timestamp',
+                    description: 'True/False do you want to show a timestamp?',
+                    type: 3,
+                    required: false,
+                    choices: [
+                        { name: "true", value: "true" },
+                        { name: "false", value: "false" },
+                    ]
                 },
             ]
         },
@@ -88,38 +104,15 @@ module.exports = {
                         .setLabel('What should the main text be?')
                         .setStyle(TextInputStyle.Paragraph)
                         .setRequired(true);
-                    const thumbnailInput = new TextInputBuilder()
-                        .setCustomId('thumbnail')
-                        .setLabel('What image link should we use as a thumbnail?')
-                        .setStyle(TextInputStyle.Short)
-                        .setMaxLength(30)
-                        .setRequired(true);
                     const authorInput = new TextInputBuilder()
                         .setCustomId('author')
                         .setLabel('Who should the author be?')
                         .setStyle(TextInputStyle.Short)
-                        .setMaxLength(30)
                         .setRequired(true);
                     const footerInput = new TextInputBuilder()
                         .setCustomId('footer')
                         .setLabel('What should the footer say?')
                         .setStyle(TextInputStyle.Short)
-                        .setMaxLength(30)
-                        .setRequired(true);
-                    const timestampInput = new SelectMenuComponent()
-                        .setCustomId('timestamp')
-                        .setLabel('True/False should we show a timestamp?')
-                        .addOptions({
-                            label: 'True',
-                            value: 'true',
-                            description: 'I want to show a timestamp',
-                        },
-                        {
-                            label: 'False',
-                            value: 'false',
-                            description: 'I do not want to show a timestamp',
-                        }
-                        )
                         .setRequired(true);
                         
 
@@ -127,8 +120,8 @@ module.exports = {
                     const firstActionRow = new ActionRowBuilder().addComponents(titleInput);
                     const secondActionRow = new ActionRowBuilder().addComponents(colourInput);
                     const thirdActionRow = new ActionRowBuilder().addComponents(descriptionInput);
-                    const forthActionRow = new ActionRowBuilder().addComponents(thumbnailInput, timestampInput);
-                    const fifthActionRow = new ActionRowBuilder().addComponents(authorInput, footerInput);
+                    const forthActionRow = new ActionRowBuilder().addComponents(authorInput);
+                    const fifthActionRow = new ActionRowBuilder().addComponents(footerInput);
 
                     input.addComponents(firstActionRow, secondActionRow, thirdActionRow, forthActionRow, fifthActionRow);
 
@@ -148,10 +141,10 @@ module.exports = {
                         const colour = submitted.fields.getTextInputValue('colour');
                         const title = submitted.fields.getTextInputValue('title');
                         const description = submitted.fields.getTextInputValue('description');
-                        const timestamp = submitted.fields.getTextInputValue('timestamp');
+                        const timestamp = interaction.options.get('timestamp').timestamp;
                         const footer = submitted.fields.getTextInputValue('footer');
                         const author = submitted.fields.getTextInputValue('author');
-                        const thumbnail = submitted.fields.getTextInputValue('thumbnail');
+                        const thumbnail = interaction.options.get('thumbnailUrl').thumbnailUrl;
                         const channel = interaction.options.get('channel').channel;
                         const messageid = interaction.options.get('messageid').messageid;
                         client.getmsg = emdssql.prepare("SELECT * FROM embeds WHERE guild = ? AND channelid = ? AND messageid = ?")
