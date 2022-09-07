@@ -61,13 +61,13 @@ module.exports = {
             options: [
                 {
                     name: 'channel',
-                    description: 'The channel where the reaction role message is?',
+                    description: 'What is the channel that the reaction role embed is sent?',
                     type: 7,
                     required: true,
                 },
                 {
                     name: 'role',
-                    description: 'The role you dont want to show',
+                    description: 'The role you dont want to show anymore as a reaction role?',
                     type: 8,
                     required: true,
                 }
@@ -75,12 +75,12 @@ module.exports = {
         },
         {
             name: 'message',
-            description: 'Change the message embed.',
+            description: 'Update the reaction role message embed?',
             type: 1,
             options: [
                 {
                     name: 'channel',
-                    description: 'The channel where you want message sent?',
+                    description: 'What channel is the message embed sent to? or is being sent to?',
                     type: 7,
                     required: true,
                 }
@@ -137,7 +137,7 @@ module.exports = {
                                 .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL() })
                         } else {
                             embed.setTitle('Reaction Roles')
-                                .setDescription(`The following button(s) Grant's access to some of the servers roles!`)
+                                .setDescription(`The following button(s) grant's access to some of the servers roles!`)
                                 .setColor('Green')
                                 .setTimestamp()
                                 .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL() })
@@ -153,7 +153,7 @@ module.exports = {
                         rr = client.getRr.all(interaction.guild.id, channel.id);
                         //console.log(`Length is: ${rr.length}`);
                         if (rr.length > 0) {
-                            console.log(`more than 1 reaction role`);
+                            //console.log(`more than 1 reaction role`);
                             rr = client.getRr.get(interaction.guild.id, channel.id);
                             //console.log(rr);
                             if (!rr.messageid) {
@@ -283,7 +283,7 @@ module.exports = {
                                         //console.log(getAllButtons());
                                         message.edit({ embeds: [embed], components: [row] }).then(btnmsg => {
                                             //console.log(btnmsg);
-                                            console.log(`message edited! with id: ${msgid}`);
+                                            //console.log(`message edited! with id: ${msgid}`);
 
 
                                         });
@@ -300,7 +300,7 @@ module.exports = {
                                         //console.log(getAllButtons());
                                         message.edit({ embeds: [embed], components: [row, row2] }).then(btnmsg => {
                                             //console.log(btnmsg);
-                                            console.log(`message edited! with id: ${msgid}`);
+                                            //console.log(`message edited! with id: ${msgid}`);
 
 
                                         });
@@ -316,7 +316,7 @@ module.exports = {
                                     channel.messages.fetch(`${msgid}`).then(message => {
                                         //console.log(getAllButtons());
                                         message.edit({ embeds: [embed], components: [row, row2, row3] }).then(btnmsg => {
-                                            console.log(`message edited! with id: ${msgid}`);
+                                            //console.log(`message edited! with id: ${msgid}`);
 
 
                                         });
@@ -332,7 +332,7 @@ module.exports = {
                                     channel.messages.fetch(`${msgid}`).then(message => {
                                         //console.log(getAllButtons());
                                         message.edit({ embeds: [embed], components: [row, row2, row3, row4] }).then(btnmsg => {
-                                            console.log(`message edited! with id: ${msgid}`);
+                                            //console.log(`message edited! with id: ${msgid}`);
 
 
                                         });
@@ -348,7 +348,7 @@ module.exports = {
                                     channel.messages.fetch(`${msgid}`).then(message => {
                                         //console.log(getAllButtons());
                                         message.edit({ embeds: [embed], components: [row, row2, row3, row4, row5] }).then(btnmsg => {
-                                            console.log(`message edited! with id: ${msgid}`);
+                                            //console.log(`message edited! with id: ${msgid}`);
 
 
                                         });
@@ -368,7 +368,7 @@ module.exports = {
                                 channel.messages.fetch(`${msgdata.messageid}`).then(message => {
                                     //console.log(getAllButtons());
                                     msgid = message.id;
-                                    console.log(`Editing message: ${msgdata.messageid}`);
+                                    //console.log(`Editing message: ${msgdata.messageid}`);
                                     message.edit({ embeds: [embed], components: [getButtons()] }).then(btnmsg => {
                                         score = { id: `${interaction.guild.id}-${role.id}`, emoji: role.id, guild: interaction.guild.id, role: role.id, messageid: msgid, rrchan: channel.id, name: text, colour: chosenString, emojichoice: emoji };
                                         client.addRr.run(score);
@@ -423,8 +423,8 @@ module.exports = {
                     client.delRr = rrsql.prepare("DELETE FROM rrtable WHERE guild = ? AND emoji = ? AND channel = ?")
                     client.getRr = rrsql.prepare("SELECT * FROM rrtable WHERE guild = ? AND emoji = ? AND channel = ?")
                     rr = client.getRr.all(interaction.guild.id, role.id, channel.id);
-                    console.log(rr);
-                    console.log(`Length is: ${rr.length}`);
+                    //console.log(rr);
+                    //console.log(`Length is: ${rr.length}`);
                     if (rr.length > 0) {
                         // console.log(`more than 1 reaction role`);
                         rr = client.getRr.get(interaction.guild.id, role.id, channel.id);
@@ -571,7 +571,7 @@ module.exports = {
                                     //console.log(getAllButtons());
                                     message.edit({ embeds: [embed], components: [row] }).then(btnmsg => {
                                         //console.log(btnmsg);
-                                        console.log(`message edited! with id: ${msgid}`);
+                                      //  console.log(`message edited! with id: ${msgid}`);
 
 
                                     });
@@ -588,7 +588,7 @@ module.exports = {
                                     //console.log(getAllButtons());
                                     message.edit({ embeds: [embed], components: [row, row2] }).then(btnmsg => {
                                         //console.log(btnmsg);
-                                        console.log(`message edited! with id: ${msgid}`);
+                                       // console.log(`message edited! with id: ${msgid}`);
 
 
                                     });
@@ -604,7 +604,7 @@ module.exports = {
                                 channel.messages.fetch(`${msgid}`).then(message => {
                                     //console.log(getAllButtons());
                                     message.edit({ embeds: [embed], components: [row, row2, row3] }).then(btnmsg => {
-                                        console.log(`message edited! with id: ${msgid}`);
+                                        //console.log(`message edited! with id: ${msgid}`);
 
 
                                     });
@@ -619,7 +619,7 @@ module.exports = {
                                 channel.messages.fetch(`${msgid}`).then(message => {
                                     //console.log(getAllButtons());
                                     message.edit({ embeds: [embed], components: [row, row2, row3, row4] }).then(btnmsg => {
-                                        console.log(`message edited! with id: ${msgid}`);
+                                       // console.log(`message edited! with id: ${msgid}`);
 
 
                                     });
@@ -635,7 +635,7 @@ module.exports = {
                                 channel.messages.fetch(`${msgid}`).then(message => {
                                     //console.log(getAllButtons());
                                     message.edit({ embeds: [embed], components: [row, row2, row3, row4, row5] }).then(btnmsg => {
-                                        console.log(`message edited! with id: ${msgid}`);
+                                        //console.log(`message edited! with id: ${msgid}`);
 
 
                                     });
@@ -665,7 +665,7 @@ module.exports = {
                             .setRequired(true);
                         const colourInput = new TextInputBuilder()
                             .setCustomId('colour')
-                            .setLabel('What colour the embed be?')
+                            .setLabel('What hex code colour should your embed be?')
                             .setStyle(TextInputStyle.Short)
                             .setRequired(true);
                         const descriptionInput = new TextInputBuilder()
@@ -704,18 +704,18 @@ module.exports = {
                                 .setDescription(description)
                                 .setColor(colour)
                                 .setTimestamp()
-                            console.log(msgdata);
+                            //console.log(msgdata);
                             if (msgdata) {
                                 if (msgdata.channelid = channel) {
                                     client.addRr = rrsql.prepare("UPDATE rrmsg SET colour = ?, title = ?, description = ? WHERE guild = ? AND channelid = ?;");
-                                    console.log(msgdata.messageid);
-                                    console.log(channel.messages);
+                                    //console.log(msgdata.messageid);
+                                    //.log(channel.messages);
                                     channel.messages.fetch(`${msgdata.messageid}`).then(message => {
                                         //console.log(getAllButtons());
-                                        console.log(`Editing message: ${msgdata.messageid}`);
+                                       // console.log(`Editing message: ${msgdata.messageid}`);
                                         message.edit({ embeds: [embed] })
                                         client.addRr.run(colour, title, description, interaction.guild.id, channel.id);
-                                        console.log('message edited!');
+                                        //console.log('message edited!');
                                     });
 
 
