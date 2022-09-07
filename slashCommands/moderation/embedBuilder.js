@@ -184,11 +184,6 @@ module.exports = {
                         }
                         if (!url == '') {
                             embed.setURL(url);
-                            const button = new ButtonBuilder()
-                                .setLabel(`Go to link`)
-                                .setStyle(ButtonStyle.Link)
-                                .setURL(url);
-                            row.addComponents(button);
                         }
                         console.log(thumbnail);
                         if (!thumbnail == '') {
@@ -205,7 +200,7 @@ module.exports = {
                                         //console.log(`Editing message: ${msgdata.messageid}`);
                                         if(row.components.length == 0) {
                                             console.log('1');
-                                            message.edit({ embeds: [embed], components: [row] })
+                                            message.edit({ embeds: [embed] })
                                         } else {
                                             message.edit({ embeds: [embed] })
                                         }
