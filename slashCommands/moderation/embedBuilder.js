@@ -175,14 +175,13 @@ module.exports = {
                         if (description) {
                             embed.setDescription(description);
                         }
-                        console.log(footer);
                         if (!footer == '') {
-                            embed.setFooter(footer);
+                            embed.setFooter({text: footer, iconURL: interaction.guild.iconURL()});
                         }
-                        if (author) {
+                        if (!author == '') {
                             embed.setAuthor(author);
                         }
-                        if (thumbnail) {
+                        if (!thumbnail == '') {
                             embed.setThumbnail(thumbnail);
                         }
                         //console.log(msgdata);
