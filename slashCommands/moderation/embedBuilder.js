@@ -177,7 +177,7 @@ module.exports = {
                     console.log(`URL IS: ${submitted.fields.getTextInputValue('url')}`);
                     if (submitted.fields.getTextInputValue('url')) {
                         url = submitted.fields.getTextInputValue('url');
-                        console.log(url);
+                        //console.log(url);
                     }
                     if (interaction.options.get('timestamp')) {
                         timestamp = interaction.options.get('timestamp').value;
@@ -212,7 +212,7 @@ module.exports = {
                     }
                     if (!url == '') {
                         embed.setURL(url);
-                        console.log(url);
+                        //console.log(url);
                     }
                     //console.log(thumbnail);
                     if (!thumbnail == '') {
@@ -251,7 +251,7 @@ module.exports = {
                     }
                 }
             }
-            console.log(interaction.options._subcommand);
+            //console.log(interaction.options._subcommand);
             if (interaction.options._subcommand === 'addfield') {
                 const fieldAdd = new ModalBuilder()
                     .setCustomId('embedFieldAdd')
