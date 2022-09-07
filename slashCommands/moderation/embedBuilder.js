@@ -217,6 +217,7 @@ module.exports = {
                     //console.log(thumbnail);
                     if (!thumbnail == '') {
                         embed.setThumbnail(thumbnail);
+                        embed.setImage(thumbnail);
                     }
                     //console.log(msgdata);
 
@@ -305,6 +306,7 @@ module.exports = {
                         //console.log(thumbnail);
                         if (!msgdata.thumbnail == '') {
                             embed.setThumbnail(msgdata.thumbnail);
+                            embed.setImage(msgdata.thumbnail);
                         }
                         const titleInput = submitted.fields.getTextInputValue('title');
                         const messageInput = submitted.fields.getTextInputValue('message');
@@ -371,6 +373,7 @@ module.exports = {
                     //console.log(thumbnail);
                     if (!msgdata.thumbnail == '') {
                         embed.setThumbnail(msgdata.thumbnail);
+                        embed.setImage(msgdata.thumbnail);
                     }
                     const title = interaction.options.get('title').value;
                     client.getFields = emdssql.prepare('SELECT * FROM embedFields WHERE messageid = ? AND title = ?');
