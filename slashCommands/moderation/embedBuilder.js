@@ -172,7 +172,7 @@ module.exports = {
                             embed.setTimestamp();
                         }
                         if (!description == null) {
-                            embed.setFooter(description);
+                            embed.setDescription(description);
                         }
                         if (!footer == null) {
                             embed.setFooter(footer);
@@ -183,7 +183,7 @@ module.exports = {
                         if (!thumbnail == null) {
                             embed.setThumbnail(thumbnail);
                         }
-                        console.log(msgdata);
+                        //console.log(msgdata);
 
                         if (msgdata) {
                             if (msgdata.channelid = channel.id) {
@@ -191,7 +191,7 @@ module.exports = {
                                     client.updateEmbed = emdssql.prepare("UPDATE embeds SET colour = ?, title = ?, description = ?, author = ?, thumbnail = ?, footer = ?, timestamp = ? WHERE guild = ? AND channelid = ? AND messageid = ?;");
                                     channel.messages.fetch(`${msgdata.messageid}`).then(message => {
                                         //console.log(getAllButtons());
-                                        console.log(`Editing message: ${msgdata.messageid}`);
+                                        //console.log(`Editing message: ${msgdata.messageid}`);
                                         message.edit({ embeds: [embed] })
                                         client.updateEmbed.run(colour, title, description, author, thumbnail, footer, timestamp, interaction.guild.id, channel.id, msgdata.messageid);
                                         console.log('message edited!');
