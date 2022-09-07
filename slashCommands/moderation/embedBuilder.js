@@ -402,11 +402,11 @@ module.exports = {
                             }
                             channel.messages.fetch(`${messageid}`).then(message => {
                                 message.edit({ embeds: [embed] })
-                                submitted.reply({ content: `Field has been deleted with the title: ${title} to the embed message`, ephemeral: true })
+                                interaction.reply({ content: `Field has been deleted with the title: ${title} to the embed message`, ephemeral: true })
                             }).catch(error => {
                                 console.log(`Error occured with embedFieldRemove: ${error}`);
                                 client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${error.message} | \`\`\` ${error.stack} \`\`\`` });
-                                submitted.reply({ content: `I can't seem to edit the message with id: ${messageid}`, ephemeral: true })
+                                interaction.reply({ content: `I can't seem to edit the message with id: ${messageid}`, ephemeral: true })
                             });
 
                         } else {
