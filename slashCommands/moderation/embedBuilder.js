@@ -168,7 +168,7 @@ module.exports = {
                         const embed = new EmbedBuilder()
                             .setTitle(title)
                             .setColor(colour)
-                        if (timestamp == 'true') {
+                        if (timestamp == '1') {
                             embed.setTimestamp();
                         }
                         if (!description == null) {
