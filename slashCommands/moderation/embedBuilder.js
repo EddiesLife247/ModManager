@@ -62,6 +62,16 @@ module.exports = {
                             type: 3,
                             required: true,
                         },
+                        {
+                            name: 'inline',
+                            description: 'Should it be sent inline?',
+                            type: 3,
+                            required: true,
+                            choices: [
+                                { name: "Yes", value: "1" },
+                                { name: "No", value: "0" },
+                            ]
+                        },
                     ]
                 },
                 {
@@ -86,7 +96,7 @@ module.exports = {
             if (interaction.guild.id == '787871047139328000') {
                 if (interaction.options._subcommand === 'message') {
                     const input = new ModalBuilder()
-                        .setCustomId('reactionrolemessage')
+                        .setCustomId('embedBuilder')
                         .setTitle('Configure your Reaction Role Message');
 
                     const titleInput = new TextInputBuilder()
@@ -161,7 +171,7 @@ module.exports = {
                         }
                         //console.log(interaction.options.get('thumbnailurl'));
                         if (interaction.options.get('thumbnailurl')) {
-                            
+
                             thumbnail = interaction.options.get('thumbnailurl').value;
                         }
                         const channel = interaction.options.get('channel').channel;
@@ -181,7 +191,7 @@ module.exports = {
                             embed.setDescription(description);
                         }
                         if (!footer == '') {
-                            embed.setFooter({text: footer, iconURL: interaction.guild.iconURL()});
+                            embed.setFooter({ text: footer, iconURL: interaction.guild.iconURL() });
                         }
                         if (!url == '') {
                             embed.setURL(url);
@@ -202,7 +212,7 @@ module.exports = {
                                         client.updateEmbed.run(colour, title, description, url, thumbnail, footer, timestamp, interaction.guild.id, channel.id, msgdata.messageid);
                                     });
 
-                                    submitted.reply({ content: `Your embed message has been updated in: ${channel.name}, and will be used for future reaction roles`, ephemeral: true });
+                                    submitted.reply({ content: `Your embed message has been updated in: ${channel.name}.`, ephemeral: true });
                                 } else {
                                     submitted.reply({ content: `Error: the message with id: ${messageid}, does not appear in our database, are you sure we sent it?`, ephemeral: true });
                                 }
@@ -220,13 +230,82 @@ module.exports = {
                                 score = { id: `${interaction.guild.id}-${channel.id}`, guild: interaction.guild.id, channelid: channel.id, messageid: msgid, colour: colour, title: title, description: description, url: url, thumbnail: thumbnail, footer: footer, timestamp: timestamp };
                                 client.addEmbed.run(score);
                             });
-                            submitted.reply({ content: `Your embed message has been sent in: ${channel.name}, and will be used for future reaction roles`, ephemeral: true });
+                            submitted.reply({ content: `Your embed message has been sent in: ${channel.name}.`, ephemeral: true });
                         }
                     }
                 }
                 console.log(interaction.options._subcommand);
                 if (interaction.options._subcommand === 'addfield') {
-                    interaction.reply({ content: 'add a field', ephemeral: true })
+                    const fieldAdd = new ModalBuilder()
+                        .setCustomId('embedFieldAdd')
+                        .setTitle('Add a field to an embed');
+
+                    const titleInput = new TextInputBuilder()
+                        .setCustomId('title')
+                        .setLabel('What should the embed be titled?')
+                        .setStyle(TextInputStyle.Short)
+                        .setRequired(true);
+                    const messageInput = new TextInputBuilder()
+                        .setCustomId('message')
+                        .setLabel('What message should go with this embed?')
+                        .setStyle(TextInputStyle.Paragraph)
+                        .setRequired(true);
+                    const firstActionRow = new ActionRowBuilder().addComponents(titleInput);
+                    const secondActionRow = new ActionRowBuilder().addComponents(messageInput);
+                    fieldAdd.addComponents(firstActionRow, secondActionRow);
+                    await interaction.showModal(fieldAdd);
+                    const submitted = await interaction.awaitModalSubmit({
+                        // Timeout after a minute of not receiving any valid Modals
+                        time: 600000,
+                        // Make sure we only accept Modals from the User who sent the original Interaction we're responding to
+                        filter: i => i.user.id === interaction.user.id,
+                    }).catch(error => {
+                        // Catch any Errors that are thrown (e.g. if the awaitModalSubmit times out after 60000 ms)
+                        console.error(error)
+                        return null
+                    })
+                    if (submitted) {
+                        client.getmsg = emdssql.prepare("SELECT * FROM embeds WHERE guild = ? AND channelid = ? AND messageid = ?");
+                        const msgdata = client.getmsg.get(interaction.guild.id, channel.id, messageid);
+                        if (msgdata) {
+                            const embed = new EmbedBuilder()
+                                .setTitle(msgdata.title)
+                                .setColor(msgdata.colour)
+                            if (msgdata.timestamp == '1') {
+                                embed.setTimestamp();
+                            }
+                            if (msgdata.description) {
+                                embed.setDescription(msgdata.description);
+                            }
+                            if (!msgdata.footer == '') {
+                                embed.setFooter({ text: msgdata.footer, iconURL: interaction.guild.iconURL() });
+                            }
+                            if (!msgdata.url == '') {
+                                embed.setURL(msgdata.url);
+                            }
+                            //console.log(thumbnail);
+                            if (!msgdata.thumbnail == '') {
+                                embed.setThumbnail(msgdata.thumbnail);
+                            }
+                            const titleInput = submitted.fields.getTextInputValue('title');
+                            const messageInput = submitted.fields.getTextInputValue('message');
+                            const inline = interaction.options.get('inline').value;
+                            const messageid = interaction.options.get('messageid').value;
+                            client.addEmbed = emdssql.prepare("INSERT OR REPLACE INTO embedFields (messageid, title, message, inline) VALUES (@messageid, @title, @message, @inline);");
+                            channel.messages.fetch(`${messageid}`).then(message => {
+                                message.edit({ embeds: [embed] })
+                                score = { messageid: message.id, title: titleInput, message: messageInput, inline: inline };
+                                client.addEmbed.run(score);
+                                interaction.reply({ content: 'Field has been added to the embed message', ephemeral: true })
+                            }).catch(error => {
+                                console.log(`Error occured with embedFieldAdd: ${error}`);
+                                client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${error.message} | \`\`\` ${error.stack} \`\`\`` });
+                                interaction.reply({content: `I can't seem to edit the message with id: ${messageid}`, ephemeral: true})
+                            });
+                        } else {
+                            interaction.reply({content: 'The message does not exist in the database.. Sorry, We cannot add a field to an embed if it does not exist.', ephemeral: true})
+                        }
+                    }
                 } else if (interaction.options._subcommand === 'removefield') {
                     interaction.reply({ content: 'remove a field', ephemeral: true })
                 }
