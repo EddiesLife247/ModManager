@@ -113,7 +113,7 @@ module.exports = async (client, member) => {
             
             score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: BannedReason, approved: banApproved };
             client.addBan.run(score);
-            client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `BAN ADDED: Member: ${member.user.username} | ${member.guild.name} | Status: ${banApproved} \`\`\` ${banReason} \`\`\`` });
+            client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `BAN ADDED: Member: ${member.user.username} | ${member.guild.name} | Status: ${banApproved} \`\`\` ${BannedReason} \`\`\`` });
         }
     } catch (err) {
         console.log(err);
