@@ -73,7 +73,7 @@ module.exports = async (client, interaction) => {
 			
 			if (cooldown.has(`slash-${slashCommand.name}${interaction.user.id}`)) {
 				console.log(`Someone used an interaction on: ${interaction.guild.name} but it was on cooldown. ${interaction.commandName}.`);
-				return interaction.reply({ content: config.messages["COOLDOWN_MESSAGE"].replace('<duration>', ms(cooldown.get(`slash-${slashCommand.name}${interaction.user.id}`) - Date.now(), { long: true })) })
+				return interaction.reply({ content: config.messages["COOLDOWN_MESSAGE"].replace('<duration>', ms(cooldown.get(`slash-${slashCommand.name}${interaction.user.id}`) - Date.now(), { long: true })), ephemeral: true })
 			}
 			if (slashCommand.userPerms || slashCommand.botPerms) {
 				if (!interaction.memberPermissions.has(PermissionsBitField.resolve(slashCommand.userPerms || []))) {
