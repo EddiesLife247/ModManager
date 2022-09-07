@@ -326,14 +326,14 @@ module.exports = {
                             }
                             channel.messages.fetch(`${messageid}`).then(message => {
                                 message.edit({ embeds: [embed] })
-                                interaction.reply({ content: 'Field has been added to the embed message', ephemeral: true })
+                                submitted.reply({ content: 'Field has been added to the embed message', ephemeral: true })
                             }).catch(error => {
                                 console.log(`Error occured with embedFieldAdd: ${error}`);
                                 client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${error.message} | \`\`\` ${error.stack} \`\`\`` });
-                                interaction.reply({content: `I can't seem to edit the message with id: ${messageid}`, ephemeral: true})
+                                submitted.reply({content: `I can't seem to edit the message with id: ${messageid}`, ephemeral: true})
                             });
                         } else {
-                            interaction.reply({content: 'The message does not exist in the database.. Sorry, We cannot add a field to an embed if it does not exist.', ephemeral: true})
+                            submitted.reply({content: 'The message does not exist in the database.. Sorry, We cannot add a field to an embed if it does not exist.', ephemeral: true})
                         }
                     }
                 } else if (interaction.options._subcommand === 'removefield') {
