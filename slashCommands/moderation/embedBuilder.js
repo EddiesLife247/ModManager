@@ -161,7 +161,7 @@ module.exports = {
                         }
                         const channel = interaction.options.get('channel').channel;
                         if (interaction.options.get('messageid')) {
-                            const messageid = interaction.options.get('messageid').value;
+                            messageid = interaction.options.get('messageid').value;
                         }
                         client.getmsg = emdssql.prepare("SELECT * FROM embeds WHERE guild = ? AND channelid = ? AND messageid = ?")
                         const msgdata = client.getmsg.get(interaction.guild.id, channel.id, messageid);
