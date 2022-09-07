@@ -307,13 +307,13 @@ module.exports = {
                             const fields = client.getFields.all(messageid);
                             for (let i = 0; i < fields.length; i++) {
                                 if(fields[i].inline == '1'){
-                                    embed.fields[
+                                    embed.addFields(
                                         {
                                             name: fields[i].title,
                                             value: fields[i].message,
                                             inline: true,
                                         }
-                                    ]
+                                    )
                                 } else {
                                     embed.addFields(
                                         {
