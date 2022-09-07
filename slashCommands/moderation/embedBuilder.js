@@ -156,8 +156,9 @@ module.exports = {
                             footer = submitted.fields.getTextInputValue('footer');
                             console.log(footer);
                         }
-                        if (interaction.options.get('thumbnail')) {
-                            console.log(interaction.options.get('thumbnailurl'));
+                        console.log(interaction.options.get('thumbnailurl'));
+                        if (interaction.options.get('thumbnailurl')) {
+                            
                             thumbnail = interaction.options.get('thumbnailurl').value;
                         }
                         const channel = interaction.options.get('channel').channel;
