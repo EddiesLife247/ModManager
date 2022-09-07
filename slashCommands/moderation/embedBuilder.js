@@ -157,6 +157,7 @@ module.exports = {
                             console.log(footer);
                         }
                         if (interaction.options.get('thumbnail')) {
+                            console.log(interaction.options.get('thumbnailurl'));
                             thumbnail = interaction.options.get('thumbnailurl').value;
                         }
                         const channel = interaction.options.get('channel').channel;
@@ -181,6 +182,7 @@ module.exports = {
                         if (!author == '') {
                             embed.setAuthor(author);
                         }
+                        console.log(thumbnail);
                         if (!thumbnail == '') {
                             embed.setThumbnail(thumbnail);
                         }
