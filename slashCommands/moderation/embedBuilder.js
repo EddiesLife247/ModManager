@@ -147,7 +147,7 @@ module.exports = {
                         const title = submitted.fields.getTextInputValue('title');
                         const description = submitted.fields.getTextInputValue('description');
                         const row = new ActionRowBuilder()
-                        console.log(submitted.fields)
+                        //console.log(submitted.fields)
                         if (submitted.fields.getTextInputValue('urlInput')) {
                             url = submitted.fields.getTextInputValue('urlInput').value;
                         }
@@ -158,7 +158,7 @@ module.exports = {
                             footer = submitted.fields.getTextInputValue('footer');
                             console.log(footer);
                         }
-                        console.log(interaction.options.get('thumbnailurl'));
+                        //console.log(interaction.options.get('thumbnailurl'));
                         if (interaction.options.get('thumbnailurl')) {
                             
                             thumbnail = interaction.options.get('thumbnailurl').value;
@@ -169,7 +169,7 @@ module.exports = {
                         }
                         client.getmsg = emdssql.prepare("SELECT * FROM embeds WHERE guild = ? AND channelid = ? AND messageid = ?")
                         const msgdata = client.getmsg.get(interaction.guild.id, channel.id, messageid);
-                        console.log(description);
+                        //console.log(description);
                         const embed = new EmbedBuilder()
                             .setTitle(title)
                             .setColor(colour)
@@ -182,8 +182,10 @@ module.exports = {
                         if (!footer == '') {
                             embed.setFooter({text: footer, iconURL: interaction.guild.iconURL()});
                         }
+                        console.log(url);
                         if (!url == '') {
                             embed.setURL(url);
+                            console.log(url);
                         }
                         console.log(thumbnail);
                         if (!thumbnail == '') {
@@ -196,17 +198,8 @@ module.exports = {
                                 if (msgdata.messageid = messageid) {
                                     client.updateEmbed = emdssql.prepare("UPDATE embeds SET colour = ?, title = ?, description = ?, url = ?, thumbnail = ?, footer = ?, timestamp = ? WHERE guild = ? AND channelid = ? AND messageid = ?;");
                                     channel.messages.fetch(`${msgdata.messageid}`).then(message => {
-                                        //console.log(getAllButtons());
-                                        //console.log(`Editing message: ${msgdata.messageid}`);
-                                        if(row.components.length == 0) {
-                                            console.log('1');
-                                            message.edit({ embeds: [embed] })
-                                        } else {
-                                            message.edit({ embeds: [embed] })
-                                        }
                                         message.edit({ embeds: [embed] })
                                         client.updateEmbed.run(colour, title, description, url, thumbnail, footer, timestamp, interaction.guild.id, channel.id, msgdata.messageid);
-                                        console.log('message edited!');
                                     });
 
                                     submitted.reply({ content: `Your embed message has been updated in: ${channel.name}, and will be used for future reaction roles`, ephemeral: true });
