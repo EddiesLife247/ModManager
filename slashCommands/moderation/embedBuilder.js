@@ -108,12 +108,12 @@ module.exports = {
                         .setCustomId('author')
                         .setLabel('Who should the author be?')
                         .setStyle(TextInputStyle.Short)
-                        .setRequired(true);
+                        .setRequired(false);
                     const footerInput = new TextInputBuilder()
                         .setCustomId('footer')
                         .setLabel('What should the footer say?')
                         .setStyle(TextInputStyle.Short)
-                        .setRequired(true);
+                        .setRequired(false);
                         
 
 
@@ -141,9 +141,14 @@ module.exports = {
                         const colour = submitted.fields.getTextInputValue('colour');
                         const title = submitted.fields.getTextInputValue('title');
                         const description = submitted.fields.getTextInputValue('description');
-                        const timestamp = interaction.options.get('timestamp').timestamp;
+                        if(submitted.fields.getTextInputValue('author')) {
+                        author = submitted.fields.getTextInputValue('author');
+                        }
+                        if(interaction.options.get('timestamp').timestamp) {
+                        timestamp = interaction.options.get('timestamp').timestamp;
+                        }
                         const footer = submitted.fields.getTextInputValue('footer');
-                        const author = submitted.fields.getTextInputValue('author');
+                        console.log(interaction.options.get('thumbnailurl'));
                         const thumbnail = interaction.options.get('thumbnailurl').thumbnailurl;
                         const channel = interaction.options.get('channel').channel;
                         const messageid = interaction.options.get('messageid').messageid;
