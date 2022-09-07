@@ -57,6 +57,12 @@ module.exports = {
                     type: 1,
                     options: [
                         {
+                            name: 'channel',
+                            description: 'The channel where you want the role to be chosen?',
+                            type: 7,
+                            required: true,
+                        },
+                        {
                             name: 'messageid',
                             description: 'What was the embed that was sent?',
                             type: 3,
@@ -292,10 +298,31 @@ module.exports = {
                             const inline = interaction.options.get('inline').value;
                             const messageid = interaction.options.get('messageid').value;
                             client.addEmbed = emdssql.prepare("INSERT OR REPLACE INTO embedFields (messageid, title, message, inline) VALUES (@messageid, @title, @message, @inline);");
+                            score = { messageid: messageid, title: titleInput, message: messageInput, inline: inline };
+                            client.addEmbed.run(score);
+                            client.getFields = emdssql.prepare('SELECT * FROM embedFields WHERE messageid = ?');
+                            const fields = client.getFields.all(messageid);
+                            for (let i = 0; i < fields.length; i++) {
+                                if(fields[i].inline == '1'){
+                                    embed.fields[
+                                        {
+                                            name: fields[i].title,
+                                            value: fields[i].message,
+                                            inline: true,
+                                        }
+                                    ]
+                                } else {
+                                    embed.fields[
+                                        {
+                                            name: fields[i].title,
+                                            value: fields[i].message,
+                                            inline: false,
+                                        }
+                                    ]
+                                }
+                            }
                             channel.messages.fetch(`${messageid}`).then(message => {
                                 message.edit({ embeds: [embed] })
-                                score = { messageid: message.id, title: titleInput, message: messageInput, inline: inline };
-                                client.addEmbed.run(score);
                                 interaction.reply({ content: 'Field has been added to the embed message', ephemeral: true })
                             }).catch(error => {
                                 console.log(`Error occured with embedFieldAdd: ${error}`);
