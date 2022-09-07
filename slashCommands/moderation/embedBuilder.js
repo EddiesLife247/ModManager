@@ -142,16 +142,16 @@ module.exports = {
                         const title = submitted.fields.getTextInputValue('title');
                         const description = submitted.fields.getTextInputValue('description');
                         if(submitted.fields.getTextInputValue('author')) {
-                        author = submitted.fields.getTextInputValue('author');
+                        author = submitted.fields.getTextInputValue('author').value;
                         }
                         if(interaction.options.get('timestamp')) {
-                        timestamp = interaction.options.get('timestamp');
+                        timestamp = interaction.options.get('timestamp').value;
                         }
                         const footer = submitted.fields.getTextInputValue('footer');
-                        console.log(interaction.options.get('thumbnailurl'));
-                        const thumbnail = interaction.options.get('thumbnailurl');
-                        const channel = interaction.options.get('channel');
-                        const messageid = interaction.options.get('messageid');
+                        console.log(interaction.options.get('thumbnailurl').value);
+                        const thumbnail = interaction.options.get('thumbnailurl').value;
+                        const channel = interaction.options.get('channel').channel;
+                        const messageid = interaction.options.get('messageid').value;
                         client.getmsg = emdssql.prepare("SELECT * FROM embeds WHERE guild = ? AND channelid = ? AND messageid = ?")
                         const msgdata = client.getmsg.get(interaction.guild.id, channel.id, messageid);
                         const embed = new EmbedBuilder()
