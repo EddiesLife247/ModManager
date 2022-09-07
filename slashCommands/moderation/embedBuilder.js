@@ -40,8 +40,8 @@ module.exports = {
                     type: 3,
                     required: false,
                     choices: [
-                        { name: "true", value: "true" },
-                        { name: "false", value: "false" },
+                        { name: "true", value: "1" },
+                        { name: "false", value: "0" },
                     ]
                 },
             ]
@@ -138,7 +138,7 @@ module.exports = {
                     })
                     if (submitted) {
                         var author = '';
-                        var timestamp = false;
+                        var timestamp = '0';
                         var thumbnail = '';
                         var footer = '';
                         var messageid = '';
