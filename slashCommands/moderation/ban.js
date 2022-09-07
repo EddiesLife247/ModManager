@@ -12,7 +12,7 @@ module.exports = {
     run: async (client, interaction) => {
         client.setup = botsql.prepare(`SELECT * FROM settings WHERE guildid = '${interaction.guild.id}'`);
         if (!client.setup.all().length) {
-            return interaction.editReply("The bot has not been configured yet, run /config to setup the bot.");
+            return interaction.reply("The bot has not been configured yet, run /config to setup the bot.");
         }
         try {
             
