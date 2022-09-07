@@ -175,7 +175,8 @@ module.exports = {
                         if (description) {
                             embed.setDescription(description);
                         }
-                        if (footer) {
+                        console.log(footer);
+                        if (!footer == '') {
                             embed.setFooter(footer);
                         }
                         if (author) {
