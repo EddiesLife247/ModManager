@@ -91,6 +91,18 @@ module.exports = {
                             type: 3,
                             required: true,
                         },
+                        {
+                            name: 'channel',
+                            description: 'The channel where you want the role to be chosen?',
+                            type: 7,
+                            required: true,
+                        },
+                        {
+                            name: 'title',
+                            description: 'What field are we removing by title?',
+                            type: 3,
+                            required: true,
+                        },
                     ]
                 }
             ]
@@ -299,14 +311,14 @@ module.exports = {
                             const messageInput = submitted.fields.getTextInputValue('message');
 
                             const inline = interaction.options.get('inline').value;
-                            
+
                             client.addEmbed = emdssql.prepare("INSERT OR REPLACE INTO embedFields (messageid, title, message, inline) VALUES (@messageid, @title, @message, @inline);");
                             score = { messageid: messageid, title: titleInput, message: messageInput, inline: inline };
                             client.addEmbed.run(score);
                             client.getFields = emdssql.prepare('SELECT * FROM embedFields WHERE messageid = ?');
                             const fields = client.getFields.all(messageid);
                             for (let i = 0; i < fields.length; i++) {
-                                if(fields[i].inline == '1'){
+                                if (fields[i].inline == '1') {
                                     embed.addFields(
                                         {
                                             name: fields[i].title,
@@ -330,14 +342,82 @@ module.exports = {
                             }).catch(error => {
                                 console.log(`Error occured with embedFieldAdd: ${error}`);
                                 client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${error.message} | \`\`\` ${error.stack} \`\`\`` });
-                                submitted.reply({content: `I can't seem to edit the message with id: ${messageid}`, ephemeral: true})
+                                submitted.reply({ content: `I can't seem to edit the message with id: ${messageid}`, ephemeral: true })
                             });
                         } else {
-                            submitted.reply({content: 'The message does not exist in the database.. Sorry, We cannot add a field to an embed if it does not exist.', ephemeral: true})
+                            submitted.reply({ content: 'The message does not exist in the database.. Sorry, We cannot add a field to an embed if it does not exist.', ephemeral: true })
                         }
                     }
                 } else if (interaction.options._subcommand === 'removefield') {
-                    interaction.reply({ content: 'remove a field', ephemeral: true })
+                    const channel = interaction.options.get('channel').channel;
+                    const messageid = interaction.options.get('messageid').value;
+                    client.getmsg = emdssql.prepare("SELECT * FROM embeds WHERE guild = ? AND channelid = ? AND messageid = ?");
+                    const msgdata = client.getmsg.get(interaction.guild.id, channel.id, messageid);
+                    if (msgdata) {
+                        const embed = new EmbedBuilder()
+                            .setTitle(msgdata.title)
+                            .setColor(msgdata.colour)
+                        if (msgdata.timestamp == '1') {
+                            embed.setTimestamp();
+                        }
+                        if (msgdata.description) {
+                            embed.setDescription(msgdata.description);
+                        }
+                        if (!msgdata.footer == '') {
+                            embed.setFooter({ text: msgdata.footer, iconURL: interaction.guild.iconURL() });
+                        }
+                        if (!msgdata.url == '') {
+                            embed.setURL(msgdata.url);
+                        }
+                        //console.log(thumbnail);
+                        if (!msgdata.thumbnail == '') {
+                            embed.setThumbnail(msgdata.thumbnail);
+                        }
+                        const title = interaction.options.get('title').value;
+                        client.getFields = emdssql.prepare('SELECT * FROM embedFields WHERE messageid = ? AND title = ?');
+                        const fields = client.getFields.all(messageid, title);
+                        if (fields) {
+                            client.deleteFields = emdssql.prepare('DELETE FROM embedFields WHERE messageid = ? AND title = ?');
+                            client.deleteFields.run(messageid, title);
+                            client.getAllFields = emdssql.prepare('SELECT * FROM embedFields WHERE messageid = ?');
+                            const allFields = client.getAllFields.all(messageid);
+                            for (let i = 0; i < allFields.length; i++) {
+                                if (allFields[i].inline == '1') {
+                                    embed.addFields(
+                                        {
+                                            name: allFields[i].title,
+                                            value: allFields[i].message,
+                                            inline: true,
+                                        }
+                                    )
+                                } else {
+                                    embed.addFields(
+                                        {
+                                            name: allFields[i].title,
+                                            value: allFields[i].message,
+                                            inline: false,
+                                        }
+                                    )
+                                }
+                            }
+                            channel.messages.fetch(`${messageid}`).then(message => {
+                                message.edit({ embeds: [embed] })
+                                submitted.reply({ content: `Field has been deleted with the title: ${title} to the embed message`, ephemeral: true })
+                            }).catch(error => {
+                                console.log(`Error occured with embedFieldRemove: ${error}`);
+                                client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `ERROR: event: ${error.message} | \`\`\` ${error.stack} \`\`\`` });
+                                submitted.reply({ content: `I can't seem to edit the message with id: ${messageid}`, ephemeral: true })
+                            });
+
+                        } else {
+                            interaction.reply({ content: `ERROR: I cannot find a field with the title of; ${title} in messageid: ${messageid} in our database to delete.`, ephemeral: true })
+                        }
+
+
+                    } else {
+                        interaction.reply({ content: 'That message does not seem to be in our database?', ephemeral: true })
+                    }
+
                 }
             } else {
                 interaction.reply({ content: 'You have found a spoiler! - This command is still being developed! - Disabled command, sorry', ephemeral: true });
