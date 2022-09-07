@@ -204,6 +204,7 @@ module.exports = {
                                         //console.log(getAllButtons());
                                         //console.log(`Editing message: ${msgdata.messageid}`);
                                         if(row.components.length == 0) {
+                                            console.log('1');
                                             message.edit({ embeds: [embed], components: [row] })
                                         } else {
                                             message.edit({ embeds: [embed] })
