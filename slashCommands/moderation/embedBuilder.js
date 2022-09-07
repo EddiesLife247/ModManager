@@ -29,7 +29,7 @@ module.exports = {
                     required: false,
                 },
                 {
-                    name: 'thumbnailUrl',
+                    name: 'thumbnailurl',
                     description: 'What thumbnail do you want to use in the embed?',
                     type: 3,
                     required: false,
@@ -144,7 +144,7 @@ module.exports = {
                         const timestamp = interaction.options.get('timestamp').timestamp;
                         const footer = submitted.fields.getTextInputValue('footer');
                         const author = submitted.fields.getTextInputValue('author');
-                        const thumbnail = interaction.options.get('thumbnailUrl').thumbnailUrl;
+                        const thumbnail = interaction.options.get('thumbnailurl').thumbnailurl;
                         const channel = interaction.options.get('channel').channel;
                         const messageid = interaction.options.get('messageid').messageid;
                         client.getmsg = emdssql.prepare("SELECT * FROM embeds WHERE guild = ? AND channelid = ? AND messageid = ?")
