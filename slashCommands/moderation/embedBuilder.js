@@ -105,7 +105,7 @@ module.exports = {
                         .setStyle(TextInputStyle.Paragraph)
                         .setRequired(true);
                     const urlInput = new TextInputBuilder()
-                        .setCustomId('url')
+                        .setCustomId('urlInput')
                         .setLabel('Should we set this as a link?')
                         .setStyle(TextInputStyle.Short)
                         .setRequired(false);
