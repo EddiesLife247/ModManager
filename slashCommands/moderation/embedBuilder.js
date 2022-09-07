@@ -181,7 +181,7 @@ module.exports = {
                             embed.setFooter({text: footer, iconURL: interaction.guild.iconURL()});
                         }
                         if (!author == '') {
-                            embed.setAuthor(author);
+                            embed.setAuthor({name: author, iconURL: interaction.guild.iconURL()});
                         }
                         console.log(thumbnail);
                         if (!thumbnail == '') {
