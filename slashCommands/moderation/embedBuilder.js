@@ -271,6 +271,8 @@ module.exports = {
                         return null
                     })
                     if (submitted) {
+                        const channel = submitted.fields.getTextInputValue('channel').channel;
+                        const messageid = interaction.options.get('messageid').value;
                         client.getmsg = emdssql.prepare("SELECT * FROM embeds WHERE guild = ? AND channelid = ? AND messageid = ?");
                         const msgdata = client.getmsg.get(interaction.guild.id, channel.id, messageid);
                         if (msgdata) {
@@ -295,8 +297,9 @@ module.exports = {
                             }
                             const titleInput = submitted.fields.getTextInputValue('title');
                             const messageInput = submitted.fields.getTextInputValue('message');
+
                             const inline = interaction.options.get('inline').value;
-                            const messageid = interaction.options.get('messageid').value;
+                            
                             client.addEmbed = emdssql.prepare("INSERT OR REPLACE INTO embedFields (messageid, title, message, inline) VALUES (@messageid, @title, @message, @inline);");
                             score = { messageid: messageid, title: titleInput, message: messageInput, inline: inline };
                             client.addEmbed.run(score);
