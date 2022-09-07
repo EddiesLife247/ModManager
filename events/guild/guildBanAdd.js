@@ -11,7 +11,7 @@ const SQLite = require("better-sqlite3");
 const bansql = new SQLite(`./databases/bans.sqlite`);
 const botsql = new SQLite(`./databases/bot.sqlite`);
 module.exports = async (client, member) => {
-    console.log("Ban Added");
+    console.log(`Ban Added on guild: ${member.guild.name}`);
     client.addBan = bansql.prepare("INSERT INTO bans (id, user, guild, reason, approved, appealed, date, length) VALUES (@id, @user, @guild, @reason, @approved, 'No', datetime('now'), 60);");
     try {
         client.logchannel = botsql.prepare(`SELECT logchannel FROM settings WHERE guildid = '${member.guild.id}'`);
