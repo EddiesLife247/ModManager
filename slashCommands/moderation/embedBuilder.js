@@ -149,7 +149,7 @@ module.exports = {
                         //console.log(submitted.fields)
                         console.log(`URL IS: ${submitted.fields.getTextInputValue('url')}`);
                         if (submitted.fields.getTextInputValue('url')) {
-                            url = submitted.fields.getTextInputValue('url').value;
+                            url = submitted.fields.getTextInputValue('url');
                             console.log(url);
                         }
                         if (interaction.options.get('timestamp')) {
