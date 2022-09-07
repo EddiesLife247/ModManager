@@ -239,7 +239,7 @@ module.exports = {
                         }
                     } else {
                         //send the  embed.
-                        client.addEmbed = emdssql.prepare("INSERT OR REPLACE INTO embeds (id, guild, channelid, messageid, colour, title, description, url, thumbnail, footer, timestamp) VALUES (@id, @guild, @channelid, @messageid, @colour, @title, @description, @author, @thumbnail, @footer, @timestamp);");
+                        client.addEmbed = emdssql.prepare("INSERT OR REPLACE INTO embeds (id, guild, channelid, messageid, colour, title, description, url, thumbnail, footer, timestamp) VALUES (@id, @guild, @channelid, @messageid, @colour, @title, @description, @url, @thumbnail, @footer, @timestamp);");
                         channel.send({ embeds: [embed] }).then(msg => {
                             //add the reaction role to the database for looking up later
                             msgid = msg.id;
