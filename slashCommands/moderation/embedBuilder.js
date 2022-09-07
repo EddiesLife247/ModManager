@@ -105,7 +105,7 @@ module.exports = {
                         .setStyle(TextInputStyle.Paragraph)
                         .setRequired(true);
                     const urlInput = new TextInputBuilder()
-                        .setCustomId('urlInput')
+                        .setCustomId('url')
                         .setLabel('Should we set this as a link?')
                         .setStyle(TextInputStyle.Short)
                         .setRequired(false);
@@ -148,8 +148,9 @@ module.exports = {
                         const description = submitted.fields.getTextInputValue('description');
                         const row = new ActionRowBuilder()
                         //console.log(submitted.fields)
-                        if (submitted.fields.getTextInputValue('urlInput')) {
-                            url = submitted.fields.getTextInputValue('urlInput').value;
+                        if (submitted.fields.getTextInputValue('url')) {
+                            url = submitted.fields.getTextInputValue('url').value;
+                            console.log(url);
                         }
                         if (interaction.options.get('timestamp')) {
                             timestamp = interaction.options.get('timestamp').value;
@@ -182,7 +183,6 @@ module.exports = {
                         if (!footer == '') {
                             embed.setFooter({text: footer, iconURL: interaction.guild.iconURL()});
                         }
-                        console.log(url);
                         if (!url == '') {
                             embed.setURL(url);
                             console.log(url);
