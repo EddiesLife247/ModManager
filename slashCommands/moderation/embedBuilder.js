@@ -114,7 +114,7 @@ module.exports = {
                         .setLabel('What should the footer say?')
                         .setStyle(TextInputStyle.Short)
                         .setRequired(false);
-                        
+
 
 
                     const firstActionRow = new ActionRowBuilder().addComponents(titleInput);
@@ -137,74 +137,85 @@ module.exports = {
                         return null
                     })
                     if (submitted) {
+                        var author = '';
+                        var timestamp = false;
+                        var thumbnail = '';
+                        var footer = '';
+                        var messageid = '';
                         //client.addRr = rrsql.prepare("INSERT OR REPLACE INTO rrmsg (id, guild, channelid, messageid, colour, title, description) VALUES (@id, @guild, @channelid, @messageid, @colour, @title, @description);");
                         const colour = submitted.fields.getTextInputValue('colour');
                         const title = submitted.fields.getTextInputValue('title');
                         const description = submitted.fields.getTextInputValue('description');
-                        if(submitted.fields.getTextInputValue('author')) {
-                        author = submitted.fields.getTextInputValue('author').value;
+                        if (submitted.fields.getTextInputValue('author')) {
+                            author = submitted.fields.getTextInputValue('author').value;
                         }
-                        if(interaction.options.get('timestamp')) {
-                        timestamp = interaction.options.get('timestamp').value;
+                        if (interaction.options.get('timestamp')) {
+                            timestamp = interaction.options.get('timestamp').value;
                         }
-                        const footer = submitted.fields.getTextInputValue('footer');
-                        console.log(interaction.options.get('thumbnailurl').value);
-                        const thumbnail = interaction.options.get('thumbnailurl').value;
+                        if (submitted.fields.getTextInputValue('footer')) {
+                            footer = submitted.fields.getTextInputValue('footer');
+                        }
+                        if (interaction.options.get('thumbnail')) {
+                            console.log(interaction.options.get('thumbnailurl').value);
+                            thumbnail = interaction.options.get('thumbnailurl').value;
+                        }
                         const channel = interaction.options.get('channel').channel;
-                        const messageid = interaction.options.get('messageid').value;
+                        if (interaction.options.get('messageid')) {
+                            const messageid = interaction.options.get('messageid').value;
+                        }
                         client.getmsg = emdssql.prepare("SELECT * FROM embeds WHERE guild = ? AND channelid = ? AND messageid = ?")
                         const msgdata = client.getmsg.get(interaction.guild.id, channel.id, messageid);
                         const embed = new EmbedBuilder()
                             .setTitle(title)
                             .setColor(colour)
-                        if(timestamp == 'true') {
+                        if (timestamp == 'true') {
                             embed.setTimestamp();
                         }
-                        if(!description == null) {
+                        if (!description == null) {
                             embed.setFooter(description);
                         }
-                        if(!footer == null) {
+                        if (!footer == null) {
                             embed.setFooter(footer);
                         }
-                        if(!author == null) {
+                        if (!author == null) {
                             embed.setAuthor(author);
                         }
-                        if(!thumbnail == null) {
+                        if (!thumbnail == null) {
                             embed.setThumbnail(thumbnail);
                         }
                         console.log(msgdata);
-                        
+
                         if (msgdata) {
                             if (msgdata.channelid = channel.id) {
-                                if(msgdata.messageid = messageid) {
-                                client.updateEmbed = emdssql.prepare("UPDATE embeds SET colour = ?, title = ?, description = ?, author = ?, thumbnail = ?, footer = ?, timestamp = ? WHERE guild = ? AND channelid = ? AND messageid = ?;");
-                                channel.messages.fetch(`${msgdata.messageid}`).then(message => {
-                                    //console.log(getAllButtons());
-                                    console.log(`Editing message: ${msgdata.messageid}`);
-                                    message.edit({ embeds: [embed] })
-                                    client.updateEmbed.run(colour, title, description, author, thumbnail, footer, timestamp, interaction.guild.id, channel.id, msgdata.messageid);
-                                    console.log('message edited!');
-                                });
+                                if (msgdata.messageid = messageid) {
+                                    client.updateEmbed = emdssql.prepare("UPDATE embeds SET colour = ?, title = ?, description = ?, author = ?, thumbnail = ?, footer = ?, timestamp = ? WHERE guild = ? AND channelid = ? AND messageid = ?;");
+                                    channel.messages.fetch(`${msgdata.messageid}`).then(message => {
+                                        //console.log(getAllButtons());
+                                        console.log(`Editing message: ${msgdata.messageid}`);
+                                        message.edit({ embeds: [embed] })
+                                        client.updateEmbed.run(colour, title, description, author, thumbnail, footer, timestamp, interaction.guild.id, channel.id, msgdata.messageid);
+                                        console.log('message edited!');
+                                    });
 
-                                submitted.reply({ content: `Your embed message has been updated in: ${channel.name}, and will be used for future reaction roles`, ephemeral: true });
+                                    submitted.reply({ content: `Your embed message has been updated in: ${channel.name}, and will be used for future reaction roles`, ephemeral: true });
                                 } else {
-                                    submitted.reply({content: `Error: the message with id: ${messageid}, does not appear in our database, are you sure we sent it?`, ephemeral: true});
+                                    submitted.reply({ content: `Error: the message with id: ${messageid}, does not appear in our database, are you sure we sent it?`, ephemeral: true });
                                 }
 
                             } else {
-                                submitted.reply({content: `Error: the message in channel: ${channel.name} does not appear in our database, are you sure we sent it?`, ephemeral: true});
+                                submitted.reply({ content: `Error: the message in channel: ${channel.name} does not appear in our database, are you sure we sent it?`, ephemeral: true });
                             }
                         } else {
                             //send the  embed.
                             client.addEmbed = emdssql.prepare("INSERT OR REPLACE INTO embeds (id, guild, channelid, messageid, colour, title, description, author, thumbnail, footer, timestamp) VALUES (@id, @guild, @channelid, @messageid, @colour, @title, @description, @author, @thumbnail, @footer, @timestamp);");
-                                    channel.send({ embeds: [embed] }).then(msg => {
-                                        //add the reaction role to the database for looking up later
-                                        msgid = msg.id;
-                                        //console.log(msg);
-                                        score = { id: `${interaction.guild.id}-${channel.id}`, guild: interaction.guild.id, channelid: channel.id, messageid: msgid, colour: colour, title: title, description: description, author: author, thumbnail: thumbnail, footer: footer, timestamp: timestamp };
-                                        client.addEmbed.run(score);
-                                    });
-                                    submitted.reply({ content: `Your embed message has been sent in: ${channel.name}, and will be used for future reaction roles`, ephemeral: true });
+                            channel.send({ embeds: [embed] }).then(msg => {
+                                //add the reaction role to the database for looking up later
+                                msgid = msg.id;
+                                //console.log(msg);
+                                score = { id: `${interaction.guild.id}-${channel.id}`, guild: interaction.guild.id, channelid: channel.id, messageid: msgid, colour: colour, title: title, description: description, author: author, thumbnail: thumbnail, footer: footer, timestamp: timestamp };
+                                client.addEmbed.run(score);
+                            });
+                            submitted.reply({ content: `Your embed message has been sent in: ${channel.name}, and will be used for future reaction roles`, ephemeral: true });
                         }
                     }
                 }
