@@ -156,7 +156,6 @@ module.exports = {
                             footer = submitted.fields.getTextInputValue('footer');
                         }
                         if (interaction.options.get('thumbnail')) {
-                            console.log(interaction.options.get('thumbnailurl').value);
                             thumbnail = interaction.options.get('thumbnailurl').value;
                         }
                         const channel = interaction.options.get('channel').channel;
@@ -165,6 +164,7 @@ module.exports = {
                         }
                         client.getmsg = emdssql.prepare("SELECT * FROM embeds WHERE guild = ? AND channelid = ? AND messageid = ?")
                         const msgdata = client.getmsg.get(interaction.guild.id, channel.id, messageid);
+                        console.log(description);
                         const embed = new EmbedBuilder()
                             .setTitle(title)
                             .setColor(colour)
