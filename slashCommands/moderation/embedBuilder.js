@@ -186,7 +186,7 @@ module.exports = {
                             embed.setURL(url);
                             const button = new ButtonBuilder()
                                 .setLabel(`Go to link`)
-                                .setStyle(`Link`)
+                                .setStyle(ButtonStyle.Link)
                                 .setURL(url);
                             row.addComponents(button);
                         }
@@ -199,7 +199,7 @@ module.exports = {
                         if (msgdata) {
                             if (msgdata.channelid = channel.id) {
                                 if (msgdata.messageid = messageid) {
-                                    client.updateEmbed = emdssql.prepare("UPDATE embeds SET colour = ?, title = ?, description = ?, author = ?, thumbnail = ?, footer = ?, timestamp = ? WHERE guild = ? AND channelid = ? AND messageid = ?;");
+                                    client.updateEmbed = emdssql.prepare("UPDATE embeds SET colour = ?, title = ?, description = ?, url = ?, thumbnail = ?, footer = ?, timestamp = ? WHERE guild = ? AND channelid = ? AND messageid = ?;");
                                     channel.messages.fetch(`${msgdata.messageid}`).then(message => {
                                         //console.log(getAllButtons());
                                         //console.log(`Editing message: ${msgdata.messageid}`);
@@ -209,7 +209,7 @@ module.exports = {
                                             message.edit({ embeds: [embed] })
                                         }
                                         message.edit({ embeds: [embed] })
-                                        client.updateEmbed.run(colour, title, description, author, thumbnail, footer, timestamp, interaction.guild.id, channel.id, msgdata.messageid);
+                                        client.updateEmbed.run(colour, title, description, url, thumbnail, footer, timestamp, interaction.guild.id, channel.id, msgdata.messageid);
                                         console.log('message edited!');
                                     });
 
@@ -228,7 +228,7 @@ module.exports = {
                                 //add the reaction role to the database for looking up later
                                 msgid = msg.id;
                                 //console.log(msg);
-                                score = { id: `${interaction.guild.id}-${channel.id}`, guild: interaction.guild.id, channelid: channel.id, messageid: msgid, colour: colour, title: title, description: description, author: author, thumbnail: thumbnail, footer: footer, timestamp: timestamp };
+                                score = { id: `${interaction.guild.id}-${channel.id}`, guild: interaction.guild.id, channelid: channel.id, messageid: msgid, colour: colour, title: title, description: description, url: url, thumbnail: thumbnail, footer: footer, timestamp: timestamp };
                                 client.addEmbed.run(score);
                             });
                             submitted.reply({ content: `Your embed message has been sent in: ${channel.name}, and will be used for future reaction roles`, ephemeral: true });
