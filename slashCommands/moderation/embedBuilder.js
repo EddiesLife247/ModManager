@@ -315,13 +315,13 @@ module.exports = {
                                         }
                                     ]
                                 } else {
-                                    embed.fields[
+                                    embed.addFields(
                                         {
                                             name: fields[i].title,
                                             value: fields[i].message,
                                             inline: false,
                                         }
-                                    ]
+                                    )
                                 }
                             }
                             channel.messages.fetch(`${messageid}`).then(message => {
