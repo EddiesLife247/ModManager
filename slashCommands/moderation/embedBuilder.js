@@ -106,7 +106,7 @@ module.exports = {
                         .setRequired(true);
                     const urlInput = new TextInputBuilder()
                         .setCustomId('url')
-                        .setLabel('Should we set this as a link?')
+                        .setLabel('What should we link this embed to?')
                         .setStyle(TextInputStyle.Short)
                         .setRequired(false);
                     const footerInput = new TextInputBuilder()
@@ -146,8 +146,8 @@ module.exports = {
                         const colour = submitted.fields.getTextInputValue('colour');
                         const title = submitted.fields.getTextInputValue('title');
                         const description = submitted.fields.getTextInputValue('description');
-                        const row = new ActionRowBuilder()
                         //console.log(submitted.fields)
+                        console.log(`URL IS: ${submitted.fields.getTextInputValue('url')}`);
                         if (submitted.fields.getTextInputValue('url')) {
                             url = submitted.fields.getTextInputValue('url').value;
                             console.log(url);
@@ -157,7 +157,7 @@ module.exports = {
                         }
                         if (submitted.fields.getTextInputValue('footer')) {
                             footer = submitted.fields.getTextInputValue('footer');
-                            console.log(footer);
+                            //console.log(footer);
                         }
                         //console.log(interaction.options.get('thumbnailurl'));
                         if (interaction.options.get('thumbnailurl')) {
@@ -187,7 +187,7 @@ module.exports = {
                             embed.setURL(url);
                             console.log(url);
                         }
-                        console.log(thumbnail);
+                        //console.log(thumbnail);
                         if (!thumbnail == '') {
                             embed.setThumbnail(thumbnail);
                         }
