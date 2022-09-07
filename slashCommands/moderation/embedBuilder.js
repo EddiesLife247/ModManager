@@ -171,16 +171,16 @@ module.exports = {
                         if (timestamp == '1') {
                             embed.setTimestamp();
                         }
-                        if (!description == null) {
+                        if (!description == '') {
                             embed.setDescription(description);
                         }
-                        if (!footer == null) {
+                        if (!footer == '') {
                             embed.setFooter(footer);
                         }
-                        if (!author == null) {
+                        if (!author == '') {
                             embed.setAuthor(author);
                         }
-                        if (!thumbnail == null) {
+                        if (!thumbnail == '') {
                             embed.setThumbnail(thumbnail);
                         }
                         //console.log(msgdata);
