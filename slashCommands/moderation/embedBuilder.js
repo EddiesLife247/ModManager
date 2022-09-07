@@ -147,6 +147,7 @@ module.exports = {
                         const title = submitted.fields.getTextInputValue('title');
                         const description = submitted.fields.getTextInputValue('description');
                         const row = new ActionRowBuilder()
+                        console.log(submitted.fields)
                         if (submitted.fields.getTextInputValue('urlInput')) {
                             url = submitted.fields.getTextInputValue('urlInput').value;
                         }
