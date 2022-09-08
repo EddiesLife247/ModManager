@@ -42,7 +42,7 @@ module.exports = async (client, interaction) => {
 			return;
 			
 		}
-		banid = banid.slice(0, -7);
+		banid = banid.slice(0, -3);
 		console.log(banid);
 		if(client.getBan.get(banid)) {
 			console.log('BAN APPROVED');
