@@ -22,10 +22,8 @@ module.exports = {
         {
             name: 'user',
             description: 'Delete by a user',
-            type: 7,
+            type: 6,
             required: false,
-            min_value: 1,
-            max_value: 100,
         },
     ],
     run: async (client, interaction) => {
