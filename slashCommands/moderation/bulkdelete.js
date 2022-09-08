@@ -27,6 +27,7 @@ module.exports = {
                 interaction.channel.messages.fetch({
                     limit: 100,
                 }).then((messages) => {
+                    console.log(messages);
                     interaction.channel.bulkDelete(messages);
                     interaction.reply({ content: `I have deleted ${amount} messages from this channel.`, ephemeral: true })
                 });
@@ -34,10 +35,10 @@ module.exports = {
                 interaction.reply({ content: `I can't deleted those messages from this channel. as I don't have permissions`, ephemeral: true })
 
             }
-            } catch (error) {
-                interaction.reply({ content: `I can't deleted those messages from this channel. as they are older than 14 days`, ephemeral: true })
+        } catch (error) {
+            interaction.reply({ content: `I can't deleted those messages from this channel. as they are older than 14 days`, ephemeral: true })
 
-            }
+        }
 
-}
+    }
 }
