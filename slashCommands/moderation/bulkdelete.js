@@ -30,7 +30,7 @@ module.exports = {
     ],
     run: async (client, interaction) => {
         const amount = interaction.options.getInteger('amount');
-        const user = interaction.option.get('user').user;
+        const user = interaction.guild.members.cache.get(interaction.options.get('user').value);
         console.log(amount);
         
         message.channel.messages.fetch({
