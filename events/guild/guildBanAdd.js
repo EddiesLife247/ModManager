@@ -30,6 +30,7 @@ module.exports = async (client, member) => {
                         limit: 1,
                         type: AuditLogEvent.MemberBanAdd,
                     });
+                    console.log(chLog);
                     const chLog = fetchedLogs.entries.first();
                     if (Date.now() - chLog.createdTimestamp < 5000) {
                         if (!chLog) {
