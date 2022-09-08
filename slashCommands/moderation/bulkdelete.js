@@ -40,12 +40,16 @@ module.exports = {
                     messages = messages.filter(m => m.author.id === filterBy).array().slice(0, amount);
                 }
                 interaction.channel.bulkDelete(messages).catch(error => console.log(error.stack));
+                interaction.reply({content: `I have deleted ${amount} messages from this channel by user: ${user.username}.`, ephernal: true})
+
             })
         } else {
-            message.channel.messages.fetch({
+            interaction.channel.messages.fetch({
                 limit: 100,
             }).then((messages) => {
                 interaction.channel.bulkDelete(messages).catch(error => console.log(error.stack));
+                interaction.reply({content: `I have deleted ${amount} messages from this channel.`, ephernal: true})
+
             });
         }
         console.log(amount);
