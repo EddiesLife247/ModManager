@@ -84,12 +84,12 @@ module.exports = async (client, member) => {
                             .setLabel(`Approve Global Ban`)
                             .setCustomId(`${member.user.id}-${banid}-APPROVE`)
                             .setDisabled(true)
-                            .setColor(ButtonStyle.Success)
+                            .setStyle(ButtonStyle.Success)
                         const denyButton = new ButtonBuilder()
                             .setLabel(`Set to LOCAL`)
                             .setCustomId(`${member.user.id}-${banid}-DENY`)
                             .setDisabled(false)
-                            .setColor(ButtonStyle.Danger)
+                            .setStyle(ButtonStyle.Danger)
                         row.addComponents(approveButton, denyButton);
                     } else if (chLog.reason.toLowerCase().includes("advertising")) {
                         let banid = Math.floor(Math.random() * 9999999999) + 25;
@@ -101,12 +101,12 @@ module.exports = async (client, member) => {
                             .setLabel(`Approve Global Ban`)
                             .setCustomId(`${member.user.id}-${banid}-APPROVE`)
                             .setDisabled(true)
-                            .setColor(ButtonStyle.Success)
+                            .setStyle(ButtonStyle.Success)
                         const denyButton = new ButtonBuilder()
                             .setLabel(`Set to LOCAL`)
                             .setCustomId(`${member.user.id}-${banid}-DENY`)
                             .setDisabled(false)
-                            .setColor(ButtonStyle.Danger)
+                            .setStyle(ButtonStyle.Danger)
                         row.addComponents(approveButton, denyButton);
                     } else if (chLog.reason.toLowerCase().includes("scam")) {
                         let banid = Math.floor(Math.random() * 9999999999) + 25;
@@ -118,12 +118,12 @@ module.exports = async (client, member) => {
                             .setLabel(`Approve Global Ban`)
                             .setCustomId(`${member.user.id}-${banid}-APPROVE`)
                             .setDisabled(true)
-                            .setColor(ButtonStyle.Success)
+                            .setStyle(ButtonStyle.Success)
                         const denyButton = new ButtonBuilder()
                             .setLabel(`Set to LOCAL`)
                             .setCustomId(`${member.user.id}-${banid}-DENY`)
                             .setDisabled(false)
-                            .setColor(ButtonStyle.Danger)
+                            .setStyle(ButtonStyle.Danger)
                         row.addComponents(approveButton, denyButton);
                     } else {
                         let banid = Math.floor(Math.random() * 9999999999) + 25;
@@ -135,12 +135,12 @@ module.exports = async (client, member) => {
                             .setLabel(`Approve Global Ban`)
                             .setCustomId(`${member.user.id}-${banid}-APPROVE`)
                             .setDisabled(false)
-                            .setColor(ButtonStyle.Success)
+                            .setStyle(ButtonStyle.Success)
                         const denyButton = new ButtonBuilder()
                             .setLabel(`Deny Global Ban`)
                             .setCustomId(`${member.user.id}-${banid}-DENY`)
                             .setDisabled(false)
-                            .setColor(ButtonStyle.Danger)
+                            .setStyle(ButtonStyle.Danger)
                         row.addComponents(approveButton, denyButton);
                     }
 
