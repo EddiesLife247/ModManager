@@ -26,7 +26,7 @@ module.exports = {
             limit: 100,
         }).then((messages) => {
             interaction.channel.bulkDelete(messages).catch(error => console.log(error.stack));
-            interaction.reply({ content: `I have deleted ${amount} messages from this channel.`, ephernal: true })
+            interaction.reply({ content: `I have deleted ${amount} messages from this channel.`, ephemeral: true })
         });
     }
 }
