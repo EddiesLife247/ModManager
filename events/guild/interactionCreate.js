@@ -29,7 +29,7 @@ module.exports = async (client, interaction) => {
 		console.log(banid);
 		if(client.getBan.get(banid)) {
 			console.log('BAN DENY');
-			await client.updateBan.run(banid, 'LOCAL');
+			await client.updateBan.run('LOCAL', banid);
 			try {
 				var userid = client.getBan.get(banid).user;
 				var guildid = client.getBan.get(banid).guild;
@@ -46,7 +46,7 @@ module.exports = async (client, interaction) => {
 		console.log(banid);
 		if(client.getBan.get(banid)) {
 			console.log('BAN APPROVED');
-			await console.log(client.updateBan.run(banid, 'GLOBAL'));
+			await client.updateBan.run('GLOBAL', banid);
 			try {
 				var userid = client.getBan.get(banid).user;
 				var guildid = client.getBan.get(banid).guild;
