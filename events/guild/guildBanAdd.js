@@ -191,12 +191,12 @@ module.exports = async (client, member) => {
             const approveButton = new ButtonBuilder()
                 .setLabel(`GLOBAL BAN`)
                 .setCustomId(`${member.user.id}-${banid}-APPROVE`)
-                .setDisabled(true)
+                .setDisabled(false)
                 .setStyle(ButtonStyle.Danger)
             const denyButton = new ButtonBuilder()
                 .setLabel(`LOCAL BAN`)
                 .setCustomId(`${member.user.id}-${banid}-DENY`)
-                .setDisabled(true)
+                .setDisabled(false)
                 .setStyle(ButtonStyle.Success)
             row.addComponents(approveButton, denyButton);
             score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: BannedReason, approved: banApproved };
