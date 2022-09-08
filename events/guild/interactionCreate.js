@@ -22,6 +22,18 @@ module.exports = async (client, interaction) => {
 
 	// Button Interaction
 	if (interaction.isButton()) {
+		client.getBan = bansql.prepare("SELECT * FROM BANS WHERE id = ?");
+		banid = interaction.customId;
+		banid = banid.slice(0, -5);
+		if(client.getBan.get(banid)) {
+			console.log('BAN DENY');
+		}
+		banid = banid.slice(0, -7);
+		if(client.getBan.get(banid)) {
+			console.log('BAN APPROVED');
+		}
+		console.log(interaction.customId);
+
 		if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageRoles)) {
 			//console.log(interaction);
 			// Get roles from database;
