@@ -23,15 +23,39 @@ module.exports = async (client, interaction) => {
 	// Button Interaction
 	if (interaction.isButton()) {
 		client.getBan = bansql.prepare("SELECT * FROM BANS WHERE id = ?");
+		client.updateBan = bansql.prepare("UPDATE BANS WHERE id = ? SET approved = ?");
 		banid = interaction.customId;
 		banid = banid.slice(0, -5);
 		console.log(banid);
 		if(client.getBan.get(banid)) {
 			console.log('BAN DENY');
+			client.updateBan.run(banid, 'LOCAL');
+			try {
+				var userid = client.getBan.get(banid).user;
+				var guildid = client.getBan.get(banid).guild;
+				var guildname = client.guilds.cache.get(guildid).name;
+				client.members.cache.get(userid).send(`Your ban on ${guildname} has been set as a LOCAL ban in our database.`);
+			} catch (err) {
+				//do nothing cannot send a DM.
+			}
+			interaction.reply({content: `Ban with id; ${banid} has been DENIED and set as LOCAL`});
+			return;
+			
 		}
-		banid = banid.slice(0, -7);
+		banid = banid.slice(0, -9);
 		if(client.getBan.get(banid)) {
 			console.log('BAN APPROVED');
+			client.updateBan.run(banid, 'GLOBAL');
+			try {
+				var userid = client.getBan.get(banid).user;
+				var guildid = client.getBan.get(banid).guild;
+				var guildname = client.guilds.cache.get(guildid).name;
+				client.members.cache.get(userid).send(`Your ban on ${guildname} has been set as a GLOBALL ban in our database for reason: ${client.getBan.get(banid).reason}`);
+			} catch (err) {
+				//do nothing cannot send a DM.
+			}
+			interaction.reply({content: `Ban with id; ${banid} has been APPROVED and set as GLOBAL`});
+			return;
 		}
 		console.log(interaction.customId);
 
