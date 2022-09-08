@@ -46,7 +46,7 @@ module.exports = async (client, interaction) => {
 		console.log(banid);
 		if(client.getBan.get(banid)) {
 			console.log('BAN APPROVED');
-			await client.updateBan.run(banid, 'GLOBAL');
+			await console.log(client.updateBan.run(banid, 'GLOBAL'));
 			try {
 				var userid = client.getBan.get(banid).user;
 				var guildid = client.getBan.get(banid).guild;
