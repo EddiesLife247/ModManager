@@ -21,7 +21,7 @@ module.exports = {
         }
     ],
     run: async (client, interaction) => {
-        const amount = interaction.options.getInteger('amount').value;
+        const amount = interaction.options.getInteger('amount');
         console.log(amount);
         /*
         message.channel.messages.fetch({
