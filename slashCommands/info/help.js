@@ -21,6 +21,7 @@ module.exports = {
                 { name: "botcmds", value: "Bot Commands"},
                 { name: "modcmds", value: "Moderator Commands"},
                 { name: "logchan", value: "Log Channels"},
+                { name: "embedbuilder", value: "Embed Builder"},
             ],
         }
     ],
@@ -32,6 +33,19 @@ module.exports = {
             embed.setColor("#0000ff");
             embed.setTitle(`**Help Guides** - Reaction Roles`);
             embed.setDescription(`If you require any extra support, click the link above to join the support server. \n Required Options: () Optional Options []`);
+            embed.setTimestamp();
+            embed.setURL(`https://discord.gg/rqJ75H8xVTU`);
+            embed.addFields(
+                { name: 'add (role) (channel) [text]', value: `Add's a reaction role to a specifc channel with the chosen role, the role name will be displayed as an option` },
+                { name: 'del (role) (channel)', value: `Remove's a reaction role from the server.` },
+            );
+            return interaction.editReply({ content: `Here is the information about: ${chosenString}`, embeds: [embed], ephemeral: true });
+        }
+        if (chosenString === 'Embed Builder') {
+            const embed = new EmbedBuilder();
+            embed.setColor("#0000ff");
+            embed.setTitle(`**Help Guides** - Embed Builder`);
+            embed.setDescription(`If you require any extra support, click the link above to join the support server. \n Required Options: () Optional Options [] \n \n Send and Manage Embeds to your server`);
             embed.setTimestamp();
             embed.setURL(`https://discord.gg/rqJ75H8xVTU`);
             embed.addFields(

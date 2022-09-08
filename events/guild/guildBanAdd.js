@@ -3,7 +3,10 @@ const {
     Message,
     PermissionsBitField,
     AuditLogEvent,
-    EmbedBuilder
+    EmbedBuilder,
+    ButtonStyle,
+    ActionRowBuilder,
+    ButtonBuilder,
 } = require("discord.js");
 const config = require(`../../configs/config.json`);
 const Discord = require(`discord.js`);
@@ -18,7 +21,7 @@ module.exports = async (client, member) => {
         if (client.logchannel.all().length) {
             const logchannel = member.guild.channels.cache.get(client.logchannel.get().logchannel);
             const guild = member.guild;
-            if(logchannel == null){
+            if (logchannel == null) {
                 return;
             }
             if (member.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
@@ -77,7 +80,19 @@ module.exports = async (client, member) => {
                         score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: banReason, approved: banApproved };
                         client.addBan.run(score);
                     }
-                    client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `BAN ADDED: Member: ${member.user.username} | ${member.guild.name} | Status: ${banApproved} \`\`\` ${banReason} \`\`\`` });
+                    const row = new ActionRowBuilder();
+                    const approveButton = new ButtonBuilder()
+                        .setLabel(`Approve Global Ban`)
+                        .setCustomId(`${member.user.id}-${banid}-APPROVE`)
+                        .setDisabled(false)
+                        .setColor(ButtonStyle.Success)
+                    const denyButton = new ButtonBuilder()
+                        .setLabel(`Deny Global Ban`)
+                        .setCustomId(`${member.user.id}-${banid}-DENY`)
+                        .setDisabled(false)
+                        .setColor(ButtonStyle.Danger)
+                    row.addComponents(approveButton, denyButton);
+                    client.guilds.cache.get("787871047139328000").channels.cache.get("1017361857528483880").send({ content: `BAN ADDED: Member: ${member.user.username} | ${member.guild.name} | Status: ${banApproved} \`\`\` ${banReason} \`\`\``, components: [row] });
                     //console.log(`pin updated in a guild that has logs enabled!`);
                     //}
                 } catch (err) {
@@ -90,7 +105,7 @@ module.exports = async (client, member) => {
             let BannedReason = '';
             let banApproved = "";
             if (member.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewAuditLog)) {
-                
+
                 try {
                     const fetchedLogs = await member.guild.fetchAuditLogs({
                         limit: 1,
@@ -103,17 +118,28 @@ module.exports = async (client, member) => {
                     }
                 } catch (error) {
                     console.log(error);
-                    
+
                 }
             } else {
                 BannedReason = 'No Access to view logs/reasons';
                 banApproved = 'LOCAL';
             }
             let banid = Math.floor(Math.random() * 9999999999) + 25;
-            
+            const row = new ActionRowBuilder();
+            const approveButton = new ButtonBuilder()
+                .setLabel(`Make Global Ban`)
+                .setCustomId(`${member.user.id}-${banid}-APPROVE`)
+                .setDisabled(false)
+                .setColor(ButtonStyle.Success)
+            const denyButton = new ButtonBuilder()
+                .setLabel(`Deny Global Ban`)
+                .setCustomId(`${member.user.id}-${banid}-DENY`)
+                .setDisabled(false)
+                .setColor(ButtonStyle.Danger)
+            row.addComponents(approveButton, denyButton);
             score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: BannedReason, approved: banApproved };
             client.addBan.run(score);
-            client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `BAN ADDED: Member: ${member.user.username} | ${member.guild.name} | Status: ${banApproved} \`\`\` ${BannedReason} \`\`\`` });
+            client.guilds.cache.get("787871047139328000").channels.cache.get("1017361857528483880").send({ content: `BAN ADDED: Member: ${member.user.username} | ${member.guild.name} | Status: ${banApproved} \`\`\` ${BannedReason} \`\`\``,components: [row] });
         }
     } catch (err) {
         console.log(err);
