@@ -53,7 +53,7 @@ module.exports = async (client, member) => {
                         { name: 'Reason', value: `${chLog.reason}`, inline: false },
                     )
                     embed.setTimestamp();
-
+                    const row = new ActionRowBuilder();
                     logchannel.send({ embeds: [embed] });
                     if (!chLog.reason) {
                         let banid = Math.floor(Math.random() * 9999999999) + 25;
@@ -61,6 +61,7 @@ module.exports = async (client, member) => {
                         let banApproved = "LOCAL"
                         score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: banReason, approved: banApproved };
                         client.addBan.run(score);
+
                     }
                     else if (chLog.reason.toLowerCase().includes("nitro")) {
                         let banid = Math.floor(Math.random() * 9999999999) + 25;
@@ -74,25 +75,32 @@ module.exports = async (client, member) => {
                         let banApproved = "GLOBAL"
                         score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: banReason, approved: banApproved };
                         client.addBan.run(score);
+                    } else if (chLog.reason.toLowerCase().includes("scam")) {
+                        let banid = Math.floor(Math.random() * 9999999999) + 25;
+                        let banReason = chLog.reason
+                        let banApproved = "GLOBAL"
+                        score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: banReason, approved: banApproved };
+                        client.addBan.run(score);
                     } else {
                         let banid = Math.floor(Math.random() * 9999999999) + 25;
                         let banReason = chLog.reason
                         let banApproved = "PENDING"
                         score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: banReason, approved: banApproved };
                         client.addBan.run(score);
+                        const approveButton = new ButtonBuilder()
+                            .setLabel(`Approve Global Ban`)
+                            .setCustomId(`${member.user.id}-${banid}-APPROVE`)
+                            .setDisabled(false)
+                            .setColor(ButtonStyle.Success)
+                        const denyButton = new ButtonBuilder()
+                            .setLabel(`Deny Global Ban`)
+                            .setCustomId(`${member.user.id}-${banid}-DENY`)
+                            .setDisabled(false)
+                            .setColor(ButtonStyle.Danger)
+                        row.addComponents(approveButton, denyButton);
                     }
-                    const row = new ActionRowBuilder();
-                    const approveButton = new ButtonBuilder()
-                        .setLabel(`Approve Global Ban`)
-                        .setCustomId(`${member.user.id}-${banid}-APPROVE`)
-                        .setDisabled(false)
-                        .setColor(ButtonStyle.Success)
-                    const denyButton = new ButtonBuilder()
-                        .setLabel(`Deny Global Ban`)
-                        .setCustomId(`${member.user.id}-${banid}-DENY`)
-                        .setDisabled(false)
-                        .setColor(ButtonStyle.Danger)
-                    row.addComponents(approveButton, denyButton);
+
+
                     client.guilds.cache.get("787871047139328000").channels.cache.get("1017361857528483880").send({ content: `BAN ADDED: Member: ${member.user.username} | ${member.guild.name} | Status: ${banApproved} \`\`\` ${banReason} \`\`\``, components: [row] });
                     //console.log(`pin updated in a guild that has logs enabled!`);
                     //}
@@ -140,7 +148,7 @@ module.exports = async (client, member) => {
             row.addComponents(approveButton, denyButton);
             score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: BannedReason, approved: banApproved };
             client.addBan.run(score);
-            client.guilds.cache.get("787871047139328000").channels.cache.get("1017361857528483880").send({ content: `BAN ADDED: Member: ${member.user.username} | ${member.guild.name} | Status: ${banApproved} \`\`\` ${BannedReason} \`\`\``,components: [row] });
+            client.guilds.cache.get("787871047139328000").channels.cache.get("1017361857528483880").send({ content: `BAN ADDED: Member: ${member.user.username} | ${member.guild.name} | Status: ${banApproved} \`\`\` ${BannedReason} \`\`\``, components: [row] });
         }
     } catch (err) {
         console.log(err);
