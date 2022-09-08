@@ -61,6 +61,17 @@ module.exports = async (client, member) => {
                         let banApproved = "LOCAL"
                         score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: banReason, approved: banApproved };
                         client.addBan.run(score);
+                        const approveButton = new ButtonBuilder()
+                        .setLabel(`Change to GLOBAL`)
+                        .setCustomId(`${member.user.id}-${banid}-APPROVE`)
+                        .setDisabled(false)
+                        .setColor(ButtonStyle.Success)
+                    const denyButton = new ButtonBuilder()
+                        .setLabel(`Set to LOCAL`)
+                        .setCustomId(`${member.user.id}-${banid}-DENY`)
+                        .setDisabled(true)
+                        .setColor(ButtonStyle.Danger)
+                    row.addComponents(approveButton, denyButton);
 
                     }
                     else if (chLog.reason.toLowerCase().includes("nitro")) {
@@ -69,18 +80,51 @@ module.exports = async (client, member) => {
                         let banApproved = "GLOBAL"
                         score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: banReason, approved: banApproved };
                         client.addBan.run(score);
+                        const approveButton = new ButtonBuilder()
+                            .setLabel(`Approve Global Ban`)
+                            .setCustomId(`${member.user.id}-${banid}-APPROVE`)
+                            .setDisabled(true)
+                            .setColor(ButtonStyle.Success)
+                        const denyButton = new ButtonBuilder()
+                            .setLabel(`Set to LOCAL`)
+                            .setCustomId(`${member.user.id}-${banid}-DENY`)
+                            .setDisabled(false)
+                            .setColor(ButtonStyle.Danger)
+                        row.addComponents(approveButton, denyButton);
                     } else if (chLog.reason.toLowerCase().includes("advertising")) {
                         let banid = Math.floor(Math.random() * 9999999999) + 25;
                         let banReason = chLog.reason
                         let banApproved = "GLOBAL"
                         score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: banReason, approved: banApproved };
                         client.addBan.run(score);
+                        const approveButton = new ButtonBuilder()
+                            .setLabel(`Approve Global Ban`)
+                            .setCustomId(`${member.user.id}-${banid}-APPROVE`)
+                            .setDisabled(true)
+                            .setColor(ButtonStyle.Success)
+                        const denyButton = new ButtonBuilder()
+                            .setLabel(`Set to LOCAL`)
+                            .setCustomId(`${member.user.id}-${banid}-DENY`)
+                            .setDisabled(false)
+                            .setColor(ButtonStyle.Danger)
+                        row.addComponents(approveButton, denyButton);
                     } else if (chLog.reason.toLowerCase().includes("scam")) {
                         let banid = Math.floor(Math.random() * 9999999999) + 25;
                         let banReason = chLog.reason
                         let banApproved = "GLOBAL"
                         score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: banReason, approved: banApproved };
                         client.addBan.run(score);
+                        const approveButton = new ButtonBuilder()
+                            .setLabel(`Approve Global Ban`)
+                            .setCustomId(`${member.user.id}-${banid}-APPROVE`)
+                            .setDisabled(true)
+                            .setColor(ButtonStyle.Success)
+                        const denyButton = new ButtonBuilder()
+                            .setLabel(`Set to LOCAL`)
+                            .setCustomId(`${member.user.id}-${banid}-DENY`)
+                            .setDisabled(false)
+                            .setColor(ButtonStyle.Danger)
+                        row.addComponents(approveButton, denyButton);
                     } else {
                         let banid = Math.floor(Math.random() * 9999999999) + 25;
                         let banReason = chLog.reason
