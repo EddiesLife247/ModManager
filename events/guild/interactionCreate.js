@@ -25,6 +25,7 @@ module.exports = async (client, interaction) => {
 		client.getBan = bansql.prepare("SELECT * FROM BANS WHERE id = ?");
 		banid = interaction.customId;
 		banid = banid.slice(0, -5);
+		console.log(banid);
 		if(client.getBan.get(banid)) {
 			console.log('BAN DENY');
 		}
