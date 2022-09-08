@@ -23,7 +23,7 @@ module.exports = async (client, interaction) => {
 	// Button Interaction
 	if (interaction.isButton()) {
 		client.getBan = bansql.prepare("SELECT * FROM BANS WHERE id = ?");
-		client.updateBan = bansql.prepare("UPDATE BANS WHERE id = ? SET approved = ?");
+		client.updateBan = bansql.prepare("UPDATE BANS SET approved = ? WHERE id = ? ");
 		banid = interaction.customId;
 		banid = banid.slice(0, -5);
 		console.log(banid);
