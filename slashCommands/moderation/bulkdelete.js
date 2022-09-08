@@ -6,6 +6,7 @@ const botsql = new SQLite(`./databases/bot.sqlite`);
 const config = require(`../../configs/config.json`);
 module.exports = {
     name: 'bulkdelete',
+    description: 'Bulk Delete multiple Messages in a channel',
     cooldown: 3000,
     type: ApplicationCommandType.ChatInput,
     default_member_permissions: 'ManageMessages', // permission required
