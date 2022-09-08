@@ -5,7 +5,7 @@ const bansql = new SQLite(`./databases/bans.sqlite`);
 const botsql = new SQLite(`./databases/bot.sqlite`);
 const config = require(`../../configs/config.json`);
 module.exports = {
-    name: 'Bulk Delete',
+    name: 'bulkdelete',
     cooldown: 3000,
     type: ApplicationCommandType.ChatInput,
     default_member_permissions: 'ManageMessages', // permission required
