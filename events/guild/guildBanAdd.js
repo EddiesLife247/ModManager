@@ -62,17 +62,17 @@ module.exports = async (client, member) => {
                         score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: banReason, approved: banApproved };
                         client.addBan.run(score);
                         const approveButton = new ButtonBuilder()
-                        .setLabel(`Change to GLOBAL`)
-                        .setCustomId(`${member.user.id}-${banid}-APPROVE`)
-                        .setDisabled(false)
-                        .setColor(ButtonStyle.Success)
-                    const denyButton = new ButtonBuilder()
-                        .setLabel(`Set to LOCAL`)
-                        .setCustomId(`${member.user.id}-${banid}-DENY`)
-                        .setDisabled(true)
-                        .setColor(ButtonStyle.Danger)
-                    row.addComponents(approveButton, denyButton);
-                    client.guilds.cache.get("787871047139328000").channels.cache.get("1017361857528483880").send({ content: `BAN ADDED: Member: ${member.user.username} | ${member.guild.name} | Status: ${banApproved} \`\`\` ${banReason} \`\`\``, components: [row] });
+                            .setLabel(`GLOBAL BAN`)
+                            .setCustomId(`${member.user.id}-${banid}-APPROVE`)
+                            .setDisabled(true)
+                            .setStyle(ButtonStyle.DANGER)
+                        const denyButton = new ButtonBuilder()
+                            .setLabel(`LOCAL BAN`)
+                            .setCustomId(`${member.user.id}-${banid}-DENY`)
+                            .setDisabled(false)
+                            .setStyle(ButtonStyle.Success)
+                        row.addComponents(approveButton, denyButton);
+                        client.guilds.cache.get("787871047139328000").channels.cache.get("1017361857528483880").send({ content: `BAN ADDED: Member: ${member.user.username} | ${member.guild.name} | Status: ${banApproved} \`\`\` ${banReason} \`\`\``, components: [row] });
 
                     }
                     else if (chLog.reason.toLowerCase().includes("nitro")) {
@@ -82,15 +82,15 @@ module.exports = async (client, member) => {
                         score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: banReason, approved: banApproved };
                         client.addBan.run(score);
                         const approveButton = new ButtonBuilder()
-                            .setLabel(`Approve Global Ban`)
+                            .setLabel(`GLOBAL BAN`)
                             .setCustomId(`${member.user.id}-${banid}-APPROVE`)
                             .setDisabled(true)
-                            .setStyle(ButtonStyle.Success)
+                            .setStyle(ButtonStyle.DANGER)
                         const denyButton = new ButtonBuilder()
-                            .setLabel(`Set to LOCAL`)
+                            .setLabel(`LOCAL BAN`)
                             .setCustomId(`${member.user.id}-${banid}-DENY`)
                             .setDisabled(false)
-                            .setStyle(ButtonStyle.Danger)
+                            .setStyle(ButtonStyle.Success)
                         row.addComponents(approveButton, denyButton);
                         client.guilds.cache.get("787871047139328000").channels.cache.get("1017361857528483880").send({ content: `BAN ADDED: Member: ${member.user.username} | ${member.guild.name} | Status: ${banApproved} \`\`\` ${banReason} \`\`\``, components: [row] });
 
@@ -101,15 +101,15 @@ module.exports = async (client, member) => {
                         score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: banReason, approved: banApproved };
                         client.addBan.run(score);
                         const approveButton = new ButtonBuilder()
-                            .setLabel(`Approve Global Ban`)
+                            .setLabel(`GLOBAL BAN`)
                             .setCustomId(`${member.user.id}-${banid}-APPROVE`)
                             .setDisabled(true)
-                            .setStyle(ButtonStyle.Success)
+                            .setStyle(ButtonStyle.DANGER)
                         const denyButton = new ButtonBuilder()
-                            .setLabel(`Set to LOCAL`)
+                            .setLabel(`LOCAL BAN`)
                             .setCustomId(`${member.user.id}-${banid}-DENY`)
                             .setDisabled(false)
-                            .setStyle(ButtonStyle.Danger)
+                            .setStyle(ButtonStyle.Success)
                         row.addComponents(approveButton, denyButton);
                         client.guilds.cache.get("787871047139328000").channels.cache.get("1017361857528483880").send({ content: `BAN ADDED: Member: ${member.user.username} | ${member.guild.name} | Status: ${banApproved} \`\`\` ${banReason} \`\`\``, components: [row] });
 
@@ -120,15 +120,15 @@ module.exports = async (client, member) => {
                         score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: banReason, approved: banApproved };
                         client.addBan.run(score);
                         const approveButton = new ButtonBuilder()
-                            .setLabel(`Approve Global Ban`)
+                            .setLabel(`GLOBAL BAN`)
                             .setCustomId(`${member.user.id}-${banid}-APPROVE`)
                             .setDisabled(true)
-                            .setStyle(ButtonStyle.Success)
+                            .setStyle(ButtonStyle.DANGER)
                         const denyButton = new ButtonBuilder()
-                            .setLabel(`Set to LOCAL`)
+                            .setLabel(`LOCAL BAN`)
                             .setCustomId(`${member.user.id}-${banid}-DENY`)
                             .setDisabled(false)
-                            .setStyle(ButtonStyle.Danger)
+                            .setStyle(ButtonStyle.Success)
                         row.addComponents(approveButton, denyButton);
                         client.guilds.cache.get("787871047139328000").channels.cache.get("1017361857528483880").send({ content: `BAN ADDED: Member: ${member.user.username} | ${member.guild.name} | Status: ${banApproved} \`\`\` ${banReason} \`\`\``, components: [row] });
 
@@ -139,15 +139,15 @@ module.exports = async (client, member) => {
                         score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: banReason, approved: banApproved };
                         client.addBan.run(score);
                         const approveButton = new ButtonBuilder()
-                            .setLabel(`Approve Global Ban`)
+                            .setLabel(`GLOBAL BAN`)
                             .setCustomId(`${member.user.id}-${banid}-APPROVE`)
-                            .setDisabled(false)
-                            .setStyle(ButtonStyle.Success)
+                            .setDisabled(true)
+                            .setStyle(ButtonStyle.DANGER)
                         const denyButton = new ButtonBuilder()
-                            .setLabel(`Deny Global Ban`)
+                            .setLabel(`LOCAL BAN`)
                             .setCustomId(`${member.user.id}-${banid}-DENY`)
                             .setDisabled(false)
-                            .setStyle(ButtonStyle.Danger)
+                            .setStyle(ButtonStyle.Success)
                         row.addComponents(approveButton, denyButton);
                         client.guilds.cache.get("787871047139328000").channels.cache.get("1017361857528483880").send({ content: `BAN ADDED: Member: ${member.user.username} | ${member.guild.name} | Status: ${banApproved} \`\`\` ${banReason} \`\`\``, components: [row] });
 
@@ -189,15 +189,15 @@ module.exports = async (client, member) => {
             let banid = Math.floor(Math.random() * 9999999999) + 25;
             const row = new ActionRowBuilder();
             const approveButton = new ButtonBuilder()
-                .setLabel(`Make Global Ban`)
+                .setLabel(`GLOBAL BAN`)
                 .setCustomId(`${member.user.id}-${banid}-APPROVE`)
-                .setDisabled(false)
-                .setColor(ButtonStyle.Success)
+                .setDisabled(true)
+                .setStyle(ButtonStyle.DANGER)
             const denyButton = new ButtonBuilder()
-                .setLabel(`Deny Global Ban`)
+                .setLabel(`LOCAL BAN`)
                 .setCustomId(`${member.user.id}-${banid}-DENY`)
                 .setDisabled(false)
-                .setColor(ButtonStyle.Danger)
+                .setStyle(ButtonStyle.Success)
             row.addComponents(approveButton, denyButton);
             score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: BannedReason, approved: banApproved };
             client.addBan.run(score);
