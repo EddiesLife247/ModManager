@@ -77,6 +77,7 @@ module.exports = async (client, member) => {
                     }
                     else {
                         var execute = "UNKNOWN";
+                        kickReason = "Unknown / Maybe Left?";
                     }
                     const embed = new EmbedBuilder();
                     embed.setColor("#ff0000")
