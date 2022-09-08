@@ -21,12 +21,17 @@ module.exports = {
         },
     ],
     run: async (client, interaction) => {
+        try {
         const amount = interaction.options.getInteger('amount');
         interaction.channel.messages.fetch({
             limit: 100,
         }).then((messages) => {
-            interaction.channel.bulkDelete(messages).catch(error => console.log(error.stack));
+            interaction.channel.bulkDelete(messages);
             interaction.reply({ content: `I have deleted ${amount} messages from this channel.`, ephemeral: true })
         });
+    } catch (error) {
+        interaction.reply({ content: `I can't deleted those messages from this channel. as they are older than 14 days`, ephemeral: true })
+
+    }
     }
 }
