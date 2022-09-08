@@ -18,12 +18,21 @@ module.exports = {
             required: true,
             min_value: 1,
             max_value: 100,
-        }
+        },
+        {
+            name: 'user',
+            description: 'Delete by a user',
+            type: 7,
+            required: false,
+            min_value: 1,
+            max_value: 100,
+        },
     ],
     run: async (client, interaction) => {
         const amount = interaction.options.getInteger('amount');
+        const user = interaction.option.get('user').user;
         console.log(amount);
-        /*
+        
         message.channel.messages.fetch({
             limit: 100,
            }).then((messages) => {
@@ -32,7 +41,6 @@ module.exports = {
             messages = messages.filter(m => m.author.id === filterBy).array().slice(0, amount);
             }
             message.channel.bulkDelete(messages).catch(error => console.log(error.stack));
-           });
-        */
+           })
     }
 }
