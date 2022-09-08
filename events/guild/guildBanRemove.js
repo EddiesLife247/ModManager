@@ -27,6 +27,7 @@ module.exports = async (client, member) => {
                         type: AuditLogEvent.MemberBanRemove,
                     });
                     const chLog = fetchedLogs.entries.first();
+                    console.log(chLog);
                     if (Date.now() - chLog.createdTimestamp < 5000) {
                         if (!chLog) {
                             var execute = "UNKNOWN";
