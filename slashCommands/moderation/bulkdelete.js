@@ -30,17 +30,26 @@ module.exports = {
     ],
     run: async (client, interaction) => {
         const amount = interaction.options.getInteger('amount');
-        const user = interaction.guild.members.cache.get(interaction.options.get('user').value);
+        if (interaction.options.get('user')) {
+            const user = interaction.guild.members.cache.get(interaction.options.get('user').value);
+            interaction.channel.messages.fetch({
+                limit: 100,
+            }).then((messages) => {
+                if (user) {
+                    const filterBy = user ? user.id : Client.user.id;
+                    messages = messages.filter(m => m.author.id === filterBy).array().slice(0, amount);
+                }
+                interaction.channel.bulkDelete(messages).catch(error => console.log(error.stack));
+            })
+        } else {
+            message.channel.messages.fetch({
+                limit: 100,
+            }).then((messages) => {
+                interaction.channel.bulkDelete(messages).catch(error => console.log(error.stack));
+            });
+        }
         console.log(amount);
-        
-        message.channel.messages.fetch({
-            limit: 100,
-           }).then((messages) => {
-            if (user) {
-            const filterBy = user ? user.id : Client.user.id;
-            messages = messages.filter(m => m.author.id === filterBy).array().slice(0, amount);
-            }
-            message.channel.bulkDelete(messages).catch(error => console.log(error.stack));
-           })
+
+
     }
 }
