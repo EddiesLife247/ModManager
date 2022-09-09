@@ -25,7 +25,7 @@ module.exports = {
                 console.log(interaction.options.get('cmd').value);
                 var cmd = interaction.options.get('cmd').value;
                 if(cmd == 'restart bot'){
-                    resetBot(interaction);
+                    resetBot(interaction, client);
                 }
             } else {
                 interaction.reply({content: `This command is reservered for Mod Manager Developers only. Sorry`, ephemeral: true});
@@ -35,9 +35,9 @@ module.exports = {
         }
     }
 }
-function resetBot(interaction) {
+function resetBot(interaction, client) {
     // send channel a message that you're resetting bot [optional]
-    interaction.reply({content: `Bot Restarting....r`, ephemeral: true})
+    interaction.reply({content: `Bot Restarting....`, ephemeral: true})
     .then(msg => client.destroy())
     .then(() => client.login(process.env.TOKEN));
 }
