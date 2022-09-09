@@ -15,10 +15,8 @@ module.exports = {
         {
             name: 'cmd',
             description: 'Admin Command',
-            type: 4,
+            type: 3,
             required: true,
-            min_value: 1,
-            max_value: 100,
         },
     ],
     run: async (client, interaction) => {
