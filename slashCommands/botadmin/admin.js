@@ -24,6 +24,8 @@ module.exports = {
             if (interaction.channel.id == '901905815810760764') {
                 console.log(interaction.options.get('cmd').value);
                 var cmd = interaction.options.get('cmd').value;
+                var cmdargs = cmd.split(' ');
+                console.log(cmdargs[0]);
                 if (cmd == 'restart bot') {
                     resetBot(interaction, client);
                 }
@@ -56,37 +58,37 @@ module.exports = {
                     interaction.reply({ embeds: [embed] });
                     return;
                 }
-                if (cmd == 'leaveserver') {
+                if (cmdargs[0] == 'leaveserver') {
                     try {
-                        client.guilds.cache.get(banargs[1]).leave()
+                        client.guilds.cache.get(cmdargs[1]).leave()
                             .catch(err => {
                                 console.log(`there was an error leaving the guild: \n ${err.message}`);
                             })
-                        message.reply(`I have now left: ${banargs[1]}.`)
+                            interaction.reply(`I have now left: ${cmdargs[1]}.`)
                         return;
                     } catch (err) {
                         console.log(err);
-                        message.reply(`There was an error! - ${err}`)
+                        interaction.reply(`There was an error! - ${err}`)
                         return
                     }
                 }
-                if (cmd.contains('invite')) {
+                if (cmdargs[0] == 'invite') {
                     console.log('invite requested');
                     try {
-                        let guilddata = client.guilds.cache.get(banargs[1]);
+                        let guilddata = client.guilds.cache.get(cmdargs[1]);
                         //console.log(guilddata);
                         const channel = guilddata.channels.cache.filter(m => m.type === 'GUILD_TEXT').first();
                         //console.log(channel);
                         await channel.createInvite({})
                             .then(async (invite) => {
-                                message.reply(`${invite.url}`); // push invite link and guild name to array
+                                interaction.reply(`Invite for: ${cmdargs[1]} is: ${invite.url}`); // push invite link and guild name to array
                             })
                             .catch((error) => console.log(error));
 
                         return
                     } catch (err) {
                         console.log(err);
-                        message.reply(`There was an error! - ${err}`)
+                        interaction.reply(`There was an error! - ${err}`)
                         return
                     }
                 }
