@@ -29,7 +29,7 @@ module.exports = {
                 if (cmd == 'restart bot') {
                     resetBot(interaction, client);
                 }
-                if (cmd == 'refresh punishments') {
+                else if (cmd == 'refresh punishments') {
                     const top10 = bansql.prepare("SELECT * FROM 'bans'").all();
                     for (const data of top10) {
                         // Check each ban against the current data.
@@ -47,7 +47,7 @@ module.exports = {
                     }
                     interaction.reply({ content: `Updated Punishment Database`, ephemeral: true });
                 }
-                if (cmd == 'list servers') {
+                else if (cmd == 'list servers') {
                     const embed = new EmbedBuilder();
                     embed.setColor("#ff33ff")
                     embed.setTitle('**ALL DISCORD SERVERS**')
@@ -59,7 +59,7 @@ module.exports = {
                     interaction.reply({ embeds: [embed] });
                     return;
                 }
-                if(cmdargs[0] == 'reset server'){
+                else if(cmdargs[0] == 'reset server'){
                     const supsql3 = new SQLite(`./databases/support.sqlite`);
                     const rrsql3 = new SQLite(`./databases/rr.sqlite`);
                     const scresql3 = new SQLite(`./databases/scores.sqlite`);
@@ -84,7 +84,7 @@ module.exports = {
                     interaction.reply(`${cmdargs[2]} DATA HAS BEEN RESET`);
                     return;
                 }
-                if (cmdargs[0] == 'reset user') {
+                else if (cmdargs[0] == 'reset user') {
                     const bannedId = banargs[2];
                     const top10 = bansql.prepare("SELECT * FROM bans WHERE user = ?").all(bannedId);
                     for (const data of top10) {
@@ -94,7 +94,7 @@ module.exports = {
                     client.guilds.cache.get("787871047139328000").channels.cache.get("1017361857528483880").send(`<@${message.author.id}> has deleted all punishment on user: <@${bannedId}>`);
                     return;
                 }
-                if (cmdargs[0] == 'leave server') {
+                else if (cmdargs[0] == 'leave server') {
                     try {
                         client.guilds.cache.get(cmdargs[2]).leave()
                             .catch(err => {
@@ -108,7 +108,7 @@ module.exports = {
                         return
                     }
                 }
-                if (cmdargs[0] == 'invite') {
+                else if (cmdargs[0] == 'invite') {
                     console.log('invite requested');
                     try {
                         let guilddata = client.guilds.cache.get(cmdargs[1]);
@@ -127,6 +127,9 @@ module.exports = {
                         interaction.reply(`There was an error! - ${err}`)
                         return
                     }
+                }
+                else {
+                    interaction.reply({content: `That command does not exist.`, ephemeral: true});
                 }
 
 
