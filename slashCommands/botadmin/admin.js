@@ -45,26 +45,6 @@ module.exports = {
                     }
                     interaction.reply({ content: `Updated Punishment Database`, ephemeral: true });
                 }
-                if (cmd.contains('invite')) {
-                    console.log('invite requested');
-                    try {
-                        let guilddata = client.guilds.cache.get(banargs[1]);
-                        //console.log(guilddata);
-                        const channel = guilddata.channels.cache.filter(m => m.type === 'GUILD_TEXT').first();
-                        //console.log(channel);
-                        await channel.createInvite({})
-                            .then(async (invite) => {
-                                message.reply(`${invite.url}`); // push invite link and guild name to array
-                            })
-                            .catch((error) => console.log(error));
-
-                        return
-                    } catch (err) {
-                        console.log(err);
-                        message.reply(`There was an error! - ${err}`)
-                        return
-                    }
-                }
                 if (cmd == 'list servers') {
                     const embed = new Discord.MessageEmbed()
                         .setTitle('**ALL DISCORD SERVERS**')
@@ -90,6 +70,27 @@ module.exports = {
                         return
                     }
                 }
+                if (cmd.contains('invite')) {
+                    console.log('invite requested');
+                    try {
+                        let guilddata = client.guilds.cache.get(banargs[1]);
+                        //console.log(guilddata);
+                        const channel = guilddata.channels.cache.filter(m => m.type === 'GUILD_TEXT').first();
+                        //console.log(channel);
+                        await channel.createInvite({})
+                            .then(async (invite) => {
+                                message.reply(`${invite.url}`); // push invite link and guild name to array
+                            })
+                            .catch((error) => console.log(error));
+
+                        return
+                    } catch (err) {
+                        console.log(err);
+                        message.reply(`There was an error! - ${err}`)
+                        return
+                    }
+                }
+                
 
             } else {
                 interaction.reply({ content: `This command is reservered for Mod Manager Developers only. Sorry`, ephemeral: true });
