@@ -20,24 +20,88 @@ module.exports = {
         },
     ],
     run: async (client, interaction) => {
-        if(interaction.guild.id == '787871047139328000') {
-            if(interaction.channel.id == '901905815810760764') {
+        if (interaction.guild.id == '787871047139328000') {
+            if (interaction.channel.id == '901905815810760764') {
                 console.log(interaction.options.get('cmd').value);
                 var cmd = interaction.options.get('cmd').value;
-                if(cmd == 'restart bot'){
+                if (cmd == 'restart bot') {
                     resetBot(interaction, client);
                 }
+                if (cmd == 'refresh punishments') {
+                    const top10 = bansql.prepare("SELECT * FROM 'bans'").all();
+                    for (const data of top10) {
+                        // Check each ban against the current data.
+                        var lengthleft = data.length - 1;
+                        console.log(`Checking if ${data.user} needs to be removed from Punishment Database DUE TO FORCE UPDATE`);
+                        if (lengthleft == 0) {
+                            bansql.prepare(`DELETE FROM 'bans' WHERE ID = '${data.id}'`).run()
+                            console.log(`${data.user} deleted.`)
+                            client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`Ban on ${data.user} has expired in our database.`);
+                        } else {
+                            bansql.prepare(`UPDATE 'bans' SET length = '${lengthleft}' WHERE ID = '${data.id}'`).run()
+                            console.log(`${data.user} now has ${lengthleft} days left.`)
+                            client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`Entry on ${data.user} now has ${lengthleft} day(s) left of their ${data.approved} entry.`);
+                        }
+                    }
+                    interaction.reply({ content: `Updated Punishment Database`, ephemeral: true });
+                }
+                if (cmd.contains('invite')) {
+                    console.log('invite requested');
+                    try {
+                        let guilddata = client.guilds.cache.get(banargs[1]);
+                        //console.log(guilddata);
+                        const channel = guilddata.channels.cache.filter(m => m.type === 'GUILD_TEXT').first();
+                        //console.log(channel);
+                        await channel.createInvite({})
+                            .then(async (invite) => {
+                                message.reply(`${invite.url}`); // push invite link and guild name to array
+                            })
+                            .catch((error) => console.log(error));
+
+                        return
+                    } catch (err) {
+                        console.log(err);
+                        message.reply(`There was an error! - ${err}`)
+                        return
+                    }
+                }
+                if (cmd == 'list servers') {
+                    const embed = new Discord.MessageEmbed()
+                        .setTitle('**ALL DISCORD SERVERS**')
+                        .setColor("#ff33ff")
+                        .setFooter(interaction.channel.guild.name, interaction.guild.iconURL())
+                    client.guilds.cache.forEach(guild => {
+                        embed.addField(`${guild.name}`, `${guild.id}`, true)
+                    })
+                    interaction.reply({ embeds: [embed] });
+                    return;
+                }
+                if (cmd == 'leaveserver') {
+                    try {
+                        client.guilds.cache.get(banargs[1]).leave()
+                            .catch(err => {
+                                console.log(`there was an error leaving the guild: \n ${err.message}`);
+                            })
+                        message.reply(`I have now left: ${banargs[1]}.`)
+                        return;
+                    } catch (err) {
+                        console.log(err);
+                        message.reply(`There was an error! - ${err}`)
+                        return
+                    }
+                }
+
             } else {
-                interaction.reply({content: `This command is reservered for Mod Manager Developers only. Sorry`, ephemeral: true});
+                interaction.reply({ content: `This command is reservered for Mod Manager Developers only. Sorry`, ephemeral: true });
             }
         } else {
-            interaction.reply({content: `This command is reservered for Mod Manager Developers only. Sorry`, ephemeral: true});
+            interaction.reply({ content: `This command is reservered for Mod Manager Developers only. Sorry`, ephemeral: true });
         }
     }
 }
 function resetBot(interaction, client) {
     // send channel a message that you're resetting bot [optional]
-    interaction.reply({content: `Bot Restarting....`, ephemeral: true})
-    .then(msg => client.destroy())
-    .then(() => client.login(process.env.TOKEN));
+    interaction.reply({ content: `Bot Restarting....`, ephemeral: true })
+        .then(msg => client.destroy())
+        .then(() => client.login(process.env.TOKEN));
 }
