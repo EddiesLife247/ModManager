@@ -113,7 +113,7 @@ module.exports = {
                         //console.log('invite requested');
                         try {
                             let guilddata = client.guilds.cache.get(cmdargs[1]);
-                            console.log(client.guilds.cache);
+                            console.log(client.guilds);
                             const channel = guilddata.channels.cache.filter(m => m.type === 'GUILD_TEXT').first();
                             //console.log(channel);
                             await channel.createInvite({})
