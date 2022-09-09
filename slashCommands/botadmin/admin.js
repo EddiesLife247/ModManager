@@ -54,7 +54,7 @@ module.exports = {
                     embed.setTimestamp();
                     embed.setFooter({text: interaction.guild.name, iconURL: interaction.guild.iconURL()});
                     client.guilds.cache.forEach(guild => {
-                        embed.addField({name: `${guild.name}`, value: `${guild.id}`, inline: true});
+                        embed.addFields({name: `${guild.name}`, value: `${guild.id}`, inline: true});
                     })
                     interaction.reply({ embeds: [embed] });
                     return;
