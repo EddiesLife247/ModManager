@@ -22,7 +22,11 @@ module.exports = {
     run: async (client, interaction) => {
         if(interaction.guild.id == '787871047139328000') {
             if(interaction.channel.id == '901905815810760764') {
-                console.log(interaction.options.get('cmd'));
+                console.log(interaction.options.get('cmd').value);
+                var cmd = interaction.options.get('cmd').value;
+                if(cmd == 'restart bot'){
+                    resetBot(interaction);
+                }
             } else {
                 interaction.reply({content: `This command is reservered for Mod Manager Developers only. Sorry`, ephemeral: true});
             }
@@ -31,9 +35,9 @@ module.exports = {
         }
     }
 }
-function resetBot(channel) {
+function resetBot(interaction) {
     // send channel a message that you're resetting bot [optional]
-    channel.send('Resetting...')
+    interaction.reply({content: `Bot Restarting....r`, ephemeral: true})
     .then(msg => client.destroy())
     .then(() => client.login(process.env.TOKEN));
 }
