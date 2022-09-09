@@ -52,7 +52,7 @@ module.exports = {
                     embed.setColor("#ff33ff")
                     embed.setTitle('**ALL DISCORD SERVERS**')
                     embed.setTimestamp();
-                    embed.setFooter(interaction.channel.guild.name, interaction.guild.iconURL());
+                    embed.setFooter(interaction.guild.name, interaction.guild.iconURL());
                     client.guilds.cache.forEach(guild => {
                         embed.addField({name: `${guild.name}`, value: `${guild.id}`, inline: true});
                     })
