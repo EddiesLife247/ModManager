@@ -30,8 +30,10 @@ module.exports = {
                     interaction.channel.bulkDelete(messages).then(follow => {
                         interaction.reply({ content: `I have deleted ${amount} messages from this channel.`, ephemeral: true })
                     }).catch(error => {
+                        
                         interaction.reply({ content: `I can't deleted those messages from this channel. as they are older than 14 days`, ephemeral: true })
                         console.log('failed to delete messages as too old');
+                        console.log(error);
                     });
                 });
             } else {
