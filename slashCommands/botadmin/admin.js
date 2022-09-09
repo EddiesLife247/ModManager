@@ -59,9 +59,44 @@ module.exports = {
                     interaction.reply({ embeds: [embed] });
                     return;
                 }
-                if (cmdargs[0] == 'leaveserver') {
+                if(cmdargs[0] == 'reset server'){
+                    const supsql3 = new SQLite(`./databases/support.sqlite`);
+                    const rrsql3 = new SQLite(`./databases/rr.sqlite`);
+                    const scresql3 = new SQLite(`./databases/scores.sqlite`);
+                    const bansql3 = new SQLite(`./databases/bans.sqlite`);
+                    supsql3.prepare(`DELETE FROM 'tickets' WHERE guild = '${cmdargs[2]}'`).run()
+                    rrsql3.prepare(`DELETE FROM 'rrtable' WHERE guild = '${cmdargs[2]}'`).run()
+                    scresql3.prepare(`DELETE FROM 'scores' WHERE guild = '${cmdargs[2]}'`).run()
+                    const top10 = bansql3.prepare("SELECT * FROM bans WHERE id = ?").all(cmdargs[2]);
+                    if (top10) {
+                      for (const data of top10) {
+                        try {
+                          client.users.cache.get(data.user).send(`Ban on Guild ID ${cmdargs[2]} has been removed as the bot has been removed or been deleted or reset.`);
+                        }
+                        catch (err) {
+                          // do nothing
+                        }
+            
+                      }
+                      bansql3.prepare(`DELETE FROM 'bans' WHERE guild = '${cmdargs[2]}'`).run()
+                    }
+                    client.guilds.cache.get("787871047139328000").channels.cache.get("1017361857528483880").send(`** WARNING ** All Data / Bans on Guild ID ${cmdargs[2]} has been deleted as the Server got reset by ${message.author.id}.`);
+                    interaction.reply(`${cmdargs[2]} DATA HAS BEEN RESET`);
+                    return;
+                }
+                if (cmdargs[0] == 'reset user') {
+                    const bannedId = banargs[2];
+                    const top10 = bansql.prepare("SELECT * FROM bans WHERE user = ?").all(bannedId);
+                    for (const data of top10) {
+                      bansql.prepare(`DELETE FROM 'bans' WHERE user = '${bannedId}'`).run()
+                    }
+                    interaction.reply(`**WARNING** User : ${bannedId} has had **ALL** there punishment DELETED.`);
+                    client.guilds.cache.get("787871047139328000").channels.cache.get("1017361857528483880").send(`<@${message.author.id}> has deleted all punishment on user: <@${bannedId}>`);
+                    return;
+                }
+                if (cmdargs[0] == 'leave server') {
                     try {
-                        client.guilds.cache.get(cmdargs[1]).leave()
+                        client.guilds.cache.get(cmdargs[2]).leave()
                             .catch(err => {
                                 console.log(`there was an error leaving the guild: \n ${err.message}`);
                             })
