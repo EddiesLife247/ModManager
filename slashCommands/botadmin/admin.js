@@ -36,11 +36,11 @@ module.exports = {
                         if (lengthleft == 0) {
                             bansql.prepare(`DELETE FROM 'bans' WHERE ID = '${data.id}'`).run()
                             console.log(`${data.user} deleted.`)
-                            client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`Ban on ${data.user} has expired in our database.`);
+                            client.guilds.cache.get("787871047139328000").channels.cache.get("1017361857528483880").send(`Ban on ${data.user} has expired in our database.`);
                         } else {
                             bansql.prepare(`UPDATE 'bans' SET length = '${lengthleft}' WHERE ID = '${data.id}'`).run()
                             console.log(`${data.user} now has ${lengthleft} days left.`)
-                            client.guilds.cache.get("787871047139328000").channels.cache.get("895353584558948442").send(`Entry on ${data.user} now has ${lengthleft} day(s) left of their ${data.approved} entry.`);
+                            client.guilds.cache.get("787871047139328000").channels.cache.get("1017361857528483880").send(`Entry on ${data.user} now has ${lengthleft} day(s) left of their ${data.approved} entry.`);
                         }
                     }
                     interaction.reply({ content: `Updated Punishment Database`, ephemeral: true });
