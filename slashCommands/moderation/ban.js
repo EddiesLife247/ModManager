@@ -46,7 +46,7 @@ module.exports = {
             })
             if (submitted) {
                 var reason = submitted.fields.getTextInputValue('ReasonInput');
-                console.log(reason);
+                //console.log(reason);
                 /*member.timeout(5 * 60 * 1000, 'User was warned')
         .then(() => console.log("Timed out member"))
         .catch(console.log);

@@ -107,7 +107,7 @@ module.exports = {
                             } else {
                                 txt = text;
                             }
-                            console.log(`${txt} - is now the name! (single)`)
+                            //console.log(`${txt} - is now the name! (single)`)
                             const row = new ActionRowBuilder()
                             const button = new ButtonBuilder()
                                 .setLabel(`${txt}`)
@@ -167,7 +167,7 @@ module.exports = {
                             client.getRr = rrsql.prepare("SELECT * FROM rrtable WHERE guild = ? AND channel = ? AND messageid = ?")
                             const roleList = client.getRr.all(interaction.guild.id, channel.id, msgid);
                             //console.log(roleList);
-                            console.log(`getting rows, and adding to buttons`);
+                            //console.log(`getting rows, and adding to buttons`);
                             //We can still edit the message, and add the button, but only upto 25 roles.
                             const row = new ActionRowBuilder();
                             const row2 = new ActionRowBuilder();

@@ -174,7 +174,7 @@ module.exports = {
                     const title = submitted.fields.getTextInputValue('title');
                     const description = submitted.fields.getTextInputValue('description');
                     //console.log(submitted.fields)
-                    console.log(`URL IS: ${submitted.fields.getTextInputValue('url')}`);
+                    //console.log(`URL IS: ${submitted.fields.getTextInputValue('url')}`);
                     if (submitted.fields.getTextInputValue('url')) {
                         url = submitted.fields.getTextInputValue('url');
                         //console.log(url);

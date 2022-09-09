@@ -43,7 +43,7 @@ module.exports = {
             //console.log(reason);
             try {
                 client.modchannel = botsql.prepare(`SELECT modchannel FROM settings WHERE guildid = '${interaction.guild.id}'`);
-                console.log(client.modchannel.get().modchannel);
+                //console.log(client.modchannel.get().modchannel);
                 const channel = interaction.guild.channels.cache.get(client.modchannel.get().modchannel);
                 const embed = new EmbedBuilder();
                 embed.setColor("#00ff00")

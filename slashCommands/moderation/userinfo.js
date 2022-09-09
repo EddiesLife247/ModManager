@@ -16,7 +16,7 @@ module.exports = {
             }
         const member = interaction.guild.members.cache.get(interaction.options.get('user').value);
         const guild = interaction.guild;
-        console.log(member.user.id);
+        //console.log(member.user.id);
             const bansql = new SQLite('./databases/bans.sqlite');
             var localBanCount = bansql.prepare(`SELECT * FROM bans WHERE approved = 'LOCAL' AND user = ${member.user.id}`).all();
             //console.log(localBanCount.length);
