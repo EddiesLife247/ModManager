@@ -48,12 +48,13 @@ module.exports = {
                     interaction.reply({ content: `Updated Punishment Database`, ephemeral: true });
                 }
                 if (cmd == 'list servers') {
-                    const embed = new Discord.MessageEmbed()
-                        .setTitle('**ALL DISCORD SERVERS**')
-                        .setColor("#ff33ff")
-                        .setFooter(interaction.channel.guild.name, interaction.guild.iconURL())
+                    const embed = new EmbedBuilder();
+                    embed.setColor("#ff33ff")
+                    embed.setTitle('**ALL DISCORD SERVERS**')
+                    embed.setTimestamp();
+                    embed.setFooter(interaction.channel.guild.name, interaction.guild.iconURL());
                     client.guilds.cache.forEach(guild => {
-                        embed.addField(`${guild.name}`, `${guild.id}`, true)
+                        embed.addField({name: `${guild.name}`, value: `${guild.id}`, inline: true});
                     })
                     interaction.reply({ embeds: [embed] });
                     return;
@@ -64,7 +65,7 @@ module.exports = {
                             .catch(err => {
                                 console.log(`there was an error leaving the guild: \n ${err.message}`);
                             })
-                            interaction.reply(`I have now left: ${cmdargs[1]}.`)
+                        interaction.reply(`I have now left: ${cmdargs[1]}.`)
                         return;
                     } catch (err) {
                         console.log(err);
@@ -92,7 +93,7 @@ module.exports = {
                         return
                     }
                 }
-                
+
 
             } else {
                 interaction.reply({ content: `This command is reservered for Mod Manager Developers only. Sorry`, ephemeral: true });
