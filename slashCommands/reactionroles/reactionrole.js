@@ -89,7 +89,7 @@ module.exports = {
     ],
     run: async (client, interaction) => {
         if (interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageRoles)) {
-            if (!interaction.guild.members.cache.get(client.user.id).permissions.has(PermissionsBitField.Flags.ManageRoles)) {
+            if (interaction.guild.members.cache.get(client.user.id).permissions.has(PermissionsBitField.Flags.ManageRoles)) {
                 var error = false;
                 if (interaction.options._subcommand === 'add') {
                     try {
