@@ -74,7 +74,7 @@ module.exports = async (client, message) => {
                         { name: 'Message Content:', value: `>${msgcnt}`, inline: false },
 
                     )
-                    embed.setURL(`https://ptb.discord.com/channels/${message.guild.id}/${message.channel.id}`)
+                    embed.setURL(`https://discord.com/channels/${message.guild.id}/${message.channel.id}`)
 
                     embed.setTimestamp();
 

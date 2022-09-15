@@ -25,7 +25,7 @@ module.exports = async (client, thread) => {
         client.logchannel = botsql.prepare(`SELECT logchannel FROM settings WHERE guildid = '${thread.guild.id}'`);
         if (client.logchannel.get().logchannel) {
             const logchannel = thread.guild.channels.cache.get(client.logchannel.get().logchannel);
-            const guild = sticker.guild;
+            const guild = thread.guild;
             if(logchannel == null){
                 return;
             }
