@@ -4,6 +4,7 @@ const Discord = require(`discord.js`);
 const SQLite = require("better-sqlite3");
 const botsql = new SQLite(`./databases/bot.sqlite`);
 module.exports = async (client, guild) => {
+    console.log(`Joined: ${guild.name} with id: ${guild.id}`);
     try {
         const channel = guild.channels.cache.filter(m => m.type === 'GUILD_TEXT').first();
         const welcome = new EmbedBuilder();
@@ -19,7 +20,11 @@ module.exports = async (client, guild) => {
             { name: 'Support Command:', value: `/help`, inline: true },
             { name: 'Configuration/Setup:', value: `/config`, inline: true },
         );
+        try {
         channel.send({ embeds: [welcome] })
+        } catch (error) {
+            console.log(`No permissions to send to ${guild.name}`)
+        }
         const embed = new EmbedBuilder();
         embed.setColor("#00FF00")
         embed.setTitle('**JOINED SERVER**');

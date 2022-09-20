@@ -8,9 +8,10 @@ const rrsql = new SQLite(`./databases/rr.sqlite`);
 const bansql = new SQLite(`./databases/bans.sqlite`);
 const emdssql = new SQLite(`./databases/embeds.sqlite`);
 module.exports = async (client, guild) => {
+    console.log(`Left: ${guild.name} with id: ${guild.id}`);
     try {
         if (!guild.available) return; // If there is an outage, return.
-        supsql.prepare(`DELETE FROM 'tickets' WHERE guild = '${guild.id}'`).run()
+        //supsql.prepare(`DELETE FROM 'tickets' WHERE guild = '${guild.id}'`).run()
         rrsql.prepare(`DELETE FROM 'rrtable' WHERE guild = '${guild.id}'`).run()
         emdssql.prepare(`DELETE FROM 'scores' WHERE guild = '${guild.id}'`).run()
         botsql.prepare(`DELETE FROM 'settings' WHERE guild = '${guild.id}'`).run()
