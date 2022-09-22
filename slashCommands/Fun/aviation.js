@@ -34,7 +34,7 @@ module.exports = {
         if (interaction.options.get('taf')) {
             var tafICAO = interaction.options.get('taf').value;
             try {
-                console.log(`METAR for ${tafICAO}`);
+                console.log(`TAF for ${tafICAO}`);
                 let argz = tafICAO.toUpperCase();
                 let url = `https://avwx.rest/api/taf/${argz}?options=info,translate,speech&token=I6DF0eFZdyAOfL6th2UVZsAWb_Cei_iAurasC8hVN7o`;
                 console.log(url);
@@ -48,19 +48,22 @@ module.exports = {
                             let json = JSON.parse(body);
                             //console.log(json);
                             // do something with JSON
-                            let MetaEmbed = new Discord.MessageEmbed()
-                                .setTitle(`${argz} TAF INFORMATON`)
-                                .addField('Name: ', `> ${json["info"]["name"]}`, true)
-                                .addField('Type: ', `> ${json["info"]["type"]}`, true)
-                                .addField('Web: ', `>  ${json["info"]["website"]}`, true)
-                                .addField('City: ', `> ${json["info"]["city"]}`, true)
-                                .addField('Country: ', `> ${json["info"]["country"]}`, true)
-                                .addField('Timestamp: ', `> ${json["meta"]["timestamp"]}`, true)
-                                .addField('Station: ', `>  ${json["station"]}`, true)
-                                .addField('Forecast: ', `> ${json["speech"]}`, true)
-                                .addField('Raw Data', `>  ${json["raw"]}`, false)
-                                .addField('Sanitized Data', `> ${json["sanitized"]}`, false)
-                                .setColor([0, 255, 0])
+                            const MetaEmbed = new EmbedBuilder();
+                            MetaEmbed.setColor("#0000ff");
+                            MetaEmbed.setTitle(`**${argz}** - TAF INFORMATION`);
+                            MetaEmbed.addFields(
+                                { name: 'Name', value: `> ${json["info"]["name"]}`, inline: true },
+                                { name: 'Type', value: `> ${json["info"]["type"]}`, inline: true },
+                                { name: 'Web', value: `> ${json["info"]["website"]}`, inline: true },
+                                { name: 'City', value: `> ${json["info"]["city"]}`, inline: true },
+                                { name: 'Country', value: `> ${json["info"]["country"]}`, inline: true },
+                                { name: 'Timestamp', value: `> ${json["info"]["timestamp"]}`, inline: true },
+                                { name: 'Station', value: `> ${json["info"]["station"]}`, inline: true },
+                                { name: 'Forecast', value: `> ${json["info"]["speech"]}`, inline: true },
+                                { name: 'Raw Data', value: `> ${json["info"]["raw"]}`, inline: false },
+                                { name: 'Sanitized Data', value: `> ${json["info"]["sanitized"]}` , inline: false},
+                            );
+                            MetaEmbed.setTimestamp();
                             //.setURL(json[`info`][`website`]);
                             interaction.editReply({ embeds: [MetaEmbed] });
         
@@ -94,23 +97,26 @@ module.exports = {
                         try {
                             let json = JSON.parse(body);
                             // do something with JSON
-                            let MetaEmbed = new Discord.MessageEmbed()
-                                .setTitle(`${argz} METAR INFORMATON`)
-                                .addField('Name: ', `> ${json["info"]["name"]}`, true)
-                                .addField('Type: ', `> ${json["info"]["type"]}`, true)
-                                .addField('Web: ', `> ${json["info"]["website"]}`, true)
-                                .addField('City: ', `>  ${json["info"]["city"]}`, true)
-                                .addField('Country: ', `>  ${json["info"]["country"]}`, true)
-                                .addField('Elevation in Feet: ', `>  ${json["info"]["elevation_ft"]}`, true)
-                                .addField('Elevation in Meters: ', `>  ${json["info"]["elevation_m"]}`, true)
-                                .addField('Clouds: ', `>  ${json["translate"]["clouds"]}`, true)
-                                .addField('Weather: ', `>  ${json["translate"]["wx_codes"]}`, true)
-                                .addField('Visibility: ', `>  ${json["translate"]["visibility"]}`, true)
-                                .addField('Wind: ', `> ${json["translate"]["wind"]}`, true)
-                                .addField('Temperature: ', `>  ${json["translate"]["temperature"]}`, true)
-                                .addField('Altimeter: ', `>  ${json["altimeter"]["spoken"]}`, true)
-                                .addField('Raw Data', `>  ${json["raw"]}`, true)
-                                .setColor([0, 255, 0])
+                            const MetaEmbed = new EmbedBuilder();
+                            MetaEmbed.setColor("#0000ff");
+                            MetaEmbed.setTitle(`**${argz}** - TAF INFORMATION`);
+                            MetaEmbed.addFields(
+                                { name: 'Name', value: `> ${json["info"]["name"]}`, inline: true },
+                                { name: 'Type', value: `> ${json["info"]["type"]}`, inline: true },
+                                { name: 'Web', value: `> ${json["info"]["website"]}`, inline: true },
+                                { name: 'City', value: `> ${json["info"]["city"]}`, inline: true },
+                                { name: 'Country', value: `> ${json["info"]["country"]}`, inline: true },
+                                { name: 'Elevation in Feet:', value: `> ${json["info"]["elevation_ft"]}`, inline: true },
+                                { name: 'Elevation in Meters:', value: `> ${json["info"]["elevation_m"]}`, inline: true },
+                                { name: 'Clouds', value: `> ${json["translate"]["clouds"]}`, inline: true },
+                                { name: 'Weather', value: `> ${json["translate"]["wx_codes"]}`, inline: true },
+                                { name: 'Visibility', value: `> ${json["translate"]["visibility"]}`, inline: true },
+                                { name: 'Wind', value: `> ${json["translate"]["wind"]}`, inline: false },
+                                { name: 'Temperature', value: `> ${json["translate"]["temperature"]}`, inline: false },
+                                { name: 'Altimeter', value: `> ${json["altimeter"]["spoken"]}`, inline: false },
+                                { name: 'Wind', value: `> ${json["raw"]}`, inline: false },
+                            );
+                            MetaEmbed.setTimestamp();
                             //.setURL(json[`info`][`website`]);
                             interaction.editReply({ embeds: [MetaEmbed], ephemeral: false });
         
