@@ -73,7 +73,7 @@ module.exports = {
                     console.error(error.message);
                 });
             } catch (err) {
-                client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `Error with TAF command: ${message} | ${err.message} | \`\`\` ${err.stack} \`\`\``});
+                client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `Error with TAF command: ${tafICAO} | ${err.message} | \`\`\` ${err.stack} \`\`\``});
             }
         }
         if (interaction.options.get('metar')) {
