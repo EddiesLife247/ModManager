@@ -34,7 +34,7 @@ module.exports = {
         if (interaction.options.get('taf')) {
             const tafICAO = interaction.options.get('taf').value;
             try {
-                console.log(`METAR for ${tafICAO} by ${message.author.tag}`);
+                console.log(`METAR for ${tafICAO}`);
                 let argz = tafICAO.map(e => e.toUpperCase());
                 let url = `https://avwx.rest/api/taf/${argz}?options=info,translate,speech&token=I6DF0eFZdyAOfL6th2UVZsAWb_Cei_iAurasC8hVN7o`;
                 console.log(url);
@@ -80,7 +80,7 @@ module.exports = {
         if (interaction.options.get('metar')) {
             const metarICAO = interaction.options.get('metar').value;
             try {
-                console.log(`METAR for ${metarICAO} by ${message.author.tag}`);
+                console.log(`METAR for ${metarICAO}`);
                 let argz = metarICAO.map(e => e.toUpperCase());
                 console.log(argz);
                 let url = `https://avwx.rest/api/metar/${argz}?options=info,translate,speech&token=I6DF0eFZdyAOfL6th2UVZsAWb_Cei_iAurasC8hVN7o`;
