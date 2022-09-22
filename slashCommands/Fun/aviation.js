@@ -3,6 +3,7 @@ const SQLite = require("better-sqlite3");
 const sql = new SQLite(`./databases/scores.sqlite`);
 const request = require('request');
 const e = require('express');
+var https = require('https');
 module.exports = {
     name: 'aviation',
     description: "Aviation Commands!",
