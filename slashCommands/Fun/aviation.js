@@ -69,7 +69,7 @@ module.exports = {
                                 .addField('Raw Data', `>  ${json["raw"]}`, true)
                                 .setColor([0, 255, 0])
                             //.setURL(json[`info`][`website`]);
-                            interaction.editReply({ embeds: [MetaEmbed], ephemeral: true });
+                            interaction.editReply({ embeds: [MetaEmbed], ephemeral: false });
         
                         } catch (error) {
                             console.error(error.message);
