@@ -2,11 +2,11 @@ const chalk = require('chalk')
 
 module.exports = client => {
 	const activities = [
-		/*{ name: `${client.guilds.cache.size} Servers`, type: 2 }, // LISTENING
+		{ name: `${client.guilds.cache.size} Servers`, type: 2 }, // LISTENING
 		{ name: `${client.channels.cache.size} Channels`, type: 0 }, // PLAYING
 		{ name: `${client.users.cache.size} Users`, type: 3 }, // WATCHING
-		{ name: `Now on Version 4 | Run /config to SETUP`, type: 1 } // COMPETING
-		*/
+		{ name: `Now on Version 4 | Run /config to SETUP`, type: 1 }, // COMPETING
+		
 		{ name: `RIP HM Queen Elizabeth - 1926 - 2022`, type: 0 }
 	];
 	const status = [
