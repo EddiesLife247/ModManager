@@ -72,7 +72,7 @@ module.exports = async (client, member) => {
                             .setDisabled(false)
                             .setStyle(ButtonStyle.Success)
                         row.addComponents(approveButton, denyButton);
-                        client.guilds.cache.get("787871047139328000").channels.cache.get("1017361857528483880").send({ content: `BAN ADDED: Member: ${member.user.username} | ${member.guild.name} | Status: ${banApproved} \`\`\` ${banReason} \`\`\``, components: [row] });
+                        client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `BAN ADDED: Member: ${member.user.username} | ${member.guild.name} | Status: ${banApproved} \`\`\` ${banReason} \`\`\``, components: [row] });
 
                     }
                     else if (chLog.reason.toLowerCase().includes("nitro")) {
@@ -92,7 +92,7 @@ module.exports = async (client, member) => {
                             .setDisabled(false)
                             .setStyle(ButtonStyle.Success)
                         row.addComponents(approveButton, denyButton);
-                        client.guilds.cache.get("787871047139328000").channels.cache.get("1017361857528483880").send({ content: `BAN ADDED: Member: ${member.user.username} | ${member.guild.name} | Status: ${banApproved} \`\`\` ${banReason} \`\`\``, components: [row] });
+                        client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `BAN ADDED: Member: ${member.user.username} | ${member.guild.name} | Status: ${banApproved} \`\`\` ${banReason} \`\`\``, components: [row] });
 
                     } else if (chLog.reason.toLowerCase().includes("advertising")) {
                         let banid = Math.floor(Math.random() * 9999999999) + 25;
@@ -111,7 +111,7 @@ module.exports = async (client, member) => {
                             .setDisabled(false)
                             .setStyle(ButtonStyle.Success)
                         row.addComponents(approveButton, denyButton);
-                        client.guilds.cache.get("787871047139328000").channels.cache.get("1017361857528483880").send({ content: `BAN ADDED: Member: ${member.user.username} | ${member.guild.name} | Status: ${banApproved} \`\`\` ${banReason} \`\`\``, components: [row] });
+                        client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `BAN ADDED: Member: ${member.user.username} | ${member.guild.name} | Status: ${banApproved} \`\`\` ${banReason} \`\`\``, components: [row] });
 
                     } else if (chLog.reason.toLowerCase().includes("scam")) {
                         let banid = Math.floor(Math.random() * 9999999999) + 25;
@@ -130,7 +130,7 @@ module.exports = async (client, member) => {
                             .setDisabled(false)
                             .setStyle(ButtonStyle.Success)
                         row.addComponents(approveButton, denyButton);
-                        client.guilds.cache.get("787871047139328000").channels.cache.get("1017361857528483880").send({ content: `BAN ADDED: Member: ${member.user.username} | ${member.guild.name} | Status: ${banApproved} \`\`\` ${banReason} \`\`\``, components: [row] });
+                        client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `BAN ADDED: Member: ${member.user.username} | ${member.guild.name} | Status: ${banApproved} \`\`\` ${banReason} \`\`\``, components: [row] });
 
                     } else {
                         let banid = Math.floor(Math.random() * 9999999999) + 25;
@@ -149,7 +149,7 @@ module.exports = async (client, member) => {
                             .setDisabled(false)
                             .setStyle(ButtonStyle.Success)
                         row.addComponents(approveButton, denyButton);
-                        client.guilds.cache.get("787871047139328000").channels.cache.get("1017361857528483880").send({ content: `BAN ADDED: Member: ${member.user.username} | ${member.guild.name} | Status: ${banApproved} \`\`\` ${banReason} \`\`\``, components: [row] });
+                        client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `BAN ADDED: Member: ${member.user.username} | ${member.guild.name} | Status: ${banApproved} \`\`\` ${banReason} \`\`\``, components: [row] });
 
                     }
 
@@ -201,7 +201,7 @@ module.exports = async (client, member) => {
             row.addComponents(approveButton, denyButton);
             score = { id: `${member.user.id}-${banid}`, user: member.user.id, guild: member.guild.id, reason: BannedReason, approved: banApproved };
             client.addBan.run(score);
-            client.guilds.cache.get("787871047139328000").channels.cache.get("1017361857528483880").send({ content: `BAN ADDED: Member: ${member.user.username} | ${member.guild.name} | Status: ${banApproved} \`\`\` ${BannedReason} \`\`\``, components: [row] });
+            client.guilds.cache.get("787871047139328000").channels.cache.get("901905815810760764").send({ content: `BAN ADDED: Member: ${member.user.username} | ${member.guild.name} | Status: ${banApproved} \`\`\` ${BannedReason} \`\`\``, components: [row] });
         }
     } catch (err) {
         console.log(err);

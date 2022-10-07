@@ -39,11 +39,11 @@ module.exports = {
                             if (lengthleft == 0) {
                                 bansql.prepare(`DELETE FROM 'bans' WHERE ID = '${data.id}'`).run()
                                 console.log(`${data.user} deleted.`)
-                                client.guilds.cache.get("787871047139328000").channels.cache.get("1017361857528483880").send(`Ban on ${data.user} has expired in our database.`);
+                                client.guilds.cache.get("787871047139328000").channels.cache.get("1015893620773109891").send(`Ban on ${data.user} has expired in our database.`);
                             } else {
                                 bansql.prepare(`UPDATE 'bans' SET length = '${lengthleft}' WHERE ID = '${data.id}'`).run()
                                 console.log(`${data.user} now has ${lengthleft} days left.`)
-                                client.guilds.cache.get("787871047139328000").channels.cache.get("1017361857528483880").send(`Entry on ${data.user} now has ${lengthleft} day(s) left of their ${data.approved} entry.`);
+                                client.guilds.cache.get("787871047139328000").channels.cache.get("1015893620773109891").send(`Entry on ${data.user} now has ${lengthleft} day(s) left of their ${data.approved} entry.`);
                             }
                         }
                         interaction.reply({ content: `Updated Punishment Database`, ephemeral: true });
@@ -81,7 +81,7 @@ module.exports = {
                             }
                             bansql3.prepare(`DELETE FROM 'bans' WHERE guild = '${cmdargs[2]}'`).run()
                         }
-                        client.guilds.cache.get("787871047139328000").channels.cache.get("1017361857528483880").send(`** WARNING ** All Data / Bans on Guild ID ${cmdargs[2]} has been deleted as the Server got reset by ${message.author.id}.`);
+                        client.guilds.cache.get("787871047139328000").channels.cache.get("1015893620773109891").send(`** WARNING ** All Data / Bans on Guild ID ${cmdargs[2]} has been deleted as the Server got reset by ${message.author.id}.`);
                         interaction.reply(`${cmdargs[2]} DATA HAS BEEN RESET`);
                         return;
                     }
@@ -92,7 +92,7 @@ module.exports = {
                             bansql.prepare(`DELETE FROM 'bans' WHERE user = '${bannedId}'`).run()
                         }
                         interaction.reply(`**WARNING** User : ${bannedId} has had **ALL** there punishment DELETED.`);
-                        client.guilds.cache.get("787871047139328000").channels.cache.get("1017361857528483880").send(`<@${message.author.id}> has deleted all punishment on user: <@${bannedId}>`);
+                        client.guilds.cache.get("787871047139328000").channels.cache.get("1015893620773109891").send(`<@${message.author.id}> has deleted all punishment on user: <@${bannedId}>`);
                         return;
                     }
                     else if (cmdargs[0] == 'leave server') {
